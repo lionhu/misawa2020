@@ -20,17 +20,14 @@ const getters = {
 
 // actions
 const actions = {
-    
     get_mailExchange_orders({ commit }) {
-        return new Promise((resolve,reject)=>{
-            ordersAPI.get_public_orders(
-                res => {
-
+        return new Promise(function(resolve,reject){
+            ordersAPI.get_public_orders(res => {
                     commit("setMailExangeOrders",res.data);
-                    resolve(res.data)
+                    resolve(res.data);
                 },err =>{
-                    console.log(err)
-                    reject(err)
+                    console.log(err);
+                    reject(err);
                 }
             )
         })
@@ -121,7 +118,6 @@ const actions = {
             ordersAPI.post_deleteoffer(id,
                 res => {
                         resolve(true)
-                    
                 },err =>{
                     console.log(err)
                 }

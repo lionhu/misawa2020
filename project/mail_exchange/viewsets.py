@@ -8,11 +8,13 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.http import Http404
 from django.conf import settings
+from django.core import serializers
 from django.db.models import Count,Sum,Min,Max,Q
 import decimal
 import logging
 import datetime
 import json
+from django.core.cache import cache
 from musics.tasks import sendEmail_OrderOwner_OfferChange
 from .models import Offer,Order
 
@@ -45,17 +47,39 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
 
-      orders = Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
+      cache_orders=cache.get("mail_exchange_public_orders")
+      # cache_ordersummary=cache.get("mail_exchange_public_ordersummary")
       order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+
+      if cache_orders:
+          return Response({
+              "error":0,
+              "type": "cached mail_exchange_public_orders",
+              "summary":order_summary,
+              "orders":cache_orders
+          },status=status.HTTP_200_OK)
+
+
+      orders = Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
+      # order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
+        # sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
       serializer=PublicOrders_Serializer(orders,many=True)
       # serializer=PublicOrders_Serializer(orders,many=True,extra={"user_id":request.user.id})
 
+
+      cache_orders=serializer.data
+      # cache_ordersummary=serializers.serialize("json",order_summary)
+
+      cache.set("mail_exchange_public_orders",cache_orders,timeout=300)
+
+      # cache.set("mail_exchange_public_ordersummary",cache_ordersummary,timeout=300)
+
       logger.error(orders)
       return Response({
           "error":0,
-          "type": "publiclist",
+          "type": "fetch from db mail_exchange_public_orders",
           "summary":order_summary,
           "orders":serializer.data
       },status=status.HTTP_200_OK)
