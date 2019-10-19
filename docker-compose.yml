@@ -44,9 +44,9 @@ services:
         ipv4_address: 172.19.0.9
 
   php:
-    image: lionhu/php73:v0
+    # image: lionhu/php73:v0
     container_name: php
-    # build: ./system/php
+    build: ./system/php
     volumes:
       - ./misawa:/var/www/html
     networks:
