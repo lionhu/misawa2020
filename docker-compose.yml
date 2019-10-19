@@ -59,7 +59,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: Hisshghu3500
-      MYSQL_DATABASE: misawa2019
+      MYSQL_DATABASE: misawa2020
       MYSQL_USER: root
       MYSQL_PASSWORD: Hisshghu3500
       TZ: 'Asia/Tokyo'

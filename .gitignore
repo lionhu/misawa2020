@@ -7,5 +7,6 @@ project/logs/
 /system/mysql/
 /system/pgdata_empty/
 /system/redis/redis_data/
+/misawa/storage/logs/
 /project/project/settings.py
 
