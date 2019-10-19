@@ -6,7 +6,7 @@
 
 export default {
     get_public_orders(cb, errorCb){
-        axios.get('/api/order/',)
+        axios.get('/api/auction_order/',)
         .then((res)=>{
             cb(res)
         }).catch(function(error){
@@ -15,7 +15,7 @@ export default {
     },
 
     get_my_orders(cb, errorCb){
-        axios.post('/api/order/UserOrdersList/',{
+        axios.post('/api/auction_order/UserOrdersList/',{
             "OrderType":"withoutOffers"
         })
         .then((res)=>{
@@ -25,7 +25,7 @@ export default {
         })
     },
     get_my_offers(cb, errorCb){
-        axios.post('/api/offer/list_user_offers/')
+        axios.post('/api/autcion_offer/list_user_offers/')
         .then((res)=>{
             cb(res)
         }).catch(function(error){
@@ -34,7 +34,8 @@ export default {
     },
 
 	post_new_order(params,cb, errorCb){
-        axios.post('/api/order/',params)
+        console.log("post_new_order")
+        axios.post('/api/auction_order/',params)
         .then((res)=>{
             cb(res)
         }).catch(function(error){
@@ -44,7 +45,7 @@ export default {
 
     post_createoffer(params,cb, errorCb){
         // console.log(params)
-        axios.post('/api/offer/',params)
+        axios.post('/api/auction_offer/',params)
         .then((res)=>{
             cb(res)
         }).catch(function(error){
@@ -52,7 +53,7 @@ export default {
         })
     },
     post_deleteoffer(id,cb, errorCb){
-        var url= '/api/offer/'+id+'/'
+        var url= '/api/auction_offer/'+id+'/'
         axios.delete(url)
         .then((res)=>{
             cb(res)
@@ -62,7 +63,7 @@ export default {
     },
 
     post_updateoffer(params,cb, errorCb){
-        var url= '/api/offer/'+params.offer_id+'/update_orderoffer/'
+        var url= '/api/auction_offer/'+params.offer_id+'/update_orderoffer/'
         axios.post(url,params)
         .then((res)=>{
             cb(res)
@@ -72,7 +73,7 @@ export default {
     },
 
     get_singleorder(slug,cb, errorCb){
-        axios.post('/api/order/get_order_by_slug/',{
+        axios.post('/api/auction_order/get_order_by_slug/',{
             "slug":slug
         })
         .then((res)=>{
@@ -86,7 +87,7 @@ export default {
 
 
     post_createTransactionAPI(params,cb,errorCb){
-        axios.post('/api/transaction/',params)
+        axios.post('/api/auction_transaction/',params)
         .then((res)=>{
             cb(res)
         }).catch(function(error){

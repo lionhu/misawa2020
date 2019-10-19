@@ -165,7 +165,6 @@
     methods: {
       submitform(){
         if (this.confirm_selectDate()){
-            console.log(this.order)
             this.order.due_at +=" 23:59:59"
             this.$store.dispatch("orders/post_new_order",this.order).then(
               resolve=>{
@@ -198,13 +197,7 @@
         this.order.rate =Math.round(newval*10000)/10000
         this.caculate_price()
       },
-      // select_type(val){
-      //   console.log("select type:"+val)
-      //   this.order.from_currency=val;
-      //   this.order.to_currency = val=='rmb'?"jpy":"rmb";
-      //   this.order.rate = val=="rmb"?this.todayrate.hui_out:this.todayrate.chao_in
-      //   this.caculate_price()
-      // },
+
       select_type_jpy(){
         this.order.from_currency="jpy";
         this.order.to_currency = "rmb";

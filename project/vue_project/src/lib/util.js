@@ -6,6 +6,9 @@ export const setTitle = (title) => {
 
 export const setToken = (token, tokenName = 'jwt_token') => {
   localStorage.setItem(tokenName, token)
+  // if (token !==""){
+  //   window.axios.defaults.headers.Authorization=`jwt ` + jwt_token
+  // }
 }
 
 export const getToken = (tokenName = 'jwt_token') => {
