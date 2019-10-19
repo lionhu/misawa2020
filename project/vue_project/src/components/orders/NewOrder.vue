@@ -4,7 +4,7 @@
           <div class="widget-user-header bg-purple" style="background: url('') center center;">
           <div class="info-user">
           <h3 class="widget-user-username">中国银行</h3>
-          <h6 class="widget-user-desc">{{todayrate.created}}</h6>
+          <h6 class="widget-user-desc">{{todayrate.time}}@{{todayrate.day}}</h6>
               </div>
               <div class="widget-user-image clearfix">
                 <img class="rounded-circle" src="/static/img/boc.png" alt="User Avatar">

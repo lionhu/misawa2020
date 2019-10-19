@@ -54,47 +54,68 @@ class BankRateViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
 
             return Response(content,status=status.HTTP_200_OK)
 
-        message=""
-        error = False
-        todayrate={}
-
-        rate=models.BankRate.objects.filter(created__gt=start_today).order_by('-created').first()
-
-        if rate is None:
-            try:
-                ret=fetch_bankrate()
-                cache_todayrate=cache.get("todayrate")
-
-                content={
-                    "error":False,
-                    "message":"get rate after fetch_bankrate",
-                    "start_today":start_today,
-                    "todayrate":cache_todayrate
-                }
-                logger.error("get rate after fetch_bankrate")
-                logger.error(cache_todayrate)
-
-                return Response(content,status=status.HTTP_200_OK)
-
-            except:
-                logger.error("can't fetch bankrate from ShowapiRequest")
-                raise Http404
-
-        else:
-            error=False
-            message = "fetch db existed"
-
-
-            serializer=serializers.BankRateSerializer(todayrate,many=False)
+        try:
+            ret=fetch_bankrate()
+            cache_todayrate=cache.get("todayrate")
 
             content={
-                "error":error,
-                "message":message,
+                "error":False,
+                "message":"get rate after fetch_bankrate",
                 "start_today":start_today,
-                "todayrate":serializer.data
+                "todayrate":cache_todayrate
             }
+            logger.error("get rate after fetch_bankrate")
+            logger.error(cache_todayrate)
 
-            return Response(content)
+            return Response(content,status=status.HTTP_200_OK)
+
+        except:
+            logger.error("can't fetch bankrate from ShowapiRequest")
+            raise Http404
+                
+
+
+        # message=""
+        # error = False
+        # todayrate={}
+
+        # rate=models.BankRate.objects.filter(created__gt=start_today).order_by('-created').first()
+
+        # if rate is None:
+        #     try:
+        #         ret=fetch_bankrate()
+        #         cache_todayrate=cache.get("todayrate")
+
+        #         content={
+        #             "error":False,
+        #             "message":"get rate after fetch_bankrate",
+        #             "start_today":start_today,
+        #             "todayrate":cache_todayrate
+        #         }
+        #         logger.error("get rate after fetch_bankrate")
+        #         logger.error(cache_todayrate)
+
+        #         return Response(content,status=status.HTTP_200_OK)
+
+        #     except:
+        #         logger.error("can't fetch bankrate from ShowapiRequest")
+        #         raise Http404
+
+        # else:
+        #     error=False
+        #     message = "fetch db existed"
+
+
+        #     serializer=serializers.BankRateSerializer(todayrate,many=False)
+
+        #     content={
+        #         "error":error,
+        #         "message":message,
+        #         "start_today":start_today,
+        #         "todayrate":serializer.data
+        #     }
+
+        #     return Response(content)
 
 
     @list_route(methods=['post'])

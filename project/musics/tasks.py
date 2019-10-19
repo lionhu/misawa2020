@@ -76,6 +76,8 @@ def fetch_bankrate():
 
     if not fetch_error:
       rates=data["showapi_res_body"]["codeList"]
+      data_time=data["showapi_res_body"]["time"]
+      data_day=data["showapi_res_body"]["day"]
       l_names = [d.get("name") for d in rates]
 
       jpy_index = l_names.index("日元")
@@ -90,9 +92,19 @@ def fetch_bankrate():
             "chao_in":decimal.Decimal(jpy_rate["chao_in"]),
             "chao_out":decimal.Decimal(jpy_rate["chao_out"])
           }
+        jpy_rate = {
+            "name":"jpy",
+            "time":data_time,
+            "day":data_day,
+            "code":jpy_rate["code"],
+            "hui_in":decimal.Decimal(jpy_rate["hui_in"]),
+            "hui_out":decimal.Decimal(jpy_rate["hui_out"]),
+            "chao_in":decimal.Decimal(jpy_rate["chao_in"]),
+            "chao_out":decimal.Decimal(jpy_rate["chao_out"])
+          }
         BankRate.objects.create(**jpy_rate_db)
 
-        cache.set("todayrate",jpy_rate_db,3600)
+        cache.set("todayrate",jpy_rate,3600)
         logger.error(cache.get("todayrate"))
 
     html_content = render_to_string('emails/todayrate.html',{'todayrate':jpy_rate})
