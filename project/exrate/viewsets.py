@@ -1,7 +1,7 @@
 from . import models
 from . import serializers
 from django.contrib.auth.models import User
-from rest_framework import viewsets,status,permissions
+from rest_framework import viewsets,status,permissions,mixins
 from rest_framework.permissions import IsAuthenticated,BasePermission,SAFE_METHODS,IsAdminUser,AllowAny
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view
 from rest_framework.response import Response
@@ -26,7 +26,7 @@ class IsAdminOrReadOnly(BasePermission):
 
 
 
-class BankRateViewSet(viewsets.ModelViewSet):
+class BankRateViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     """ViewSet for the BankRate class"""
 
     queryset = models.BankRate.objects.all()
@@ -35,51 +35,66 @@ class BankRateViewSet(viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def todayrate(self,request,format=None):
+
         today = datetime.datetime.now()
         start_today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
-        
+
+        cache_todayrate=cache.get("todayrate")
+        if cache_todayrate:
+            # serializer=serializers.BankRateSerializer(cache_todayrate,many=False)
+
+            content={
+                "error":False,
+                "message":"get todayrate from cache",
+                "start_today":start_today,
+                "todayrate":cache_todayrate
+            }
+            logger.error("get rate from cache")
+            logger.error(cache_todayrate)
+
+            return Response(content,status=status.HTTP_200_OK)
+
         message=""
         error = False
         todayrate={}
 
-        rates=models.BankRate.objects.filter(created__gt=start_today).order_by('-created')
+        rate=models.BankRate.objects.filter(created__gt=start_today).order_by('-created').first()
 
-        if rates.count()==0:
+        if rate is None:
             try:
                 ret=fetch_bankrate()
-            except:
-                error = True
+                cache_todayrate=cache.get("todayrate")
+
                 content={
-                    "error":error,
-                    "message":message,
+                    "error":False,
+                    "message":"get rate after fetch_bankrate",
                     "start_today":start_today,
-                    "todayrate":{}
+                    "todayrate":cache_todayrate
                 }
+                logger.error("get rate after fetch_bankrate")
+                logger.error(cache_todayrate)
 
-                return Response(content)
+                return Response(content,status=status.HTTP_200_OK)
 
-            if ret:
-                rates=models.BankRate.objects.filter(created__gt=start_today).order_by('-created')
-                todayrate=rates[0]
-                message = "fetch just now"
-                cache.set("todayrate",todayrate,3600)
-            else:
-                error = True
+            except:
+                logger.error("can't fetch bankrate from ShowapiRequest")
+                raise Http404
+
         else:
-            todayrate=rates[0]
-            message = "fetch existed"
-            cache.set("todayrate",todayrate,3600)
+            error=False
+            message = "fetch db existed"
 
-        serializer=serializers.BankRateSerializer(todayrate,many=False)
 
-        content={
-            "error":error,
-            "message":message,
-            "start_today":start_today,
-            "todayrate":serializer.data
-        }
+            serializer=serializers.BankRateSerializer(todayrate,many=False)
 
-        return Response(content)
+            content={
+                "error":error,
+                "message":message,
+                "start_today":start_today,
+                "todayrate":serializer.data
+            }
+
+            return Response(content)
 
 
     @list_route(methods=['post'])

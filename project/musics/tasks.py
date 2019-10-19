@@ -83,7 +83,7 @@ def fetch_bankrate():
       if jpy_index >-1:
         jpy_rate=rates[jpy_index]
         jpy_rate_db = {
-            "name":jpy_rate["name"],
+            "name":"jpy",
             "code":jpy_rate["code"],
             "hui_in":decimal.Decimal(jpy_rate["hui_in"]),
             "hui_out":decimal.Decimal(jpy_rate["hui_out"]),
@@ -94,12 +94,6 @@ def fetch_bankrate():
 
         cache.set("todayrate",jpy_rate_db,3600)
         logger.error(cache.get("todayrate"))
-
-        # >>> print(type(cache.get("bankrate")))
-        # <class 'dict'>
-        # >>> print(cache.get("bankrate")["name"])
-
-
 
     html_content = render_to_string('emails/todayrate.html',{'todayrate':jpy_rate})
     msg = EmailMessage("[Exrate Notification]Today's rate",html_content,settings.DEFAULT_FROM_EMAIL,["lionhu2009@gmail.com"])
