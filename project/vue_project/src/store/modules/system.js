@@ -16,17 +16,7 @@ const getters = {
 
 // actions
 const actions = {
-    
-    // getToken({ commit }) {
-    //     console.log("get my token");
-    //     system.getMyToken(
-    //         res => {
-    //             commit("setToken",res.data);
-    //         },err =>{
-    //             console.log(err)
-    //         }
-    //     );
-    // },
+
     get_todayrate({ commit }){
         console.log("store get_todayrate");
         return new Promise((resolve,reject)=>{
