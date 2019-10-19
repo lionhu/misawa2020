@@ -215,7 +215,6 @@
       this.profile.father=this.ME.father
       this.profile.grandfather=this.ME.grandfather
 
-      console.log(this.ME)
       if(this.ME.language==""){
           setToken("zh_CN","lang");
           this.$i18n.locale = "zh_CN";//关键语句
