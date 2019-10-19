@@ -8,7 +8,7 @@ from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token,verify_j
 from rest_framework import routers
 from useraccount.viewsets import UserProfileViewSet
 from useraccount.views import users as apiUsers,show_signup,user_active
-from mail_exchange.viewsets  import OrderViewSet,OfferViewSet,TransactionViewSet
+from mail_exchange.viewsets  import OrderViewSet as AuctionOrderViewSet,OfferViewSet as AuctionOfferViewSet,TransactionViewSet
 from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet
 from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet
@@ -19,9 +19,9 @@ schema_view = get_swagger_view(title='Pastebin API')
 
 router = routers.DefaultRouter()
 router.register('userprofiles', UserProfileViewSet)
-router.register('order', OrderViewSet)
-router.register('offer', OfferViewSet)
-router.register('transaction', TransactionViewSet)
+router.register('auction_order', AuctionOrderViewSet)
+router.register('autcion_offer', AuctionOfferViewSet)
+router.register('autcion_transaction', TransactionViewSet)
 router.register('bonus', BonusViewSet)
 router.register('bonus_details', BonusDetailViewSet)
 router.register('bankrate', BankRateViewSet)
@@ -31,7 +31,7 @@ router.register('product', ProductViewSet)
 router.register('address', AddressViewSet)
 router.register('cart', CartViewSet)
 router.register('cartitem', CartItemViewSet)
-router.register('shoporder', OrderViewSet)
+router.register('shop_order', OrderViewSet)
 
 
 

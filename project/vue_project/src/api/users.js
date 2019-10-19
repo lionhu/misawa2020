@@ -8,14 +8,13 @@ export default {
     // User opertion related
     get_myprofile(cb, errorCb){
     	// console.log(axios.defaults.headers)
-        axios.get('/api/userprofiles/get_myprofile/',)
+        axios.get('/api/userprofiles/get_myprofile/')
         .then((res)=>{
-             cb(res)
+            console.log("get profile");
+            console.log(res);
+             cb(res);
         }).catch(function(error){
-            errorCb(error)
-        })
-    },
-
-
-
+            errorCb(error);
+        });
+    }
 };

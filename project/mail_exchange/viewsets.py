@@ -44,12 +44,15 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
     def list(self, request):
+
       orders = Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
       order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
-      serializer=PublicOrders_Serializer(orders,many=True,extra={"user_id":request.user.id})
+      serializer=PublicOrders_Serializer(orders,many=True)
+      # serializer=PublicOrders_Serializer(orders,many=True,extra={"user_id":request.user.id})
 
+      logger.error(orders)
       return Response({
           "error":0,
           "type": "publiclist",
@@ -341,7 +344,7 @@ class OfferViewSet(viewsets.ModelViewSet):
         }
         return Response(content,status=status.HTTP_200_OK)
 
-      return Response(content,status=status.HTTP_404_NOT_FOUND)
+      return Response(content,status=status.HTTP_200_OK)
 
 
 class TransactionViewSet(viewsets.ModelViewSet):

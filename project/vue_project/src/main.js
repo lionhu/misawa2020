@@ -52,5 +52,4 @@ const MainContent=new Vue({
     render: h => h(App)
 });
 
-console.log(window.axios.defaults.headers)
 console.log("hello_lionhu from main.js")

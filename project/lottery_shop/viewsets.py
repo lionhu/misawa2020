@@ -146,22 +146,10 @@ class SubcatalogueViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.R
         return SubcatalogueSerializer
 
 
-class ProductViewSet(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    viewsets.GenericViewSet):
+class ProductViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset=Product.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     lookup_field="slug"
-
-
-    # def get_object(self, slug):
-    #     try:
-    #         return Product.objects.filter(slug=slug).first()
-    #     except Product.DoesNotExist:
-    #         raise Http404
 
     def get_serializer_class(self):
         if self.action == "AdminProduct":

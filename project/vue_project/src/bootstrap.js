@@ -17,7 +17,7 @@ let jwt_token = localStorage.getItem("jwt_token");
 // console.log("bootstrap jwt_token")
 
 
-if(jwt_token ==""){
+if(jwt_token !=""){
 	window.axios.defaults.headers = {
 		'X-CSRFToken': tools.GetCookie("csrftoken"),
 	    'accept': 'application/json',

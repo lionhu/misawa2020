@@ -120,12 +120,7 @@ class AddressViewSet(viewsets.ModelViewSet):
             raise Http404
 
 
-class CartViewSet(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    mixins.RetrieveModelMixin,
-                    # mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    viewsets.GenericViewSet):
+class CartViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsAdminOrOwner)
@@ -173,8 +168,7 @@ class CartViewSet(mixins.ListModelMixin,
         }, status=status.HTTP_200_OK)
 
 
-class CartItemViewSet(mixins.ListModelMixin,
-                    viewsets.GenericViewSet):
+class CartItemViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     permission_classes = (permissions.IsAuthenticated,IsAdminOrOwner)
@@ -397,12 +391,7 @@ class CartItemViewSet(mixins.ListModelMixin,
 
 
 
-class OrderViewSet(mixins.ListModelMixin,
-                    mixins.CreateModelMixin,
-                    mixins.RetrieveModelMixin,
-                    # mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    viewsets.GenericViewSet):
+class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsAdminOrOwner)
