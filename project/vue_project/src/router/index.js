@@ -142,10 +142,10 @@ router.beforeEach((to, from, next) => {
   // console.log("router to: "+to.name+" check token: "+token)
   if (token) {
       store.dispatch('users/authorization',token).then(rules => {
-        console.log("OK authorization")
+        // console.log("OK authorization")
         next()
       }).catch(() => {
-        console.log("NG authorization")
+        // console.log("NG authorization")
         setToken('')
         // next({ name: 'login' })
         window.location.href="/member/#/login/"

@@ -47,13 +47,17 @@ const actions = {
     },
 
     get_my_offerlist({commit}){
-        ordersAPI.get_my_offers(
-            res => {
-                commit("setMyOfferList",res.data);
-            },err =>{
-                console.log(err)
-            }
-        );
+        return new Promise((resolve,reject)=>{
+            ordersAPI.get_my_offers(
+                res => {
+                    commit("setMyOfferList",res.data);
+                    resolve(res.data)
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+
     },
 
     post_new_order({ commit },params) {

@@ -101,11 +101,23 @@
         this.$router.push({ name: 'singleorder', params: { slug: row.order.slug }})
       },
       my_offerlist(){
-        this.$store.dispatch("orders/get_my_offerlist");
-        this.tableData= this.$store.state.orders.MyOfferList
-        this.offer_summaries= this.$store.state.orders.MyOffer_summary
-        this.total=this.tableData.length;
-        this.reload()
+        this.$store.dispatch("orders/get_my_offerlist").then(
+          resolve=>{
+            if(resolve.success){
+                this.tableData= resolve.offers
+                this.offer_summaries= resolve.offer_summary
+                this.total=this.tableData.length;
+                this.reload()
+            }else{
+              Swal.fire({
+                type:"warning",
+                text:"You have no offers yet!"
+              })
+              this.$router.push({name:"orderlist"})
+            }
+
+          },reject=>{});
+
       },
       current_change:function(currentPage){
           console.log(currentPage)
