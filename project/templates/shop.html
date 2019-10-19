@@ -1,0 +1,19 @@
+{% extends 'shop_base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+
+{% load render_bundle from webpack_loader%}
+
+{% block maincontent %}
+
+      <div id="app"></div>
+      
+	{% render_bundle 'shop' %}
+	{% render_bundle 'vendor' %}
+
+
+{% endblock %}
+
+
+

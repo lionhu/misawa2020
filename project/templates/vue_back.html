@@ -1,0 +1,57 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+    <!-- CSRF Token -->
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+	<!-- <link rel="stylesheet" href="{%  static 'canvas/css/bootstrap.css'%}" type="text/css" /> -->
+	<link rel="stylesheet" href="{%  static 'canvas/style.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/dark.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/font-icons.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/animate.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/magnific-popup.css'%}" type="text/css" />
+
+	<link rel="stylesheet" href="{%  static 'canvas/css/responsive.css'%}" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- External JavaScripts
+	============================================= -->
+	<!-- <script src="{%  static 'canvas/js/jquery.js'%}"></script> -->
+	<!-- <script src="{%  static 'canvas/js/plugins.js'%}"></script> -->
+	<!-- Document Title
+	============================================= -->
+	<title>Login - Layout 5 | Canvas</title>
+
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<h1>Test Vue</h1>
+		<div id="app"></div>
+		{% render_bundle 'main' %}
+		{% render_bundle 'vendor' %}
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{%  static 'canvas/js/functions.js'%}"></script>
+
+	<script src="{%  static 'canvas/js/plugins.js'%}"></script>
+</body>
+</html>

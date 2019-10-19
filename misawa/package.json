@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --watch-poll --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "axios": "^0.15.3",
+    "bootstrap-sass": "^3.3.7",
+    "cross-env": "^3.2.3",
+    "jquery": "^3.1.1",
+    "laravel-mix": "^4.0.15",
+    "lodash": "^4.17.11",
+    "resolve-url-loader": "^2.3.1",
+    "sass": "^1.19.0",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^1.0.0-beta.9",
+    "chart.js": "^2.8.0",
+    "currencyformatter.js": "^1.0.5",
+    "element-ui": "^2.7.2",
+    "flag-icon-css": "^2.8.0",
+    "laravel-echo": "^1.3.2",
+    "popper.js": "^1.15.0",
+    "pusher-js": "^4.2.1",
+    "sweetalert2": "^8.8.5",
+    "vue-chartjs": "^3.4.2",
+    "vue-router": "^3.0.6",
+    "vuex": "^3.1.0",
+    "vuex-persistedstate": "^2.5.4"
+  }
+}

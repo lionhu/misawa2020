@@ -1,0 +1,5 @@
+/project/log/
+/docker-compose.yml
+/system/pgdata/
+/system/redis/redis_data/
+/project/project/settings.py

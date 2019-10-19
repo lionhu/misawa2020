@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+		<section id="content">
+
+			<div class="content-wrap nopadding">
+
+				<div class="section nopadding nomargin" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: url({% static 'canvas/images/parallax/home/1.jpg'%}) center center no-repeat; background-size: cover;"></div>
+
+				<div class="section nobg full-screen nopadding nomargin">
+					<div class="container-fluid vertical-middle divcenter clearfix">
+
+						<div class="card divcenter noradius noborder" style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
+							<div class="card-body" style="padding: 40px;">
+								{% if user.is_authenticated %}
+								<a href="{% url 'useraccount:profile_update' %}">Update Profile</a> | <a href="{% url 'account_email' %}">Manage Email</a>  | <a href="{% url 'account_change_password' %}">Change Password</a> |
+								<a href="{% url 'account_logout' %}">Logout</a>
+								{% endif %}
+								<p>Welcome, {{ user.username }}.
+								    {% if not user.profile.account_verified %}
+								    (Unverified email.)
+								    {% endif %}
+								</p>
+
+								 <h2>Permissions</h2>  
+								 <!-- {{perms.mail_exchange}} -->
+								 {% if perms.mail_exchange.can_place_order %}
+							        <p>You can drive!</p>
+							    {% endif %}
+								 <div>
+								 	{{perms.mail_exchange.can_place_order}}
+								 	{% if perms.mail_exchange.can_place_order %}
+								 	<p>Can Place Order</p>
+								 	{% endif %}
+
+									{{perms.mail_exchange.can_move_order}}
+								 	{% if not perms.mail_exchange.can_move_order %}
+								 	<p>Can not edit Order</p>
+								 	{% endif %}
+								 </div>
+								<h2>My Profile</h2>
+
+								<ul>
+								    <li>First Name: {{ user.first_name }} </li>
+								    <li>Last Name: {{ user.last_name }} </li>
+								    <li>Organization: {{ user.profile.organization }} </li>
+								    <li>Telephone: {{ user.profile.telephone }} </li>
+								</ul>	
+								 <img src="{{ user.profile.avatar.url }}" style="width:160px;" />   
+								 <img src="{{ user.profile.thumbnail.url }}" style="width:160px;" /> 
+								<img src="{{user.profile.id_image.url}}" style="width:260px">
+								<ul>
+								</ul>
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+
+		</section><!-- #content end -->
+<div id="qrcode"></div>
+
+
+{% endblock %}

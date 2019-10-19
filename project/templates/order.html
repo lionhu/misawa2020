@@ -1,0 +1,30 @@
+{% extends 'base_crypto.html' %}
+{% load static %}
+
+{% block headerscript %}
+
+
+	<link rel="stylesheet" href="{%  static 'cryptoadmin/assets/vendor_components/select2/dist/css/select2.min.css' %}">
+
+{% endblock headerscript %}
+
+
+{% block maincontent %}
+
+<div id="app"></div>
+
+{% endblock %}
+
+
+{% block footerscript %}
+	<script src="{% static 'cryptoadmin/assets/vendor_components/select2/dist/js/select2.min.js' %}"></script>
+
+	<script>
+		if ($('.coins-exchange').length) {
+       $('.coins-exchange').select2();
+    }
+    if ($('.money-exchange').length) {
+       $('.money-exchange').select2();
+    }
+	</script>
+{% endblock footerscript %}

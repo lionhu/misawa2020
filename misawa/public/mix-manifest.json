@@ -1,0 +1,21 @@
+{
+    "/js/CustomerAdmin.js": "/js/CustomerAdmin.js",
+    "/js/admin.js": "/js/admin.js",
+    "/js/admin_customers.js": "/js/admin_customers.js",
+    "/js/admin_new_product.js": "/js/admin_new_product.js",
+    "/js/admin_products.js": "/js/admin_products.js",
+    "/js/admin_vue.js": "/js/admin_vue.js",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/bootstrap.js": "/js/bootstrap.js",
+    "/js/cart.js": "/js/cart.js",
+    "/js/checkout.js": "/js/checkout.js",
+    "/js/misawashop.js": "/js/misawashop.js",
+    "/js/po.js": "/js/po.js",
+    "/js/po_vendor.js": "/js/po_vendor.js",
+    "/js/product.js": "/js/product.js",
+    "/js/productComments.js": "/js/productComments.js",
+    "/js/shop.js": "/js/shop.js",
+    "/js/vendor.js": "/js/vendor.js",
+    "/js/vendor_products.js": "/js/vendor_products.js"
+}

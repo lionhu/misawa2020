@@ -1,0 +1,99 @@
+version: '3'
+services:
+  # portainer:
+  #   image: portainer/portainer
+  #   command: -H unix:///var/run/docker.sock
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
+
+  redis:
+    container_name: redis
+    restart: always
+    tty: true
+    build:
+      context: ./system/redis
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - 6379:6379
+    volumes:
+      - ./system/redis/redis_data:/var/redis
+    command: redis-server --appendonly yes
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - ./system/pgdata:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+
+  rabbitmq:
+    image:  rabbitmq:3.7.3-management
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: celery
+      RABBITMQ_DEFAULT_PASS: password123
+      RABBITMQ_DEFAULT_VHOST: my_vhost
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+
+  web:
+    container_name: web_nginx
+    build: .
+    ports:
+      - 80:80
+    volumes:
+      - ./project:/django_project
+    links: 
+      - redis
+      - postgres
+      - rabbitmq
+
+  # vue:
+  #   container_name: vue
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile_vue
+  #   ports:
+  #     - 8080:8080
+    # volumes:
+    #   - ./project:/django_project
+    # links: 
+    #   - redis
+    #   - postgres
+    #   - rabbitmq
+
+
+  worker:
+    build: 
+      context: .
+      dockerfile: Dockerfile_worker
+    container_name: django_worker
+    restart: always
+    tty: true
+    # command: celery -A project worker -B -l info
+    volumes:
+      - ./project:/django_project
+    links:
+      - rabbitmq
+      - postgres
+      - redis
+
+
+volumes:
+  portainer_data:
+
+
+
+
+
+    

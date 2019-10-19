@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>IPSec</key>
+			<dict>
+				<key>AuthenticationMethod</key>
+				<string>SharedSecret</string>
+				<key>LocalIdentifierType</key>
+				<string>KeyID</string>
+				<key>SharedSecret</key>
+				<data>
+				SGlzc2hnaHUzNTAw
+				</data>
+			</dict>
+			<key>IPv4</key>
+			<dict>
+				<key>OverridePrimary</key>
+				<integer>1</integer>
+			</dict>
+			<key>PPP</key>
+			<dict>
+				<key>AuthName</key>
+				<string>kinghu</string>
+				<key>AuthPassword</key>
+				<string>Koun1209</string>
+				<key>CommRemoteAddress</key>
+				<string>huhaiguang.com</string>
+			</dict>
+			<key>PayloadDescription</key>
+			<string>配置 VPN 设置</string>
+			<key>PayloadDisplayName</key>
+			<string>VPN</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.vpn.managed.7DCF49DA-C99D-40CE-9C28-F27858782796</string>
+			<key>PayloadType</key>
+			<string>com.apple.vpn.managed</string>
+			<key>PayloadUUID</key>
+			<string>7DCF49DA-C99D-40CE-9C28-F27858782796</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>Proxies</key>
+			<dict>
+				<key>HTTPEnable</key>
+				<integer>0</integer>
+				<key>HTTPSEnable</key>
+				<integer>0</integer>
+			</dict>
+			<key>UserDefinedName</key>
+			<string>huhaiguang</string>
+			<key>VPNType</key>
+			<string>L2TP</string>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Huhaiguang_VPN</string>
+	<key>PayloadIdentifier</key>
+	<string>lionhudeMacBook-Pro.B6824201-D4C7-4D11-9C36-F5E0BE2EDF88</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>4F9FFCD0-1C4C-46A0-BFDA-BB2D55B26463</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

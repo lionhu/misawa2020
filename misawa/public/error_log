@@ -1,0 +1,8 @@
+[27-Oct-2018 08:27:21 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 8192 bytes) in /home/wangmin1/misawa/vendor/intervention/image/src/Intervention/Image/Gd/Decoder.php on line 136
+[27-Oct-2018 08:27:21 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 147456 bytes) in /home/wangmin1/misawa/vendor/composer/ClassLoader.php on line 444
+[27-Oct-2018 09:48:59 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 28672 bytes) in /home/wangmin1/misawa/vendor/intervention/image/src/Intervention/Image/Gd/Decoder.php on line 136
+[27-Oct-2018 09:48:59 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 147456 bytes) in /home/wangmin1/misawa/vendor/composer/ClassLoader.php on line 444
+[27-Oct-2018 09:52:51 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 28672 bytes) in /home/wangmin1/misawa/vendor/intervention/image/src/Intervention/Image/Gd/Decoder.php on line 136
+[27-Oct-2018 09:52:51 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 147456 bytes) in /home/wangmin1/misawa/vendor/composer/ClassLoader.php on line 444
+[27-Oct-2018 10:06:52 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 8192 bytes) in /home/wangmin1/misawa/vendor/intervention/image/src/Intervention/Image/Gd/Decoder.php on line 136
+[27-Oct-2018 10:06:52 Asia/Tokyo] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 147456 bytes) in /home/wangmin1/misawa/vendor/composer/ClassLoader.php on line 444

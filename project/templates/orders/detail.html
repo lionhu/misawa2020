@@ -1,0 +1,39 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+{% load render_bundle from webpack_loader%}
+
+{% block content %}
+    <section id="content">
+
+      <div class="content-wrap">
+
+        <div class="container clearfix">
+              <div id="app"></div>
+        </div>
+
+      </div>
+
+    </section><!-- #content end -->
+
+
+	{% render_bundle 'order' %}
+	{% render_bundle 'vendor' %}
+
+{% endblock content %}
+
+{% block footerscript %}
+    
+  <script src="{%  static 'canvas/js/components/datepicker.js' %}"></script>
+
+<script>  
+jQuery(document).ready( function(){
+			$('.dobpicker').datepicker({
+				autoclose: true,
+			});
+		})
+</script>
+
+
+
+
+{% endblock footerscript %}

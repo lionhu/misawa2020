@@ -1,0 +1,312 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+@font-face {
+	font-family: "Haiku";
+	src: url('../../../fonts/Haiku_Regular.ttf');
+}
+
+.sub_title{
+	font-family: 'Haiku';
+	font-size: 1.5em;
+}
+
+.clearfix::after {
+	clear: both; display: table; content: "";
+}
+a {
+	color: rgb(93, 105, 117); text-decoration: underline;
+}
+body {
+	background: rgb(255, 255, 255); 
+	margin: 0 auto;
+	width: 21cm; 
+	height: 29.7cm; 
+	color: rgb(0, 16, 40); 
+	font-family: 'Noto Sans JP',Arial, sans-serif;
+	position: relative;
+}
+header {
+	padding: 10px 0;
+}
+
+.section{
+	margin-top:10px;
+}
+#logo {
+	margin-bottom: 10px;
+	float:left;
+	height:100px;
+	position:relative;
+}
+#logo img {
+	height: 50px; 
+}
+
+#quotation_title {
+	text-decoration: underline;
+	color: rgb(43, 121, 197); font-size: 2.4em; 
+	float: right;
+	font-family: 'Anton','Noto Sans JP',Arial, sans-serif;
+	font-weight: 800; margin-top: 20px;
+}
+
+
+#customer {
+	margin-top: 30px;
+}
+
+
+#customer_info {
+	float:left;
+	line-height:1.2em;
+}
+
+
+
+#company {
+	padding: 5px; 
+	 width: 40%;
+	line-height: 1.2em; 
+	float: right;
+}
+#company span{
+	width: 150px; text-align: right; 
+	color: rgb(93, 105, 117); line-height: 1.5em; 
+ 	margin-right: 10px; 
+	display: inline-block;
+}
+
+.qutation{
+	bottom: 10px;
+}
+
+#quotation_info {
+	padding: 5px;  width: 60%; 
+	line-height: 1.5em; 
+	margin-right: 30px; float: left;
+}
+
+.qutation_total{
+	margin-top: 20px;
+}
+
+#qutation_total_title{
+	font-size: 1.1em; 
+	background-color:black;
+	color:white;
+	margin-right:-4px;
+	border:1px solid black;
+	display:inline-block;
+	padding:3px 10px;
+	text-align:center;
+	line-height: 2em;
+}
+#qutation_total_price{
+	font-size: 1.1em; 
+	border:1px solid black;
+	width:160px;
+	display:inline-block;
+	padding:3px 5px;
+	text-align:right;
+	line-height: 2em;
+}
+
+#qutation_condition{
+	padding: 5px; 
+	width:35%;
+	float:left;
+	line-height: 1.1em; font-size: 1em;
+}
+
+#qutation_condition span{
+	width: 80px; text-align: right;
+	color: rgb(93, 105, 117);  
+ 	margin-right: 10px; display: inline-block;
+}
+
+#ship_to{
+	float: right;
+	width:50%;
+	background-color: lightgrey;
+	margin-top:20px;
+	border-radius: 20px;
+	padding: 10px;
+}
+
+
+
+
+.sm_title{
+	font-weight:500;
+	float: left;
+	margin-right:10px;
+}
+
+.sm_contents{
+	width:80%;
+	float: left;
+	padding-left: 5px;
+	font-size:1em;
+	line-height: 1.1em;
+}
+.sm_contents .item{
+	margin-top: 5px;
+}
+
+.sm_contents span{
+	width: 60px; text-align: right;
+	color: rgb(93, 105, 117);
+	margin-right: 10px; display: inline-block;
+}
+
+.to_left{
+	float:left;
+}
+.to_right{
+	float:right;
+}
+
+.order{
+	margin-bottom: 20px; 
+	border-collapse: collapse;
+	width:100%;
+}
+table tr:nth-child(2n-1) td {
+	background: rgb(245, 245, 245);
+}
+
+.order th {
+	 text-align: center;
+	 color: white;
+	 font-weight: normal;
+	 border-bottom: 1px solid rgb(193, 206, 217);
+	 white-space: nowrap; background-color: rgb(43, 121, 197);
+ }
+
+.right_deep_border{
+	border-right:1px rgb(43, 121, 197) dotted;
+}
+
+.right_light_border{
+	border-right: 1px dotted white;
+}
+
+
+
+table td {
+	padding: 5px; text-align: right;
+	border-bottom:1px dashed #cccccc;
+}
+table .last td
+{border-bottom:0;}
+
+table .service {
+	width:8%;
+	vertical-align: middle;
+	text-align:center;
+}
+table  th .product {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.order-row .product {
+	text-align: left;
+	width:55%;
+	vertical-align: top;
+	border-right:1px rgb(43, 121, 197) dotted;
+}
+table td .thumbimage {
+	margin-left: 10px;
+}
+
+.unitprice {
+	width:15%;
+	border-right:1px rgb(43, 121, 197) dotted;
+}
+
+
+
+.info{
+	float: left;
+}
+
+.thumbimage{
+	float: right;
+}
+
+
+
+
+
+.order-row .qty{
+	text-align: center;
+	width:8%;
+}
+
+.order-row .total {
+	text-align: right;
+	width:15%;
+}
+
+table td.grand {
+	border-top:1px solid rgb(93, 105, 117);
+}
+
+.td_border_right_color{
+	border-right:1px rgb(43, 121, 197) dotted;
+}
+
+#notices {
+	word-wrap:break-word;
+	position: relative;
+}
+#notices .title {
+	padding: 5px; color: white; 
+	line-height: 1.2em; font-size: 1.2em; 
+	background-color: rgb(43, 121, 197);
+}
+
+#notices .notice {
+	padding: 5px; 
+	color: rgb(93, 105, 117); 
+	line-height: 1.2em; 
+	font-size: 1em;
+}
+
+#notices .QRcode{
+	position: absolute;
+	top:50px;
+	right:50px;
+	width: 150px;
+	height:150px;
+}
+
+
+
+
+#notices ol {
+	margin-top: 0;
+}
+#notices ol span{
+	width: 150px; text-align: right;
+	color: rgb(93, 105, 117); line-height: 1.5em;
+	margin-right: 10px;
+	display: inline-block;
+}
+#author {
+	width: 60%; 
+	border-bottom: black 1px solid;
+	margin-top: 20px;
+	float: right;
+}
+
+#iboard_logo {
+	height:50px;
+}
+
+
+
+/*for all*/
+.hideme{
+	display: none;
+}

@@ -1,0 +1,61 @@
+{% load static %}
+<html dir="ltr" lang="en-US">
+<head>
+
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="author" content="SemiColonWeb" />
+
+  <!-- Stylesheets
+  ============================================= -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/css/bootstrap.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/style.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/css/dark.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/css/font-icons.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/css/animate.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'canvas/css/magnific-popup.css' %}" type="text/css" />
+
+  <link rel="stylesheet" href="{% static 'canvas/css/responsive.css' %}" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- SLIDER REVOLUTION 5.x CSS SETTINGS -->
+  <link rel="stylesheet" type="text/css" href="{% static 'canvas/include/rs-plugin/css/settings.css' %}" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{% static 'canvas/include/rs-plugin/css/layers.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'canvas/include/rs-plugin/css/navigation.css' %}">
+
+  <script src="{% static 'canvas/js/jquery.js' %}"></script>
+  <!-- Document Title
+  ============================================= -->
+  <title>Home - Shop | Canvas</title>
+
+</head>
+
+<body class="stretched">
+
+  <!-- Document Wrapper
+  ============================================= -->
+  <div id="wrapper" class="clearfix">
+
+    <div id="shop_header"></div>
+    {%block maincontent %}
+    {% endblock %}
+
+    {% include 'shop_parts/footer.html' %}
+
+  </div><!-- #wrapper end -->
+
+  <!-- Go To Top
+  ============================================= -->
+  <div id="gotoTop" class="icon-angle-up"></div>
+
+  <!-- External JavaScripts
+  ============================================= -->
+  <script src="{% static 'canvas/js/plugins.js' %}"></script>
+
+  <!-- Footer Scripts
+  ============================================= -->
+  <script src="{% static 'canvas/js/functions.js' %}"></script>
+
+
+</body>
+</html>

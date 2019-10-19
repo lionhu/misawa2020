@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/bootstrap.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/style.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/dark.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/font-icons.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/animate.css'%}" type="text/css" />
+	<link rel="stylesheet" href="{%  static 'canvas/css/magnific-popup.css'%}" type="text/css" />
+
+	<link rel="stylesheet" href="{%  static 'canvas/css/responsive.css'%}" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- External JavaScripts
+	============================================= -->
+	<script src="{%  static 'canvas/js/jquery.js'%}"></script>
+	<script src="{%  static 'canvas/js/plugins.js'%}"></script>
+	<script src="{%  static 'js/jquery.qrcode.js'%}"></script>
+	<!-- Document Title
+	============================================= -->
+	<title>Login - Layout 5 | Canvas</title>
+
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+		<section id="content">
+
+			<div class="content-wrap">
+				<div class="container clearfix">
+						<!-- Content
+						============================================= -->
+				        {% block content %}
+				        {% endblock %}
+				</div>
+			</div>
+
+		</section>
+
+
+<script>
+$('#qrcode').qrcode({width: 260, height: 260, text: "http://localhost/accounts/signup/?introcode={{ user.profile.slug }}"});
+</script>
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{%  static 'canvas/js/functions.js'%}"></script>
+
+</body>
+</html>

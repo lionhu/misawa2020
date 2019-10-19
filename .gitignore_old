@@ -1,0 +1,13 @@
+/system/pgdata/
+/system/redis/redis_data/
+/project/log/
+/.gitignore
+/project/app.sock
+/project/vue_project/node_modules/
+/project/project/settings.py
+/project/websocket.sock
+/project/supervisord.log
+/.idea
+docker-compose.yml
+*.log
+.DS_Store

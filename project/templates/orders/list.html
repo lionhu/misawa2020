@@ -1,0 +1,27 @@
+{% extends 'orders/base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% load account_tags %}
+
+{% block maincontent %}
+    <h1>Order List</h1>
+    <h3>{% trans 'lionhu' %}</h3>
+
+    {% for order in orderlist %}
+        <a href="{% url 'exrate:order_detail' order.slug %}">{{ order.amount }} - at {{ order.rate }}</a>
+        {# <a href="{{  order.get_absolute_url }}">{{ order.amount }} - at {{ order.rate }}</a>#}
+
+    {% endfor %}
+
+     <div class="jumbotron">
+        <h1>Dashboard</h1>
+        <p>Welcome to your dashboard.</p>
+        <h3>{{ 'HU haiGuang' | lower }}</h3>
+        <h3>Simple Tag {% lionhu 'hello'%}</h3>
+    </div>
+
+    <div class="container">
+        <h3 id="result"></h3>
+    </div>
+
+{% endblock %}

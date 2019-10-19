@@ -1,0 +1,315 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+
+.clearfix::after {
+    clear: both;
+    display: table;
+    content: "";
+}
+
+a {
+    color: rgb(93, 105, 117);
+    text-decoration: underline;
+}
+
+body {
+    background: rgb(255, 255, 255);
+    margin: 0px auto;
+    width: 21cm;
+    height: 29.7cm;
+    color: rgb(0, 16, 40);
+    font-family: 'Noto Sans JP', Arial, sans-serif;
+    position: relative;
+    /*font-size: 100%;*/
+}
+
+header {
+    /*padding: 10px 0;*/
+    /*margin-bottom: 5px;*/
+}
+
+#logo {
+    margin-bottom: 10px;
+}
+
+#logo img {
+    height: 50px;
+    float: left;
+}
+
+#PO_no {
+    margin-right: 30px;
+    float: left;
+    font-size: 1.1em;
+    padding-right: 15px;
+}
+
+#PO_no DIV {
+    width: 280px;
+    border-bottom: 1px grey solid;
+}
+
+#PO_no span {
+    width: 80px;
+    text-align: right;
+    padding: 2px 5px;
+    background-color: rgb(93, 105, 117);
+    color: white;
+    line-height: 1.5em;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#quotation_title {
+    color: white;
+    background-color: rgb(43, 121, 197);
+    font-size: 3em;
+    float: right;
+    margin-right: 20px;
+    padding: 8px 20px;
+}
+
+#customer {
+    margin-top: -30px;
+}
+
+#customer_info {
+    margin-top: 5px;
+    float: left;
+    font-size: 1.2em;
+    line-height: 1.5em;
+}
+
+#iboard_logo {
+    height: 40px;
+    padding-left: 20px;
+}
+
+#company {
+    padding: 5px;
+    border-left: 2px black solid;
+    width: 40%;
+    line-height: 1.3em;
+    margin-right: 30px;
+    float: right;
+    font-size: 1.1em;
+    position: relative;
+
+}
+
+#company_stamp {
+    right: 5px;
+    top: 15px;
+    height: 100px;
+    position: absolute;
+    margin-top: 65px;
+    margin-right: -10px;
+}
+
+#salesman {
+    margin: 15px 10px auto auto;
+}
+
+#quotation_info {
+    margin-top: 10px;
+    padding: 5px;
+    width: 45%;
+    line-height: 1.5em;
+    margin-right: 10px;
+    float: left;
+}
+
+#qutation_title {
+    background-color: black;
+    font-size: 1.3em;
+    color: white;
+    margin-right: -4px;
+    border: 2px solid black;
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+}
+
+#qutation_price {
+    font-size: 1.3em;
+    border: 2px solid black;
+    width: 160px;
+    display: inline-block;
+    padding: 5px;
+    text-align: right;
+}
+
+#qutation_condition {
+    margin-top: 5px;
+}
+
+#qutation_condition span {
+    width: 120px;
+    text-align: right;
+    color: rgb(93, 105, 117);
+    line-height: 1.5em;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.hideme{
+    display: none;
+}
+.text_quot_price{
+    width: 70px;
+}
+
+.light_right_border{
+    border-right: 1px dotted rgba(143, 143, 143, 0.3);
+}
+.to-right{
+    text-align: right;
+}
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table tr:nth-child(2n-1) td {
+    background: rgb(245, 245, 245);
+}
+
+td {
+    padding: 3px;
+    text-align: center;
+    border-bottom: 1px solid rgba(143, 143, 143, 0.3);
+}
+
+.order th {
+    text-align: center;
+    padding: 1px;
+    color: white;
+    height: 20px;
+    font-weight: normal;
+    border-bottom: 1px rgb(193, 206, 217) solid;
+    border-top: 1px rgb(193, 206, 217) solid;
+    white-space: nowrap;
+    background-color: rgb(43, 121, 197);
+}
+
+table .service {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+table td.service {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table .catalogue {
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+table .desc {
+    width: 350px;
+    text-align: center;
+    vertical-align: middle;
+}
+table td.desc {
+    text-align: left;
+    vertical-align: middle;
+}
+table span　.invoice_product{
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+table .unit_price {
+    width:100px;
+    border-right: 1px dotted rgba(143, 143, 143, 0.3);
+}
+table .quot_price {
+    width: 100px;
+}
+table td.quot {
+    width: 80px;
+}
+
+table .quot a{
+    text-decoration: none;
+}
+table .total_sp_price {
+    width: 120px;
+}
+table td.qty {
+    width: 50px;
+}
+
+table td.total {
+    font-size: 1.2em;
+}
+
+table td.grand {
+    border-top-color: rgb(93, 105, 117);
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+.grand_total_special{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+#notices {
+    border-radius: 5px 5px 0px 0px;
+    border: 2px solid rgb(43, 121, 197);
+    border-image: none;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#notices .title {
+    padding: 5px;
+    color: white;
+    line-height: 1.2em;
+    font-size: 1.2em;
+    background-color: rgb(43, 121, 197);
+}
+
+#notices .notice {
+    padding: 5px;
+    color: rgb(93, 105, 117);
+    line-height: 1.2em;
+    font-size: 1em;
+}
+
+.sign{
+    position: relative;
+}
+
+.QRcode{
+    position: absolute;
+}
+#author {
+    position: absolute;
+    right: 50px;
+    top:100px;
+    width: 60%;
+    border-bottom-color: black;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    float: right;
+}
+
+
+/*footer {*/
+    /*color: #5D6975;*/
+    /*width: 100%;*/
+    /*height: 30px;*/
+    /*position: absolute;*/
+    /*bottom: 50px;*/
+    /*border-top: 1px solid #C1CED9;*/
+    /*padding: 8px 0;*/
+    /*text-align: center;*/
+/*}*/

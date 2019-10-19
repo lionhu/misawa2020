@@ -1,0 +1,11 @@
+project/supervisord.log
+.DS_Store
+project/logs/
+.idea/
+/project/log/
+/system/pgdata/
+/system/mysql/
+/system/pgdata_empty/
+/system/redis/redis_data/
+/project/project/settings.py
+
