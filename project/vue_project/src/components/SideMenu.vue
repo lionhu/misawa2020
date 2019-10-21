@@ -74,6 +74,9 @@
           </a>
           <ul class="treeview-menu" style="display: none;">
             <li>
+              <router-link :to="{ name: 'mydsorderlist', params: {type:'userdsorderlist' }}">{{$t('m.dsorder')}}</router-link>
+            </li>
+            <li>
               <router-link :to="{ name: 'myorderlist', params: {type:'userorderlist' }}">{{$t('m.order')}}</router-link>
             </li>
             <li><router-link :to="{ name: 'myofferlist', params: { }}">{{$t('m.offer')}}</router-link></li>

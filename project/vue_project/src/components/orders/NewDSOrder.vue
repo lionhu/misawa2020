@@ -25,7 +25,9 @@
           <div class="box box-solid bg-dark">
             <div class="box-header with-border">
               <h3 class="box-title">{{$t("m.exchange")}}</h3>
-
+              <h3 class="box-title pull-right text-warning">
+                  <router-link :to="{ name: 'mydsorderlist'}"><i class="fa fa-fw fa-list"></i></router-link>
+              </h3>
               <div class="box-tools pull-right">
 
               </div>

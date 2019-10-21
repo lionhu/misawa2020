@@ -3,6 +3,7 @@ export const m = {
   new_order: '新订单',//网易云音乐
   my_transactions: '我的交易履历',//发现音乐
   order: '挂单',//我的音乐
+  dsorder: '固定汇率交易',//我的音乐
   offer: '拍单',//朋友
   transactions:"市场挂单一览",
 

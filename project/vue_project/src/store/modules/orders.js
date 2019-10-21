@@ -7,7 +7,9 @@ const state = {
     MyOrderList:[],
     MyOrder_summary:{},
     MyOfferList:[],
-    MyOffer_summary:{}
+    MyOffer_summary:{},
+    MyDSOrderList:[],
+    MyDSOrder_summary:{},
 };
 
 // getters
@@ -72,21 +74,6 @@ const actions = {
         })
     },
 
-    post_new_dsorder({ commit },params) {
-        console.log("post_new_order");
-        return new Promise((resolve,reject)=>{
-            ordersAPI.post_new_dsorder(params,
-                res => {
-                    console.log(res.data.success)
-                    if(res.data.success){
-                        resolve(true)
-                    }
-                },err =>{
-                    console.log(err)
-                }
-            );
-        })
-    },
     get_singleorder({ commit },slug) {
         return new Promise((resolve,reject)=>{
             ordersAPI.get_singleorder(slug,
@@ -151,7 +138,55 @@ const actions = {
                 }
             );
         })
-    }
+    },
+
+
+    post_new_dsorder({ commit },params) {
+        console.log("post_new_order");
+        return new Promise((resolve,reject)=>{
+            ordersAPI.post_new_dsorder(params,
+                res => {
+                    console.log(res.data.success)
+                    if(res.data.success){
+                        resolve(true)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+    },
+    get_my_dsorderlist({commit}){
+        return new Promise(function(resolve,reject){
+            ordersAPI.get_my_dsorders(
+                res => {
+                    if(res.data.success){
+                        commit("setMyDSOrderList",res.data);
+                        resolve(res.data)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+
+    },
+    delete_dsorder({commit},slug){
+        return new Promise(function(resolve,reject){
+            ordersAPI.delete_dsorder(slug,
+                res => {
+                    if(res.data.success){
+                        commit("RemoveDSOrderFromList",res.data.slug)
+                        resolve(res.data)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+
+    },
+
 };
 
 const mutations = {
@@ -162,6 +197,18 @@ const mutations = {
     setMyOrderList(state,data){
         state.MyOrderList=data.data.orders;
         state.MyOrder_summary=data.order_summary
+    },
+    setMyDSOrderList(state,data){
+        state.MyDSOrderList=data.orders;
+        state.MyDSOrder_summary=data.order_summary
+    },
+    RemoveDSOrderFromList(state,slug){
+        const _index=state.MyDSOrderList.findIndex(order => order.slug==slug)
+
+        if (_index>-1){
+            state.MyDSOrderList.splice(_index,1)
+        }
+
     },
     setMyOfferList(state,data){
         state.MyOfferList=data.offers;
