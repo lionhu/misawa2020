@@ -35,6 +35,8 @@ export const m = {
   avatar:"avatar",
   select_language:"言語を選んでください",
   selected_lanaguage:"選んだ言語は　",
+  select_avatar:"写真を選んでください",
+  uploaded_avatar:"プロフィル写真が更新された！",
 
 
   trade_introduction:"利用手引き",
