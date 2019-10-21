@@ -126,7 +126,7 @@ services:
     container_name: web_nginx
     # build: .
     ports:
-      - "80:80"
+      - "2080:80"
       - "8081:8081"
       - "8001:8001"
       # - "6666:8888"
