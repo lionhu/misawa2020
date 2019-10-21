@@ -12,7 +12,7 @@ import {setToken,getToken} from "./lib/util.js"
 
 Vue.use(VueI18n) // 通过插件的形式挂载
 const i18n = new VueI18n({
-    locale: getToken("lang"),    // 语言标识
+    locale: "jp",    // 语言标识
     //this.$i18n.locale // 通过切换locale的值来实现语言切换
     messages: {
       'zh_CN': require('./common/lang/zh'),   // 中文语言包

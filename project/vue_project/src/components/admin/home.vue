@@ -21,7 +21,8 @@
     },
     computed:{
     },
-    created() {
+    mounted() {
+      this.checkIsAdmin()
     },
     methods: {
       checkIsAdmin(){
@@ -30,6 +31,7 @@
         if(membership !="Admin"){
           window.location.href="/exrate"
         }
+        console.log("pass admin check")
       }
     },
     watch: {
