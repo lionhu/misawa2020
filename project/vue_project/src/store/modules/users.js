@@ -43,12 +43,12 @@ const actions = {
             }
         };
         const url='/api/userprofiles/'+id+'/upload_mainImage/';
-        console.log("url")
-        console.log(url)
+        // console.log("url")
+        // console.log(url)
 
         axios.post(url,formData,config)
           .then((res)=>{
-              console.log(res.data)
+              // console.log(res.data)
               commit("set_mainImage",res.data)
           }).catch(function(error){
               console.log(error)

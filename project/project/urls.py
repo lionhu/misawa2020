@@ -12,6 +12,7 @@ from mail_exchange.viewsets  import OrderViewSet as AuctionOrderViewSet,OfferVie
 from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet
 from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet
+from ds_exchange.viewsets import DSOrderViewSet
 from rest_framework_swagger.views import get_swagger_view
 schema_view = get_swagger_view(title='Pastebin API')
 
@@ -19,6 +20,7 @@ schema_view = get_swagger_view(title='Pastebin API')
 
 router = routers.DefaultRouter()
 router.register('userprofiles', UserProfileViewSet)
+router.register('ds_order', DSOrderViewSet)
 router.register('auction_order', AuctionOrderViewSet)
 router.register('autcion_offer', AuctionOfferViewSet)
 router.register('autcion_transaction', TransactionViewSet)
