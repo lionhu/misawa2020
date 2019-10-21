@@ -33,9 +33,18 @@ export default {
         })
     },
 
-	post_new_order(params,cb, errorCb){
+    post_new_order(params,cb, errorCb){
         console.log("post_new_order")
         axios.post('/api/auction_order/',params)
+        .then((res)=>{
+            cb(res)
+        }).catch(function(error){
+            errorCb(error)
+        })
+    },
+    post_new_dsorder(params,cb, errorCb){
+        console.log("post_new_dsorder")
+        axios.post('/api/ds_order/',params)
         .then((res)=>{
             cb(res)
         }).catch(function(error){

@@ -19,6 +19,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     amount = models.IntegerField(default=0)
+    bonuspoint = models.IntegerField(default=0)
     from_currency = models.CharField(max_length=3,default="jpy")
     to_currency = models.CharField(max_length=3,default="rmb")
     due_at = models.DateTimeField(null=False,blank=False,default= datetime.datetime.now()+datetime.timedelta(hours=72))

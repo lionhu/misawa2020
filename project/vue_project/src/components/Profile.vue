@@ -4,8 +4,6 @@
         <div class="col-xl-4 col-lg-5 text-center">
           <div class="box bg-yellow bg-deathstar-dark">
             <div class="box-body box-profile">
-<!--               <img class="profile-user-img rounded img-fluid mx-auto d-block" :src="ME.avatar" alt="User profile picture"> -->
-
                <div class="image" :style="'background-image:url('+ME.avatar+');background-size:cover;border:2px silver solid;border-radius:100%;height:240px;width:240px;margin:auto;'">
               </div>
 
@@ -27,7 +25,7 @@
               <div class="box-header with-border">
                 <h3 class="box-title">Trust Relationship</h3>
                 <div class="row">
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-12">
                       <a class="box box-body box-inverse box-primary pull-up bg-hexagons-white" href="#">
                         <div class="flexbox align-items-center">
                           <div>
@@ -38,7 +36,7 @@
                         </div>
                       </a>
                     </div>
-                    <div class="col-md-6 col-lg-4">
+<!--                     <div class="col-md-6 col-lg-4">
                       <a class="box box-body box-inverse box-primary pull-up bg-hexagons-white" href="#">
                         <div class="flexbox align-items-center">
                           <div>
@@ -59,7 +57,7 @@
                           <img class="avatar avatar-lg avatar-bordered" :src="profile.partner.profile.avatar" alt="..." style="width:80px;height:80px;">
                         </div>
                       </a>
-                    </div>
+                    </div> -->
                 </div>
               </div>
           </div>
@@ -315,7 +313,7 @@
           formData.append('id_image', this.profile.id_image)
         }
 
-        console.log(this.ME.user.id)
+        // console.log(this.ME.user.id)
         if(this.profile.avatar !="" || this.profile.id_image!=""){
             this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData});
             this.ME=this.$store.state.users.profile;

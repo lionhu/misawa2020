@@ -126,6 +126,15 @@ const router = new Router({
             }
         },
         {
+            path: '/dsorder/new',
+            name:"newdsorder",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent: loadView("orders/NewDSOrder.vue")
+            }
+        },
+        {
             path: '/resetpassword',
             name:"resetpassword",
             components:{

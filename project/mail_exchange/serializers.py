@@ -60,6 +60,8 @@ class OrderSerializer(serializers.ModelSerializer):
         del validated_data['user_id']
 
         validated_data['slug'] = str(uuid.uuid4())
+        validated_data["bonuspoint"]=int(settings.AUCTION_ORDER_BONUS_JPY)*validated_data["amount"]
+
         return Order.objects.create(**validated_data)
 
     def update(self, instance, validated_data):

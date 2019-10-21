@@ -1,6 +1,9 @@
 # Dockerfile
 FROM php:7.3.0-fpm-alpine3.8
 
+COPY php.ini /usr/local/etc/php/
+RUN mkdir -p /usr/local/lib/php/modules
+
 RUN apk upgrade --update && apk --no-cache add \
     # iconv, intl
     icu-dev \
@@ -10,6 +13,7 @@ RUN apk upgrade --update && apk --no-cache add \
 RUN docker-php-ext-install  -j$(nproc) iconv intl mbstring pdo_mysql opcache && \
   pecl install xdebug-2.7.0beta1 && \
   docker-php-ext-enable xdebug
+
 
 RUN { \
   echo 'upload_max_filesize = 100M'; \

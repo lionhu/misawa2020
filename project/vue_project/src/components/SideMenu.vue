@@ -25,6 +25,10 @@
       </div>
       <ul class="sidebar-menu" data-widget="tree">
         <li class="nav-devider"></li>
+        <li class="header nav-small-cap">
+          <router-link class="text-center font-weight-600 font-size-30" :to="{ name: 'newdsorder'}" style="background-color:#964848">
+            Fixed Rate</router-link>
+          </li>
         <li class="header nav-small-cap">PERSONAL</li>
         <li class="">
           <router-link :to="{ name: 'home', params: { }}">

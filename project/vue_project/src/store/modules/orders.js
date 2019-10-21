@@ -72,6 +72,21 @@ const actions = {
         })
     },
 
+    post_new_dsorder({ commit },params) {
+        console.log("post_new_order");
+        return new Promise((resolve,reject)=>{
+            ordersAPI.post_new_dsorder(params,
+                res => {
+                    console.log(res.data.success)
+                    if(res.data.success){
+                        resolve(true)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+    },
     get_singleorder({ commit },slug) {
         return new Promise((resolve,reject)=>{
             ordersAPI.get_singleorder(slug,
