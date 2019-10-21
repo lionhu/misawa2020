@@ -7,14 +7,21 @@
 export default {
     // User opertion related
     get_myprofile(cb, errorCb){
-    	// console.log(axios.defaults.headers)
         axios.get('/api/userprofiles/get_myprofile/')
         .then((res)=>{
-            console.log("get profile");
-            console.log(res);
              cb(res);
         }).catch(function(error){
             errorCb(error);
         });
-    }
+    },
+
+    // Admin Users functions
+    getUserList(cb, errorCb){
+        axios.get('/api/userprofiles/Admin_UserList/')
+        .then((res)=>{
+             cb(res);
+        }).catch(function(error){
+            errorCb(error);
+        });
+    },
 };

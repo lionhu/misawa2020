@@ -11,7 +11,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
    class Meta:
        model = UserProfile
-       fields = ('organization',"avatar", 'telephone', )
+       fields = "__all__"
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)

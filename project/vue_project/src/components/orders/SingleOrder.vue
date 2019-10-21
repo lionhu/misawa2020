@@ -77,7 +77,7 @@
       </div>
       <div class="box-footer" v-if="!isOrderOwner && order.status=='new'">
         <button class="btn btn-lg btn-success pull-right" @click="buyOrder">Buy</button>
-        <button class="btn btn-lg btn-danger pull-left" @click="deleteOffer">Delete My Offer</button>
+<!--         <button class="btn btn-lg btn-danger pull-left" @click="deleteOffer">Delete My Offer</button> -->
       </div>
     </div>
     <div class="box box-inverse box-dark">

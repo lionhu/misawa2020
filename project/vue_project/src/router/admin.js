@@ -10,16 +10,33 @@ function loadView(view) {
   return ()=>import(/* webpackChunkName: "../../static/bundles/admin/[request]" */`../components/admin/${view}.vue`)
 }
 
-
 const router = new Router({
   routes:[
         {
             path: '/',
             name:"home",
             components:{
-                // topmenu:loadView("TopMenu.vue"),
-                // sidemenu:loadView("SideMenu.vue"),
-                maincontent:loadView("home")
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("Home")
+            }
+        },
+        {
+            path: '/orders',
+            name:"orders",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("Orders")
+            }
+        },
+        {
+            path: '/users',
+            name:"users",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("Users")
             }
         },
     ]
@@ -33,6 +50,7 @@ router.beforeEach((to, from, next) => {
   if (token) {
       store.dispatch('users/authorization',token).then(rules => {
         const membership=store.state.users.profile.membership
+        console.log(membership)
         if(membership!="Admin"){
             window.location.href="/exrate"
         }else{
@@ -47,10 +65,12 @@ router.beforeEach((to, from, next) => {
         window.location.href="/member/#/login/"
       })
   } else {
-    if (to.name == 'login' || to.name=="signup" || to.name=="resetpassword"){
+    const safe_routers=["login","logout","resetpassword"]
+    var check_safe_router=safe_routers.findIndex(router => router==to.name)
+    console.log(check_safe_router)
+    if(check_safe_router>-1){
         next()
     }else{
-        // next({ name: 'login' })
         window.location.href="/member/#/login/"
     }
   }
