@@ -4,8 +4,11 @@ from django.contrib.auth.backends import ModelBackend
 # Create your views here.
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.http import Http404
 from .models import UserProfile,fun_sql_cursor_update
-from .serializers import UserProfileSerializerV1, UserProfileSerializer_Full,UserProfileSerializer,UserSerializer,UserProfileMainImageSerializer,UserProfileSocialSerializer
+from .serializers import UserProfileSerializerV1, UserProfileSerializer_Full, \
+    UserProfileSerializer,UserSerializer,UserProfileMainImageSerializer, \
+    UserProfileSocialSerializer,UserSerializer_WithFullProfile
 from .exceptions import InvalidUserSignupParams
 from rest_framework import viewsets,status
 from rest_framework import parsers
@@ -30,6 +33,7 @@ from musics.tasks import EmailVerifyRecord
 from .tasks import sendPasswordResetEmail
 from .models import EmailPasswordReset
 from musics.tasks import sendEmail_newuser_registered
+from env_system.permissions import IsAdmin
 
 logger=logging.getLogger("error_logger")
 
@@ -85,13 +89,21 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
 
 
-    @list_route(methods=['get'])
-    def test_lionhu(self,request,format=None):
-        content={
-            "status":"lionhu know"
-        }
+    @list_route(methods=['get'], permission_classes=[IsAdmin])
+    def Admin_UserList(self,request,format=None):
+        users=User.objects.all()
 
-        return Response(content)
+        if users is not None:
+
+            serializer=UserSerializer(users,many=True)
+            content={
+                "success":True,
+                "users":serializer.data
+            }
+
+            return Response(content,status=status.HTTP_200_OK)
+        else:
+            raise Http404
 
     @detail_route(methods=['put'])
     def sql_cursor_update(self, request, pk=None):

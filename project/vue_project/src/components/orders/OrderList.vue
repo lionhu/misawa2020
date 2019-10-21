@@ -41,15 +41,6 @@
                 @row-click="SelectOrder"
                 :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                 style="width: 100%">
-<!--                 <el-table-column type="expand">
-                  <template slot-scope="props">
-                    <el-form label-position="left" inline class="demo-table-expand flex flex-justified">
-                      <span>User:</span>{{ props.row.user.username }} <br>
-                      <span>Due at:</span>{{ props.row.due_at }}
-                    </el-form>
-                  </template>
-                </el-table-column> -->
-
                 <el-table-column
                   sortable
                   prop="from_currency"
@@ -76,11 +67,6 @@
                   label="Rate"
                   align="right">
                 </el-table-column>
-<!--                 <el-table-column
-                  sortable
-                  prop="user.username"
-                  label="User">
-                </el-table-column> -->
                 <el-table-column
                   sortable
                   prop="status"

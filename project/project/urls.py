@@ -22,8 +22,8 @@ router = routers.DefaultRouter()
 router.register('userprofiles', UserProfileViewSet)
 router.register('ds_order', DSOrderViewSet)
 router.register('auction_order', AuctionOrderViewSet)
-router.register('autcion_offer', AuctionOfferViewSet)
-router.register('autcion_transaction', TransactionViewSet)
+router.register('auction_offer', AuctionOfferViewSet)
+router.register('auction_transaction', TransactionViewSet)
 router.register('bonus', BonusViewSet)
 router.register('bonus_details', BonusDetailViewSet)
 router.register('bankrate', BankRateViewSet)
@@ -60,7 +60,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="coming_soon.html")),
     path('member/', TemplateView.as_view(template_name="vue_single.html")),
     path('exrate/', TemplateView.as_view(template_name="vue.html")),
-    path('backyard/', TemplateView.as_view(template_name="vue_admin.html")),
+    path('superadmin/', TemplateView.as_view(template_name="vue_admin.html")),
     path('shoptop/', TemplateView.as_view(template_name="shop_top.html")),
     path('shop/', TemplateView.as_view(template_name="shop.html")),
     path('chat/', include('chat.urls')),

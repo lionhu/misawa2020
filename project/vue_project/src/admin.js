@@ -27,7 +27,7 @@ import './style/mystyle.scss';
 
 import App from './App.vue';
 import router from './router/admin.js'
-import store from "./store/index";
+import store from "./store/admin";
 import msaFilters from './api/plugins/filters';
 Vue.filter('currency', msaFilters.currency);
 Vue.filter('currency_jpy', msaFilters.currency_jp);

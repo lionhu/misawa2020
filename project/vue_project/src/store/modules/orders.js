@@ -172,18 +172,15 @@ const actions = {
 
     },
     delete_dsorder({commit},slug){
-        return new Promise(function(resolve,reject){
-            ordersAPI.delete_dsorder(slug,
-                res => {
-                    if(res.data.success){
-                        commit("RemoveDSOrderFromList",res.data.slug)
-                        resolve(res.data)
-                    }
-                },err =>{
-                    console.log(err)
+        ordersAPI.delete_dsorder(slug,
+            res => {
+                if(res.data.success){
+                    commit("RemoveDSOrderFromList",res.data.slug)
                 }
-            );
-        })
+            },err =>{
+                console.log(err)
+            }
+        );
 
     },
 

@@ -90,20 +90,16 @@
           })
             .then((jwt_token) => {
               console.log("login success!!");
-              // let jwt_token = localStorage.getItem("jwt_token");
-              
-              window.axios.defaults.headers.Authorization=`jwt ` + jwt_token
-              
 
-              // console.log(window.axios.defaults.headers.Authorization);
-              // this.$router.push({
-              //   name: "home"
-              // });
+              window.axios.defaults.headers.Authorization=`jwt ` + jwt_token
+
               this.$store.dispatch("users/get_myprofile").then(
                 resolve=>{
-                  // console.log(resolve) //profile get 
-              //     console.log(this.$store.state.users.ME)
-                    window.location.href="/exrate/"
+                    if(resolve.membership=="Admin"){
+                      window.location.href="/superadmin/"
+                    }else{
+                      window.location.href="/exrate/"
+                    }
                 },rejecte=>{});
 
             })
