@@ -35,6 +35,8 @@ export const m = {
   avatar:"头像",
   select_language:"请选择语言",
   selected_lanaguage:"您选择了语言为：",
+  select_avatar:"选择头像照片",
+  uploaded_avatar:"上传后的头像",
 
 
   trade_introduction:"使用介绍",

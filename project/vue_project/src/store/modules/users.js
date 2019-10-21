@@ -43,19 +43,17 @@ const actions = {
             }
         };
         const url='/api/userprofiles/'+id+'/upload_mainImage/';
-        // console.log("url")
-        // console.log(url)
+        return new Promise((resolve,reject)=>{
+            axios.post(url,formData,config)
+            .then((res)=>{
+                commit("set_mainImage",res.data)
+                resolve(true)
+            }).catch(function(error){
+                console.log(error)
+            })
+        })
 
-        axios.post(url,formData,config)
-          .then((res)=>{
-              // console.log(res.data)
-              commit("set_mainImage",res.data)
-          }).catch(function(error){
-              console.log(error)
-          })
     },
-  updateUserName ({ commit, state, rootState, dispatch }) {
-  },
   login ({ commit }, { userName, password }) {
     return new Promise((resolve, reject) => {
       login({ userName, password }).then(res => {

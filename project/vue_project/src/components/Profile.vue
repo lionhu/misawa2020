@@ -4,8 +4,11 @@
         <div class="col-xl-4 col-lg-5 text-center">
           <div class="box bg-yellow bg-deathstar-dark">
             <div class="box-body box-profile">
-               <div class="image" :style="'background-image:url('+ME.avatar+');background-size:cover;border:2px silver solid;border-radius:100%;height:240px;width:240px;margin:auto;'">
-              </div>
+              <a href="javascript:void(0);" @click="selectProfileAvatar">
+                   <div class="image" :style="'background-image:url('+ME.avatar+');background-size:cover;border:2px silver solid;border-radius:100%;height:160px;width:160px;margin:auto;'">
+                  </div>
+              </a>
+
 
               <h2 class="profile-username text-center mb-0">{{ME.user.username}}</h2>
 
@@ -61,12 +64,12 @@
                 </div>
               </div>
           </div>
-          <div class="box box-solid bg-black">
-              <div class="box-header with-border">
+          <!-- <div class="box box-solid bg-black"> -->
+<!--               <div class="box-header with-border">
                 <h3 class="box-title">{{$t("m.personal_info")}}</h3>
-              </div>
+              </div> -->
               <!-- /.box-header -->
-              <div class="box-body">
+<!--               <div class="box-body">
                 <div class="row">
                     <div class="col-12">
                       <div class="form-group row">
@@ -77,7 +80,7 @@
                         <div class="col-sm-6">
                           <img v-if="profile.imageUrl" :src="profile.imageUrl" class="avatar">
                         </div>
-                      </div>
+                      </div> -->
 <!--                       <div class="form-group row">
                         <label class="col-sm-2 col-form-label">ID Image</label>
                         <div class="col-sm-10">
@@ -87,16 +90,16 @@
                           <img v-if="profile.id_imageUrl" :src="profile.id_imageUrl" class="avatar" style="width:100%">
                         </div>
                       </div> -->
-                      <div class="form-group row">
+<!--                       <div class="form-group row">
                         <label class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-10 text-right">
                         <button  @click="submit_update_profile" class="btn btn-yellow">{{$t("m.submit")}}</button>
                         </div>
                       </div>
-                    </div>
-                </div>
+                    </div> -->
+<!--                 </div>
               </div>
-          </div>
+          </div> -->
 <!--           <div class="box box-solid bg-black">
               <div class="box-header with-border">
                 <h3 class="box-title">Personal Social Contact</h3>
@@ -195,9 +198,6 @@
       token(){
               return this.$store.state.system.token;
       },
-      // myprofile(){
-      //     return this.$store.state.users.profile;
-      // },
     },
 
     mounted() {
@@ -257,124 +257,178 @@
             } 
             return out; 
         },
-      selectedFile(e){
-        e.preventDefault();
-        // console.log(e.target.name)
-        let files = e.target.files;
-        let file = files[0];
+        async selectProfileAvatar(){
+          const { value: file } = await Swal.fire({
+            title: this.$t("m.select_avatar"),
+            input: 'file',
+            inputAttributes: {
+              accept: 'image/*',
+              'aria-label': 'Upload your profile picture'
+            }
+          })
 
-        const isJPGPNG = file.type === 'image/jpeg' || file.type ==='image/png';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+          if (file && this.checkfile(file)){
+              let formData = new FormData();
+              formData.append('avatar', file)
 
-        if (!isJPGPNG) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: '上传头像图片只能是 JPG 格式!'
-            })
-        }
-        if (!isLt2M) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: '上传头像图片大小不能超过 2MB!'
-            })
-        }
-
-        if (isJPGPNG && isLt2M){
-          switch(e.target.name){
-            case "wechat":          
-                this.profile.wechat = file;
-                this.profile.wechatUrl = URL.createObjectURL(this.profile.wechat);
-                break;
-            case "line":          
-                this.profile.line = file;
-                this.profile.lineUrl = URL.createObjectURL(this.profile.line);
-                break;
-            case "avatar":          
-                this.profile.avatar = file;
-                this.profile.imageUrl = URL.createObjectURL(this.profile.avatar);
-                break;
-            case "id_image":          
-                this.profile.id_image = file;
-                this.profile.id_imageUrl = URL.createObjectURL(this.profile.id_image);
-                // console.log(this.profile.id_image)
-                // console.log(this.profile.id_imageUrl)
-                break;
+              this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData}).then(resolve=>{
+                    this.ME=this.$store.state.users.profile;
+                    const reader = new FileReader()
+                    reader.onload = (file) => {
+                      Swal.fire({
+                        title: this.$t("m.uploaded_avatar"),
+                        imageUrl: file.target.result,
+                        imageAlt: 'The uploaded picture'
+                      })
+                    }
+                    reader.readAsDataURL(file)
+              },reject=>{})
           }
-        }    
-      },
-      submit_update_profile(){
-        let formData = new FormData();
-        if (this.profile.avatar){
-          formData.append('avatar', this.profile.avatar)
-        }
-        if (this.profile.id_image){
-          formData.append('id_image', this.profile.id_image)
-        }
+        },
+        checkfile(file){
+          const isJPGPNG = file.type === 'image/jpeg' || file.type ==='image/png';
+          const isLt2M = file.size / 1024 / 1024 < 2;
 
-        // console.log(this.ME.user.id)
-        if(this.profile.avatar !="" || this.profile.id_image!=""){
-            this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData});
-            this.ME=this.$store.state.users.profile;
-            Swal.fire({
-              title: 'Success!',
-              text: 'Upload main successfully',
-              type: 'success',
-              confirmButtonText: 'OK'
-            })
-        }else{
-          Swal.fire({
-              title: 'Error!',
-              text: 'Nothing changed',
-              type: 'error',
-              confirmButtonText: 'OK'
-            })
-        }
+          if (!isJPGPNG) {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: '上传头像图片只能是 JPG 格式!'
+              })
+              return false
+          }
+          if (!isLt2M) {
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: '上传头像图片大小不能超过 2MB!'
+              })
+              return false
+          }
+          return true
+        },
+      // selectedFile(e){
+      //   e.preventDefault();
+      //   // console.log(e.target.name)
+      //   let files = e.target.files;
+      //   let file = files[0];
 
-      },
-      submit_update_social(){
-        let formData = new FormData();
-        if (this.profile.line){
-          formData.append('line', this.profile.line)
-        }
-        if (this.profile.wechat){
-          formData.append('wechat', this.profile.wechat)
-        }
+      //   const isJPGPNG = file.type === 'image/jpeg' || file.type ==='image/png';
+      //   const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if(this.profile.line!="" || this.profile.wechat!=""){
-            this.$store.dispatch("users/upload_mainImage",formData);
-            this.ME=this.$store.state.users.profile;
-            Swal.fire({
-              title: 'Success!',
-              text: 'Upload main successfully',
-              type: 'success',
-              confirmButtonText: 'OK'
-            })
-        }else{
-          Swal.fire({
-              title: 'Error!',
-              text: 'Nothing changed',
-              type: 'error',
-              confirmButtonText: 'OK'
-            })
-        }
+      //   if (!isJPGPNG) {
+      //       Swal.fire({
+      //         type: 'error',
+      //         title: 'Oops...',
+      //         text: '上传头像图片只能是 JPG 格式!'
+      //       })
+      //   }
+      //   if (!isLt2M) {
+      //       Swal.fire({
+      //         type: 'error',
+      //         title: 'Oops...',
+      //         text: '上传头像图片大小不能超过 2MB!'
+      //       })
+      //   }
 
-      },
+      //   if (isJPGPNG && isLt2M){
+      //     switch(e.target.name){
+      //       case "wechat":          
+      //           this.profile.wechat = file;
+      //           this.profile.wechatUrl = URL.createObjectURL(this.profile.wechat);
+      //           break;
+      //       case "line":          
+      //           this.profile.line = file;
+      //           this.profile.lineUrl = URL.createObjectURL(this.profile.line);
+      //           break;
+      //       case "avatar":          
+      //           this.profile.avatar = file;
+      //           this.profile.imageUrl = URL.createObjectURL(this.profile.avatar);
+      //           break;
+      //       case "id_image":          
+      //           this.profile.id_image = file;
+      //           this.profile.id_imageUrl = URL.createObjectURL(this.profile.id_image);
+      //           // console.log(this.profile.id_image)
+      //           // console.log(this.profile.id_imageUrl)
+      //           break;
+      //     }
+      //   }    
+      // },
+      // submit_update_profile(){
+      //   let formData = new FormData();
+      //   if (this.profile.avatar){
+      //     formData.append('avatar', this.profile.avatar)
+      //   }
+      //   if (this.profile.id_image){
+      //     formData.append('id_image', this.profile.id_image)
+      //   }
+
+      //   // console.log(this.ME.user.id)
+      //   if(this.profile.avatar !="" || this.profile.id_image!=""){
+      //       this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData});
+      //       this.ME=this.$store.state.users.profile;
+      //       Swal.fire({
+      //         title: 'Success!',
+      //         text: 'Upload main successfully',
+      //         type: 'success',
+      //         confirmButtonText: 'OK'
+      //       })
+      //   }else{
+      //     Swal.fire({
+      //         title: 'Error!',
+      //         text: 'Nothing changed',
+      //         type: 'error',
+      //         confirmButtonText: 'OK'
+      //       })
+      //   }
+
+      // },
+      // submit_update_social(){
+      //   let formData = new FormData();
+      //   if (this.profile.line){
+      //     formData.append('line', this.profile.line)
+      //   }
+      //   if (this.profile.wechat){
+      //     formData.append('wechat', this.profile.wechat)
+      //   }
+
+      //   if(this.profile.line!="" || this.profile.wechat!=""){
+      //       this.$store.dispatch("users/upload_mainImage",formData);
+      //       this.ME=this.$store.state.users.profile;
+      //       Swal.fire({
+      //         title: 'Success!',
+      //         text: 'Upload main successfully',
+      //         type: 'success',
+      //         confirmButtonText: 'OK'
+      //       })
+      //   }else{
+      //     Swal.fire({
+      //         title: 'Error!',
+      //         text: 'Nothing changed',
+      //         type: 'error',
+      //         confirmButtonText: 'OK'
+      //       })
+      //   }
+
+      // },
     }
 };
 
 </script>
 
-<style lang="scss">
-    #app {
+<style>
+/*    #app {
         font-family: "Avenir", Helvetica, Arial, sans-serif;
 
         h1 {
             color: #CC3333;
         }
+    }*/
+    .swal2-image{
+      height:280px;
     }
-     .avatar-uploader .el-upload {
+/*     .avatar-uploader .el-upload {
+    }
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -391,7 +445,7 @@
     height: 178px;
     line-height: 178px;
     text-align: center;
-  }
+  }*/
   .avatar {
     width: 178px;
     height: 178px;
