@@ -42,16 +42,6 @@ export default {
             errorCb(error)
         })
     },
-    post_new_dsorder(params,cb, errorCb){
-        console.log("post_new_dsorder")
-        axios.post('/api/ds_order/',params)
-        .then((res)=>{
-            cb(res)
-        }).catch(function(error){
-            errorCb(error)
-        })
-    },
-
     post_createoffer(params,cb, errorCb){
         // console.log(params)
         axios.post('/api/auction_offer/',params)
@@ -102,7 +92,39 @@ export default {
         }).catch(function(error){
             errorCb(error)
         })
-    }
+    },
+
+
+
+    post_new_dsorder(params,cb, errorCb){
+        console.log("post_new_dsorder")
+        axios.post('/api/ds_order/',params)
+        .then((res)=>{
+            cb(res)
+        }).catch(function(error){
+            errorCb(error)
+        })
+    },
+
+    get_my_dsorders(cb, errorCb){
+        axios.get('/api/ds_order/listmine/')
+        .then((res)=>{
+            cb(res)
+        }).catch(function(error){
+            errorCb(error)
+        })
+    },
+
+    delete_dsorder(slug,cb, errorCb){
+        const url='/api/ds_order/'+slug+"/"
+        axios.delete(url)
+        .then((res)=>{
+            cb(res)
+        }).catch(function(error){
+            errorCb(error)
+        })
+    },
+
 
 
 };

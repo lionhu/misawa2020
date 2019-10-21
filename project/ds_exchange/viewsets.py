@@ -58,7 +58,8 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
 
     def destroy(self, request,slug=None):
         content={
-              "type":"destory order by slug",
+              "type":"destroy",
+              "success":False,
               "order":{},
               "slug":slug
             }
@@ -70,7 +71,8 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
             order.delete()
         
             content={
-              "type":"list",
+              "type":"destroy",
+              "success":True,
               "order":serializer.data,
               "slug":slug
             }
@@ -125,14 +127,22 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
     def listmine(self,request,format=None):
         orders=DSOrder.objects.filter(user=request.user)
 
-        serializer=DSOrderSerializer(orders,many=True)
+        if orders is not None:
 
-        content={
-          "type":"list user direct sell orders",
-          "order":serializer.data,
-        }
+            serializer=DSOrderSerializer(orders,many=True)
+            order_summary=DSOrder.objects.filter(user=request.user).values("from_currency").annotate(count=Count("amount"),
+            sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
-        return Response(content,status=status.HTTP_200_OK)
+            content={
+              "success":True,
+              "type":"list user direct sell orders",
+              "orders":serializer.data,
+              "order_summary":order_summary
+            }
+
+            return Response(content,status=status.HTTP_200_OK)
+        else:
+          raise Http404
 
     @detail_route(methods=['post'])
     def update_order(self, request, pk, format=None):

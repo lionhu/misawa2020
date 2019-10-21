@@ -90,6 +90,15 @@ const router = new Router({
             }
         },
         {
+            path: '/dsorder/mylist',
+            name:"mydsorderlist",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("orders/UserDSOrderList.vue")
+            }
+        },
+        {
             path: '/offer/mylist',
             name:"myofferlist",
             components:{
