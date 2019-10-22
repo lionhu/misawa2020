@@ -115,8 +115,16 @@ export default {
                 })
         });
     },
+    couponValidate: (slug) => {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/coupon/couponValidate/',{"slug":slug}).then((res)=>{
+                    resolve(res)
+                }).catch(function(error){
+                    reject(error)
+                })
+        });
+    },
     GetCustomerByPhone(phone){
-        console.log(phone)
         return new Promise((resolve, reject) => {
             axios.post('/api/address/retrieveByPhone/',{phone:phone}).then((res)=>{
                     resolve(res)

@@ -47,4 +47,10 @@ export const m = {
 
 
 
+  // shopping
+  use_coupon:"クーポンを入力してください",
+  coupon:"クーポン",
+
+
+
 }

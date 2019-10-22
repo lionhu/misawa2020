@@ -1,6 +1,6 @@
 <template>
 
-<div class="container clearfix">
+<div class="container clearfix mt-3">
     <div class="promo promo-dark promo-flat bottommargin" v-if="order_placed">
         <h3><span>Order No: </span> {{order_slug}} </h3>
         <span>Your order has been place at {{order_created_at}}</span>
@@ -8,17 +8,17 @@
 
 
     </div>
-    <div class="col_half">
+<!--     <div class="col_half">
         <div class="card">
             <div class="card-body">
-                Returning customer? <a href="login-register.html">Click here to login</a>
+                Returning customer? <a href="javascript:void(0);">Click here to login</a>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="col_half col_last">
         <div class="card">
             <div class="card-body">
-                Have a coupon? <a href="login-register.html">Click here to enter your code</a>
+                Have a coupon? <a href="javascript:void(0);" @click="userCoupon">Click here to enter your code</a>
             </div>
         </div>
     </div>
@@ -146,7 +146,7 @@
                             </td>
 
                             <td class="notopborder cart-product-name">
-                                <span class="amount">{{cart.Total | currency }}</span>
+                                <span class="amount">{{cart.summary.Total | currency }}</span>
                             </td>
                         </tr>
                         <tr class="cart_item">
@@ -155,7 +155,18 @@
                             </td>
 
                             <td class="cart-product-name">
-                                <span class="amount">{{parseInt(cart.summary.Total*0.1)|currency}}</span>
+                                <span class="amount">{{cartTax|currency}}</span>
+                            </td>
+                        </tr>
+                        <tr class="cart_item bg-danger text-white" v-if="hascoupon">
+                            <td class="cart-product-name">
+                                <strong>Coupon</strong>
+                            </td>
+
+                            <td class="cart-product-name">
+                                <span class="amount">
+                                -{{couponAmount|currency}}
+                              </span>
                             </td>
                         </tr>
                         <tr class="cart_item">
@@ -164,7 +175,7 @@
                             </td>
 
                             <td class="cart-product-name">
-                                <span class="amount color lead"><strong>{{cart.summary.Total+parseInt(cart.summary.Total*0.1)|currency}}</strong></span>
+                                <span class="amount color lead"><strong>{{CartFinalTotal|currency}}</strong></span>
                             </td>
                         </tr>
                     </tbody>
@@ -262,18 +273,75 @@
         existed_customer_slug:"",
         order_slug:"",
         order_placed:false,
-        order_created_at:""
+        order_created_at:"",
+        hascoupon:false,
+        coupon:{
+          id:"",
+          coupontype:"",
+          discount:0,
+          description:""
+        }
       }
     },
   computed: {
     cart(){
       return this.$store.state.lotteryshop.cart
+    },
+    couponAmount(){
+      if(this.hascoupon){
+        if(this.coupon.coupontype=="amount"){
+          return this.coupon.discount
+        }
+        if(this.coupon.coupontype=="ratio"){
+          console.log(this.cart.summary.Total)
+          console.log(this.coupon.discount)
+          console.log(this.cart.summary.Total*this.coupon.discount/100)
+          return parseInt(this.cart.summary.Total*this.coupon.discount/100)
+        }
+      }
+      return 0;
+    },
+    cartTax(){
+      return parseInt(this.cart.summary.Total*0.1)
+    },
+    CartFinalTotal(){
+      return this.cart.summary.Total+this.cartTax-this.couponAmount
     }
   },
   mounted() {
     this.checkIsEmptyCart()
   },
   methods: {
+    async userCoupon(){
+        Swal.fire({
+          title: this.$t("m.use_coupon"),
+          input: 'text',
+          showCancelButton: true,
+          inputPlaceholder: this.$t("m.coupon"),
+          confirmButtonText: 'OK',
+          showLoaderOnConfirm: true,
+          preConfirm: (slug) => {
+            return axios.post('/api/coupon/couponValidate/',{
+                "slug":slug
+            }).then((res)=>{
+                if(res.data.result){
+                  this.hascoupon=true
+                  return res.data.coupon
+                }else{
+                  throw new Error("invalid coupon")
+                }
+            }).catch(function(error){
+                Swal.showValidationMessage(
+                  `Request failed: ${error}`
+                )
+            })
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            Swal.fire(result.value.description)
+            this.coupon=result.value
+        })
+    },
     confirm_exist_customer(){
       if (this.address.phone.length>6){
         this.$store.dispatch("lotteryshop/getCustomerByPhone",this.address.phone).then(
@@ -319,7 +387,8 @@
                const params={
                   address:this.address,
                   note:this.note,
-                  coupon:"",
+                  coupon:this.coupon.id,
+                  discount:this.couponAmount,
                   existed_customer:this.existed_customer,
                   existed_customer_slug:this.existed_customer_slug,
                }
