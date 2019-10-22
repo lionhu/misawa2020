@@ -39,7 +39,7 @@ import router from './router/index'
 import store from "./store/index";
 import msaFilters from './api/plugins/filters';
 Vue.filter('currency', msaFilters.currency);
-Vue.filter('currency_jpy', msaFilters.currency_jp);
+Vue.filter('currency_jpy', msaFilters.currency_jpy);
 Vue.filter('currency_rmb', msaFilters.currency_rmb);
 Vue.filter('filterUsername', msaFilters.filterUsername);
 

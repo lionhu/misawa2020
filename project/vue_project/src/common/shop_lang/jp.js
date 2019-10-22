@@ -32,5 +32,13 @@ export const m = {
   personal_info:"個人情報設定",
   avatar:"avatar",
   select_language:"言語を選んでください",
-  selected_lanaguage:"選んだ言語は　"
+  selected_lanaguage:"選んだ言語は　",
+
+  // shopping
+  use_coupon:"クーポンを入力してください",
+  coupon:"クーポン",
+  invalidcoupon:"クーポンは無効です",
+  add2cart:"カードに追加された！",
+  inputmissing:"入力されていない項目がございます"
+
 }
