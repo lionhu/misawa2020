@@ -61,7 +61,7 @@
                     </td>
 
                     <td class="cart-product-name text-right">
-                      <span class="amount">{{cart.summary.Total|currency}}</span>
+                      <span class="amount">{{cart.summary.Total|currency_jpy}}</span>
                     </td>
                   </tr>
                   <tr class="cart_item">
@@ -70,7 +70,7 @@
                     </td>
 
                     <td class="cart-product-name text-right">
-                      <span class="amount">{{parseInt(cart.summary.Total*0.1)|currency}}</span>
+                      <span class="amount">{{parseInt(cart.summary.Total*0.1)|currency_jpy}}</span>
                     </td>
                   </tr>
                   <tr class="cart_item">
@@ -79,7 +79,7 @@
                     </td>
 
                     <td class="cart-product-name text-right">
-                      <span class="amount color lead"><strong>{{cart.summary.Total+parseInt(cart.summary.Total*0.1)|currency}}</strong></span>
+                      <span class="amount color lead"><strong>{{cart.summary.Total+parseInt(cart.summary.Total*0.1)|currency_jpy}}</strong></span>
                     </td>
                   </tr>
                 </tbody>

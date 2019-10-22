@@ -32,6 +32,15 @@ export const m = {
   personal_info:"个人信息",
   avatar:"头像",
   select_language:"请选择语言",
-  selected_lanaguage:"您选择了语言为："
+  selected_lanaguage:"您选择了语言为：",
+
+
+
+  // shopping
+  use_coupon:"输入您的打折券",
+  coupon:"打折券",
+  invalidcoupon:"无效打折券",
+  add2cart:"追加到了购物车！",
+  inputmissing:"漏了什么信息啦？"
 
 }

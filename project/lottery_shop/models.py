@@ -77,6 +77,7 @@ class Product(models.Model):
     point = models.IntegerField(default=0)
     open_price = models.IntegerField(default=0)
     wanted = models.IntegerField(default=0)
+    ranks = models.IntegerField(default=0)
     main_product_id = models.IntegerField(default=0,blank=True,null=True)
     catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
     avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)

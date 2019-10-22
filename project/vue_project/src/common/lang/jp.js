@@ -50,6 +50,7 @@ export const m = {
   // shopping
   use_coupon:"クーポンを入力してください",
   coupon:"クーポン",
+  add2cart:"カードに追加された！"
 
 
 

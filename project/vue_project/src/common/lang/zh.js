@@ -50,5 +50,6 @@ export const m = {
   // shopping
   use_coupon:"输入您的打折券",
   coupon:"打折券",
+  add2cart:"追加到了购物车！"
 
 }

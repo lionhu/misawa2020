@@ -146,7 +146,7 @@
                             </td>
 
                             <td class="notopborder cart-product-name">
-                                <span class="amount">{{cart.summary.Total | currency }}</span>
+                                <span class="amount">{{cart.summary.Total | currency_jpy }}</span>
                             </td>
                         </tr>
                         <tr class="cart_item">
@@ -155,7 +155,7 @@
                             </td>
 
                             <td class="cart-product-name">
-                                <span class="amount">{{cartTax|currency}}</span>
+                                <span class="amount">{{cartTax|currency_jpy}}</span>
                             </td>
                         </tr>
                         <tr class="cart_item bg-danger text-white" v-if="hascoupon">
@@ -165,7 +165,7 @@
 
                             <td class="cart-product-name">
                                 <span class="amount">
-                                -{{couponAmount|currency}}
+                                -{{couponAmount|currency_jpy}}
                               </span>
                             </td>
                         </tr>
@@ -175,7 +175,7 @@
                             </td>
 
                             <td class="cart-product-name">
-                                <span class="amount color lead"><strong>{{CartFinalTotal|currency}}</strong></span>
+                                <span class="amount color lead"><strong>{{CartFinalTotal|currency_jpy}}</strong></span>
                             </td>
                         </tr>
                     </tbody>
@@ -332,7 +332,8 @@
                 }
             }).catch(function(error){
                 Swal.showValidationMessage(
-                  `Request failed: ${error}`
+                  // `Request failed: ${error}`
+                  'Invalid Coupon Code!'
                 )
             })
           },
@@ -409,6 +410,12 @@
                             });
                },reject=>{})
 
+            }else{
+              Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: this.$t("m.inputmissing")
+              })
             }
         });
     },

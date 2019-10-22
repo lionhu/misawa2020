@@ -27,7 +27,7 @@ export default {
   currency_jpy(value, currency, decimals){
         value = parseFloat(value)
     if (!isFinite(value) || (!value && value !== 0)) return ''
-    currency = currency != null ? currency : ''
+    currency = currency != null ? currency : '¥'
     decimals = decimals != null ? decimals : 0
     var stringified = Math.abs(value).toFixed(decimals)
     var _int = decimals
