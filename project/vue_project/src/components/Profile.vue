@@ -11,14 +11,79 @@
 
 
               <h2 class="profile-username text-center mb-0">{{ME.user.username}}</h2>
-
+              <div class="row social-states">
+                <div class="col-6 text-right"><a href="#" class="link text-white"><i class="ion ion-ios-people-outline"></i> 254</a></div>
+                <div class="col-6 text-left"><a href="#" class="link text-white"><i class="ion ion-images"></i> 54</a></div>
+              </div>
               <h4 class="text-center mt-0"><i class="fa fa-envelope-o mr-10"></i>{{ME.user.email}}</h4>
-
-                <div class="box box-body text-center pull-up py-50">
-                    <div id="qrcode"></div>
-                  <h5 class="mt-3 mb-1"><a class="hover-primary" href="#">{{$t("m.introcode")}}</a></h5>
-                  <span id="introcode_url" >{{introcode_url}}</span>
+              <div class="row">
+                <div class="col-12">
+                  <div class="media-list media-list-hover media-list-divided w-p100 mt-30">
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">My Profile</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Invests</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">The Wallet</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Deposit</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Reports</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Services</span>
+                    </h4>
+                    <h4 class="media media-single p-15">
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Support</span>
+                    </h4>
+                  </div>
                 </div>
+<!--                 <h2 class="title w-p100 mt-10 mb-0 p-20">Last Transactions</h2>
+                <div class="col-12">
+                  <div class="media-list media-list-hover w-p100 mt-0">
+                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
+                        <p>
+                        <i class="fa fa-circle text-red pr-10 font-size-12"></i>Deal number 1548
+                        <span class="subtitle pl-20 mt-10">by<span class="text-red">Johen Doe</span></span>             
+                        </p>
+                        <p class="text-right pull-right"><span class="badge badge-sm badge-danger mb-10">sell</span><br>0.12458921 BTC</p>
+                    </h5>
+                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
+                        <p>
+                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
+                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
+                        </p>
+                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
+                    </h5>
+                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
+                        <p>
+                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
+                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
+                        </p>
+                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
+                    </h5>
+                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
+                        <p>
+                        <i class="fa fa-circle text-red pr-10 font-size-12"></i>Deal number 1548
+                        <span class="subtitle pl-20 mt-10">by<span class="text-red">Johen Doe</span></span>             
+                        </p>
+                        <p class="text-right pull-right"><span class="badge badge-sm badge-danger mb-10">sell</span><br>0.12458921 BTC</p>
+                    </h5>
+                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
+                        <p>
+                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
+                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
+                        </p>
+                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
+                    </h5>
+                  </div>
+                </div> -->
+              </div>
+
               </div>
             </div>
           </div>
@@ -39,30 +104,13 @@
                         </div>
                       </a>
                     </div>
-<!--                     <div class="col-md-6 col-lg-4">
-                      <a class="box box-body box-inverse box-primary pull-up bg-hexagons-white" href="#">
-                        <div class="flexbox align-items-center">
-                          <div>
-                            <h6 class="mb-0">{{profile.grandfather.username}}</h6>
-                            <small>2度信用</small>
-                          </div>
-                          <img class="avatar avatar-lg avatar-bordered" :src="profile.grandfather.profile.avatar" alt="..." style="width:80px;height:80px;">
-                        </div>
-                      </a>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                      <a class="box box-body box-inverse box-primary pull-up bg-hexagons-white" href="#">
-                        <div class="flexbox align-items-center">
-                          <div>
-                            <h6 class="mb-0">{{profile.partner.username}}</h6>
-                            <small>3度信用</small>
-                          </div>
-                          <img class="avatar avatar-lg avatar-bordered" :src="profile.partner.profile.avatar" alt="..." style="width:80px;height:80px;">
-                        </div>
-                      </a>
-                    </div> -->
                 </div>
               </div>
+          </div>
+          <div class="box box-body text-center pull-up py-50">
+              <div id="qrcode"></div>
+            <h5 class="mt-3 mb-1"><a class="hover-primary" href="#">{{$t("m.introcode")}}</a></h5>
+            <span id="introcode_url" >{{introcode_url}}</span>
           </div>
           <!-- <div class="box box-solid bg-black"> -->
 <!--               <div class="box-header with-border">

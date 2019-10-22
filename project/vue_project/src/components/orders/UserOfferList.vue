@@ -30,7 +30,7 @@
         <div class="col-12">
             <div class="box box-inverse box-dark">
                 <div class="box-header with-border">
-                    <h3 class="box-title">My Offer List</h3>
+                    <h3 class="box-title">{{$t("m.my_offer_list")}}</h3>
                 </div>
                 <div class="box-body">
                     <el-table 

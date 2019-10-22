@@ -40,4 +40,11 @@ export const m = {
 
 
   trade_introduction:"利用手引き",
+
+  my_order_list:"売り注文リスト",
+  my_offer_list:"買い注文リスト",
+  my_fixedrate_list:"固定レート注文リスト",
+
+
+
 }
