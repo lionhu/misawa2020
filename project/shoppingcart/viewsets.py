@@ -16,7 +16,7 @@ import logging
 import datetime
 import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin
-from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,OrderSerializer,ProductSerializer
+from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,OrderSerializer,ProductSerializer,CouponSerializer
 from .models import Address,Cart,CartItem,Order,Coupon
 from lottery_shop.models import Product
 
@@ -417,8 +417,9 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
     def create(self,request):
         try:
             address_param=request.data["address"]
-            coupon_param=request.data["coupon"]
+            coupon_id=request.data["coupon"]
             note_param=request.data["note"]
+            discount=request.data["discount"]
             existed_customer_param=request.data["existed_customer"]
             existed_customer_slug_param=request.data["existed_customer_slug"]
         except KeyError:
@@ -427,6 +428,7 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
         params={
             "address":address_param,
             "note":note_param,
+            "discount":discount,
             "existed_customer":existed_customer_param,
             "existed_customer_slug":existed_customer_slug_param
         }
@@ -455,7 +457,7 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
         # else:
 
         serializer=CartSerializer(cart,many=False)
-        order=Order.objects.create(user=request.user,address=address,cart=cart,cartjson=serializer.data,note=note_param)
+        order=Order.objects.create(user=request.user,address=address,cart=cart,cartjson=serializer.data,coupon_id=coupon_id,note=note_param,discount=discount)
 
         cart.status="Placed"
         cart.save()
@@ -486,4 +488,24 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
             "order":serializer.data,
             "cart":cart_serializer.data
         }, status=status.HTTP_200_OK)
+
+
+class CouponViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponSerializer
+    lookup_field="slug"
+
+    @action(detail=False,methods=["post"], permission_classes=[permissions.IsAuthenticated])
+    def couponValidate(self,request,slug=None):
+        try:
+            slug=request.data["slug"]
+            coupon=get_object_or_404(Coupon,slug=slug)
+            serializer=CouponSerializer(coupon,many=False)
+            return Response({
+                "result":True,
+                "coupon":serializer.data,
+                }, status=status.HTTP_200_OK)
+        except KeyError:
+            raise Http404
+
 

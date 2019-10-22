@@ -180,6 +180,18 @@ const actions= {
             })
 
         },
+        couponValidate: ({ commit },slug) => {
+            return new Promise((resolve,reject)=>{
+                shopAPI.couponValidate(slug).then((res) => {
+                    if(res.data.result){
+                        resolve(res.data.coupon)
+                    }else{
+                        resolve(null)
+                    }
+                });
+            })
+
+        },
     };
 
 export default {

@@ -118,6 +118,7 @@ class CartItem(models.Model):
 class Coupon(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     created = models.DateTimeField(auto_now_add=True)
+    coupontype = models.CharField(default="amount",max_length=50, blank=True, null=True)
     description = models.CharField(default="",max_length=50, blank=True, null=True)
     discount = models.IntegerField(default=0,blank=True,null=True)
 

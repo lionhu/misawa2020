@@ -45,4 +45,10 @@ export const m = {
   my_offer_list:"买单交易清单",
   my_fixedrate_list:"固定汇率交易清单",
 
+
+
+  // shopping
+  use_coupon:"输入您的打折券",
+  coupon:"打折券",
+
 }
