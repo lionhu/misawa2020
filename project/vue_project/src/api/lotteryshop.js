@@ -90,7 +90,7 @@ export default {
     PlaceOrder: (params) => {
         console.log(params)
         return new Promise((resolve, reject) => {
-            axios.post('/api/shoporder/',params).then((res)=>{
+            axios.post('/api/shop_order/',params).then((res)=>{
                     resolve(res)
                 }).catch(function(error){
                     reject(error)
@@ -99,7 +99,7 @@ export default {
     },
     GetOrder: () => {
         return new Promise((resolve, reject) => {
-            axios.get('/api/shoporder/').then((res)=>{
+            axios.get('/api/shop_order/').then((res)=>{
                     resolve(res)
                 }).catch(function(error){
                     reject(error)
@@ -108,7 +108,7 @@ export default {
     },
     GetOrderBySlug: (slug) => {
         return new Promise((resolve, reject) => {
-            axios.post('/api/shoporder/'+slug+'/bySlug/').then((res)=>{
+            axios.post('/api/shop_order/'+slug+'/bySlug/').then((res)=>{
                     resolve(res)
                 }).catch(function(error){
                     reject(error)
