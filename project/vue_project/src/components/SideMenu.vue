@@ -25,10 +25,18 @@
       </div>
       <ul class="sidebar-menu" data-widget="tree">
         <li class="nav-devider"></li>
+
+        
         <li class="header nav-small-cap">
-          <router-link class="text-center font-weight-600 font-size-30" :to="{ name: 'newdsorder'}" style="background-color:#964848">
-            Fixed Rate</router-link>
-          </li>
+          <a class="text-center font-weight-600" href="/shop/" style="background-color:#6d6868">
+            <i class="fa fa-shopping-bag text-success" aria-hidden="true"></i>
+            LotteryShopping
+          </a>
+        </li>
+        <li class="header nav-small-cap">
+          <router-link class="text-center font-weight-600" :to="{ name: 'newdsorder'}" style="background-color:#964848">
+            <i class="fa fa-legal" aria-hidden="true"></i>Fixed Rate</router-link>
+        </li>
         <li class="header nav-small-cap">PERSONAL</li>
         <li class="">
           <router-link :to="{ name: 'home', params: { }}">

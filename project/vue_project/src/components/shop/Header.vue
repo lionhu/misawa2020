@@ -15,8 +15,8 @@
           <!-- Logo
           ============================================= -->
           <div id="logo">
-            <a href="index.html" class="standard-logo"><img src="/static/img/nichiei_with_text.png" alt="Canvas Logo"></a>
-            <a href="index.html" class="retina-logo"><img src="/static/img/nichiei_with_text.png" alt="Canvas Logo"></a>
+            <a href="/exrate/" class="standard-logo"><img src="/static/img/nichiei_with_text.png" alt="Canvas Logo"></a>
+            <a href="/exrate/" class="retina-logo"><img src="/static/img/nichiei_with_text.png" alt="Canvas Logo"></a>
           </div><!-- #logo end -->
 
           <!-- Primary Navigation

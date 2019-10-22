@@ -41,5 +41,8 @@ export const m = {
 
   trade_introduction:"使用介绍",
 
+  my_order_list:"挂单交易清单",
+  my_offer_list:"买单交易清单",
+  my_fixedrate_list:"固定汇率交易清单",
 
 }
