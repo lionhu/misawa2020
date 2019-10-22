@@ -24,7 +24,7 @@ def get_sentinel_user():
     return User.objects.get_or_create(username='deleted')[0]
 
 def now_slug():
-    dt=datetime.datetime.now().strftime("%Y%m%d%H%I%S")
+    dt=datetime.datetime.now().strftime("%I%S")
     return "%s_%s"%(uuid.uuid4(),dt)
 
 class Catalogue(models.Model):
