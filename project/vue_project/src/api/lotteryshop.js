@@ -106,6 +106,15 @@ export default {
                 })
         });
     },
+    GetMyOrderList: () => {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/shop_order/UserOrderList/').then((res)=>{
+                    resolve(res)
+                }).catch(function(error){
+                    reject(error)
+                })
+        });
+    },
     GetOrderBySlug: (slug) => {
         return new Promise((resolve, reject) => {
             axios.post('/api/shop_order/'+slug+'/bySlug/').then((res)=>{

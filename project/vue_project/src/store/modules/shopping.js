@@ -192,6 +192,17 @@ const actions= {
             })
 
         },
+        getMyOrderList({ commit }){
+            return new Promise((resolve,reject)=>{
+                shopAPI.GetMyOrderList().then((res) => {
+                    if(res.data.result){
+                        resolve(res.data)
+                    }else{
+                        resolve(null)
+                    }
+                });
+            })
+        }
     };
 
 export default {
