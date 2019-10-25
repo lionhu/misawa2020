@@ -1,6 +1,8 @@
 
 import logging
+import json
 from rest_framework import serializers
+from rest_framework.renderers import JSONRenderer
 from .models import Address,Cart,CartItem,Order,Coupon
 from lottery_shop.serializers import ProductSerializer
 
@@ -40,9 +42,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        # fields = "__all__"
-        exclude = ['cartjson']
-
+        fields = "__all__"
+        # exclude = ['cartjson']
 
 class CouponSerializer(serializers.ModelSerializer):
     class Meta:

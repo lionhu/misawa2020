@@ -391,28 +391,11 @@ class CartItemViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
 
 
 
-class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsAdminOrOwner)
     lookup_field="slug"
-
-    def list(self,request):
-
-        orders=Order.objects.filter(user=request.user)
-
-        if orders is not None:
-            serializer=OrderSerializer(orders,many=True)
-
-            return Response({
-                "result":True,
-                "type":"list shop orders",
-                "message":"Shop Orders",
-                "orders":serializer.data
-            }, status=status.HTTP_200_OK)
-
-        else:
-            raise Http404
 
     def create(self,request):
         try:
@@ -450,12 +433,6 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
 
         cart=get_object_or_404(Cart,user=request.user,status="new")
 
-        # coupon=Coupon.objects.filter(description=coupon_param).first()
-
-        # if coupon is not None:
-        #     order=Order.objects.create(user=request.user,address=address,cart=cart,coupon=coupon,discount=coupon.discount)
-        # else:
-
         serializer=CartSerializer(cart,many=False)
         order=Order.objects.create(user=request.user,address=address,cart=cart,cartjson=serializer.data,coupon_id=coupon_id,note=note_param,discount=discount)
 
@@ -488,6 +465,24 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrieve
             "order":serializer.data,
             "cart":cart_serializer.data
         }, status=status.HTTP_200_OK)
+
+    @action(detail=False,methods=["post"])
+    def UserOrderList(self,request):
+        orders=Order.objects.filter(user=request.user)
+
+        if orders is not None:
+            serializer=OrderSerializer(orders,many=True)
+
+            return Response({
+                "result":True,
+                "type":"list shop orders",
+                "message":"Shop Orders",
+                "orders":serializer.data
+            }, status=status.HTTP_200_OK)
+
+        else:
+            raise Http404
+
 
 
 class CouponViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):

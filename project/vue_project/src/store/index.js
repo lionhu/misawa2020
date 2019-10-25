@@ -4,6 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 import system from './modules/system'
 import orders from './modules/orders'
 import users from './modules/users'
+import lotteryshop from "./modules/shopping.js"
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         system,
         orders,
-        users
+        users,
+        lotteryshop
     },
     plugins: [createPersistedState()],
     strict: debug

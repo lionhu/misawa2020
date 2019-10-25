@@ -1,6 +1,7 @@
 
 import uuid
 import os
+from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 from django.db import models,connection
 from django.dispatch import receiver
@@ -73,7 +74,9 @@ class Order(models.Model):
     total = models.IntegerField(default=0,null=True,blank=True)
     discount = models.IntegerField(default=0,null=True,blank=True)
     note = models.TextField(default="",blank=True,null=True,max_length=1024)
-    cartjson = models.TextField(default="",blank=True,null=True,max_length=1024)
+    # cartjson = models.TextField(default="",blank=True,null=True,max_length=1024)
+    cartjson=JSONField()
+
 
     class Meta:
         verbose_name="Order"

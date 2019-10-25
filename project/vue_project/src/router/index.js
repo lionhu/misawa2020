@@ -149,7 +149,16 @@ const router = new Router({
             components:{
                 maincontent:loadView("auth/PasswordReset.vue")
             }
-        }
+        },
+        {
+            path: '/shop/orderlist',
+            name:"shop_orderlist",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("shop/ShopOrderList.vue")
+            }
+        },
     ]
 });
 

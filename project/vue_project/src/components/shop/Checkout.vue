@@ -58,7 +58,7 @@
 
             <div class="col_half">
                 <label for="shipping-form-phone">Phone</label>
-                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone" @blur="confirm_exist_customer" />
+                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone" />
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
                 </div>
