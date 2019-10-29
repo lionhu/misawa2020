@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 import uuid
 
 # Create your models here.
@@ -85,3 +86,15 @@ class BonusDetail(models.Model):
 
     def get_update_url(self):
         return reverse('exrate_bonus_detail_update', args=(self.slug,))
+
+# Create your models here.
+class SystemEnv(models.Model):
+    name = models.CharField(max_length=50, null=False, blank=False)
+    params=JSONField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "systemEnvs"
+
+    def __str__(self):
+        return self.name

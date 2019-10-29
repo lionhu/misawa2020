@@ -56,3 +56,9 @@ class BonusDetailSerializer(serializers.ModelSerializer):
             'description', 
         )
 
+
+class SystemEnvSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.SystemEnv
+        fields = "__all__"

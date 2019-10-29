@@ -18,6 +18,7 @@ class Cart
     public $user_rate=1;
     public $Total_O_Price = 0;
     public $Total_Dis_Price = 0;
+    public $Total_Dis_J_Price = 0;
     public $Total_B_Price = 0;
     public $Total_R_Price = 0;
     public $Total_Qty = 0;
@@ -45,6 +46,7 @@ class Cart
         $this->user_rate = 1;
         $this->Total_O_Price = 0;
         $this->Total_Dis_Price = 0;
+        $this->Total_Dis_J_Price = 0;
         $this->Total_B_Price = 0;
         $this->Total_R_Price = 0;
         $this->Total_Qty = 0;
@@ -71,10 +73,10 @@ class Cart
 
         if ($product) {
             $item = new Item($product->id, $product->name,$product->thumbImage,
-                $product->o_price, $product->b_price, $product->r_price,$this->user_rate);
+                $product->o_price, $product->b_price, $product->r_price, $product->j_price,$this->user_rate);
         }
 
-        $storedItem = ['qty' => 0, 'total_o_price' => $item->o_price,'total_dis_price' => $item->dis_price,
+        $storedItem = ['qty' => 0, 'total_o_price' => $item->o_price,'total_dis_j_price' => $item->dis_j_price,'total_dis_price' => $item->dis_price,
             'total_b_price' => $item->b_price,'total_r_price' => $item->r_price,'product' => $item];
 
         if ($this->items) {
@@ -86,6 +88,7 @@ class Cart
         $this->Total_Qty +=$val;
         $this->Total_O_Price += $item->o_price*$val;
         $this->Total_Dis_Price += $item->dis_price*$val;
+        $this->Total_Dis_J_Price += $item->dis_j_price*$val;
         $this->Total_B_Price += $item->b_price*$val;
         $this->Total_R_Price += $item->r_price*$val;
 
@@ -97,6 +100,7 @@ class Cart
             $qty=$storedItem['qty'];
             $storedItem['total_o_price'] = $item->o_price*$qty;
             $storedItem['total_dis_price'] = $item->dis_price*$qty;
+            $storedItem['total_dis_j_price'] = $item->dis_j_price*$qty;
             $storedItem['total_b_price'] = $item->b_price*$qty;
             $storedItem['total_r_price'] = $item->r_price*$qty;
             $this->items[$id] = $storedItem;
@@ -108,6 +112,7 @@ class Cart
 //            $this->user_rate = 1;
             $this->Total_O_Price = 0;
             $this->Total_Dis_Price = 0;
+            $this->Total_Dis_J_Price = 0;
             $this->Total_B_Price = 0;
             $this->Total_R_Price = 0;
         }
@@ -123,6 +128,7 @@ class Cart
         $this->Total_Qty -= $this->items[$id]['qty'];
         $this->Total_O_Price -= $this->items[$id]['total_o_price'];
         $this->Total_Dis_Price -= $this->items[$id]['total_dis_price'];
+        $this->Total_Dis_J_Price -= $this->items[$id]['total_dis_j_price'];
         $this->Total_B_Price -= $this->items[$id]['total_b_price'];
         $this->Total_R_Price -= $this->items[$id]['total_r_price'];
         unset($this->items[$id]);
@@ -132,6 +138,7 @@ class Cart
             $this->Total_Qty = 0;
             $this->Total_O_Price = 0;
             $this->Total_Dis_Price = 0;
+            $this->Total_Dis_J_Price = 0;
             $this->Total_B_Price = 0;
             $this->Total_R_Price = 0;
         }
@@ -157,6 +164,7 @@ class CartItem
     public $qty = 0;
     public $total_o_price = 0;
     public $total_dis_price = 0;
+    public $total_dis_j_price = 0;
     public $total_b_price = 0;
     public $total_r_price = 0;
     public $product = null;
@@ -166,6 +174,7 @@ class CartItem
         $this->qty = $qty;
         $this->total_o_price = $item->o_price* $qty;
         $this->total_dis_price = $item->dis_price* $qty;
+        $this->total_dis_j_price = $item->dis_j_price* $qty;
         $this->total_b_price = $item->b_price* $qty;
         $this->total_r_price = $item->r_price* $qty;
         $this->product = $item;
@@ -180,16 +189,18 @@ class Item
     public $thumbimage="";
     public $o_price = 0;
     public $dis_price = 0;
+    public $dis_j_price = 0;
     public $b_price = 0;
     public $r_price = 0;
 
-    public function __construct($id,$name,$thumbimage,$o_price,$b_price,$r_price,$user_rate)
+    public function __construct($id,$name,$thumbimage,$o_price,$b_price,$r_price,$dis_j_price,$user_rate)
     {
         $this->id = $id;
         $this->name = $name;
         $this->thumbImage=$thumbimage;
         $this->o_price=$o_price;
         $this->dis_price=intval(($o_price-$b_price)*$user_rate)+$b_price;
+        $this->dis_j_price=$dis_j_price;
         $this->b_price=$b_price;
         $this->r_price=$r_price;
     }

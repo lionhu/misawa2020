@@ -44129,7 +44129,7 @@ $('#exampleModalLong').on('hidden.bs.modal', function (e) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/newdocker/misawa/resources/assets/js/product.js */"./resources/assets/js/product.js");
+module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/dockers/exrate_misawa/misawa/resources/assets/js/product.js */"./resources/assets/js/product.js");
 
 
 /***/ })

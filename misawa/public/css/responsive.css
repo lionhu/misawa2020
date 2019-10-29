@@ -1136,7 +1136,13 @@
 
 	.one-page-arrow { display: none !important; }
 
-	#top-bar { height: auto; }
+	#top-bar { 
+		height: auto; 
+		width: 100%;
+		z-index: 10;
+		bottom: 0px;
+		position: fixed;
+	}
 
 	#top-bar .col_half {
 		width: 100%;
@@ -1153,8 +1159,14 @@
 	.top-links > ul > li { margin-right: -4px; }
 
 	.top-links ul ul,
-	.top-links ul div.top-link-section { text-align: left; }
-
+	.top-links ul div.top-link-section { 
+		text-align: left; 
+		top: -80px;
+	}
+	.top-links ul li.top-links-language ul { 
+		text-align: left; 
+		top: -110px;
+	}
 	.top-links ul div.top-link-section {
 		left: auto;
 		right: 0;

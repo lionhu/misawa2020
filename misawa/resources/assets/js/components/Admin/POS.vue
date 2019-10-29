@@ -31,16 +31,6 @@
                                 </p>
                             </div>
                         </a>
-
-<!--                        <div class="info-box pull-up ">-->
-<!--                            <span class="info-box-icon bg-warning"  @click="batchPayVendor"><i class="ion ion-bag"></i></span>-->
-
-<!--                            <div class="info-box-content">-->
-<!--                                &lt;!&ndash;                        <span class="info-box-number">{{total}}</span>&ndash;&gt;-->
-<!--                                <span class="info-box-text">Batch Pay Vendor</span>-->
-<!--                            </div>-->
-<!--                            -->
-<!--                        </div>-->
                     </div>
 
 
@@ -161,10 +151,12 @@
                                     </td>
                                     <td>
                                         <span> <strong class="title">代理价：</strong>{{cartitem.dis_price | currency_rmb}}</span> <br>
+                                        <span> <strong class="title">代理价：</strong>{{cartitem.dis_j_price | currency_rmb}}</span> <br>
                                         <span> <strong class="title">药房价：</strong>{{cartitem.r_price | currency_jpy}}</span>
                                     </td>
                                     <td>
                                         <span class="amount">{{cartitem.dis_price*cartitem.qty | currency_rmb}}</span><br>
+                                        <span class="amount">{{cartitem.dis_j_price*cartitem.qty | currency_rmb}}</span><br>
                                         <span class="amount">{{cartitem.r_price*cartitem.qty | currency_jpy}}</span>
                                     </td>
                                 </tr>
@@ -192,7 +184,7 @@
                                                 <i class="ion-person font-size-26"></i><br>
                                                 代理商总价(元)
                                                 </span>
-                                            <span class="text-primary font-size-30">{{ props.row.cart_Dis_Price |currency}}</span>
+                                            <span class="text-primary font-size-30">{{ props.row.cart_Dis_Price |currency}}({{ props.row.cart_Dis_J_Price |currency}})</span>
                                         </div>
                                     </div>
                                 </div>
@@ -285,10 +277,11 @@
                         label="利润">
                     <template slot-scope="props">
                         <span class="d-block">{{props.row.cart_Dis_Price | currency_rmb}}</span>
+                        <span class="d-block">{{props.row.cart_Dis_J_Price | currency_jpy}}</span>
                         <span class="d-block">{{props.row.cart_R_Price|currency_jpy}}</span>
                         <a href="javascript:void(0);" @click="ProfitAdjust(props.row)">
                             <span class="badge " :class="{'badge-danger':props.row.P_Adjust=='1','badge-success':props.row.P_Adjust!='1'}">
-                            {{props.row.cart_Dis_Price-parseInt(props.row.cart_R_Price*jpyrate/100)|currency}}
+                            {{props.row.cart_Dis_J_Price-props.row.cart_R_Price|currency_jpy}}
                             </span>
                         </a>
 

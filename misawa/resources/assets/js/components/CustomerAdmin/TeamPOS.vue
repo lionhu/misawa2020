@@ -108,6 +108,7 @@
                             <span><strong>总数量:</strong>{{ props.row.cart_Qty }}</span>
                             <span><strong>市场总价:</strong>{{ props.row.cart_O_Price |currency_rmb}}</span>
                             <span> <strong>代理商总价:</strong> {{ props.row.cart_Dis_Price |currency_rmb}}</span>
+                            <span> <strong></strong> {{ props.row.cart_Dis_J_Price |currency_jpy}}</span>
 
                         </div>
                         <div class="col_one_fourth  title-block d-block">

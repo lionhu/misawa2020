@@ -118,7 +118,8 @@
                     <template slot-scope="props">
                         <div>{{props.row.o_price|currency_rmb}}</div>
                         <span class="d-block">{{props.row.b_price|currency_rmb}}</span>
-                        <a href="javascript:void(0);"><span class="d-block">{{props.row.r_price|currency_jpy}}</span></a>
+                        <span class="d-block">{{props.row.j_price|currency_jpy}}</span>
+                        <span class="d-block">{{props.row.r_price|currency_jpy}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -376,14 +377,14 @@
                     '厂家:<input id="swal-manufactory" class="swal2-input" placeholder="'+product.manufactory+'" value="'+product.manufactory+'">',
                     focusConfirm: false,
                     preConfirm: () => {
-                    return [
-                        document.getElementById('swal-name').value,
-                        document.getElementById('swal-name_jp').value,
-                        document.getElementById('swal-product_code').value,
-                        document.getElementById('swal-manufactory').value
-                    ]
-                }
-            });
+                        return [
+                            document.getElementById('swal-name').value,
+                            document.getElementById('swal-name_jp').value,
+                            document.getElementById('swal-product_code').value,
+                            document.getElementById('swal-manufactory').value
+                        ]
+                    }
+                });
 
                 console.log(formValues);
                 if(formValues !=undefined){
@@ -406,12 +407,14 @@
                     html:
                     'O_Price: <input id="swal-o_price" class="swal2-input" placeholder="'+product.o_price+'" value="'+product.o_price+'">' +
                     'B_Price:<input id="swal-b_price" class="swal2-input" placeholder="'+product.b_price+'" value="'+product.b_price+'">' +
+                    'J_Price:<input id="swal-j_price" class="swal2-input" placeholder="'+product.j_price+'" value="'+product.j_price+'">' +
                     'R_Price:<input id="swal-r_price" class="swal2-input" placeholder="'+product.r_price+'" value="'+product.r_price+'">',
                     focusConfirm: false,
                     preConfirm: () => {
                             return [
                                 document.getElementById('swal-o_price').value,
                                 document.getElementById('swal-b_price').value,
+                                document.getElementById('swal-j_price').value,
                                 document.getElementById('swal-r_price').value
                             ]
                         }
@@ -424,7 +427,8 @@
                             type:'price',
                             o_price:formValues[0],
                             b_price:formValues[1],
-                            r_price:formValues[2]
+                            j_price:formValues[2],
+                            r_price:formValues[3]
                         };
                         const url="/admin/products/updateProductInfo"
 

@@ -3775,13 +3775,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3817,8 +3810,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     Qty: "shoppingcart/Qty",
     Total_O: "shoppingcart/Total_O",
-    Total_B: "shoppingcart/Total_B"
-  })),
+    Total_B: "shoppingcart/Total_B",
+    Total_J: "shoppingcart/Total_J"
+  }), {
+    ME: function ME() {
+      return this.$store.state.system.ME;
+    }
+  }),
   methods: {
     PlaceOrder: function PlaceOrder() {
       var _this = this;
@@ -4287,10 +4285,7 @@ __webpack_require__.r(__webpack_exports__);
     };
     this.$store.commit("system/set_current_subCatalogue_id", currentCatalogue);
   },
-  computed: {// Subcatalogue(){
-    //     const subcatalogue=this.$store.state.system.catalogues.children.filter(subcatalogue =>subcatalogue.value == this.$route.params.id);
-    // }
-  },
+  computed: {},
   watch: {
     $route: function $route(to, from) {
       this.loadCatalogueProducts(to.params.id);
@@ -4939,17 +4934,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../api/functions */ "./resources/assets/js/api/functions.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -91511,11 +91495,30 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("span", { staticClass: "d-block text-danger" }, [
+                          _c("span", { staticClass: "d-block " }, [
                             _vm._v(
-                              _vm._s(_vm._f("currency")(item.product.b_price))
+                              _vm._s(
+                                _vm._f("currency_rmb")(item.product.b_price)
+                              )
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _vm.ME.role == "distributor" ||
+                          _vm.ME.role == "customerAdmin"
+                            ? _c(
+                                "span",
+                                { staticClass: "d-block text-danger" },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("currency_jpy")(
+                                        item.product.j_price
+                                      )
+                                    )
+                                  )
+                                ]
+                              )
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("td", { staticClass: "cart-product-quantity" }, [
@@ -91530,12 +91533,25 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", { staticClass: "cart-product-subtotal" }, [
                           _c("span", { staticClass: "d-block" }, [
-                            _vm._v(_vm._s(_vm._f("currency")(item.total_o)))
+                            _vm._v(_vm._s(_vm._f("currency_rmb")(item.total_o)))
                           ]),
                           _vm._v(" "),
-                          _c("span", { staticClass: "d-block text-danger" }, [
-                            _vm._v(_vm._s(_vm._f("currency")(item.total_b)))
-                          ])
+                          _c("span", { staticClass: "d-block " }, [
+                            _vm._v(_vm._s(_vm._f("currency_rmb")(item.total_b)))
+                          ]),
+                          _vm._v(" "),
+                          _vm.ME.role == "distributor" ||
+                          _vm.ME.role == "customerAdmin"
+                            ? _c(
+                                "span",
+                                { staticClass: "d-block text-danger" },
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm._f("currency_jpy")(item.total_j))
+                                  )
+                                ]
+                              )
+                            : _vm._e()
                         ])
                       ])
                     }),
@@ -91579,13 +91595,34 @@ var render = function() {
                       _vm._m(4),
                       _vm._v(" "),
                       _c("td", { staticClass: "cart-product-name" }, [
-                        _c("span", { staticClass: "amount text-danger lead" }, [
+                        _c("span", { staticClass: "amount lead" }, [
                           _c("strong", [
                             _vm._v(_vm._s(_vm._f("currency_rmb")(_vm.Total_B)))
                           ])
                         ])
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.ME.role == "distributor" ||
+                    _vm.ME.role == "customerAdmin"
+                      ? _c("tr", { staticClass: "cart_item" }, [
+                          _vm._m(5),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "cart-product-name" }, [
+                            _c(
+                              "span",
+                              { staticClass: "amount text-danger lead" },
+                              [
+                                _c("strong", [
+                                  _vm._v(
+                                    _vm._s(_vm._f("currency_jpy")(_vm.Total_J))
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ]),
@@ -91631,7 +91668,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "col_full panel panel-default" }, [
-                _vm._m(5),
+                _vm._m(6),
                 _vm._v(" "),
                 _c("div", { staticClass: "panel-body" }, [
                   _c("div", { staticClass: "bottommargin-sm" }, [
@@ -91944,7 +91981,7 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _vm._m(6),
+                        _vm._m(7),
                         _vm._v(" "),
                         _c(
                           "a",
@@ -91958,7 +91995,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(7)
+                      _vm._m(8)
                     ]
                   )
                 ])
@@ -92031,6 +92068,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", { staticClass: "cart-product-name" }, [
       _c("strong", [_vm._v("药房进货价")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "cart-product-name" }, [
+      _c("strong", [_vm._v("药房进货价(日元)")])
     ])
   },
   function() {
@@ -93490,6 +93535,16 @@ var render = function() {
               ? _c("span", { staticClass: "d-block text-warning" }, [
                   _vm._v(_vm._s(_vm._f("currency_rmb")(_vm.product.b_price)))
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.ME.role == "distributor" || _vm.ME.role == "customerAdmin"
+              ? _c("span", { staticClass: "d-block text-warning" }, [
+                  _vm._v(
+                    "(" +
+                      _vm._s(_vm._f("currency_jpy")(_vm.product.j_price)) +
+                      ")"
+                  )
+                ])
               : _vm._e()
           ])
         : _vm._e(),
@@ -93504,7 +93559,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "ribbon_area" }, [
-      _c("span", { staticClass: "ribbon15" }, [_vm._v("NEW")])
+      _c("span", { staticClass: "ribbon15" }, [_vm._v("NEW..")])
     ])
   }
 ]
@@ -111790,6 +111845,7 @@ var mutations = {
             postimage: product.postimage,
             thumbImage: product.thumbImage,
             o_price: parseInt(product.o_price),
+            j_price: parseInt(product.j_price),
             b_price: parseInt((product.o_price - product.b_price) * state.ME.rate) + parseInt(product.b_price)
           };
         });
@@ -111876,6 +111932,13 @@ var getters = {
     }, 0);
 
     return _total;
+  },
+  Total_J: function Total_J(state) {
+    var _total = state.items.reduce(function (result, current) {
+      return result += current.total_j;
+    }, 0);
+
+    return _total;
   }
 }; // actions
 
@@ -111927,17 +111990,7 @@ var mutations = {
   set_viewproduct: function set_viewproduct(state, _ref5) {
     var product = _ref5.product,
         rate = _ref5.rate;
-    console.log("product view"); // console.log(rate)
-    // state.viewproduct={
-    //     id:product.id,
-    //     name:product.name,
-    //     name_jp:product.name_jp,
-    //     b_price:parseInt(product.b_price)+Math.ceil((parseInt(product.o_price)-parseInt(product.b_price))*rate),
-    //     o_price:product.o_price,
-    //     postimage:product.postimage,
-    //     thumbImage:product.thumbImage
-    // }
-
+    console.log("product view");
     state.viewproduct = product;
     state.viewproduct.rate = parseInt(product.rate);
   },
@@ -111956,11 +112009,13 @@ var mutations = {
       var new_qty = state.items[productIndex].qty;
       state.items[productIndex].total_o = new_qty * params.product.o_price;
       state.items[productIndex].total_b = new_qty * params.product.b_price;
+      state.items[productIndex].total_j = new_qty * params.product.j_price;
     } else {
       var item = {
         qty: params.qty,
         total_o: params.qty * params.product.o_price,
         total_b: params.qty * params.product.b_price,
+        total_j: params.qty * params.product.j_price,
         product: params.product
       };
       state.items.push(item);
@@ -111978,6 +112033,7 @@ var mutations = {
         state.items[productIndex].qty -= params.qty;
         state.items[productIndex].total_o = state.items[productIndex].qty * params.product.o_price;
         state.items[productIndex].total_b = state.items[productIndex].qty * params.product.b_price;
+        state.items[productIndex].total_j = state.items[productIndex].qty * params.product.j_price;
       } else {
         state.items.splice(productIndex, 1);
       }
@@ -112020,7 +112076,7 @@ var mutations = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/newdocker/misawa/resources/assets/js/misawashop.js */"./resources/assets/js/misawashop.js");
+module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/dockers/exrate_misawa/misawa/resources/assets/js/misawashop.js */"./resources/assets/js/misawashop.js");
 
 
 /***/ })
