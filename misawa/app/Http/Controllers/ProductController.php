@@ -54,6 +54,7 @@ class ProductController extends Controller
                 case "price":
                     $product->o_price=$request->input("o_price");
                     $product->b_price=$request->input("b_price");
+                    $product->j_price=$request->input("j_price");
                     $product->r_price=$request->input("r_price");
                     break;
                 case "active":

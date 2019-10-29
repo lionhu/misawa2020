@@ -9,6 +9,7 @@
                 <div class="col-xs-6">
                     <span> {{cartitem.o_price | currency_rmb}}</span> <br>
                     <span> {{cartitem.dis_price | currency_rmb}}</span> <br>
+                    <span> {{cartitem.dis_j_price | currency_jpy}}</span> <br>
                     <span> qty: {{cartitem.qty}}</span>
                 </div>
                 <div class="col-xs-12 clearfix">
@@ -25,13 +26,15 @@
                 <a :href="producturl(cartitem.id)"><span class="amount money "> <strong class="title"></strong>{{cartitem.product.name}}(#{{cartitem.product.id}})</span> </a>
                 <span class="amount money visible-xs"> <strong class="title">市场价：</strong>{{cartitem.o_price | currency_rmb}}</span>
                 <span class="amount money visible-xs"> <strong class="title">代理价：</strong>{{cartitem.dis_price | currency_rmb}}</span>
+                <span class="amount money visible-xs"> <strong class="title"></strong>{{cartitem.dis_j_price | currency_jpy}}</span>
                 <span class="amount money visible-xs"> <strong class="title"></strong>{{cartitem.qty}}</span>
 
             </td>
 
             <td class="cart-product-price "  v-if="device=='md'">
                 <span class="amount money"> <strong class="title">市场价：</strong>{{cartitem.o_price | currency_rmb}}</span> <br>
-                <span class="amount money"> <strong class="title">代理价：</strong>{{cartitem.dis_price | currency_rmb}}</span>
+                <span class="amount money"> <strong class="title">代理价：</strong>{{cartitem.dis_price | currency_rmb}}</span> <br>
+                <span class="amount money"> <strong class="title"></strong>{{cartitem.dis_j_price | currency_jpy}}</span>
             </td>
 
             <td class="cart-product-quantity "  v-if="device=='md'">
@@ -42,7 +45,8 @@
 
             <td class="cart-product-subtotal "  v-if="device=='md'">
                 <span class="amount">{{subtotal_o | currency_rmb}}</span> <br>
-                <span class="amount">{{subtotal_dis | currency_rmb}}</span>
+                <span class="amount">{{subtotal_dis | currency_rmb}}</span><br>
+                <span class="amount">{{subtotal_dis_j | currency_rmb}}</span>
             </td>
 
         </tr>
@@ -76,6 +80,7 @@
             this.name=this.cartitem.product.name;
             this.o_price=this.cartitem.o_price;
             this.dis_price=this.cartitem.dis_price;
+            this.dis_j_price=this.cartitem.dis_j_price;
             this.qty=this.cartitem.qty;
         },
         computed:{
@@ -84,6 +89,9 @@
             },
             subtotal_dis(){
                 return this.dis_price*this.qty;
+            },
+            subtotal_dis_j(){
+                return this.dis_j_price*this.qty;
             }
         }
     }

@@ -64,6 +64,7 @@ const mutations = {
                             postimage:product.postimage,
                             thumbImage:product.thumbImage,
                             o_price:parseInt(product.o_price),
+                            j_price:parseInt(product.j_price),
                             b_price:parseInt((product.o_price-product.b_price)*state.ME.rate)+parseInt(product.b_price)
                         }
                 })

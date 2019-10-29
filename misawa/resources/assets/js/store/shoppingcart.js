@@ -32,6 +32,12 @@ const getters = {
         },0);
         return _total;
     },
+    Total_J: (state) => {
+        const _total=state.items.reduce(function(result,current){
+            return result+=current.total_j
+        },0);
+        return _total;
+    },
 };
 
 // actions
@@ -78,16 +84,6 @@ const actions = {
 const mutations = {
     set_viewproduct(state,{product,rate}){
         console.log("product view")
-        // console.log(rate)
-        // state.viewproduct={
-        //     id:product.id,
-        //     name:product.name,
-        //     name_jp:product.name_jp,
-        //     b_price:parseInt(product.b_price)+Math.ceil((parseInt(product.o_price)-parseInt(product.b_price))*rate),
-        //     o_price:product.o_price,
-        //     postimage:product.postimage,
-        //     thumbImage:product.thumbImage
-        // }
         state.viewproduct=product;
         state.viewproduct.rate=parseInt(product.rate);
 
@@ -106,11 +102,13 @@ const mutations = {
 
             state.items[productIndex].total_o = new_qty*params.product.o_price;
             state.items[productIndex].total_b = new_qty*params.product.b_price;
+            state.items[productIndex].total_j = new_qty*params.product.j_price;
         }else{
             const item={
                 qty:params.qty,
                 total_o:params.qty*params.product.o_price,
                 total_b:params.qty*params.product.b_price,
+                total_j:params.qty*params.product.j_price,
                 product:params.product
             }
             state.items.push(item)
@@ -127,6 +125,7 @@ const mutations = {
                 state.items[productIndex].qty -= params.qty;
                 state.items[productIndex].total_o = state.items[productIndex].qty*params.product.o_price;
                 state.items[productIndex].total_b = state.items[productIndex].qty*params.product.b_price;
+                state.items[productIndex].total_j = state.items[productIndex].qty*params.product.j_price;
             }else{
                 state.items.splice(productIndex,1)
             }

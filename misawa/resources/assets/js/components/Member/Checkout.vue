@@ -54,7 +54,8 @@
                                 <td class="cart-product-name">
                                     <a href="javascript:void(0);" class="d-block">{{item.product.name}}</a>
                                     <span class="d-block">{{item.product.o_price|currency_rmb}}</span>
-                                    <span class="d-block text-danger">{{item.product.b_price|currency}}</span>
+                                    <span class="d-block ">{{item.product.b_price|currency_rmb}}</span>
+                                    <span class="d-block text-danger"    v-if="ME.role =='distributor' || ME.role =='customerAdmin'">{{item.product.j_price|currency_jpy}}</span>
                                 </td>
 
                                 <td class="cart-product-quantity">
@@ -64,8 +65,9 @@
                                 </td>
 
                                 <td class="cart-product-subtotal">
-                                    <span class="d-block">{{item.total_o|currency}}</span>
-                                    <span class="d-block text-danger">{{item.total_b|currency}}</span>
+                                    <span class="d-block">{{item.total_o|currency_rmb}}</span>
+                                    <span class="d-block ">{{item.total_b|currency_rmb}}</span>
+                                    <span class="d-block text-danger"    v-if="ME.role =='distributor' || ME.role =='customerAdmin'">{{item.total_j|currency_jpy}}</span>
                                 </td>
                             </tr>
                             </tbody>
@@ -102,7 +104,16 @@
                                 </td>
 
                                 <td class="cart-product-name">
-                                    <span class="amount text-danger lead"><strong>{{Total_B|currency_rmb}}</strong></span>
+                                    <span class="amount lead"><strong>{{Total_B|currency_rmb}}</strong></span>
+                                </td>
+                            </tr>
+                            <tr class="cart_item"  v-if="ME.role =='distributor' || ME.role =='customerAdmin'">
+                                <td class="cart-product-name">
+                                    <strong>药房进货价(日元)</strong>
+                                </td>
+
+                                <td class="cart-product-name">
+                                    <span class="amount text-danger lead"><strong>{{Total_J|currency_jpy}}</strong></span>
                                 </td>
                             </tr>
                             </tbody>
@@ -110,14 +121,6 @@
                     </div>
 
                     <div class="accordion clearfix">
-                        <!--<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Direct Bank Transfer</div>-->
-                        <!--<div class="acc_content clearfix">Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</div>-->
-
-                        <!--<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Cheque Payment</div>-->
-                        <!--<div class="acc_content clearfix">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</div>-->
-
-                        <!--<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>-->
-                        <!--<div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>-->
                     </div>
                 </div>
 
@@ -165,10 +168,6 @@
                                     <label for="billing-form-name">性别:</label>
                                     <el-radio v-model="customer.sex" label="Mr.">男</el-radio>
                                     <el-radio v-model="customer.sex" label="Miss.">女</el-radio>
-
-                                    <!--<input type="text" id="sex" name="sex" value="Mr." hidden/>-->
-                                    <!--<input class="bt-switch" type="checkbox" checked data-on-text="男" data-off-text="女"-->
-                                           <!--data-on-color="success" data-off-color="danger">-->
                                 </div>
 
                                 <div class="col_half bottommargin-sm">
@@ -204,12 +203,6 @@
                                             地址栏1输入：上海市黄浦区哈尔滨路998弄 <br>
                                             地址栏2输入：大富小区2栋2022室
                                         </div>
-
-                                        <!--<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Cheque Payment</div>-->
-                                        <!--<div class="acc_content clearfix">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</div>-->
-
-                                        <!--<div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>-->
-                                        <!--<div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>-->
                                     </div>
 
                                     <a href="#" class="button button-3d pull-right bg-warning" @click="PlaceOrder">下单</a>
@@ -269,8 +262,12 @@
             ...mapGetters({
                 Qty: "shoppingcart/Qty",
                 Total_O: "shoppingcart/Total_O",
-                Total_B: "shoppingcart/Total_B"
-            })
+                Total_B: "shoppingcart/Total_B",
+                Total_J: "shoppingcart/Total_J"
+            }),
+            ME(){
+                return this.$store.state.system.ME;
+            }
         },
         methods:{
             PlaceOrder(){

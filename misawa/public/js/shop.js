@@ -47007,7 +47007,7 @@ $('#product_add2cart').on('click', function (e) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/newdocker/misawa/resources/assets/js/shop.js */"./resources/assets/js/shop.js");
+module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/dockers/exrate_misawa/misawa/resources/assets/js/shop.js */"./resources/assets/js/shop.js");
 
 
 /***/ })

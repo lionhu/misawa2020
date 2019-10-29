@@ -81,7 +81,7 @@
                 ============================================= -->
                 <div class="top-links">
                     <ul style="text-align: right;">
-                        <li><a href="#"><i class="i-plain icon-globe"></i></a>
+                        <li class="top-links-language"><a href="#"><i class="i-plain icon-globe"></i></a>
                             <ul>
                                 <li><a href="/language/ch"><img src="{{asset('images/flags/cn.svg')}}" alt="China"> 中文</a></li>
                                 <li><a href="/language/jp"><img src="{{asset('images/flags/jp.svg')}}" alt="Japan"> 日本語</a></li>

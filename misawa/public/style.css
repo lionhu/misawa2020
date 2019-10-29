@@ -847,7 +847,9 @@ html[xmlns] .slider-wrap {display: block;}
 	left: 0;
 	width: 280px;
 }
-
+/*.top-links ul li.top-links-language{
+	display: none;
+}*/
 .fright .top-links ul div.top-link-section,
 .top-links.fright ul div.top-link-section {
 	left: auto;

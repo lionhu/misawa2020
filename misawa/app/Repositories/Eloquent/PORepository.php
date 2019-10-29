@@ -52,23 +52,6 @@ class PORepository extends Repository
         return $polist;
     }
 
-//    public function Monthly_summary_byVendorID($vendor_id)
-//    {
-//        $query="CALL proc_monthly_summary_byVendorID($vendor_id)";
-//
-//        $polist=DB::select($query);
-//        return $polist;
-//    }
-//
-//    public function Monthly_summary_SuperAdmin()
-//    {
-//        $query="CALL proc_monthly_summary()";
-//
-//        $polist=DB::select($query);
-//        return $polist;
-//    }
-
-
     public function getPOList_ByUserID($userid){
         $query="select * from ".$this->view_po_list." WHERE user_id=".$userid;
         $polist=DB::select($query);
@@ -91,6 +74,7 @@ class PORepository extends Repository
         $Total_B_Price=0;
         $Total_R_Price=0;
         $Total_Dis_Price=0;
+        $Total_Dis_J_Price=0;
 
         $po->cart_Qty=$cart->Total_Qty;
         $po->cart_O_Price=$cart->Total_O_Price;
@@ -123,6 +107,10 @@ class PORepository extends Repository
             $newitem->total_dis_price=$item["qty"]*$newitem->dis_price;
             $Total_Dis_Price +=$newitem->total_dis_price;
 
+            $newitem->dis_j_price=$product->j_price;
+            $newitem->total_dis_j_price=$item["qty"]*$newitem->dis_j_price;
+            $Total_Dis_J_Price +=$newitem->total_dis_j_price;
+
 
             $newitem->save();
 
@@ -132,6 +120,7 @@ class PORepository extends Repository
         $po->cart_R_Price=$Total_R_Price;
         $po->cart_B_Price=$Total_B_Price;
         $po->cart_Dis_Price=$Total_Dis_Price;
+        $po->cart_Dis_J_Price=$Total_Dis_J_Price;
 
         $po->save();
 
@@ -144,6 +133,7 @@ class PORepository extends Repository
         $Total_B_Price=0;
         $Total_R_Price=0;
         $Total_Dis_Price=0;
+        $Total_Dis_J_Price=0;
 
         $po->user_id=$user->id;
         $po->customer_id=$customer->id;
@@ -160,6 +150,7 @@ class PORepository extends Repository
         $po->cart_R_Price=$adminCart->Total_R_Price;
         $po->cart_B_Price=$adminCart->Total_B_Price;
         $po->cart_Dis_Price=$adminCart->Total_Dis_Price;
+        $po->cart_Dis_J_Price=$adminCart->Total_Dis_J_Price;
 
 
         $po->cart=json_encode($cartitems);
@@ -179,12 +170,14 @@ class PORepository extends Repository
             $newitem->o_price=$product->o_price;
             $newitem->b_price=$product->b_price;
             $newitem->dis_price=$item["product"]["b_price"];
+            $newitem->dis_j_price=$item["product"]["j_price"];
             $newitem->r_price=$product->r_price;
 
 
 
             $newitem->total_o_price=$item["total_o"];
             $newitem->total_dis_price=$item["total_b"];
+            $newitem->total_dis_j_price=$item["total_j"];
             $newitem->total_b_price=$product->b_price*$item["qty"];
             $newitem->total_r_price=$product->r_price*$item["qty"];
 
@@ -217,6 +210,7 @@ class PORepository extends Repository
           $po_deleted->cart_Qty=$po->cart_Qty;
           $po_deleted->cart_R_Price=$po->cart_R_Price;
           $po_deleted->cart_B_Price=$po->cart_B_Price;
+          $po_deleted->cart_J_Price=$po->cart_J_Price;
           $po_deleted->cart_O_Price=$po->cart_O_Price;
           $po_deleted->memo=$po->memo;
           $po_deleted->transfer_date=$po->transfer_date;

@@ -2,7 +2,7 @@
     <div class="product clearfix">
             <div class="product-image ribbon_box3">
                 <div class="ribbon_area">
-                    <span class="ribbon15">NEW</span>
+                    <span class="ribbon15">NEW..</span>
                 </div>
                 <a href="javascript:void(0);">
                     <img :src="'/'+product.postimage"></a>
@@ -26,23 +26,12 @@
                 </div>
                 <div class="product-price" v-if="ME.role !=='viewer'">
                     <ins class="d-block"> <span class="money">{{product.o_price|currency_rmb}}</span> </ins>
-                    <!--<router-link :to="{name:'viewproduct',params:{id:product.id}}"-->
-                                 <!--class="btn btn-default  d-block" style="background-color: #1ABC9C;color: white;">-->
-                        <!--详细介绍-->
-                    <!--</router-link>-->
                     <a :href="'/#/viewproduct/'+product.id" target="_blank" class="btn btn-default  d-block" style="background-color: #1ABC9C;color: white;">
                         详细介绍</a>
-                    <!--<a :href="'/product/'+product.id"-->
-                        <!--class="btn btn-default  d-block" style="background-color: #1ABC9C;color: white;">详细介绍</a>-->
                     <span  class="d-block text-warning" v-if="ME.role !=='guest'">{{product.b_price|currency_rmb}}</span>
+                    <span  class="d-block text-warning"   v-if="ME.role =='distributor' || ME.role =='customerAdmin'">({{product.j_price|currency_jpy}})</span>
                 </div>
                 <div class="product-rating">
-                <!--<el-rate-->
-                        <!--disabled-->
-                        <!--show-score-->
-                        <!--text-color="#ff9900"-->
-                        <!--:score-template="product.rate">-->
-                <!--</el-rate>-->
                 </div>
             </div>
         </div>

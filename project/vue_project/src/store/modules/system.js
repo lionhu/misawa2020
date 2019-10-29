@@ -3,7 +3,8 @@ import system from '../../api/system';
 // initial state
 const state = {
     todayrate:{},
-    token:""
+    token:"",
+    systemEnvs:{}
 };
 
 // getters
@@ -32,6 +33,21 @@ const actions = {
             );
         })
     },
+    get_systemEnvs({ commit }){
+        console.log("store systemEnvs");
+        return new Promise((resolve,reject)=>{
+            system.get_systemEnvs(
+                res => {
+                    if(!res.result){
+                        commit("setsystemEnvs",res.systemEnvs);
+                        // resolve(res.data)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+    },
     load_dashboard({commit}){
         console.log("load_dashboard");
         return new Promise((resolve,reject)=>{
@@ -49,6 +65,9 @@ const actions = {
 };
 
 const mutations = {
+    setsystemEnvs(state,data){
+        this.systemEnvs=data
+    },
     setToken(state,data){
         state.token=data.token;
 

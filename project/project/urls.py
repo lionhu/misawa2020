@@ -9,7 +9,7 @@ from rest_framework import routers
 from useraccount.viewsets import UserProfileViewSet
 from useraccount.views import users as apiUsers,show_signup,user_active
 from mail_exchange.viewsets  import OrderViewSet as AuctionOrderViewSet,OfferViewSet as AuctionOfferViewSet,TransactionViewSet
-from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet
+from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet,SystemEnvViewSet
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet
 from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet
 from ds_exchange.viewsets import DSOrderViewSet
@@ -35,6 +35,7 @@ router.register('cart', CartViewSet)
 router.register('cartitem', CartItemViewSet)
 router.register('shop_order', OrderViewSet)
 router.register('coupon', CouponViewSet)
+router.register('sysenv', SystemEnvViewSet)
 
 
 

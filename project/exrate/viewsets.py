@@ -1,5 +1,6 @@
 from . import models
 from . import serializers
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework import viewsets,status,permissions,mixins
 from rest_framework.permissions import IsAuthenticated,BasePermission,SAFE_METHODS,IsAdminUser,AllowAny
@@ -135,7 +136,6 @@ class BankRateViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
 
         return Response(content)
 
-
 class BonusViewSet(viewsets.ModelViewSet):
     """ViewSet for the Bonus class"""
 
@@ -264,37 +264,171 @@ class BonusViewSet(viewsets.ModelViewSet):
             })
 
 
-class BonusDetailViewSet(viewsets.ModelViewSet):
-    queryset = models.BonusDetail.objects.all()
-    serializer_class = serializers.BonusDetailSerializer
+
+class BonusDetailViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    """ViewSet for the BankRate class"""
+
+    queryset = models.BankRate.objects.all()
+    serializer_class = serializers.BankRateSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+    @list_route(methods=['get'])
+    def todayrate(self,request,format=None):
+
+        today = datetime.datetime.now()
+        start_today = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
+
+        cache_todayrate=cache.get("todayrate")
+        if cache_todayrate:
+            # serializer=serializers.BankRateSerializer(cache_todayrate,many=False)
+
+            content={
+                "error":False,
+                "message":"get todayrate from cache",
+                "start_today":start_today,
+                "todayrate":cache_todayrate
+            }
+            logger.error("get rate from cache")
+            logger.error(cache_todayrate)
+
+            return Response(content,status=status.HTTP_200_OK)
+
+        try:
+            ret=fetch_bankrate()
+            cache_todayrate=cache.get("todayrate")
+
+            content={
+                "error":False,
+                "message":"get rate after fetch_bankrate",
+                "start_today":start_today,
+                "todayrate":cache_todayrate
+            }
+            logger.error("get rate after fetch_bankrate")
+            logger.error(cache_todayrate)
+
+            return Response(content,status=status.HTTP_200_OK)
+
+        except:
+            logger.error("can't fetch bankrate from ShowapiRequest")
+            raise Http404
+                
+
+
+        # message=""
+        # error = False
+        # todayrate={}
+
+        # rate=models.BankRate.objects.filter(created__gt=start_today).order_by('-created').first()
+
+        # if rate is None:
+        #     try:
+        #         ret=fetch_bankrate()
+        #         cache_todayrate=cache.get("todayrate")
+
+        #         content={
+        #             "error":False,
+        #             "message":"get rate after fetch_bankrate",
+        #             "start_today":start_today,
+        #             "todayrate":cache_todayrate
+        #         }
+        #         logger.error("get rate after fetch_bankrate")
+        #         logger.error(cache_todayrate)
+
+        #         return Response(content,status=status.HTTP_200_OK)
+
+        #     except:
+        #         logger.error("can't fetch bankrate from ShowapiRequest")
+        #         raise Http404
+
+        # else:
+        #     error=False
+        #     message = "fetch db existed"
+
+
+        #     serializer=serializers.BankRateSerializer(todayrate,many=False)
+
+        #     content={
+        #         "error":error,
+        #         "message":message,
+        #         "start_today":start_today,
+        #         "todayrate":serializer.data
+        #     }
+
+        #     return Response(content)
+
+
+    @list_route(methods=['post'])
+    def historyratelist(self,request,format=None):
+
+        dt_start=request.data["dt_start"]
+        dt_end=request.data["dt_end"]
+
+        ratelist=BOC_Rate_history(dt_start,dt_end)
+
+        content={
+            "error":True,
+            "list":ratelist,
+            "dt_start":dt_start,
+            "dt_end":dt_end
+        }
+
+        return Response(content)
+
+
+class SystemEnvViewSet(viewsets.ModelViewSet):
+    queryset = models.SystemEnv.objects.all()
+    serializer_class = serializers.SystemEnvSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
     def list(self, request):
-        bonus=models.Bonus.objects.filter(user=request.user).first()
-        if bonus.details.count:
-            serializer = serializers.BonusDetailSerializer(bonus.details,many=True)
+        return Response({
+            "error":1,
+            "type": "list",
+            "data": {}
+        },status=status.HTTP_404_NOT_FOUND)
+
+    def create(self, request):
+        serializer=self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
             return Response({
-                "error":0,
-                "type": "list",
+                "result":True,
                 "data": serializer.data
             },status=status.HTTP_200_OK)
         else:
-            return Response({
-                "error":1,
-                "type": "list",
-                "data": {}
-            },status=status.HTTP_404_NOT_FOUND)
+            raise Http404
 
-    def create(self, request):
-        return Response({
-            "error":0,
-            "data": "create"
-        },status=status.HTTP_200_OK)
+    def retrieve(self, request,pk=None):
 
-    def retrieve(self, request, pk=None):
+        if request.user.profile.membership=="ADMIN":
+            cached_systemsEnvs=cache.get("ADMINEnvs")
+            from_message="from cache"
+            if cached_systemsEnvs is None:
+                systemEnvs=get_object_or_404(models.SystemEnv,name="ADMINEnvs")
+                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+
+
+                from_message="from db"
+                cached_systemsEnvs=serializer.data
+                cache.set("ADMINEnvs",cached_systemsEnvs)
+
+        else:
+            cached_systemsEnvs=cache.get("memberEnvs")
+            from_message="from cache"
+            if cached_systemsEnvs is None:
+                systemEnvs=get_object_or_404(models.SystemEnv,name="memberEnvs")
+                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+
+
+                from_message="from db"
+                cached_systemsEnvs=serializer.data
+                cache.set("memberEnvs",cached_systemsEnvs)
+
         return Response({
-            "error":0,
-            "data": "retrieve"
+            "result":True,
+            "message":from_message,
+            "systemEnvs": cached_systemsEnvs
         },status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):

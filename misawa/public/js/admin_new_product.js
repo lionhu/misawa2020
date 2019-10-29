@@ -44199,7 +44199,7 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/newdocker/misawa/resources/assets/js/admin_new_product.js */"./resources/assets/js/admin_new_product.js");
+module.exports = __webpack_require__(/*! /Users/lionhu/Desktop/dockers/exrate_misawa/misawa/resources/assets/js/admin_new_product.js */"./resources/assets/js/admin_new_product.js");
 
 
 /***/ })

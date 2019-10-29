@@ -45,7 +45,7 @@ class ShopController extends Controller
         $id=$product->subcatalogue_id;
 
         $products=Product::with("images")->active()->subcatalogue($id)->get([
-            "id","name","name_jp","o_price","rate","b_price","r_price"
+            "id","name","name_jp","o_price","rate","b_price","r_price","j_price"
         ]);
 
         $top5=$this->productRepository->getSalesTop5();
@@ -111,7 +111,7 @@ class ShopController extends Controller
     public function getSubcatalogueProducts(Request $request,$id){
 
         $products=Product::with("images")->active()->subcatalogue($id)->get([
-            "id","name","name_jp","o_price","rate","b_price","r_price"
+            "id","name","name_jp","o_price","rate","b_price","j_price","r_price"
         ]);
 
         $top5=$this->productRepository->getSalesTop5();
@@ -161,7 +161,7 @@ class ShopController extends Controller
         $mycart=new Cart($oldcart);
 
         $products=Product::with("images")->active()
-            ->get(["id","name","name_jp","thumbimage","postimage","subcatalogue_id","o_price","b_price","rate"]);
+            ->get(["id","name","name_jp","thumbimage","postimage","subcatalogue_id","o_price","b_price","j_price","rate"]);
 
         return view("shop.home",[
             "result"=>"OK",
