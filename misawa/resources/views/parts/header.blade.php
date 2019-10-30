@@ -1,5 +1,4 @@
-<!-- Header
-============================================= -->
+
 <header id="header" class="hidden-print">
 
     <div id="header-wrap">
@@ -70,24 +69,19 @@
                 </ul>
 
 
-                <!-- Top Cart
-                ============================================= -->
-
                 @role(['customer','distributor','customerAdmin','superadmin'])
                 <div id="menucart" class="hidden-print">
                     {{--<a href="/cart"><i class="icon-shopping-cart"></i><span class="cart_total"></span></a>--}}
-                </div><!-- #top-cart end -->
+                </div>
 
                 @endrole
 
-                @role(['guest','customer','distributor','customerAdmin','superadmin'])
-                <!-- Top Search
-                ============================================= -->
+<!--                 @role(['guest','customer','distributor','customerAdmin','superadmin'])
                 <div id="top-search" class="hidden-print">
                     <a href="/#/products"><i class="icon-search3"></i><i class="icon-line-cross"></i></a>
 
-                </div><!-- #top-search end -->
-                @endrole
+                </div>
+                @endrole -->
 
 
 
@@ -114,4 +108,4 @@
     </div>
 
 
-</header><!-- #header end -->
+</header><!-- #header end

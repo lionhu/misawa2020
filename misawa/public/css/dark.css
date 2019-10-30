@@ -47,21 +47,21 @@ body #side-panel.dark { background-color: #383838; }
 .dark #top-bar,
 #top-bar.dark {
 	border-bottom-color: rgba(255,255,255,0.1);
-	background-color: #282828;
+	background-color: rgb(26, 188, 156);
 }
 
 .dark .top-links ul li { border-left-color: rgba(255,255,255,0.1); }
 
-.dark .top-links li > a { color: #AAA; }
+.dark .top-links li > a { color: white; }
 
 .dark .top-links li:hover {
-	background-color: #333;
+	background-color: rgb(78, 220, 192);
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 
 .dark .top-links ul ul,
 .dark .top-links ul div.top-link-section {
-	background: #333;
+	background: rgb(78, 220, 192);
 	border-bottom: none;
 }
 
@@ -148,7 +148,7 @@ body.top-search-open .dark #header-wrap:not(.not-dark) #top-search a,
 .dark #header-wrap:not(.not-dark) #side-panel-trigger a:hover,
 .dark #header-wrap:not(.not-dark) #top-account a:hover,
 .dark #header-wrap:not(.not-dark) #top-search form input {
-	color: #EEE;
+	color: white;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
