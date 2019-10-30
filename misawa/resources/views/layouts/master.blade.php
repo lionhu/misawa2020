@@ -82,7 +82,7 @@
                 <div class="top-links">
                     <ul style="text-align: right;display: flex;">
                         @role(['viewer','guest','customer','distributor','customerAdmin','superadmin'])
-                        <li><a href="/faq" ><i class="fa fa-question fa-2x"></i>FAQ</a></li>
+                        <li><a href="/faq" ><i class="fa fa-question fa-2x"></i></a></li>
                         @endrole
 
                         <li class="top-links-language"><a href="#"><i class="i-plain icon-globe"></i></a>
@@ -94,12 +94,12 @@
                         </li>
 
                         @role(['viewer','guest','customer','distributor','customerAdmin','superadmin'])
-                        <li><a href="#" class="side-panel-trigger">{{trans("app.Menu")}}</a></li>
+                        <li><a href="#" class="side-panel-trigger"><i class="icon-list-alt fa-2x"></i></a></li>
                         @endrole
 
                         @role([ 'customer','distributor','customerAdmin','superadmin'])
                         <li>
-                            <a href="/#/cart"><i class="icon-shopping-cart"></i><span style="background-color: green;" class="cart_total badge badge-pill badge-success"></span></a>
+                            <a href="/#/cart"><i class="icon-shopping-cart fa-2x"></i><span style="background-color: green;" class="cart_total badge badge-pill badge-success"></span></a>
                         </li>
                         @endrole
                         <li>
