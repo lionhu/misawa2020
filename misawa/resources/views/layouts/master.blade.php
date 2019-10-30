@@ -80,7 +80,11 @@
                 <!-- Top Links
                 ============================================= -->
                 <div class="top-links">
-                    <ul style="text-align: right;">
+                    <ul style="text-align: right;display: flex;">
+                        @role(['viewer','guest','customer','distributor','customerAdmin','superadmin'])
+                        <li><a href="/faq" ><i class="fa fa-question fa-2x"></i>FAQ</a></li>
+                        @endrole
+
                         <li class="top-links-language"><a href="#"><i class="i-plain icon-globe"></i></a>
                             <ul>
                                 <li><a href="/language/ch"><img src="{{asset('images/flags/cn.svg')}}" alt="China"> 中文</a></li>
@@ -91,11 +95,11 @@
 
                         @role(['viewer','guest','customer','distributor','customerAdmin','superadmin'])
                         <li><a href="#" class="side-panel-trigger">{{trans("app.Menu")}}</a></li>
-
                         @endrole
+
                         @role([ 'customer','distributor','customerAdmin','superadmin'])
                         <li>
-                                <a href="/#/cart"><i class="icon-shopping-cart"></i><span style="background-color: green;" class="cart_total badge badge-pill badge-success"></span></a>
+                            <a href="/#/cart"><i class="icon-shopping-cart"></i><span style="background-color: green;" class="cart_total badge badge-pill badge-success"></span></a>
                         </li>
                         @endrole
                         <li>
