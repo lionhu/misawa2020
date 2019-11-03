@@ -7,6 +7,8 @@ Vue.use(VeeValidate)
 import VueI18n from 'vue-i18n'
 
 import {setToken,getToken} from "./lib/util.js"
+import "./lib/paymentform.js"
+import "./lib/mysqpaymentform.css"
 
 // setToken("zh_CN","lang")
 
