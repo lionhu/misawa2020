@@ -22,7 +22,7 @@ services:
     hostname: pgadmin4
     restart: always
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.10
 
   phpmyadmin:
@@ -40,7 +40,7 @@ services:
     volumes:
        - /sessions
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.9
 
   php:
@@ -51,7 +51,7 @@ services:
       - ./misawa:/var/www/html
       - ./system/logs:/var/log/webapplications
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.8
 
   mysql:
@@ -72,7 +72,7 @@ services:
     ports:
     - 3308:3306
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.7
 
 
@@ -90,7 +90,7 @@ services:
       - ./system/redis/redis_data:/var/redis
     command: redis-server --appendonly yes
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.6
 
   postgres:
@@ -103,7 +103,7 @@ services:
     ports:
       - 15432:5432
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.2
 
   rabbitmq:
@@ -118,7 +118,7 @@ services:
       - 5672:5672
       - 15672:15672
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.3
 
 
@@ -146,7 +146,7 @@ services:
     depends_on:
       - php
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.4
 
 
@@ -165,7 +165,7 @@ services:
       - postgres
       - redis
     networks:
-     misawa_exrate:
+     extnetwork:
         ipv4_address: 172.19.0.5
 
 
@@ -174,9 +174,7 @@ volumes:
 
 
 networks:
-  misawa_exrate:
+  extnetwork:
       ipam:
          config:
          - subnet: 172.19.0.0/16
-
-
