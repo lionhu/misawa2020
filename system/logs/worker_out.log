@@ -62,3 +62,51 @@
                 .> celery           exchange=celery(direct) key=celery
                 
 
+ 
+ -------------- celery@af2b7987349c v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-4.9.184-linuxkit-x86_64-with-debian-9.9 2019-11-03 17:05:33
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         project:0x7f0927903dd8
+- ** ---------- .> transport:   amqp://celery:**@rabbitmq:5672/my_vhost
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+ 
+ -------------- celery@6f54761c1a47 v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-4.9.184-linuxkit-x86_64-with-debian-9.9 2019-11-03 17:53:40
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         project:0x7f0e97132da0
+- ** ---------- .> transport:   amqp://celery:**@rabbitmq:5672/my_vhost
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+ 
+ -------------- celery@1085fbd8de7d v4.3.0 (rhubarb)
+---- **** ----- 
+--- * ***  * -- Linux-4.9.184-linuxkit-x86_64-with-debian-9.9 2019-11-03 17:59:15
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         project:0x7feadfbb5e48
+- ** ---------- .> transport:   amqp://celery:**@rabbitmq:5672/my_vhost
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
