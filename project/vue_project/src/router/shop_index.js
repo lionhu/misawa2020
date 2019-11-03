@@ -41,6 +41,15 @@ const router = new Router({
             }
         },
         {
+            path: '/pay/',
+            name:"payments",
+            components:{
+                // topmenu:loadView("shop/Header.vue"),
+                // sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("shop/Payment.vue")
+            }
+        },
+        {
             path: '/catalogue/:catalogue_id',
             name:"catalogue",
             components:{

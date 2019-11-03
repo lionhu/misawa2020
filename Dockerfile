@@ -5,13 +5,10 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y nginx supervisor vim
 
-# COPY /system/nginx/nginx.conf /etc/nginx/nginx.conf
-# COPY /system/nginx/my_nginx.conf /etc/nginx/sites-available/
-# RUN mkdir -p /etc/nginx/sites-enabled/\
-#     && ln -s /etc/nginx/sites-available/nginx_laravel.conf /etc/nginx/sites-enabled/
-
 RUN mkdir -p /etc/supervisor/logs/
 COPY /system/nginx/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN mkdir -p /var/log/webapplications
 
 RUN mkdir /django_project
 WORKDIR /django_project

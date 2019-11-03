@@ -4,6 +4,10 @@ FROM php:7.3.0-fpm-alpine3.8
 COPY php.ini /usr/local/etc/php/
 RUN mkdir -p /usr/local/lib/php/modules
 
+
+RUN mkdir -p /var/log/webapplications
+
+
 RUN apk upgrade --update && apk --no-cache add \
     # iconv, intl
     icu-dev \

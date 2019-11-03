@@ -6,6 +6,9 @@ WORKDIR /django_project
 
 RUN apt-get update && apt-get install -y  supervisor vim
 
+RUN mkdir -p /var/log/webapplications
+
+
 RUN mkdir -p /etc/supervisor/logs/
 COPY /system/nginx/supervisord_worker.conf /etc/supervisor/conf.d/supervisord.conf
 

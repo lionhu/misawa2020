@@ -1,0 +1,81 @@
+/usr/local/lib/python3.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+[2019-11-03 12:27:42,117: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: failed to resolve broker hostname.
+Trying again in 2.00 seconds...
+
+[2019-11-03 12:27:44,714: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: failed to resolve broker hostname.
+Trying again in 4.00 seconds...
+
+[2019-11-03 12:27:48,851: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: failed to resolve broker hostname.
+Trying again in 6.00 seconds...
+
+
+worker: Warm shutdown (MainProcess)
+/usr/local/lib/python3.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+[2019-11-03 12:33:29,883: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: [Errno 111] Connection refused.
+Trying again in 2.00 seconds...
+
+[2019-11-03 12:33:31,925: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: [Errno 111] Connection refused.
+Trying again in 4.00 seconds...
+
+[2019-11-03 12:33:35,951: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: [Errno 111] Connection refused.
+Trying again in 6.00 seconds...
+
+[2019-11-03 12:33:41,948: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: [Errno 111] Connection refused.
+Trying again in 8.00 seconds...
+
+[2019-11-03 12:33:49,987: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:5672/my_vhost: [Errno 111] Connection refused.
+Trying again in 10.00 seconds...
+
+[2019-11-03 12:34:01,205: WARNING/MainProcess] /usr/local/lib/python3.7/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+
+worker: Warm shutdown (MainProcess)
+/usr/local/lib/python3.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+[2019-11-03 12:42:06,860: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:15672/my_vhost: timed out.
+Trying again in 2.00 seconds...
+
+[2019-11-03 12:42:12,860: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:15672/my_vhost: timed out.
+Trying again in 4.00 seconds...
+
+[2019-11-03 12:42:20,881: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:15672/my_vhost: timed out.
+Trying again in 6.00 seconds...
+
+[2019-11-03 12:42:31,043: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:15672/my_vhost: timed out.
+Trying again in 8.00 seconds...
+
+[2019-11-03 12:42:43,038: ERROR/MainProcess] consumer: Cannot connect to amqp://celery:**@rabbitmq:15672/my_vhost: timed out.
+Trying again in 10.00 seconds...
+
+
+worker: Warm shutdown (MainProcess)
+/usr/local/lib/python3.7/site-packages/celery/platforms.py:801: RuntimeWarning: You're running the worker with superuser privileges: this is
+absolutely not recommended!
+
+Please specify a different user using the --uid option.
+
+User information: uid=0 euid=0 gid=0 egid=0
+
+  uid=uid, euid=euid, gid=gid, egid=egid,
+[2019-11-03 12:42:56,101: WARNING/MainProcess] /usr/local/lib/python3.7/site-packages/celery/fixups/django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
