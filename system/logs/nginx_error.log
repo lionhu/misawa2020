@@ -1,1 +1,0 @@
-2019/11/03 08:54:18 [error] 11#11: *24 open() "/django_project/static/cryptoadmin/images/favicon.ico" failed (2: No such file or directory), client: 172.18.0.2, server: exrate.nichiei.services, request: "GET /static/cryptoadmin/images/favicon.ico HTTP/1.1", host: "www.exrate.world", referrer: "http://www.exrate.world/"
