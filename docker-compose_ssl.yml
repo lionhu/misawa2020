@@ -1,4 +1,4 @@
-version: '2.3'
+version: '3.5'
 services:
   pgadmin4:
     image: dpage/pgadmin4:4.14
@@ -144,7 +144,6 @@ volumes:
 
 networks:
   proxy:
-    external:
-      name: self-nginx-proxy
+    name: self-nginx-proxy
 
 
