@@ -401,6 +401,9 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request,pk=None):
 
+        logger.error("get user systemEnvs")
+        logger.error(request.user.profile.membership)
+        
         if request.user.profile.membership=="ADMIN":
             cached_systemsEnvs=cache.get("ADMINEnvs")
             from_message="from cache"

@@ -10,4 +10,5 @@ project/logs/
 /system/redis/redis_data/
 /misawa/storage/logs/
 /project/project/settings.py
+@eaDir/
 
