@@ -151,7 +151,7 @@
                                     </td>
                                     <td>
                                         <span> <strong class="title">代理价：</strong>{{cartitem.dis_price | currency_rmb}}</span> <br>
-                                        <span> <strong class="title">代理价：</strong>{{cartitem.dis_j_price | currency_rmb}}</span> <br>
+                                        <span> {{cartitem.dis_j_price | currency_rmb}}</span> <br>
                                         <span> <strong class="title">药房价：</strong>{{cartitem.r_price | currency_jpy}}</span>
                                     </td>
                                     <td>
@@ -166,36 +166,25 @@
                         <div class="box clearfix">
                             <div class="row no-gutters py-2">
 
-                                <div class="col-sm-6 col-lg-4">
+                                <div class="col-12">
                                     <div class="box-body br-1 border-light">
-                                        <div class="flexbox mb-1">
-                                              <span>
-                                                <i class="ion-person font-size-26"></i><br>
+                                        <div class="mb-1">
+                                              <span style="display:block;">
                                                 总数量
                                                 </span>
                                             <span class="text-primary font-size-30">{{ props.row.cart_Qty }}</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="box-body br-1 border-light">
-                                        <div class="flexbox mb-1">
-                                              <span>
-                                                <i class="ion-person font-size-26"></i><br>
+                                        <div class=" mb-1">
+                                              <span  style="display:block;">
                                                 代理商总价(元)
                                                 </span>
-                                            <span class="text-primary font-size-30">{{ props.row.cart_Dis_Price |currency}}({{ props.row.cart_Dis_J_Price |currency}})</span>
+                                            <span class="text-primary font-size-30">{{ props.row.cart_Dis_Price |currency_rmb}}({{ props.row.cart_Dis_J_Price |currency_jpy}})</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="box-body br-1 border-light">
-                                        <div class="flexbox mb-1">
-                                              <span>
-                                                <i class="ion-person font-size-26"></i><br>
+                                        <div class=" mb-1">
+                                              <span  style="display:block;">
                                                 药房总价(円)
                                                 </span>
-                                            <span class="text-primary font-size-30">{{ props.row.cart_R_Price |currency}}</span>
+                                            <span class="text-primary font-size-30">{{ props.row.cart_R_Price |currency_rmb}}</span>
                                         </div>
                                     </div>
                                 </div>

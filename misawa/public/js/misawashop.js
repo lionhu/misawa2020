@@ -93537,7 +93537,9 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.ME.role == "distributor" || _vm.ME.role == "customerAdmin"
+            _vm.ME.role == "distributor" ||
+            _vm.ME.role == "customerAdmin" ||
+            _vm.ME.role == "superadmin"
               ? _c("span", { staticClass: "d-block text-warning" }, [
                   _vm._v(
                     "(" +

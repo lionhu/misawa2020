@@ -29,7 +29,7 @@
                     <a :href="'/#/viewproduct/'+product.id" target="_blank" class="btn btn-default  d-block" style="background-color: #1ABC9C;color: white;">
                         详细介绍</a>
                     <span  class="d-block text-warning" v-if="ME.role !=='guest'">{{product.b_price|currency_rmb}}</span>
-                    <span  class="d-block text-warning"   v-if="ME.role =='distributor' || ME.role =='customerAdmin'">({{product.j_price|currency_jpy}})</span>
+                    <span  class="d-block text-warning"   v-if="ME.role =='distributor' || ME.role =='customerAdmin' || ME.role =='superadmin' ">({{product.j_price|currency_jpy}})</span>
                 </div>
                 <div class="product-rating">
                 </div>
