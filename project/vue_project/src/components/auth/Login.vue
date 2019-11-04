@@ -95,6 +95,7 @@
 
               this.$store.dispatch("users/get_myprofile").then(
                 resolve=>{
+                    this.$store.dispatch("system/get_systemEnvs")
                     if(resolve.membership=="Admin"){
                       window.location.href="/superadmin/"
                     }else{

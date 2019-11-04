@@ -9,6 +9,7 @@ services:
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - portainer_data:/data
+
   pgadmin4:
     image: dpage/pgadmin4:4.14
     container_name: pgadmin4

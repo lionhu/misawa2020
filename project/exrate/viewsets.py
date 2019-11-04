@@ -402,37 +402,56 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
     def retrieve(self, request,pk=None):
 
         logger.error("get user systemEnvs")
-        logger.error(request.user.profile.membership)
-        
-        if request.user.profile.membership=="ADMIN":
-            cached_systemsEnvs=cache.get("ADMINEnvs")
-            from_message="from cache"
-            if cached_systemsEnvs is None:
-                systemEnvs=get_object_or_404(models.SystemEnv,name="ADMINEnvs")
-                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+        envs=request.user.profile.membership+"Envs"
+        logger.error(envs)
+
+        cached_systemsEnvs=cache.get(envs)
+        from_message="from cache"
+        if cached_systemsEnvs is None:
+            systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
+            serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
 
 
-                from_message="from db"
-                cached_systemsEnvs=serializer.data
-                cache.set("ADMINEnvs",cached_systemsEnvs)
-
-        else:
-            cached_systemsEnvs=cache.get("memberEnvs")
-            from_message="from cache"
-            if cached_systemsEnvs is None:
-                systemEnvs=get_object_or_404(models.SystemEnv,name="memberEnvs")
-                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
-
-
-                from_message="from db"
-                cached_systemsEnvs=serializer.data
-                cache.set("memberEnvs",cached_systemsEnvs)
+            from_message="from db"
+            cached_systemsEnvs=serializer.data
+            cache.set(envs,cached_systemsEnvs,600)
 
         return Response({
             "result":True,
             "message":from_message,
             "systemEnvs": cached_systemsEnvs
         },status=status.HTTP_200_OK)
+
+
+        # if request.user.profile.membership=="ADMIN":
+        #     cached_systemsEnvs=cache.get(envs)
+        #     from_message="from cache"
+        #     if cached_systemsEnvs is None:
+        #         systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
+        #         serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+
+
+        #         from_message="from db"
+        #         cached_systemsEnvs=serializer.data
+        #         cache.set(envs,cached_systemsEnvs)
+
+        # else:
+        #     cached_systemsEnvs=cache.get(envs)
+        #     from_message="from cache"
+        #     if cached_systemsEnvs is None:
+        #         systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
+        #         serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+
+
+        #         from_message="from db"
+        #         cached_systemsEnvs=serializer.data
+        #         cache.set(envs,cached_systemsEnvs)
+
+        # return Response({
+        #     "result":True,
+        #     "message":from_message,
+        #     "systemEnvs": cached_systemsEnvs
+        # },status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         return Response({

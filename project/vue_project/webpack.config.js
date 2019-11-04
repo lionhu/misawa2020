@@ -3,6 +3,9 @@ var webpack = require('webpack');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+
+var ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
@@ -22,6 +25,7 @@ module.exports ={
   output: {
     filename: "[name].js",
     // filename: "[name]-[hash].js",
+    // chunkFilename: '[name].bundle.js',
     path: path.resolve('../static/bundles/'),
     // publicPath: 'http://localhost:8080/static/', 
   },
@@ -90,22 +94,11 @@ module.exports ={
     },
   plugins:[
   	new VueLoaderPlugin(),
+    new ManifestPlugin(),
     new BundleAnalyzerPlugin({
       analyzerPort:18888
     }),
   	new BundleTracker({filename: './webpack-stats.json'}),
-    // new HtmlWebpackPlugin({
-    //   template: "./index.html",
-    //   title:"index",
-    //   filename:"index.html",
-    //   chunks:["apps"]
-    // }),
-    // new HtmlWebpackPlugin({
-    //   template: "./offers.html",
-    //   title:"Exrate Orders",
-    //   filename:"../../templates/vues/offers.html",
-    //   chunks:["main","vendor"]
-    // }),
     new CleanWebpackPlugin(),
 
   ],

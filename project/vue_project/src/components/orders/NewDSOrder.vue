@@ -1,26 +1,6 @@
 <template>
   <div>
-      <div class="box box-widget widget-user-3">
-          <div class="widget-user-header bg-purple" style="background: url('') center center;">
-          <div class="info-user">
-          <h3 class="widget-user-username">中国银行</h3>
-          <h6 class="widget-user-desc">{{todayrate.time}}@{{todayrate.day}}</h6>
-              </div>
-              <div class="widget-user-image clearfix">
-                <img class="rounded-circle" src="/static/img/boc.png" alt="User Avatar">
-              </div>
-              <!-- /.widget-user-image -->
-            </div>
-            <div class="box-footer no-padding">
-              <ul class="nav d-block nav-stacked">
-                <li class="nav-item"><a href="#" class="nav-link">{{$t("m.chao_in")}} <span class="pull-right badge bg-blue">{{todayrate.chao_in}}</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link">{{$t("m.chao_out")}} <span class="pull-right badge bg-green">{{todayrate.chao_out}}</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link">{{$t("m.hui_in")}} <span class="pull-right badge bg-yellow">{{todayrate.hui_in}}</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link">{{$t("m.hui_out")}} <span class="pull-right badge bg-red">{{todayrate.hui_out}}</span></a></li>
-              </ul>
-            </div>
-          </div>
-
+      <BOCRate></BOCRate>
       <form class="form-horizontal" @submit.prevent="submitform">
           <div class="box box-solid bg-dark">
             <div class="box-header with-border">
@@ -38,24 +18,24 @@
                 <div class="col-12">
 
                     <div class="form-group control-group row">
-                      <div class="col-6">
+                      <div class="col-6" v-if="systemEnvs.market_jr">
                         <a class="box box-link-shadow text-center pull-up" href="javascript:void(0)" @click="select_type_jpy">
                           <div class="box-body py-25 bg-light">
                             <p class="font-weight-600"><span class="flag-icon flag-icon-jp fa-2x"></span><i class="fa fa-fw fa-arrow-circle-right"></i><span class="flag-icon flag-icon-cn fa-2x"></span></p>
                           </div>
                           <div class="box-body">
-                            <p class="font-size-40 text-cyan">{{todayrate.chao_in}}
+                            <p class="font-size-40 text-cyan">{{traderate_jr}}
                             </p>
                           </div>
                         </a>
                       </div>
-                      <div class="col-6">
+                      <div class="col-6"  v-if="systemEnvs.market_rj">
                         <a class="box box-link-shadow text-center pull-up" href="javascript:void(0)" @click="select_type_rmb">
                           <div class="box-body py-25 bg-light">
                             <p class="font-weight-600"><span class="flag-icon flag-icon-cn fa-2x"></span><i class="fa fa-fw fa-arrow-circle-right"></i><span class="flag-icon flag-icon-jp fa-2x"></span></p>
                           </div>
                           <div class="box-body">
-                            <p class="font-size-40 text-pink">{{todayrate.hui_out}}
+                            <p class="font-size-40 text-pink">{{traderate_rj}}
                             </p>
                           </div>
                         </a>
@@ -124,11 +104,12 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-
+  import BOCRate from "./parts/BOCRate.vue"
 
   export default {
     name: 'neworder',
     components:{
+      BOCRate
     },
     inject:["reload"],
     data () {
@@ -149,13 +130,22 @@
       }
     },
     computed:{
-      // myprofile(){
-      //     return this.$store.state.users.profile;
-      // },
+      systemEnvs(){
+          return this.$store.state.system.systemEnvs.params.fixed_rate;
+      },
+      traderate_rj(){
+          var rj=parseFloat(this.systemEnvs.offset_rj)+parseFloat(this.todayrate.hui_out)
+          return rj.toFixed(4);
+      },
+      traderate_jr(){
+          var jr=parseFloat(this.systemEnvs.offset_jr)+parseFloat(this.todayrate.chao_in)
+          return jr.toFixed(4);
+      }
     },
     mounted() {
       this.ME=this.$store.state.users.profile;
       this.order.user= this.ME.user.id;
+      this.$store.dispatch("system/get_systemEnvs")
       this.$store.dispatch("system/get_todayrate").then(
         resolve=>{
           this.todayrate=resolve.todayrate
@@ -196,13 +186,13 @@
       select_type_jpy(){
         this.order.from_currency="jpy";
         this.order.to_currency = "rmb";
-        this.order.rate = this.todayrate.chao_in
+        this.order.rate = this.traderate_jr
         this.caculate_price()
       },
       select_type_rmb(){
         this.order.from_currency="rmb";
         this.order.to_currency = "jpy";
-        this.order.rate = this.todayrate.hui_out
+        this.order.rate = this.traderate_rj
 
         this.caculate_price()
       },

@@ -36,10 +36,10 @@ const actions = {
     get_systemEnvs({ commit }){
         console.log("store systemEnvs");
         return new Promise((resolve,reject)=>{
-            system.get_systemEnvs(
+            system.load_systemEnvs(
                 res => {
-                    if(!res.result){
-                        commit("setsystemEnvs",res.systemEnvs);
+                    if(res.data.result){
+                        commit("setsystemEnvs",res.data.systemEnvs);
                         // resolve(res.data)
                     }
                 },err =>{
@@ -66,7 +66,8 @@ const actions = {
 
 const mutations = {
     setsystemEnvs(state,data){
-        this.systemEnvs=data
+
+        state.systemEnvs=data
     },
     setToken(state,data){
         state.token=data.token;
