@@ -1,0 +1,73 @@
+version: '3.5'
+services:
+  nginx:
+    image: nginx
+    container_name: misawa_nginx
+    # ports:
+    #   - "80:80"
+    volumes:
+      - ./misawa:/var/www/html
+      - ./system/nginx/nginx_base_laravel.conf:/etc/nginx/nginx.conf
+      - ./system/nginx/nginx_laravel.conf:/etc/nginx/conf.d/nginx_laravel.conf
+    depends_on:
+      - php
+      - mysql
+    # ports:
+    #   - 80:80
+    networks:
+     - misawa_network
+     - proxy-network
+    environment:
+      - VIRTUAL_PORT=80
+      - VIRTUAL_HOST=shop.misawa-pharmacy.com
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=Hisshghu3500
+    links:
+      - mysql
+    ports:
+       - "8080:80"
+    volumes:
+       - /sessions
+    networks:
+     - misawa_network
+
+  php:
+    # image: lionhu/php73:v0
+    container_name: php
+    build: ./system/php
+    volumes:
+      - ./misawa:/var/www/html
+    networks:
+      - misawa_network
+
+  mysql:
+    # image: mysql:5.7
+    image: lionhu/mysql57:v0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Hisshghu3500
+      MYSQL_DATABASE: misawa2020
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Hisshghu3500
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./system/mysql/data:/var/lib/mysql
+    - ./system/mysql/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./system/mysql/sql:/docker-entrypoint-initdb.d
+    networks:
+     - misawa_network
+
+networks:
+  proxy-network:
+    name: proxy-network
+  misawa_network:
+    name: misawa_network

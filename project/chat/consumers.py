@@ -12,6 +12,11 @@ from .models import Message
 from useraccount.models import UserProfile
 from musics.tasks import task_mail_chatmessage
 
+import logging
+
+
+logger=logging.getLogger("error_logger")
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):

@@ -10,6 +10,19 @@ services:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - portainer_data:/data
 
+  iots_server:
+    image: lionhu/iots:v1
+    command: /usr/sbin/init
+    privileged: true
+    hostname: iots_server
+    container_name: iots_server
+    ports:
+      - "38080:80"
+      - "222:22"
+    networks:
+     extnetwork:
+        ipv4_address: 172.19.0.20
+        
   pgadmin4:
     image: dpage/pgadmin4:4.14
     container_name: pgadmin4
@@ -89,6 +102,7 @@ services:
       - 16379:6379
     volumes:
       - ./system/redis/redis_data:/var/redis
+      - ./conf/6379.conf:/usr/local/etc/redis/redis.conf
     command: redis-server --appendonly yes
     networks:
      extnetwork:
@@ -152,9 +166,10 @@ services:
 
 
   worker:
-    build: 
-      context: .
-      dockerfile: Dockerfile_worker
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile_worker
+    image: lionhu/exrate_misawa_worker:v0
     container_name: django_worker
     restart: always
     tty: true

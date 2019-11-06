@@ -422,37 +422,6 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
             "systemEnvs": cached_systemsEnvs
         },status=status.HTTP_200_OK)
 
-
-        # if request.user.profile.membership=="ADMIN":
-        #     cached_systemsEnvs=cache.get(envs)
-        #     from_message="from cache"
-        #     if cached_systemsEnvs is None:
-        #         systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
-        #         serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
-
-
-        #         from_message="from db"
-        #         cached_systemsEnvs=serializer.data
-        #         cache.set(envs,cached_systemsEnvs)
-
-        # else:
-        #     cached_systemsEnvs=cache.get(envs)
-        #     from_message="from cache"
-        #     if cached_systemsEnvs is None:
-        #         systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
-        #         serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
-
-
-        #         from_message="from db"
-        #         cached_systemsEnvs=serializer.data
-        #         cache.set(envs,cached_systemsEnvs)
-
-        # return Response({
-        #     "result":True,
-        #     "message":from_message,
-        #     "systemEnvs": cached_systemsEnvs
-        # },status=status.HTTP_200_OK)
-
     def update(self, request, pk=None):
         return Response({
             "error":0,
@@ -460,10 +429,23 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
         },status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk=None):
-        return Response({
-            "error":0,
-            "data": "partial_update"
-        },status=status.HTTP_200_OK)
+        _name=request.data.get("name")
+        _params=request.data.get("params")
+
+        systemEnvs=get_object_or_404(models.SystemEnv,name=_name)
+
+        serializer=self.serializer_class(systemEnvs,request.data,partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                "result":True,
+                "message": "partial_update",
+                "data":serializer.data
+            },status=status.HTTP_200_OK)
+
+        raise Http404
 
     def destroy(self, request, pk=None):
         return Response({
