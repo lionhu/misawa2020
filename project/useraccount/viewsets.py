@@ -29,6 +29,7 @@ import uuid
 from django.template.loader import render_to_string
 from .token_generator import account_activation_token
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import BaseAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from musics.tasks import EmailVerifyRecord
 from .tasks import sendPasswordResetEmail
@@ -191,8 +192,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         pwd=request.data.get("password",None)
 
         success=auth.authenticate(request,username=username,password=pwd)
-        user = User.objects.get(username=username)
         if success :
+
+            user = User.objects.get(username=username)
+            user.backend = 'useraccount.viewsets.CustomBackend'
             auth.login(request, user)
 
             return Response({
@@ -203,6 +206,15 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         raise Http404
 
 
+    @action(detail=False,methods=["post"],permission_classes=[AllowAny])
+    def LogoutMeSync(self,request):
+
+        auth.logout(request=request)
+
+        return Response({
+                "result":True,
+                "message":"sync logout success"
+            }, status=status.HTTP_200_OK)
 
 
     @action(detail=False,methods=["post"], permission_classes=[AllowAny])

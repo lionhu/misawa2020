@@ -37,6 +37,9 @@ from django.db.models import Q
 logger=logging.getLogger("error_logger")
 
 
+
+
+
 def user_active(request,active_code):
     print("可以1")
     all_records = EmailVerifyRecord.objects.filter(code=active_code)

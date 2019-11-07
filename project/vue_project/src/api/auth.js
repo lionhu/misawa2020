@@ -32,6 +32,13 @@ export const loginSync = ({ userName, password }) => {
     data: params
   })
 }
+export const logoutSync = () => {
+    console.log("logout logoutSync")
+  return axios.request({
+    url: '/api/userprofiles/LogoutMeSync/',
+    method: 'post'
+  })
+}
 
 export const authorization = ({token}) => {
   // console.log("api authorization")

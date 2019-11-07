@@ -96,11 +96,12 @@
               this.$store.dispatch("users/get_myprofile").then(
                 resolve=>{
                     this.$store.dispatch("system/get_systemEnvs")
-                    // if(resolve.membership=="Admin"){
-                    //   window.location.href="/superadmin/"
-                    // }else{
-                    //   window.location.href="/exrate/"
-                    // }
+                    // this.$router.push("/exrate/")
+                    if(resolve.membership=="Admin"){
+                      window.location.href="/superadmin/"
+                    }else{
+                      window.location.href="/exrate/"
+                    }
                 },rejecte=>{});
 
             })

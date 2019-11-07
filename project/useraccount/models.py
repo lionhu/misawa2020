@@ -94,7 +94,12 @@ def get_default_ancestor():
     root = User.objects.get(username="root")
     return root if root else null
 
+class UserToken(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE, related_name="usertoken")
+    token = models.CharField(default="", max_length=64)
 
+
+        
 class UserProfile(models.Model):
     slug = models.SlugField(null=True,blank=True,default=uuid.uuid4())
     user = models.OneToOneField(User,on_delete=models.CASCADE, related_name="profile")

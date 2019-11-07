@@ -1,5 +1,5 @@
 import usersAPI from '../../api/users.js';
-import { login, loginSync,authorization } from '../../api/auth'
+import { login, loginSync,logoutSync,authorization } from '../../api/auth'
 import { setToken,getToken } from '../../lib/util'
 
 // initial state
@@ -90,7 +90,11 @@ const actions = {
     })
   },
   logout ({ commit }) {
-    commit("reset_ME")
+    // console.log("logout")
+    logoutSync().then(res=>{
+            console.log(res)
+            commit("reset_ME")
+          })
   }
 
 };
