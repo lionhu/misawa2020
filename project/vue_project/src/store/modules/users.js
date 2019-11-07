@@ -1,5 +1,5 @@
 import usersAPI from '../../api/users.js';
-import { login, authorization } from '../../api/auth'
+import { login, loginSync,authorization } from '../../api/auth'
 import { setToken,getToken } from '../../lib/util'
 
 // initial state
@@ -60,6 +60,9 @@ const actions = {
 
         if (res.status === 200 && res.data.token) {
           // console.log(res.data)
+          loginSync({ userName, password }).then(res=>{
+            console.log(res)
+          })
           setToken(res.data.token,"jwt_token")
           resolve(res.data.token)
         } else {
