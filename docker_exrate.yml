@@ -24,7 +24,8 @@ services:
     hostname: pgadmin4
     restart: always
     networks:
-      - exrate_network
+      exrate_network:
+        ipv4_address: 172.19.0.8
 
   redis:
     container_name: redis
@@ -41,7 +42,8 @@ services:
       - ./conf/6379.conf:/usr/local/etc/redis/redis.conf
     command: redis-server --appendonly yes
     networks:
-      - exrate_network
+      exrate_network:
+        ipv4_address: 172.19.0.7
 
   postgres:
     container_name: postgres
@@ -53,7 +55,8 @@ services:
     # ports:
     #   - 15432:5432
     networks:
-      - exrate_network
+      exrate_network:
+        ipv4_address: 172.19.0.6
 
   rabbitmq:
     container_name: rabbitmq
@@ -67,7 +70,8 @@ services:
     #   - 5672:5672
     #   - 15672:15672
     networks:
-      - exrate_network
+      exrate_network:
+        ipv4_address: 172.19.0.5
 
 
   web:
@@ -84,8 +88,10 @@ services:
       - postgres
       - rabbitmq
     networks:
-      - exrate_network
-      - proxy-network
+      proxy-network:
+        ipv4_address: 172.18.0.3
+      exrate_network:
+        ipv4_address: 172.19.0.4
     environment:
       - VIRTUAL_HOST=www.exrate.world
 
@@ -106,8 +112,8 @@ services:
       - postgres
       - redis
     networks:
-      - exrate_network
-
+      exrate_network:
+        ipv4_address: 172.19.0.3
 
 volumes:
   portainer_data:
@@ -115,6 +121,10 @@ volumes:
 
 networks:
   proxy-network:
-    name: proxy-network
+    ipam:
+       config:
+       - subnet: 172.18.0.0/16
   exrate_network:
-    name: exrate_network
+    ipam:
+       config:
+       - subnet: 172.19.0.0/16

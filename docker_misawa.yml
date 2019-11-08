@@ -15,8 +15,10 @@ services:
     # ports:
     #   - 80:80
     networks:
-     - misawa_network
-     - proxy-network
+      misawa_network:
+        ipv4_address: 172.22.0.5
+      proxy-network:
+        ipv4_address: 172.18.0.5
     environment:
       - VIRTUAL_PORT=80
       - VIRTUAL_HOST=shop.misawa-pharmacy.com
@@ -37,7 +39,8 @@ services:
     volumes:
        - /sessions
     networks:
-     - misawa_network
+      misawa_network:
+        ipv4_address: 172.22.0.4
 
   php:
     # image: lionhu/php73:v0
@@ -46,7 +49,8 @@ services:
     volumes:
       - ./misawa:/var/www/html
     networks:
-      - misawa_network
+      misawa_network:
+        ipv4_address: 172.22.0.3
 
   mysql:
     # image: mysql:5.7
@@ -64,10 +68,15 @@ services:
     - ./system/mysql/db/my.cnf:/etc/mysql/conf.d/my.cnf
     - ./system/mysql/sql:/docker-entrypoint-initdb.d
     networks:
-     - misawa_network
+      misawa_network:
+        ipv4_address: 172.22.0.2
 
 networks:
   proxy-network:
-    name: proxy-network
+    ipam:
+       config:
+       - subnet: 172.18.0.0/16
   misawa_network:
-    name: misawa_network
+    ipam:
+       config:
+       - subnet: 172.22.0.0/16

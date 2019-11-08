@@ -91,10 +91,10 @@ const actions = {
   },
   logout ({ commit }) {
     // console.log("logout")
-    logoutSync().then(res=>{
-            console.log(res)
+    // logoutSync().then(res=>{
+    //         console.log(res)
             commit("reset_ME")
-          })
+          // })
   }
 
 };
