@@ -170,8 +170,13 @@ class ProductController extends Controller
             $products=Product::with("catalogue","subcatalogue","vendor","images")
                 ->where("subcatalogue_id",$subcatalogue_id)->get();
         }else{
+            // $products=Product::with("catalogue","subcatalogue","vendor","images")->
+            // where('name', 'LIKE', '%'.$keyworld.'%')->get();
             $products=Product::with("catalogue","subcatalogue","vendor","images")->
-            where('name', 'LIKE', '%'.$keyworld.'%')->get();
+            where(function($query) use ($keyworld){
+                \Log::info($keyworld);
+                return $query->where('name', 'LIKE', '%'.$keyworld.'%')->orWhere('name_jp', 'LIKE', '%'.$keyworld.'%')->orWhere('product_code', 'LIKE', '%'.$keyworld.'%');
+            })->get();
         }
 
         return response([
