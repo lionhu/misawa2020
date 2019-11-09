@@ -13,6 +13,7 @@ from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet,Syst
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet
 from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet
 from ds_exchange.viewsets import DSOrderViewSet
+from chat.viewsets import ChatMessageViewSet
 from rest_framework_swagger.views import get_swagger_view
 schema_view = get_swagger_view(title='Pastebin API')
 
@@ -36,6 +37,7 @@ router.register('cartitem', CartItemViewSet)
 router.register('shop_order', OrderViewSet)
 router.register('coupon', CouponViewSet)
 router.register('sysenv', SystemEnvViewSet)
+router.register('chat', ChatMessageViewSet)
 
 
 

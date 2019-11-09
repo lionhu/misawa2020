@@ -124,7 +124,7 @@
 
 <script>
     var roomName = '{{ room_name }}';
-    var chatSocket = new ReconnectingWebSocket('ws://' + window.location.host +'/ws/chat/' + roomName + '/');
+    var chatSocket = new ReconnectingWebSocket('ws://' + window.location.host +'/ws/vuechat/' + roomName + '/');
 
     console.log(chatSocket)
     console.log('{{ group_name }}')
