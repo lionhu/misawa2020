@@ -94,7 +94,7 @@ const actions = {
         usersAPI.getUserList(res=>{
           if(res.data.success){
             commit("setUserList",res.data.users)
-            resolve(res.data.users)
+            // resolve(res.data.users)
           }
         },err=>{})
       })

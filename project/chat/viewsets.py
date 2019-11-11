@@ -5,6 +5,7 @@ from rest_framework.decorators import list_route,detail_route,permission_classes
 from rest_framework.response import Response
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.contrib.auth.models import User
 from django.http import Http404
 from django.conf import settings
 from django.core import serializers
@@ -15,7 +16,7 @@ import datetime
 import json
 from django.core.cache import cache
 from .models import Message
-from .serializers import ChatMessageSerializer
+from .serializers import ChatMessageSerializer,ChatMessageSimpleSerializer
 
 
 logger=logging.getLogger("error_logger")
@@ -32,11 +33,11 @@ class ChatMessageViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.De
     permission_classes = [permissions.IsAuthenticated]
 
 
-    def get_object(self, pk):
-        try:
-            return Message.objects.get(pk=pk)
-        except Message.DoesNotExist:
-            raise Http404
+    # def get_object(self, pk):
+    #     try:
+    #         return Message.objects.get(pk=pk)
+    #     except Message.DoesNotExist:
+    #         raise Http404
 
     
     # def retrieve(self, request, pk=None):
@@ -88,11 +89,22 @@ class ChatMessageViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.De
 
     #     return Response(content)
 
-    # def list(self, request, format=None):
-    #     content={
-    #       "type":"get"
-    #     }
-    #     return Response(content)
+    @list_route(methods=['post'], permission_classes=[IsOwnerOrReadOnly])
+    def chatlist(self, request, format=None):
+        username=request.data["username"]
+        try:
+            # user = User.objects.filter(username=username).first()
+            messages = Message.objects.filter(group_name = "chat_%s"%(username)).order_by("created")
+            serializer = ChatMessageSerializer(messages,many=True)
+            content={
+              "type":"user chatlist",
+              "messages":serializer.data
+            }
+            return Response(content)            
+        except User.DoesNotExist:
+            pass
+
+
 
     # def put(self, request, pk, format=None):
     #     transaction = self.get_object(pk)

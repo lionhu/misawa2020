@@ -59,10 +59,11 @@ const actions = {
       login({ userName, password }).then(res => {
 
         if (res.status === 200 && res.data.token) {
-          // console.log(res.data)
-          loginSync({ userName, password }).then(res=>{
-            console.log(res)
-          })
+          // // console.log(res.data)
+          // console.log("loginSync")
+          // loginSync({ userName, password }).then(res=>{
+          //   console.log(res)
+          // })
           setToken(res.data.token,"jwt_token")
           resolve(res.data.token)
         } else {

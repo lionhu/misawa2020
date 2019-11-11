@@ -1,77 +1,31 @@
 <template>
   <div>
+
+    <RealtimeAlert visible="true" v-on:userstatus="userstatus_nofitication"></RealtimeAlert>
     <div class="row">
-      <div class="col-12">
+      <div class="col-lg-6 col-sm-12">
         <div class="box box-inverse box-dark">
             <div class="box-header with-border">
-              <h3 class="box-title">Recent Transactions</h3>
+              <h3 class="box-title">Admin User Lists</h3>
             </div>
             <div class="box-body">
               <el-table
                 :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                 style="width: 100%">
-<!--                 <el-table-column
-                  sortable
-                  prop="from_currency"
-                  min-width='50'
-                  align="right">
-                  <template slot-scope="scope">
-                      <span class="flag-icon flag-icon-jp" v-if="scope.row.from_currency=='jpy'"></span>
-                      <span class="flag-icon flag-icon-cn" v-if="scope.row.from_currency=='rmb'"></span>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  sortable
-                  prop="amount"
-                  label="Amount"
-                  min-width='150'
-                  align="right">
-                  <template slot-scope="scope">
-                    {{scope.row.amount|currency}}{{scope.row.from_currency =="jpy"? "万円":"元"}}
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  sortable
-                  prop="rate"
-                  label="Rate"
-                  align="right">
-                </el-table-column>
-                <el-table-column
-                  sortable
-                  prop="status"
-                  label="Status"
-                  align="center"
-                  min-width="120">
-                  <template slot-scope="scope">
-                    <a href="javascript:void(0)" style="width:110px;" class="btn b-1" v-bind:class="{'border-success':scope.row.status=='new','border-danger':scope.row.status=='Matching'}">
-                    {{scope.row.status}}
-                    <i class="fa fa-user pull-right" v-if="scope.row.user.id==ME.id"></i>
-                  </a>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                    sortable
-                    prop="user.username"
-                    label="User"
-                    min-width="120">
-                    <template slot-scope="scope">
-                      {{ scope.row.user.username |filterUsername}}
-                  </template>
-                  </el-table-column>
-                <el-table-column
-                    sortable
-                    label="Offers"
-                    min-width="100">
-                    <template slot-scope="scope">
-                      <span class="badge badge-pill badge-warning" style="width:50px;" v-if="scope.row.offers.length">{{scope.row.offers.length}}</span>
-                    </template>
-                </el-table-column> -->
                 <el-table-column
                     sortable
                     prop="username"
                     label="User"
                     min-width="120">
-                  </el-table-column>
+                </el-table-column>
+                <el-table-column
+                    sortable
+                    label="Statue"
+                    min-width="100">
+                    <template slot-scope="scope">                    
+                        <span class="badge badge-pill" :class="{'badge-danger': !scope.row.profile.online,'badge-success':scope.row.profile.online}" style="width:50px;"  @click="chatwith(scope.row.username)">{{scope.row.profile.online}}</span>
+                    </template>
+                </el-table-column> 
               </el-table>
               <el-pagination
                 small
@@ -81,6 +35,9 @@
               </el-pagination>
             </div>
         </div>
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        <ChatUser :username="chatwithuser"></ChatUser>
       </div>
     </div>
   </div>
@@ -92,6 +49,8 @@
   import Swal from 'sweetalert2'
   import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
+  import RealtimeAlert from "../parts/RealtimeAlert.vue"
+  import ChatUser from "./parts/Chat.vue"
 
   import {setToken,getToken} from "../../lib/util.js"
 
@@ -103,7 +62,9 @@
       elTableColumn: TableColumn,
       elPagination:Pagination,
       elForm:Form,
-      elFormItem:FormItem
+      elFormItem:FormItem,
+      RealtimeAlert,
+      ChatUser
     },
     data () {
       return {
@@ -111,24 +72,39 @@
         total:0,
         pagesize:10,
         currentPage:1,
+        chatwithuser:""
       }
     },
     computed:{
     },
     created() {
       this.loadUserList()
+      this.tableData=this.$store.state.users.userlist
     },
     methods: {
       loadUserList(){
-        this.$store.dispatch("users/getUserList").then(
-          resolve=>{
-            this.tableData=resolve
-            this.total=this.tableData.length;
-          },reject=>{})
+        this.$store.dispatch("users/getUserList")
       },
       current_change:function(currentPage){
           this.currentPage = currentPage;
       },
+      userstatus_nofitication(data){
+        console.log("userstatus_nofitication")
+        var users= this.tableData
+        const userIndex=users.findIndex(user =>user.id ==data.user_id)
+
+        if(userIndex>-1){
+          var user=users[userIndex]
+          user.profile.online=data.status
+
+          users.splice(userIndex,1,user)
+        }
+        this.$set(this.tableData,users)
+      },
+      chatwith(username){
+        console.log(username)
+        this.chatwithuser=username
+      }
     },
     watch: {
     '$route' (to, from) {

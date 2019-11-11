@@ -168,6 +168,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return Response({'message': 'OK'})
         
 
+    def AlsoLoginMeSync(self,request,user):
+        user.backend = 'useraccount.viewsets.CustomBackend'
+        auth.login(request, user)
+
+        logger.error("AlsoLoginMeSync Good")
 
     @action(detail=False,methods=["get"], permission_classes=[inBlacklist])
     def get_myprofile(self,request):
@@ -175,6 +180,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
         if profile:
             serializer=UserProfileSerializerV1(profile,many=False)
+            self.AlsoLoginMeSync(request, profile.user)
             return Response({
                     "result":True,
                     "data":serializer.data
@@ -186,24 +192,29 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         }, status=status.HTTP_404_NOT_FOUND)
 
 
-    @action(detail=False,methods=["post"],permission_classes=[AllowAny])
-    def LoginMeSync(self,request):
-        username=request.data.get("username",None)
-        pwd=request.data.get("password",None)
 
-        success=auth.authenticate(request,username=username,password=pwd)
-        if success :
 
-            user = User.objects.get(username=username)
-            user.backend = 'useraccount.viewsets.CustomBackend'
-            auth.login(request, user)
 
-            return Response({
-                    "result":True,
-                    "message":"sync login success"
-                }, status=status.HTTP_200_OK)
 
-        raise Http404
+    # @action(detail=False,methods=["post"],permission_classes=[AllowAny])
+    # def LoginMeSync(self,request):
+    #     username=request.data.get("username",None)
+    #     pwd=request.data.get("password",None)
+
+    #     success=auth.authenticate(request,username=username,password=pwd)
+    #     if success :
+
+    #         user = User.objects.get(username=username)
+    #         user.backend = 'useraccount.viewsets.CustomBackend'
+    #         auth.login(request, user)
+
+    #         logger.error("LoginMeSync Good")
+    #         return Response({
+    #                 "result":True,
+    #                 "message":"sync login success"
+    #             }, status=status.HTTP_200_OK)
+
+    #     raise Http404
 
 
     @action(detail=False,methods=["post"],permission_classes=[AllowAny])

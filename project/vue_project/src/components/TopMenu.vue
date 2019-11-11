@@ -2,7 +2,7 @@
   <header class="main-header">
     <!-- Logo -->
 
-
+    <RealtimeAlert visible="false"></RealtimeAlert>
     <a href="javascript:void(0)" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels 
     <b class="logo-mini">
@@ -32,9 +32,13 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
 
+  import RealtimeAlert from "./parts/RealtimeAlert.vue"
+
+
   export default {
     name: 'topmenu',
     components:{
+      RealtimeAlert
     },
     data () {
       return {

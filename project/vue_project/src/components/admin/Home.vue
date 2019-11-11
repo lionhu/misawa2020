@@ -28,7 +28,7 @@
       checkIsAdmin(){
         const membership=this.$store.state.users.profile.membership
 
-        if(membership !="Admin"){
+        if(membership !="ADMIN"){
           window.location.href="/exrate"
         }
         console.log("pass admin check")

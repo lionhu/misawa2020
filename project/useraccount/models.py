@@ -123,6 +123,7 @@ class UserProfile(models.Model):
     line= models.ImageField(upload_to=get_line_image_path,default="id.png",blank =True,null=True)
     approved = models.BooleanField(default=False)
     canTakeBonus = models.BooleanField(default=False)
+    online = models.BooleanField(default=False)
     mod_date = models.DateTimeField('Last modified',auto_now=True)
 
     class Meta:
