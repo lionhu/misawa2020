@@ -106,6 +106,17 @@ const mutations = {
     setUserList(state,users){
       state.userlist=users
     },
+    setUserStatus(state,data){
+      const userIndex=state.userlist.findIndex(user =>user.id ==data.user_id)
+
+        if(userIndex>-1){
+          var user=state.userlist[userIndex]
+          user.profile.online=data.status
+
+          state.userlist.splice(userIndex,1,user)
+        }
+        // this.$set(this.tableData,users)
+    },
     set_myprofile(state,data){
         state.profile=data;
         state.ME.username=data.user.username

@@ -68,7 +68,7 @@
     },
     data () {
       return {
-        tableData:[],
+        // tableData:[],
         total:0,
         pagesize:10,
         currentPage:1,
@@ -76,10 +76,14 @@
       }
     },
     computed:{
+      tableData(){
+        return this.$store.state.users.userlist
+      }
     },
     created() {
       this.loadUserList()
-      this.tableData=this.$store.state.users.userlist
+      // let users=this.$store.state.users.userlist
+      // this.tableData=users
     },
     methods: {
       loadUserList(){
@@ -90,16 +94,17 @@
       },
       userstatus_nofitication(data){
         console.log("userstatus_nofitication")
-        var users= this.tableData
-        const userIndex=users.findIndex(user =>user.id ==data.user_id)
+        this.$store.commit("users/setUserStatus",data)
+        // var users= this.tableData
+        // const userIndex=users.findIndex(user =>user.id ==data.user_id)
 
-        if(userIndex>-1){
-          var user=users[userIndex]
-          user.profile.online=data.status
+        // if(userIndex>-1){
+        //   var user=users[userIndex]
+        //   user.profile.online=data.status
 
-          users.splice(userIndex,1,user)
-        }
-        this.$set(this.tableData,users)
+        //   users.splice(userIndex,1,user)
+        // }
+        // this.$set(this.tableData,users)
       },
       chatwith(username){
         console.log(username)
