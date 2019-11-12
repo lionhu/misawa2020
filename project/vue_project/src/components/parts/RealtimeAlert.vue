@@ -71,7 +71,7 @@
               }else{
                 Toast.fire({
                   type: data.message_type,
-                  title: data.message
+                  html: "<a href='/'>"+data.message+"</a>"
                 })
               }
 
