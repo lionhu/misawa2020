@@ -94,7 +94,7 @@ const actions = {
         usersAPI.getUserList(res=>{
           if(res.data.success){
             commit("setUserList",res.data.users)
-            resolve(res.data.users)
+            // resolve(res.data.users)
           }
         },err=>{})
       })
@@ -105,6 +105,17 @@ const actions = {
 const mutations = {
     setUserList(state,users){
       state.userlist=users
+    },
+    setUserStatus(state,data){
+      const userIndex=state.userlist.findIndex(user =>user.id ==data.user_id)
+
+        if(userIndex>-1){
+          var user=state.userlist[userIndex]
+          user.profile.online=data.status
+
+          state.userlist.splice(userIndex,1,user)
+        }
+        // this.$set(this.tableData,users)
     },
     set_myprofile(state,data){
         state.profile=data;

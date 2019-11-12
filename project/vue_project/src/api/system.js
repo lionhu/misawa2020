@@ -17,7 +17,7 @@ export default {
         })
     },
     load_systemEnvs(cb, errorCb){
-        axios.post('/api/sysenv/d/')
+        axios.get('/api/sysenv/d/')
         .then((res)=>{
             cb(res)
         }).catch(function(error){

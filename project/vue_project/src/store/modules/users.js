@@ -1,5 +1,5 @@
 import usersAPI from '../../api/users.js';
-import { login, authorization } from '../../api/auth'
+import { login, loginSync,logoutSync,authorization } from '../../api/auth'
 import { setToken,getToken } from '../../lib/util'
 
 // initial state
@@ -59,7 +59,11 @@ const actions = {
       login({ userName, password }).then(res => {
 
         if (res.status === 200 && res.data.token) {
-          // console.log(res.data)
+          // // console.log(res.data)
+          // console.log("loginSync")
+          // loginSync({ userName, password }).then(res=>{
+          //   console.log(res)
+          // })
           setToken(res.data.token,"jwt_token")
           resolve(res.data.token)
         } else {
@@ -87,7 +91,11 @@ const actions = {
     })
   },
   logout ({ commit }) {
-    commit("reset_ME")
+    // console.log("logout")
+    // logoutSync().then(res=>{
+    //         console.log(res)
+            commit("reset_ME")
+          // })
   }
 
 };

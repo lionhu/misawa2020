@@ -21,6 +21,24 @@ export const login = ({ userName, password }) => {
     data: params
   })
 }
+export const loginSync = ({ userName, password }) => {
+  var params={
+      "username":userName,
+      "password":password
+    }
+  return axios.request({
+    url: '/api/userprofiles/LoginMeSync/',
+    method: 'post',
+    data: params
+  })
+}
+export const logoutSync = () => {
+    console.log("logout logoutSync")
+  return axios.request({
+    url: '/api/userprofiles/LogoutMeSync/',
+    method: 'post'
+  })
+}
 
 export const authorization = ({token}) => {
   // console.log("api authorization")

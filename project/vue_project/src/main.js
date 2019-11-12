@@ -1,6 +1,9 @@
 require('./bootstrap');
 
 import Vue from 'vue';
+
+// Vue.config.devtools=false
+
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate)
 

@@ -94,7 +94,12 @@ def get_default_ancestor():
     root = User.objects.get(username="root")
     return root if root else null
 
+class UserToken(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE, related_name="usertoken")
+    token = models.CharField(default="", max_length=64)
 
+
+        
 class UserProfile(models.Model):
     slug = models.SlugField(null=True,blank=True,default=uuid.uuid4())
     user = models.OneToOneField(User,on_delete=models.CASCADE, related_name="profile")
@@ -118,6 +123,7 @@ class UserProfile(models.Model):
     line= models.ImageField(upload_to=get_line_image_path,default="id.png",blank =True,null=True)
     approved = models.BooleanField(default=False)
     canTakeBonus = models.BooleanField(default=False)
+    online = models.BooleanField(default=False)
     mod_date = models.DateTimeField('Last modified',auto_now=True)
 
     class Meta:

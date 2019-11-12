@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+
+  iots_server:
+    image: lionhu/iots:v1
+    command: /usr/sbin/init
+    privileged: true
+    hostname: iots_server
+    container_name: iots_server    
+    ports:
+      - "38080:80"
+      - "222:22"
+    networks:
+     iots_network:
+        ipv4_address: 172.21.0.2
+        
+networks:
+  proxy-network:
+    ipam:
+       config:
+       - subnet: 172.18.0.0/16
+  iots_network:
+    ipam:
+       config:
+       - subnet: 172.21.0.0/16

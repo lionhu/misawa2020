@@ -401,29 +401,20 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request,pk=None):
 
-        if request.user.profile.membership=="ADMIN":
-            cached_systemsEnvs=cache.get("ADMINEnvs")
-            from_message="from cache"
-            if cached_systemsEnvs is None:
-                systemEnvs=get_object_or_404(models.SystemEnv,name="ADMINEnvs")
-                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
+        logger.error("get user systemEnvs")
+        envs=request.user.profile.membership+"Envs"
+        logger.error(envs)
+
+        cached_systemsEnvs=cache.get(envs)
+        from_message="from cache"
+        if cached_systemsEnvs is None:
+            systemEnvs=get_object_or_404(models.SystemEnv,name=envs)
+            serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
 
 
-                from_message="from db"
-                cached_systemsEnvs=serializer.data
-                cache.set("ADMINEnvs",cached_systemsEnvs)
-
-        else:
-            cached_systemsEnvs=cache.get("memberEnvs")
-            from_message="from cache"
-            if cached_systemsEnvs is None:
-                systemEnvs=get_object_or_404(models.SystemEnv,name="memberEnvs")
-                serializer=serializers.SystemEnvSerializer(systemEnvs,many=False)
-
-
-                from_message="from db"
-                cached_systemsEnvs=serializer.data
-                cache.set("memberEnvs",cached_systemsEnvs)
+            from_message="from db"
+            cached_systemsEnvs=serializer.data
+            cache.set(envs,cached_systemsEnvs,600)
 
         return Response({
             "result":True,
@@ -438,10 +429,23 @@ class SystemEnvViewSet(viewsets.ModelViewSet):
         },status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk=None):
-        return Response({
-            "error":0,
-            "data": "partial_update"
-        },status=status.HTTP_200_OK)
+        _name=request.data.get("name")
+        _params=request.data.get("params")
+
+        systemEnvs=get_object_or_404(models.SystemEnv,name=_name)
+
+        serializer=self.serializer_class(systemEnvs,request.data,partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                "result":True,
+                "message": "partial_update",
+                "data":serializer.data
+            },status=status.HTTP_200_OK)
+
+        raise Http404
 
     def destroy(self, request, pk=None):
         return Response({

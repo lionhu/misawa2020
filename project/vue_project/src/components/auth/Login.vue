@@ -95,7 +95,9 @@
 
               this.$store.dispatch("users/get_myprofile").then(
                 resolve=>{
-                    if(resolve.membership=="Admin"){
+                    this.$store.dispatch("system/get_systemEnvs")
+                    // this.$router.push("/exrate/")
+                    if(resolve.membership=="ADMIN"){
                       window.location.href="/superadmin/"
                     }else{
                       window.location.href="/exrate/"

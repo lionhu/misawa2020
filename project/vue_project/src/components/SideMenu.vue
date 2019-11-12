@@ -169,39 +169,10 @@
             this.$i18n.locale = result.value.language;//关键语句
             Swal.fire(this.$t("m.selected_lanaguage")+result.value.language)
         })
-
-
-        /* inputOptions can be an object or Promise */
-        // const { value: lang } = await Swal.fire({
-        //   title: 'Select Lanaguage',
-        //   input: 'select',
-        //   inputOptions: {
-        //     jp: '日本語<i class="fa fa-language"></i>',
-        //     zh_CN: '中文',
-        //     en_US: 'English'
-        //   },
-        //   inputPlaceholder: 'Select a Lanaguage',
-        //   showCancelButton: true,
-        //   inputValidator: (value) => {
-        //     console.log(value)
-        //     return new Promise((resolve) => {
-        //       if (value === 'oranges') {
-        //         resolve()
-        //       } else {
-        //         resolve('You need to select oranges :)')
-        //       }
-        //     })
-        //   }
-        // })
-
-        // if (lang) {
-        //   setToken(lang,"lang");
-        //   this.$i18n.locale = lang;//关键语句
-        // }
       },
       logout(){
         this.$store.dispatch("users/logout")
-        location.reload()
+        window.location.href="/member/#/login"
       }
     }
   };

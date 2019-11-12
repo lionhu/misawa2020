@@ -159,6 +159,16 @@ const router = new Router({
                 maincontent:loadView("shop/ShopOrderList.vue")
             }
         },
+
+        {
+            path: '/chat',
+            name:"chat",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("Chat.vue")
+            }
+        },
     ]
 });
 

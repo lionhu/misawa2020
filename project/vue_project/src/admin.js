@@ -7,9 +7,6 @@ Vue.use(VeeValidate)
 import VueI18n from 'vue-i18n'
 import {setToken,getToken} from "./lib/util.js"
 
-// setToken("zh_CN","lang")
-
-
 Vue.use(VueI18n) // 通过插件的形式挂载
 const i18n = new VueI18n({
     locale: "jp",    // 语言标识
