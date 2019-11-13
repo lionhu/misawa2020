@@ -126,10 +126,6 @@
     },
     methods: {
         init_websocker(username){
-              // var ws_scheme = window.location.protocol=='https'?"wss://www.exrate.world:8001/wss/":"ws://www.exrate.world:8001/ws";
-
-              // this.websocket = new ReconnectingWebSocket('wss://www.exrate.world:8001/wss/vuechat/'+username+'/');
-
               this.websocket = new ReconnectingWebSocket('ws://' + window.location.host +':8001/ws/vuechat/'+username+'/');
               this.websocket.onopen = this.websocketonopen;
 
