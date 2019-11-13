@@ -44,7 +44,7 @@
         init_websocker(){
               var ws_scheme = window.location.protocol=='https'?"wss://www.exrate.world:8001/wss/":"ws://www.exrate.world:8001/ws";
 
-              // this.websocket = new ReconnectingWebSocket("ws://" + window.location.host +'/ws/systemchannel/public/');
+              // this.websocket = new ReconnectingWebSocket("ws://" + window.location.host +':8001/ws/systemchannel/public/');
 
               this.websocket = new ReconnectingWebSocket(ws_scheme + '/systemchannel/public/');
               console.log(this.websocket )
