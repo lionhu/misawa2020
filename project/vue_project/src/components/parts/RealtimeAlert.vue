@@ -42,7 +42,7 @@
     },
     methods: {
         init_websocker(){
-              this.websocket = new ReconnectingWebSocket('ws://' + window.location.host +'/ws/systemchannel/public/');
+              this.websocket = new ReconnectingWebSocket('wss://' + window.location.host +':2443/ws/systemchannel/public/');
               console.log(this.websocket )
               this.websocket.onopen = this.websocketonopen;
 
