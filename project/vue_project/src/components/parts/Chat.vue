@@ -126,7 +126,7 @@
     },
     methods: {
         init_websocker(username){
-              this.websocket = new ReconnectingWebSocket('ws://' + window.location.host +':2080/ws/vuechat/'+username+'/');
+              this.websocket = new ReconnectingWebSocket('ws://' + window.location.host +'/ws/vuechat/'+username+'/');
               this.websocket.onopen = this.websocketonopen;
 
 　　　　　　　　this.websocket.onerror = this.websocketonerror;
