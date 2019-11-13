@@ -66,6 +66,7 @@ services:
       - ./system/logs:/var/log/webapplications
     depends_on:
       - mysql
+    privileged: true
     networks:
      extnetwork:
         ipv4_address: 172.19.0.8
