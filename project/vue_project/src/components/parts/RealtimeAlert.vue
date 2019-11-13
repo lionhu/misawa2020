@@ -42,11 +42,11 @@
     },
     methods: {
         init_websocker(){
-              var ws_scheme = window.location.protocol=='https'?"wss://":"ws://";
+              var ws_scheme = window.location.protocol=='https'?"wss://www.exrate.world:8001":"ws://www.exrate.world:8001";
 
               // this.websocket = new ReconnectingWebSocket("ws://" + window.location.host +'/ws/systemchannel/public/');
 
-              this.websocket = new ReconnectingWebSocket(ws_scheme + window.location.host +':8001/ws/systemchannel/public/');
+              this.websocket = new ReconnectingWebSocket(ws_scheme + '/ws/systemchannel/public/');
               console.log(this.websocket )
               this.websocket.onopen = this.websocketonopen;
 
