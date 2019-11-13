@@ -42,7 +42,7 @@
     },
     methods: {
         init_websocker(){
-              var ws_scheme = window.location.protocol=='https'?"wss":"ws";
+              var ws_scheme = window.location.protocol=='https'?"wss://":"ws://";
 
               // this.websocket = new ReconnectingWebSocket("ws://" + window.location.host +'/ws/systemchannel/public/');
 
