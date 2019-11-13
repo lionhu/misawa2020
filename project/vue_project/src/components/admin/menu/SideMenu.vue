@@ -26,8 +26,8 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="nav-devider"></li>
         <li class="header nav-small-cap">
-          <a class="text-center font-weight-600 font-size-30" style="background-color:#964848">
-            Fixed Rate</a>
+          <a href="/exrate/#/" class="text-center font-weight-600 font-size-30" style="background-color:#964848">
+            Exrate Market</a>
           </li>
         <li class="header nav-small-cap">PERSONAL</li>
         <li class="">
