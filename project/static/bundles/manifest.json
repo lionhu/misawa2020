@@ -9,7 +9,6 @@
   "../../static/bundles/TopMenu-vue.js": "../../static/bundles/TopMenu-vue.js",
   "../../static/bundles/admin-Home-vue.js": "../../static/bundles/admin-Home-vue.js",
   "../../static/bundles/admin-Orders-vue.js": "../../static/bundles/admin-Orders-vue.js",
-  "../../static/bundles/admin-SideMenu-vue.js": "../../static/bundles/admin-SideMenu-vue.js",
   "../../static/bundles/admin-Users-vue.js": "../../static/bundles/admin-Users-vue.js",
   "../../static/bundles/admin-menu-SideMenu-vue.js": "../../static/bundles/admin-menu-SideMenu-vue.js",
   "../../static/bundles/admin-menu-TopMenu-vue.js": "../../static/bundles/admin-menu-TopMenu-vue.js",
