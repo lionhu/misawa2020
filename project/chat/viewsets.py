@@ -104,6 +104,24 @@ class ChatMessageViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.De
         except User.DoesNotExist:
             pass
 
+    @list_route(methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    def test(self, request, format=None):
+        content={
+          "type":"get method",
+          "messages":"Hello from Nichiei"
+        }
+        return Response(content)
+
+
+    @list_route(methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def test(self, request, format=None):
+        content={
+          "type":"get method",
+          "messages":"Hello from Nichiei",
+          "params":request.data
+        }
+        return Response(content)
+
 
 
     # def put(self, request, pk, format=None):
