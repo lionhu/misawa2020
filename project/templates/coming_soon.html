@@ -25,7 +25,7 @@
 
 	<!-- Crypto_Admin skins -->
 	<link rel="stylesheet" href="{%  static 'cryptoadmin/css/skins/_all-skins.css' %}">	
-
+	<script type="text/javascript" src="{%  static 'js/reconnecting-websocket.min.js' %}"></script>
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -87,6 +87,23 @@
 	<!-- Crypto_Admin for demo purposes -->
 	<script src="{%  static 'cryptoadmin/js/pages/comingsoon.js' %}"></script>
 
+	<script>
 
+	var wss = new ReconnectingWebSocket('wss://www.exrate.world:3443/wss/systemchannel/public/');
+
+	console.log(wss)
+	wss.on('open', function() {
+	    console.log('socket open');
+	});
+	wss.on('error', function() {
+	    console.log('socket error');
+	    // how do I reconnect to the ws after x minutes here?
+	});
+	wss.on('close', function() {
+	    console.log('socket close');
+	    // how do I reconnect to the ws after x minutes here?
+	});
+
+	</script>
 </body>
 </html>

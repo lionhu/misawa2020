@@ -1,38 +1,46 @@
 [supervisord]
 nodaemon=true
 
+
 [program:uwsgi]
 command=/usr/local/bin/uwsgi --ini  uwsgi.ini
 directory=/django_project
-stdout_logfile=/django_project/log/uwsgi_out.log
-stderr_logfile=/django_project/log/uwsgi_err.log
+stdout_logfile=/var/log/webapplications/uwsgi_out.log
+stderr_logfile=/var/log/webapplications/uwsgi_err.log
 autostart=true
 autorestart=true
 user=root
 startsecs=10
 
+[program:daphne]
+#command=daphne -b 0.0.0.0 -p 8001 project.asgi:application
+command=daphne -e ssl:3443:privateKey=/etc/nginx/certs/NGINX.key:certKey=/etc/nginx/certs/NGINX.crt project.asgi:application
+directory=/django_project
+stdout_logfile=/var/log/webapplications/websocket_out.log
+stderr_logfile=/var/log/webapplications/websocket_err.log
+autostart=true
+autorestart=true
+user=root
+startsecs=10
 
 [program:nginx]
 command=/usr/sbin/nginx -g "daemon off;"
 startsecs = 3
 autostart = true
 autorestart = true 
-user = root
-stdout_logfile = /django_project/log/supervisord-nginx.log
-stderr_logfile = /django_project/log/supervisord-nginx-error.log
+stdout_logfile = /var/log/webapplications/supervisord-nginx.log
+stderr_logfile = /var/log/webapplications/supervisord-nginx-error.log
 
-
-[program:sshd]
-command=/usr/sbin/sshd -D
-
-[program:daphne]
-command=daphne -b 0.0.0.0 -p 8001 project.asgi:application
+[program:worker]
+command=celery -A project worker -B
 directory=/django_project
-stdout_logfile=/django_project/log/websocket_out.log
-stderr_logfile=/django_project/log/websocket_err.log
+stdout_logfile=/var/log/webapplications/worker_out.log
+stderr_logfile=/var/log/webapplications/worker_err.log
 autostart=true
 autorestart=true
 user=root
 startsecs=10
+
+
 
 

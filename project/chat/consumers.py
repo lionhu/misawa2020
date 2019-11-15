@@ -174,20 +174,21 @@ class PublicConsumer(AsyncWebsocketConsumer):
                 await self.accept()
 
     async def disconnect(self, close_code):
-        userprofile = UserProfile.objects.get(user_id=self.scope["user"].id)
-        if userprofile is not None:
-            userprofile.online=False
-            userprofile.save()
+        if self.scope["user"].id is not None:
+            userprofile = UserProfile.objects.get(user_id=self.scope["user"].id)
+            if userprofile is not None:
+                userprofile.online=False
+                userprofile.save()
 
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'online_status',
-                'message_type': "userstatus",
-                'status': False,
-                'user_id': self.scope["user"].id
-            }
-        )
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'online_status',
+                    'message_type': "userstatus",
+                    'status': False,
+                    'user_id': self.scope["user"].id
+                }
+            )
 
         # Leave room group
         await self.channel_layer.group_discard(
