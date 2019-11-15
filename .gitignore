@@ -1,3 +1,4 @@
+project/supervisord.pid
 project/supervisord.log
 .DS_Store
 project/logs/

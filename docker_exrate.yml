@@ -39,7 +39,7 @@ services:
     #   - 16379:6379
     volumes:
       - ./system/redis/redis_data:/var/redis
-      - ./conf/6379.conf:/usr/local/etc/redis/redis.conf
+      - ./system/redis/conf/6379.conf:/usr/local/etc/redis/redis.conf
     command: redis-server --appendonly yes
     networks:
       exrate_network:
@@ -80,13 +80,16 @@ services:
     volumes:
       - ./system/nginx/nginx_base_django.conf:/etc/nginx/nginx.conf
       - ./system/nginx/nginx_django.conf:/etc/nginx/conf.d/nginx_django.conf
-      - ./system/nginx/certs:/etc/nginx/conf.d/ssl
+      - ./system/nginx/certs:/etc/nginx/certs
       - ./system/logs:/var/log/webapplications
       - ./project:/django_project
     depends_on:
       - redis
       - postgres
       - rabbitmq
+    ports:
+      - 2443:443
+      - 2080:80
     networks:
       proxy-network:
         ipv4_address: 172.18.0.3
