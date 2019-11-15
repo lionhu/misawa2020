@@ -154,22 +154,24 @@ class PublicConsumer(AsyncWebsocketConsumer):
         else:
             logger.error("%s connected to server"%(self.scope["user"]))
             logger.error(self.scope["user"].id)
-            userprofile = UserProfile.objects.get(user_id=self.scope["user"].id)
-            if userprofile is not None:
-                userprofile.online=True
-                userprofile.save()
 
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    'type': 'online_status',
-                    'message_type': "userstatus",
-                    'status': True,
-                    'user_id': self.scope["user"].id
-                }
-            )
+            if self.scope["user"].id is not None:
+                userprofile = UserProfile.objects.get(user_id=self.scope["user"].id)
+                if userprofile is not None:
+                    userprofile.online=True
+                    userprofile.save()
 
-            await self.accept()
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        'type': 'online_status',
+                        'message_type': "userstatus",
+                        'status': True,
+                        'user_id': self.scope["user"].id
+                    }
+                )
+
+                await self.accept()
 
     async def disconnect(self, close_code):
         userprofile = UserProfile.objects.get(user_id=self.scope["user"].id)
