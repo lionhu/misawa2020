@@ -17,7 +17,7 @@ import decimal
 import logging
 import datetime
 import json
-from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin
+from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin,IsAdminOrReadOnly
 
 
 logger=logging.getLogger("error_logger")
@@ -28,7 +28,7 @@ logger=logging.getLogger("error_logger")
 class CatalogueViewSet(viewsets.ModelViewSet):
     queryset = Catalogue.objects.all()
     serializer_class = CatalogueSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get_object(self, pk):
         try:
