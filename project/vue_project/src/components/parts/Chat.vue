@@ -127,7 +127,7 @@
     methods: {
         init_websocker(username){
 
-              this.websocket = new ReconnectingWebSocket('wss://local.exrate.world:3443/wss/vuechat/'+username+'/');
+              this.websocket = new ReconnectingWebSocket('wss://www.exrate.world:3443/wss/vuechat/'+username+'/');
               this.websocket.onopen = this.websocketonopen;
 
 　　　　　　　　this.websocket.onerror = this.websocketonerror;

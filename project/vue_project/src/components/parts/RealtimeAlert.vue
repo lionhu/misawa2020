@@ -43,7 +43,7 @@
     methods: {
         init_websocker(){
 
-              this.websocket = new ReconnectingWebSocket('wss://local.exrate.world:3443/wss/systemchannel/public/');
+              this.websocket = new ReconnectingWebSocket('wss://www.exrate.world:3443/wss/systemchannel/public/');
               console.log(this.websocket )
               this.websocket.onopen = this.websocketonopen;
 
