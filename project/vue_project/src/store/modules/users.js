@@ -6,7 +6,8 @@ import { setToken,getToken } from '../../lib/util'
 const state = {
     ME:{},
     rules: {},
-    profile:{}
+    profile:{},
+    accesstoken:""
 };
 
 // getters
@@ -22,8 +23,6 @@ const actions = {
       return new Promise((resolve,reject)=>{
         usersAPI.get_myprofile(
             res => {
-              // console.log("response from get my profile")
-              // console.log(res.data)
                 if(res.data.result){
                     commit("set_myprofile",res.data.data);
                     resolve(res.data.data)
@@ -59,12 +58,8 @@ const actions = {
       login({ userName, password }).then(res => {
 
         if (res.status === 200 && res.data.token) {
-          // // console.log(res.data)
-          // console.log("loginSync")
-          // loginSync({ userName, password }).then(res=>{
-          //   console.log(res)
-          // })
           setToken(res.data.token,"jwt_token")
+          commit("set_accesstoken",res.data.token)
           resolve(res.data.token)
         } else {
           reject(new Error('错误'))
@@ -107,6 +102,14 @@ const mutations = {
         state.ME.email=data.user.email
         state.ME.language=data.language
         setToken(data.user.username,"username")
+
+        if(state.ME.language==""){
+            setToken("zh_CN","lang");
+            // this.$i18n.locale = "zh_CN";
+        }else{
+            setToken(state.ME.language,"lang");
+            // this.$i18n.locale = this.ME.language;
+        }
     },
     set_mainImage(state,data){
         state.profile.avatar=data.avatar
@@ -118,6 +121,10 @@ const mutations = {
         state.ME={}
         setToken("","username")
         setToken("","jwt_token")
+    },
+    set_accesstoken(state,token){
+        state.accesstoken=token
+        window.axios.defaults.headers.Authorization=`jwt ` + token;
     }
 };
 

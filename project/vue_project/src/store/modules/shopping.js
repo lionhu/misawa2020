@@ -15,7 +15,7 @@ const state={
         toast: {
             text: "",
             show: false
-        }
+        },
     };
 
 const getters= {
@@ -61,7 +61,7 @@ const mutations= {
                             Qty:0,
                             Total:0
                         }
-        },
+        }
     };
 const actions= {
         fetchCatalogues: ({ commit }) => {
@@ -136,12 +136,10 @@ const actions= {
         },
 
         placeOrder({ commit },params){
-            console.log(params)
             return new Promise((resolve,reject)=>{
                 shopAPI.PlaceOrder(params).then((res) => {
                     if(res.data.result){
                         resolve(res.data)
-                        console.log("return placeOrder")
 
                     }
                 })
@@ -149,12 +147,10 @@ const actions= {
 
         },
         getOrderBySlug({ commit },slug){
-            console.log(slug)
             return new Promise((resolve,reject)=>{
                 shopAPI.GetOrderBySlug(slug).then((res) => {
                     if(res.data.result){
                         resolve(res.data)
-                        console.log("return getOrderBySlug")
 
                     }
                 })

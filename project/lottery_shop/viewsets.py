@@ -78,19 +78,15 @@ class CatalogueViewSet(viewsets.ModelViewSet):
           serializer=CatalogueSerializer(data=data)
 
         if serializer.is_valid():
-
+          serializer.save()
           content={
             "type":"create catalogue",
-            "result":1
+            "result":serializer.data
           }
-
-          serializer.save()
-
           return Response(content)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # PUT method
     def update(self, request, pk, format=None):
         catalogue = self.get_object(pk)
         serializer = CatalogueSerializer(catalogue, data=request.data)
@@ -103,6 +99,7 @@ class CatalogueViewSet(viewsets.ModelViewSet):
 
             return Response(content)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def delete(self, request, pk, format=None):
         transaction = self.get_object(pk)

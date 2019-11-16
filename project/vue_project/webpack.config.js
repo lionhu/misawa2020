@@ -95,9 +95,9 @@ module.exports ={
   plugins:[
   	new VueLoaderPlugin(),
     new ManifestPlugin(),
-    new BundleAnalyzerPlugin({
-      analyzerPort:18888
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerPort:18888
+    // }),
   	new BundleTracker({filename: './webpack-stats.json'}),
     new CleanWebpackPlugin(),
 

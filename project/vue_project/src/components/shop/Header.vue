@@ -125,37 +125,24 @@
       }
     },
     mounted() {
-
       let jwt_token=getToken("jwt_token")
 
       if( jwt_token !==null){
         window.axios.defaults.headers.Authorization=`jwt ` + jwt_token
-        this.load_myprofile(jwt_token)
-        this.$store.dispatch("lotteryshop/getShoppingCart")
+        this.load_myprofile()
       }else{
-        // window.axios.defaults.headers.Authorization=`jwt `
+        delete window.axios.defaults.headers.Authorization
         this.$store.commit("lotteryshop/resetCart")
       }
-
-
       this.$store.dispatch("lotteryshop/fetchCatalogues")
     },
     methods: {
 
-      load_myprofile(jwt_token){
-
-        this.$store.dispatch("users/get_myprofile").then(
-        resolve=>{
-            if(this.ME.language==""){
-                setToken("zh_CN","lang");
-                this.$i18n.locale = "zh_CN";//关键语句
-            }else{
-                setToken(this.ME.language,"lang");
-                this.$i18n.locale = this.ME.language;//关键语句
-            }
-        },reject=>{
-          console.log("cannot load profile")
-        });
+      load_myprofile(){
+          this.$store.dispatch("users/get_myprofile").then(resolve=>{
+            this.$i18n.locale = this.ME.language;
+            this.$store.dispatch("lotteryshop/getShoppingCart")
+          },reject=>{})
       },
       Logout(){
         this.$store.dispatch("users/logout")
@@ -166,14 +153,16 @@
         localStorage.removeItem("username")
         localStorage.removeItem("jwt_token")
         this.$store.commit("lotteryshop/resetCart")
-        window.location.reload();
+        delete window.axios.defaults.headers.Authorization
+
+        // window.location.reload();
       },
       async showLogin(){
             const { value: formValues } = await Swal.fire({
             title: 'Login',
             html:
-              '<input id="swal_username" placeholder="username" class="swal2-input">' +
-              '<input id="swal_password" type="password" placeholder="password" class="swal2-input">',
+              '<input id="swal_username" placeholder="username" class="swal2-input" value="root">' +
+              '<input id="swal_password" type="password" placeholder="password" class="swal2-input" value="Hisshghu3500">',
             focusConfirm: false,
             // showCancelButton: true,
             // confirmButtonText: 'Login!',
@@ -192,15 +181,16 @@
           }
       },
       loginMe(username,password){
+        console.log("loginMe")
+        const vm=this
         this.$store.dispatch("users/login",{
             userName: username,
             password: password
-          }).then((resolve) => {
-              window.axios.defaults.headers.Authorization=`jwt ` + resolve
+          }).then((token) => {
+              // window.axios.defaults.headers.Authorization=`jwt ` + token;
               console.log("login success!!");
-              this.load_myprofile(resolve)
-              this.$store.dispatch("lotteryshop/getShoppingCart")
-              window.location.reload();
+              this.load_myprofile()
+              // window.location.reload();
               return true;
             })
             .catch(error => {              
