@@ -12,4 +12,7 @@ project/logs/
 /misawa/storage/logs/
 /project/project/settings.py
 @eaDir/
-
+docker_misawa.yml
+docker_exrate.yml
+docker_iots.yml
+docker_compose.yml
