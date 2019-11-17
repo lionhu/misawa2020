@@ -1,7 +1,7 @@
 <template>
   <div class="box direct-chat direct-chat-success">
     <div class="box-header with-border">
-      <h4 class="box-title">Direct Chat</h4>
+      <h4 class="box-title">Direct Chat with {{username}}</h4>
        <ul class="box-controls pull-right">
           <li><a class="box-btn-close" href="#"></a></li>
           <li><a class="box-btn-slide" href="#"></a></li>   
@@ -128,12 +128,8 @@
         init_websocker(username){
 
              this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/vuechat/'+username+'/');
-
-
               this.websocket.onopen = this.websocketonopen;
-
 　　　　　　　　this.websocket.onerror = this.websocketonerror;
-
 　　　　　　　　this.websocket.onmessage = this.websocketonmessage; 
 　　　　　　　　this.websocket.onclose = this.websocketclose;
         },

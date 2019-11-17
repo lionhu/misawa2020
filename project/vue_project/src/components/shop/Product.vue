@@ -2,7 +2,7 @@
 
     <div class="product sf-dress clearfix">
       <div class="product-image">
-        <a href="javascript:void(0);"><img :src="product.avatar" :alt="product.name"></a>
+        <a href="javascript:void(0);"><img :src="product.thumbimage" :alt="product.name"></a>
         <div class="sale-flash">50% Off*</div>
         <div class="product-overlay">
           <a href="javascript:void(0);" @click="addProductToCart(product.slug)">

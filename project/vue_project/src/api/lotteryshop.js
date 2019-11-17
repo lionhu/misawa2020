@@ -30,8 +30,10 @@ export default {
         });
     },
     productsOfSubCatalogues: (catalogue_id) => {
+        var url = '/api/subcatalogue/'+catalogue_id;
+        console.log(url)
         return new Promise((resolve, reject) => {
-            axios.get('/api/subcatalogue/'+catalogue_id,).then((res)=>{
+            axios.get(url,).then((res)=>{
                 resolve(res)
             }).catch(function(error){
                 reject(error)

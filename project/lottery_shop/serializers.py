@@ -46,7 +46,9 @@ class ProductSerializer_list(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ("id","name","avatar","slug","price","open_price","ranks","owner","catalogue")
+        # exclude = ['purchase_price']
+
+        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","owner","catalogue")
 
 
 class SubcatalogueSerializer(serializers.ModelSerializer):
