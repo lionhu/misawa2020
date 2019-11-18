@@ -4,6 +4,13 @@
     <div class="box-header with-border">
       <h4 class="box-title">Public Message</h4>
     </div>
+    <div class="demo-radio-button">
+		<input name="group1" type="radio" id="radio_1" checked="">
+		<label for="radio_1">Radio - 1</label>
+		<input name="group1" type="radio" id="radio_2">
+		<label for="radio_2">Radio - 2</label>
+		<input name="group1" type="radio" class="with-gap" id="radio_3">
+	</div>
     <div class="box-footer">
         <div class="input-group">
           <input type="text" id="chat_message" v-model="message"  name="message" placeholder="Type Message to everyone ..." class="form-control" @keyup.enter="websocketsend"  >
