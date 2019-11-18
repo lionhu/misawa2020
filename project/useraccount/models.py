@@ -153,13 +153,9 @@ class UserProfile(models.Model):
     def grandsons_sum(self):
         return User.objects.filter(grandfather = self.id).count()
 
-    # @delete_previous_file
-    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-    #     super(UserProfile, self).save()
-
-    # @delete_previous_file
-    # def delete(self, using=None, keep_parents=False):
-    #     super(UserProfile, self).delete()
+    def thumbimage(self):
+        return self.thumbnail.url
+        
 
 class VisitHistory(models.Model):
     user = models.ForeignKey(User,verbose_name="user",on_delete=models.CASCADE)

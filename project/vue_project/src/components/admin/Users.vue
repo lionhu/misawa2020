@@ -23,7 +23,7 @@
                     label="Statue"
                     min-width="100">
                     <template slot-scope="scope">                    
-                        <span class="badge badge-pill" :class="{'badge-danger': !scope.row.profile.online,'badge-success':scope.row.profile.online}" style="width:50px;"  @click="chatwith(scope.row.username)">{{scope.row.profile.online}}</span>
+                        <span class="badge badge-pill" :class="{'badge-danger': !scope.row.profile.online,'badge-success':scope.row.profile.online}" style="width:50px;"  @click="chatwith(scope.row)">{{scope.row.profile.online}}</span>
                     </template>
                 </el-table-column> 
               </el-table>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="col-lg-6 col-sm-12">
-        <ChatUser :username="chatwithuser"></ChatUser>
+        <ChatUser :user="chatwithuser"></ChatUser>
       </div>
     </div>
   </div>
@@ -106,9 +106,9 @@
         // }
         // this.$set(this.tableData,users)
       },
-      chatwith(username){
-        console.log(username)
-        this.chatwithuser=username
+      chatwith(user){
+        console.log(user)
+        this.chatwithuser=user
       }
     },
     watch: {

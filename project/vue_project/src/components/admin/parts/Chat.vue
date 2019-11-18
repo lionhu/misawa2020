@@ -1,7 +1,7 @@
 <template>
   <div class="box direct-chat direct-chat-success">
     <div class="box-header with-border">
-      <h4 class="box-title">Direct Chat with {{username}}</h4>
+      <h4 class="box-title">Direct Chat with {{user.username}}</h4>
        <ul class="box-controls pull-right">
           <li><a class="box-btn-close" href="#"></a></li>
           <li><a class="box-btn-slide" href="#"></a></li>   
@@ -13,14 +13,14 @@
     </div>
     <div class="box-body">
       <div class="direct-chat-messages" id="direct-chat">
-          <div class="direct-chat-msg" :class="{'right':message.user.username == username}" v-for="message in messages">
-            <div class="direct-chat-info clearfix" v-if="message.user.username == username">
+          <div class="direct-chat-msg" :class="{'right':message.user.username == user.username}" v-for="message in messages">
+            <div class="direct-chat-info clearfix" v-if="message.user.username == user.username">
               <span class="direct-chat-name pull-left">{{message.user.username}}</span>
               <span class="direct-chat-timestamp pull-right">{{message.created}} </span>
             </div>
 
 
-            <div class="direct-chat-info clearfix" v-if="message.user.username != username">
+            <div class="direct-chat-info clearfix" v-if="message.user.username != user.username">
               <span class="direct-chat-name pull-right">{{message.user.username}}</span>
               <span class="direct-chat-timestamp pull-left">{{message.created}}</span>
             </div>
@@ -38,20 +38,20 @@
         <ul class="contacts-list">
           <li>
             <a href="#">
-              <img class="contacts-list-img" src="/images/user1-128x128.jpg" alt="User Image">
+              <img class="contacts-list-img" :src="user.profile.avatar" alt="User Image">
 
               <div class="contacts-list-info">
                     <span class="contacts-list-name">
-                      Pavan kumar
+                      {{user.username}}
                       <small class="contacts-list-date pull-right">April 14, 2017</small>
                     </span>
-                <span class="contacts-list-email">info@.multipurpose.com</span>
+                <span class="contacts-list-email">{{user.email}}</span>
               </div>
               <!-- /.contacts-list-info -->
             </a>
           </li>
           <!-- End Contact Item -->
-          <li>
+<!--           <li>
             <a href="#">
               <img class="contacts-list-img" src="/images/user7-128x128.jpg" alt="User Image">
 
@@ -62,9 +62,8 @@
                     </span>
                 <span class="contacts-list-email">sonu@gmail.com</span>
               </div>
-              <!-- /.contacts-list-info -->
             </a>
-          </li>
+          </li> -->
           <!-- End Contact Item -->
         </ul>
         <!-- /.contatcts-list -->
@@ -95,7 +94,7 @@
 
   export default {
     name: 'chat',
-    props:["username"],
+    props:["user"],
     components:{
     },
     data () {
@@ -119,15 +118,15 @@
       // this.load_chathistory()
     },    
     watch: {
-      username:function (to, from) {
+      user:function (to, from) {
           this.init_websocker(to)
           this.load_chathistory(to)
       }
     },
     methods: {
-        init_websocker(username){
+        init_websocker(user){
 
-             this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/vuechat/'+username+'/');
+             this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/vuechat/'+user.username+'/');
               this.websocket.onopen = this.websocketonopen;
 　　　　　　　　this.websocket.onerror = this.websocketonerror;
 　　　　　　　　this.websocket.onmessage = this.websocketonmessage; 
@@ -161,9 +160,9 @@
         websocketonerror(){
           console.log("WebSocket连接发生错误");
         },
-        load_chathistory(username){
+        load_chathistory(user){
           axios.post('/api/chat/chatlist/',{
-            "username":username
+            "username":user.username
           }).then((res)=>{
                  this.messages=res.data.messages
             });
