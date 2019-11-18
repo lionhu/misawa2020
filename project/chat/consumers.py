@@ -202,13 +202,16 @@ class PublicConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         message_type = text_data_json['message_type']
+        display_mode = text_data_json['display_mode']
+
 
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
                 'message': message,
-                'message_type': message_type
+                'message_type': message_type,
+                'display_mode': display_mode
             }
         )
 
@@ -216,10 +219,12 @@ class PublicConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event['message']
         message_type = event['message_type']
+        display_mode = event['display_mode']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'message_type': message_type
+            'message_type': message_type,
+            'display_mode': display_mode
         }))
 
     # Receive message from room group

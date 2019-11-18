@@ -5,11 +5,10 @@
       <h4 class="box-title">Public Message</h4>
     </div>
     <div class="demo-radio-button">
-		<input name="group1" type="radio" id="radio_1" checked="">
-		<label for="radio_1">Radio - 1</label>
-		<input name="group1" type="radio" id="radio_2">
-		<label for="radio_2">Radio - 2</label>
-		<input name="group1" type="radio" class="with-gap" id="radio_3">
+		<input name="display_mode" type="radio" id="radio_1" value="toast" v-model="display_mode">
+		<label for="radio_1">Toast</label>
+		<input name="display_mode" type="radio" id="radio_2" value="modal" v-model="display_mode">
+		<label for="radio_2">Modal</label>
 	</div>
     <div class="box-footer">
         <div class="input-group">
@@ -34,7 +33,9 @@
     data () {
       return {
         websocket:null,
-        message:""
+        message:"hello",
+        display_mode:"",
+        message_type:"success"
       }
     },
     computed:{
@@ -68,31 +69,70 @@
             console.log("connection closed (" + e.code + ")"); 
         },
         websocketonmessage(e){
+              console.log(e)
               var data = JSON.parse(e.data);
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-              })
-              // console.log(data)
+              
               if(data.message_type=="userstatus"){
                 this.notify_userStatus(data)
               }else{
+                if(data.display_mode=="toast"){
+                    this.display_toast(data)
+                }else{
+                    this.display_modal(data)
+                }
+              }
+
+        },
+        display_toast(data){
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000
+                    })
+                    // console.log(data)
                 Toast.fire({
                   type: data.message_type,
                   html: "<a href='/'>"+data.message+"</a>"
                 })
-              }
-
+        },
+        display_modal(data){
+                let timerInterval
+                Swal.fire({
+                  title: 'Message from Admin',
+                  html: "<b></b><br> "+data.message,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('b')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+                    console.log('I was closed by the timer') // eslint-disable-line
+                  }
+                })
         },
         websocketsend(){
-          var message_params={
-            'message': this.message,
-            "message_type":"success"
+          if (this.message !=""){
+              var message_params={
+                'message': this.message,
+                "message_type":this.message_type,
+                "display_mode":this.display_mode
+              }
+              this.websocket.send(JSON.stringify(message_params));
+              this.message=""
           }
-          this.websocket.send(JSON.stringify(message_params));
-          this.message=""
+
 　　　　}, 
         websocketonerror(){
           console.log("WebSocket连接发生错误");

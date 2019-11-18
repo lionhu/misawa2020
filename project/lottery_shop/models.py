@@ -132,8 +132,7 @@ class ProductImage(models.Model):
 
 class Groupon(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    product=models.OneToOneField(Product)
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="groupon_products",blank=False,null=False)
+    product=models.OneToOneField(Product,related_name="groupon",on_delete=models.CASCADE,blank=False,null=False)
     name = models.CharField(default="groupon name",max_length=1024,blank=False)
     description = models.CharField(default="description of groupon",max_length=1024,blank=True)
     status = models.CharField(default="groupon status",max_length=20,blank=False)
@@ -145,7 +144,7 @@ class Groupon(models.Model):
 
 
     class Meta:
-        verbose_name="ProductGroupon"
+        verbose_name="Groupon"
         app_label="lottery_shop"
 
     def __str__(self):
@@ -156,3 +155,20 @@ class Groupon(models.Model):
 
 
 class Applicant(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    groupon=models.OneToOneField(Groupon,on_delete=models.CASCADE,blank=False,null=False)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="groupon_applicants",blank=False,null=False)
+    status = models.CharField(default="status",max_length=20,blank=False)
+    num=models.IntegerField(default=0)
+    created = models.DateTimeField('created',auto_now=True)
+
+
+    class Meta:
+        verbose_name="GrouponApplicant"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{}".format(self.user.username)
+
+    def __unicode__(self):
+        return self.user.username
