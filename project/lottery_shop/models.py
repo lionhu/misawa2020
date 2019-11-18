@@ -104,19 +104,55 @@ class Product(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
-class WantedProduct(models.Model):
+
+
+class ProductImage(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="wanted_products",blank=True,null=True)
-    product=models.ForeignKey(Product,on_delete=models.CASCADE,related_name="wanted_products",blank=True,null=True)
-    quantity=models.IntegerField(default=0)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE, blank=True, null=True, related_name="images")
+    avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
+    thumbnail = ImageSpecField(source='avatar',
+                            processors=[ResizeToFill(320,320)],
+                            format="PNG",
+                            options={'quality': 80}
+                            )
     created = models.DateTimeField('created',auto_now=True)
 
 
     class Meta:
-        verbose_name="WantedProduct"
+        verbose_name="ProductImages"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{}".format(self.product.id)
+    def __unicode__(self):
+        return self.self.product.id
+
+    def thumbimage(self):
+    	return self.thumbnail.url
+
+class Groupon(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    product=models.OneToOneField(Product)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="groupon_products",blank=False,null=False)
+    name = models.CharField(default="groupon name",max_length=1024,blank=False)
+    description = models.CharField(default="description of groupon",max_length=1024,blank=True)
+    status = models.CharField(default="groupon status",max_length=20,blank=False)
+    target=models.IntegerField(default=0)
+    price=models.IntegerField(default=0)
+    feedbackprice=models.IntegerField(default=0)
+    
+    created = models.DateTimeField('created',auto_now=True)
+
+
+    class Meta:
+        verbose_name="ProductGroupon"
         app_label="lottery_shop"
 
     def __str__(self):
         return "{}".format(self.name)
+
     def __unicode__(self):
         return self.name
+
+
+class Applicant(models.Model):
