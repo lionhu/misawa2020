@@ -1,5 +1,5 @@
-from .models import Catalogue,Subcatalogue,Product
-from .serializers import CatalogueSerializer,SubcatalogueSerializer,ProductSerializer,ProductSerializer_list
+from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant
+from .serializers import CatalogueSerializer,SubcatalogueSerializer,ProductSerializer,ProductSerializer_list,GrouponSerializer,ApplicantSerializer
 
 from rest_framework import viewsets, permissions,status
 from django.views.decorators.csrf import csrf_exempt
@@ -240,3 +240,135 @@ class ProductViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrie
             "result":False,
             "data":serializer.data
         }, status=status.HTTP_200_OK)
+
+
+
+class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+    queryset=Applicant.objects.all()
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    lookup_field="slug"
+
+    def get_serializer_class(self):
+        # if self.action == "AdminProduct":
+        #     return ProductSerializer
+        return ApplicantSerializer
+
+    def create(self, request):
+        groupon_slug = request.data.get("groupon_slug")
+        num =  request.data.get("num")
+
+        groupon = get_object_or_404(Groupon,slug=groupon_slug)
+        request.data["groupon"]=groupon
+        request.data["user"]=request.user
+        request.data["deposite_paycode"] = "#"+groupon.id+"."+request.user.id+"."+"99"
+        
+        if groupon.applicants_count+num > groupon.target:
+          request.data["price"] = groupon.price_overflow
+          request.data["feedbackprice_overflow"] = groupon.feedbackprice_overflow
+        else :
+          request.data["price"] = groupon.price
+          request.data["feedbackprice_overflow"] = groupon.feedbackprice
+
+        serializer = self.serializer(data=request.data)
+
+        if serializer.is_valid():
+          serializer.save()
+
+          return Response({
+              "result":True,
+              "type":"couponn create",
+              "applicant_slug":serializer.data.slug,
+              "message":"couponn created",
+              "paycode":paycode
+          }, status=status.HTTP_200_OK)
+
+        return Response({
+              "result":True,
+              "type":"couponn create",
+              "applicant_slug":"",
+              "message":"invalid data",
+              "paycode":""
+        }, status=status.HTTP_200_OK)
+
+
+    def retrieve(self, request,slug=None):
+        applicant = get_object_or_404(Applicant,slug=slug)
+
+        if applicant.user == request.user:
+            serializer=self.serializer(applicant)
+            return Response({
+                "result":True,
+                "type":"get applicant",
+                "message":"get applicant successfully",
+                "applicant":serializer.data
+            }, status=status.HTTP_200_OK)
+        else :
+            return Response({
+                  "result":False,
+                  "type":"get applicant",
+                  "message":"not a applicant of current user",
+                  "applicant":{}
+              }, status=status.HTTP_200_OK)
+
+    def partial_update(self, request,slug=None):
+        applicant = get_object_or_404(Applicant,slug=slug)
+
+        serializer = ApplicantSerializer(application,data=request.data,many=False)
+
+        if serializer.is_valid():
+          serializer.save()
+          
+          return Response({
+              "result":True,
+              "type":"partial_update",
+              "applicant_slug":serializer.data.slug,
+              "message":"partial_update successfully",
+              "data":request.data
+          }, status=status.HTTP_200_OK)
+
+        return Response({
+              "result":False,
+              "type":"partial_update",
+              "applicant_slug":"",
+              "message":"partial_update invalid data",
+              "data":""
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=False,methods=["post"], permission_classes=[IsAuthenticated,])
+    def UserApplicantlist(self,request):
+        applicants = Applicant.objects.get(user=request.user)
+
+        if applicants is not None:
+            serializer=ApplicantSerializer(applicants,many=True)
+
+            return Response({
+                "result":True,
+                "type":"User applicant list",
+                "data":serializer.data
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+          "result":False,
+          "type":"User applicant list",
+          "data":""
+          }, status=status.HTTP_200_OK)
+
+
+    @action(detail=False,methods=["post"], permission_classes=[IsAdmin])
+    def AdminApplicantlist(self,request):
+        applicants = Applicant.objects.all()
+
+        if applicants is not None:
+            serializer=ApplicantSerializer(applicants,many=True)
+
+            return Response({
+                "result":True,
+                "type":"admin applicant list",
+                "data":serializer.data
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+          "result":False,
+          "type":"admin applicant list",
+          "data":""
+          }, status=status.HTTP_200_OK)

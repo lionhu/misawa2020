@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.db import models,connection
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from lottery_shop.models import Product
+from lottery_shop.models import Product,Catalogue
 import logging
 import datetime
 

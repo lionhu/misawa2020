@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFill
+from django.contrib.postgres.fields import JSONField
 import logging
 import datetime
 
@@ -104,8 +105,6 @@ class Product(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
-
-
 class ProductImage(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     product = models.ForeignKey(Product,on_delete=models.CASCADE, blank=True, null=True, related_name="images")
@@ -130,6 +129,7 @@ class ProductImage(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
+
 class Groupon(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     product=models.OneToOneField(Product,related_name="groupon",on_delete=models.CASCADE,blank=False,null=False)
@@ -139,6 +139,8 @@ class Groupon(models.Model):
     target=models.IntegerField(default=0)
     price=models.IntegerField(default=0)
     feedbackprice=models.IntegerField(default=0)
+    price_overflow=models.IntegerField(default=0)
+    feedbackprice_overflow=models.IntegerField(default=0)
     
     created = models.DateTimeField('created',auto_now=True)
 
@@ -153,13 +155,29 @@ class Groupon(models.Model):
     def __unicode__(self):
         return self.name
 
+    def applicants_count(self):
+        return self.applicants.count()
+
+    def target_overflow(self):
+        return True if self.applicants.count() >=self.target else False
+
 
 class Applicant(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    groupon=models.OneToOneField(Groupon,on_delete=models.CASCADE,blank=False,null=False)
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="groupon_applicants",blank=False,null=False)
-    status = models.CharField(default="status",max_length=20,blank=False)
+    groupon=models.OneToOneField(Groupon,on_delete=models.CASCADE,blank=False,null=False,related_name="applicants")    
+    address=JSONField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_applicants",blank=False,null=False)
     num=models.IntegerField(default=0)
+    price=models.IntegerField(default=0)
+    feedbackprice=models.IntegerField(default=0)
+
+    deposite_paycode = models.CharField(default="",max_length=20,blank=False)
+    deposite_paid = models.BooleanField(default=False)
+    deposite_paid_at = models.DateTimeField('deposite_paid_at',auto_now=True)
+
+    order_paid = models.BooleanField(default=False)
+    order_paid_at = models.DateTimeField('order_paid_at',auto_now=True)
+    
     created = models.DateTimeField('created',auto_now=True)
 
 
@@ -172,3 +190,13 @@ class Applicant(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def deposite_amount(self):
+        return self.num*self.groupon.price
+
+    def feedback_amount(self):
+        return self.num*self.groupon.feedbackprice
+
+    def applicant_amount(self):
+        return self.num*self.groupon.product.price
+

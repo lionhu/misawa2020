@@ -28,14 +28,18 @@
                 <!-- Product Single - Gallery
                 ============================================= -->
                 <div class="product-image">
-                  <img :src="product.avatar" :alt="product.name">
-<!--                   <div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
+                  <!-- <img :src="product.avatar" :alt="product.name"> -->
+                  <div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
                     <div class="flexslider">
                       <div class="slider-wrap" data-lightbox="gallery">
-                        <div class="slide" :data-thumb="product.avatar"><a :href="product.avatar" :title="product.name" data-lightbox="gallery-item"><img :src="product.avatar" :alt="product.name"></a></div>
+                          <div class="slide" :data-thumb="productimage.thumbimage" v-for="productimage in product.images">
+                            <a :href="productimage.avatar" title="Pink Printed Dress - Front View" data-lightbox="gallery-item">
+                              <img :src="productimage.avatar" alt="Pink Printed Dress">
+                            </a>
+                          </div>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
                   <div class="sale-flash">Sale!</div>
                 </div><!-- Product Single - Gallery End -->
 
@@ -324,7 +328,13 @@
           </div>
 
           <div class="clear"></div><div class="line"></div>
-
+            <div class="demo-image__preview">
+              <el-image 
+                style="width: 100px; height: 100px"
+                :src="url" 
+                :preview-src-list="srcList">
+              </el-image>
+            </div>
         </div>
 
         <div class="sidebar nobottommargin col_last clearfix">
@@ -545,19 +555,29 @@
   import {mapActions, mapState,mapGetters} from "vuex"
   import {setToken,getToken,showNotification} from "../../lib/util.js"
   import Swal from 'sweetalert2'
+  import { Image } from 'element-ui';
+  import 'element-ui/lib/theme-chalk/index.css';
+
 
   export default {
     name: 'singleproduct',
-    // components:{
-    // },
+    components:{
+      elImage: Image,
+    },
     data () {
       return {
         quantity:1,
         product:{
           name:"",
           avatar:"",
-          price:0
-        }
+          price:0,
+          images:{}
+        },
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        srcList: [
+          'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+        ]
       }
     },
   computed: {
@@ -587,7 +607,7 @@
     },
     loadProductBySlug(slug){
         const jwt_token=getToken("jwt_token")
-
+        console.log(jwt_token)
         if (jwt_token !==undefined && jwt_token !==null){
             const cartitems=this.$store.state.lotteryshop.cart.cartitems
 
@@ -612,6 +632,7 @@
 
         this.$store.dispatch("lotteryshop/getProductBySlug",slug).then(product=>{
           this.product=product
+          console.log(this.product)
         },
           reject=>{})
     },
