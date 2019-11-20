@@ -225,10 +225,15 @@ class Applicant(models.Model):
     deposite_paycode = models.CharField(default="",max_length=20,blank=False)
     deposite_paid = models.BooleanField(default=False)
     deposite_paid_at = models.DateTimeField('deposite_paid_at',auto_now=True)
-
+    
     orderpaid = models.BooleanField(default=False)
     orderpaid_at = models.DateTimeField('order_paid_at',auto_now=True)
     
+
+    delivery_status = models.CharField(default="delivery status",max_length=20,blank=False)
+    delivery_no = models.CharField(default="delivery_no",max_length=50,blank=False)
+    
+
     created = models.DateTimeField('created',auto_now=True)
 
 

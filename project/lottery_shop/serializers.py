@@ -132,6 +132,10 @@ class ApplicantSerializer(serializers.ModelSerializer):
             "deposite_paycode",
             "deposite_paid",
             "deposite_paid_at",
+            "orderpaid",
+            "orderpaid_at",
+            "delivery_status",
+            "delivery_no",
             "created",
         )
         read_only_fields = (
