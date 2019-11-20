@@ -1,4 +1,3 @@
-
 import uuid
 import os
 from django.contrib.postgres.fields import JSONField
@@ -66,16 +65,20 @@ class Cart(models.Model):
 
 class Order(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    created_at = models.DateTimeField(auto_now_add=True)
     cart = models.ForeignKey(Cart,on_delete=models.CASCADE, blank=True, null=True)
+    cartjson=JSONField()
     user = models.ForeignKey('auth.User',on_delete=models.CASCADE, related_name="shoporders")
     address = models.ForeignKey('Address',on_delete=models.CASCADE)
     coupon =models.ForeignKey('Coupon',on_delete=models.CASCADE, blank=True, null=True)
     total = models.IntegerField(default=0,null=True,blank=True)
     discount = models.IntegerField(default=0,null=True,blank=True)
     note = models.TextField(default="",blank=True,null=True,max_length=1024)
+    logistics = models.CharField(default="logistics",max_length=48, blank=True, null=True)
+    tracking_no = models.CharField(default="tracking_no",max_length=126, blank=True, null=True)
+    delivered_at = models.DateTimeField(auto_now_add=True)
+
     # cartjson = models.TextField(default="",blank=True,null=True,max_length=1024)
-    cartjson=JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     class Meta:

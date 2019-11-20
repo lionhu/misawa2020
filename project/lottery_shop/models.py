@@ -72,22 +72,73 @@ class Subcatalogue(models.Model):
 
 class Product(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    name = models.CharField(default="catalogue_name",max_length=128,blank=True)
+    name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+    main_product_id = models.IntegerField(default=0,blank=True,null=True)
+    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
+    manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
+    brand = models.CharField(default="brand",max_length=128,blank=True)
+    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+    specs = models.CharField(default="specs",max_length=256,blank=True)
+    sku = models.CharField(default="sku",max_length=128,blank=True)
+    
     purchase_price = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     point = models.IntegerField(default=0)
     open_price = models.IntegerField(default=0)
+    
     wanted = models.IntegerField(default=0)
     ranks = models.IntegerField(default=0)
-    main_product_id = models.IntegerField(default=0,blank=True,null=True)
-    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
     avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
     thumbnail = ImageSpecField(source='avatar',
                             processors=[ResizeToFill(250,250)],
                             format="PNG",
                             options={'quality': 60}
                             )
-    owner=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+                            
+    active = models.BooleanField(default=False)
+    stock = models.IntegerField(default=0)
+    mod_date = models.DateTimeField('Last modified',auto_now=True)
+
+
+    class Meta:
+        verbose_name="Product"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{}".format(self.name)
+    def __unicode__(self):
+        return self.name
+
+    def thumbimage(self):
+    	return self.thumbnail.url
+
+
+
+class Product(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+    main_product_id = models.IntegerField(default=0,blank=True,null=True)
+    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
+    manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
+    brand = models.CharField(default="brand",max_length=128,blank=True)
+    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+    specs = models.CharField(default="specs",max_length=256,blank=True)
+    sku = models.CharField(default="sku",max_length=128,blank=True)
+    
+    purchase_price = models.IntegerField(default=0)
+    price = models.IntegerField(default=0)
+    point = models.IntegerField(default=0)
+    open_price = models.IntegerField(default=0)
+    
+    wanted = models.IntegerField(default=0)
+    ranks = models.IntegerField(default=0)
+    avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
+    thumbnail = ImageSpecField(source='avatar',
+                            processors=[ResizeToFill(250,250)],
+                            format="PNG",
+                            options={'quality': 60}
+                            )
+                            
     active = models.BooleanField(default=False)
     stock = models.IntegerField(default=0)
     mod_date = models.DateTimeField('Last modified',auto_now=True)
