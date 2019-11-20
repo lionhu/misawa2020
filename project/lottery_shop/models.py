@@ -71,7 +71,11 @@ class Subcatalogue(models.Model):
 
 class Product(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    name = models.CharField(default="catalogue_name",max_length=128,blank=True)
+    name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+    Manufacturer = models.CharField(default="Manufacturer",max_length=128,blank=True)
+    specs = models.CharField(default="specs",max_length=256,blank=True)
+    sku = models.CharField(default="sku",max_length=128,blank=True)
+    
     purchase_price = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     point = models.IntegerField(default=0)
@@ -86,7 +90,7 @@ class Product(models.Model):
                             format="PNG",
                             options={'quality': 60}
                             )
-    owner=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
     active = models.BooleanField(default=False)
     stock = models.IntegerField(default=0)
     mod_date = models.DateTimeField('Last modified',auto_now=True)
