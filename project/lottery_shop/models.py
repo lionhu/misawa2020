@@ -72,7 +72,10 @@ class Subcatalogue(models.Model):
 class Product(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+    main_product_id = models.IntegerField(default=0,blank=True,null=True)
+    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
     Manufacturer = models.CharField(default="Manufacturer",max_length=128,blank=True)
+    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
     specs = models.CharField(default="specs",max_length=256,blank=True)
     sku = models.CharField(default="sku",max_length=128,blank=True)
     
@@ -80,17 +83,16 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     point = models.IntegerField(default=0)
     open_price = models.IntegerField(default=0)
+    
     wanted = models.IntegerField(default=0)
     ranks = models.IntegerField(default=0)
-    main_product_id = models.IntegerField(default=0,blank=True,null=True)
-    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
     avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
     thumbnail = ImageSpecField(source='avatar',
                             processors=[ResizeToFill(250,250)],
                             format="PNG",
                             options={'quality': 60}
                             )
-    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+                            
     active = models.BooleanField(default=False)
     stock = models.IntegerField(default=0)
     mod_date = models.DateTimeField('Last modified',auto_now=True)
