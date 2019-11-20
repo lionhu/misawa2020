@@ -94,7 +94,7 @@ class GrouponSerializer(serializers.ModelSerializer):
         model = Groupon
         fields = (
             "slug",
-            "product ",
+            "product",
             "name",
             "description",
             "status",
@@ -132,8 +132,6 @@ class ApplicantSerializer(serializers.ModelSerializer):
             "deposite_paycode",
             "deposite_paid",
             "deposite_paid_at",
-            "order_paid ",
-            "order_paid_at ",
             "created",
         )
         read_only_fields = (
@@ -141,6 +139,5 @@ class ApplicantSerializer(serializers.ModelSerializer):
             "groupon",
             "user",
             "deposite_paid_at",
-            "order_paid_at ",
             "created",
         )

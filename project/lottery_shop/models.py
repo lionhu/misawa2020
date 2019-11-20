@@ -70,47 +70,47 @@ class Subcatalogue(models.Model):
     def __unicode__(self):
         return self.name
 
-class Product(models.Model):
-    slug = models.SlugField(null=True,blank=True,default=now_slug)
-    name = models.CharField(default="catalogue_name",max_length=256,blank=True)
-    main_product_id = models.IntegerField(default=0,blank=True,null=True)
-    catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
-    manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
-    brand = models.CharField(default="brand",max_length=128,blank=True)
-    vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
-    specs = models.CharField(default="specs",max_length=256,blank=True)
-    sku = models.CharField(default="sku",max_length=128,blank=True)
+# class Product(models.Model):
+#     slug = models.SlugField(null=True,blank=True,default=now_slug)
+#     name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+#     main_product_id = models.IntegerField(default=0,blank=True,null=True)
+#     catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
+#     manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
+#     brand = models.CharField(default="brand",max_length=128,blank=True)
+#     vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
+#     specs = models.CharField(default="specs",max_length=256,blank=True)
+#     sku = models.CharField(default="sku",max_length=128,blank=True)
     
-    purchase_price = models.IntegerField(default=0)
-    price = models.IntegerField(default=0)
-    point = models.IntegerField(default=0)
-    open_price = models.IntegerField(default=0)
+#     purchase_price = models.IntegerField(default=0)
+#     price = models.IntegerField(default=0)
+#     point = models.IntegerField(default=0)
+#     open_price = models.IntegerField(default=0)
     
-    wanted = models.IntegerField(default=0)
-    ranks = models.IntegerField(default=0)
-    avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
-    thumbnail = ImageSpecField(source='avatar',
-                            processors=[ResizeToFill(250,250)],
-                            format="PNG",
-                            options={'quality': 60}
-                            )
+#     wanted = models.IntegerField(default=0)
+#     ranks = models.IntegerField(default=0)
+#     avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
+#     thumbnail = ImageSpecField(source='avatar',
+#                             processors=[ResizeToFill(250,250)],
+#                             format="PNG",
+#                             options={'quality': 60}
+#                             )
                             
-    active = models.BooleanField(default=False)
-    stock = models.IntegerField(default=0)
-    mod_date = models.DateTimeField('Last modified',auto_now=True)
+#     active = models.BooleanField(default=False)
+#     stock = models.IntegerField(default=0)
+#     mod_date = models.DateTimeField('Last modified',auto_now=True)
 
 
-    class Meta:
-        verbose_name="Product"
-        app_label="lottery_shop"
+#     class Meta:
+#         verbose_name="Product"
+#         app_label="lottery_shop"
 
-    def __str__(self):
-        return "{}".format(self.name)
-    def __unicode__(self):
-        return self.name
+#     def __str__(self):
+#         return "{}".format(self.name)
+#     def __unicode__(self):
+#         return self.name
 
-    def thumbimage(self):
-    	return self.thumbnail.url
+#     def thumbimage(self):
+#     	return self.thumbnail.url
 
 
 
@@ -215,7 +215,7 @@ class Groupon(models.Model):
 
 class Applicant(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    groupon=models.OneToOneField(Groupon,on_delete=models.CASCADE,blank=False,null=False,related_name="applicants")    
+    groupon=models.ForeignKey(Groupon,on_delete=models.CASCADE,blank=False,null=False,related_name="applicants")    
     address=JSONField()
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_applicants",blank=False,null=False)
     num=models.IntegerField(default=0)
@@ -226,8 +226,8 @@ class Applicant(models.Model):
     deposite_paid = models.BooleanField(default=False)
     deposite_paid_at = models.DateTimeField('deposite_paid_at',auto_now=True)
 
-    order_paid = models.BooleanField(default=False)
-    order_paid_at = models.DateTimeField('order_paid_at',auto_now=True)
+    orderpaid = models.BooleanField(default=False)
+    orderpaid_at = models.DateTimeField('order_paid_at',auto_now=True)
     
     created = models.DateTimeField('created',auto_now=True)
 
