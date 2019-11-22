@@ -46,6 +46,14 @@
             </span> -->
           </router-link>
         </li>
+        <li class="">
+          <router-link :to="{ name: 'shopusers'}">
+            <i class="icon-home"></i> <span>Shop Users</span>
+<!--             <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span> -->
+          </router-link>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="icon-graph"></i>

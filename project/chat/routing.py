@@ -10,4 +10,8 @@ websocket_urlpatterns = [
     
     path('wss/vuechat/<str:room_name>/', consumers.VueChatConsumer),
     path('wss/systemchannel/<str:room_name>/', consumers.PublicConsumer),
+
+    # Shop Related ShopPrivateConsumer
+    path('wss/shop/public/', consumers.ShopPublicConsumer),
+    path('wss/shop/private/', consumers.ShopPrivateConsumer),
 ]

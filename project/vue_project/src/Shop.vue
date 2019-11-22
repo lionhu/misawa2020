@@ -11,12 +11,22 @@
            </div>
         </section>
 
+    <ShopPulicAlert visible="false"></ShopPulicAlert>
+    <ShopPrivateAlert visible="false"></ShopPrivateAlert>
+
     </div>
 </template>
 
 <script>
+
+  import ShopPulicAlert from "./components/shop/parts/ShopPublicAlert.vue"
+  import ShopPrivateAlert from "./components/shop/parts/ShopPrivateAlert.vue"
     export default {
         name: "app",
+        components:{
+            ShopPulicAlert,
+            ShopPrivateAlert
+        },
         provide(){
             return {
                 reload:this.reload

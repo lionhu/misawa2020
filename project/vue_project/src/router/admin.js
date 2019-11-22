@@ -39,6 +39,15 @@ const router = new Router({
                 maincontent:loadView("Users")
             }
         },
+        {
+            path: '/shopusers',
+            name:"shopusers",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("ShopUsers")
+            }
+        },
     ]
 });
 

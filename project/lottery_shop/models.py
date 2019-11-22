@@ -12,6 +12,14 @@ import datetime
 
 logger=logging.getLogger("error_logger")
 
+ProductImageType = (
+    ('iframe', 'iframe'),
+    ('video', 'video'),
+    ('standard', 'standard'),
+    ('Others', 'Others'),
+)
+
+
 def get_image_path(instance, filename):
     # prefix = 'avatars/'
     prefix = "products/"
@@ -116,7 +124,8 @@ class Subcatalogue(models.Model):
 
 class Product(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    name = models.CharField(default="catalogue_name",max_length=256,blank=True)
+    name = models.CharField(default="product name",max_length=256,blank=True)
+    subtitle = models.CharField(default="subtitle",max_length=256,blank=True)
     main_product_id = models.IntegerField(default=0,blank=True,null=True)
     catalogue = models.ForeignKey(Subcatalogue,on_delete=models.CASCADE, blank=True, null=True, related_name="products")
     manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
@@ -156,26 +165,61 @@ class Product(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
-class ProductImage(models.Model):
+
+class Article(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE, blank=True, null=True, related_name="images")
-    avatar = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
-    thumbnail = ImageSpecField(source='avatar',
+    mediatype = models.CharField(default="Image",max_length=10,choices=ProductImageType)
+    product = models.OneToOneField("Product",on_delete=models.CASCADE, blank=True, null=True, related_name="article")
+    postimage = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
+    thumbnail = ImageSpecField(source='postimage',
+                            processors=[ResizeToFill(320,320)],
+                            format="PNG",
+                            options={'quality': 60}
+                            )
+
+    ajax_url = models.CharField(default="ajax_url",max_length=256,blank=True)
+    video_url = models.CharField(default="video_url",max_length=256,blank=True)
+    memo = models.CharField(default="hidden",max_length=256,blank=True)
+
+    mod_date = models.DateTimeField('Last modified',auto_now=True)
+
+
+    class Meta:
+        verbose_name="Article"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{} article".format(self.product.name)
+    def __unicode__(self):
+        return self.product.name
+
+    def thumbimage(self):
+        return self.thumbnail.url
+
+
+
+
+class GalleryImage(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    article = models.ForeignKey("Article",on_delete=models.CASCADE, blank=True, null=True, related_name="galleryimages")
+    postimage = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
+    thumbnail = ImageSpecField(source='postimage',
                             processors=[ResizeToFill(320,320)],
                             format="PNG",
                             options={'quality': 80}
                             )
+    memo = models.CharField(default="memo",max_length=20,blank=True)
     created = models.DateTimeField('created',auto_now=True)
 
 
     class Meta:
-        verbose_name="ProductImages"
+        verbose_name="GalleryImage"
         app_label="lottery_shop"
 
     def __str__(self):
-        return "{}".format(self.product.id)
+        return "{} image".format(self.article.id)
     def __unicode__(self):
-        return self.self.product.id
+        return self.self.article.id
 
     def thumbimage(self):
     	return self.thumbnail.url
@@ -225,7 +269,7 @@ class Applicant(models.Model):
     deposite_paycode = models.CharField(default="",max_length=20,blank=False)
     deposite_paid = models.BooleanField(default=False)
     deposite_paid_at = models.DateTimeField('deposite_paid_at',auto_now=True)
-    
+
     orderpaid = models.BooleanField(default=False)
     orderpaid_at = models.DateTimeField('order_paid_at',auto_now=True)
     

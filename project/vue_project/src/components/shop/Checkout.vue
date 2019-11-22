@@ -4,17 +4,16 @@
     <div class="promo promo-dark promo-flat bottommargin" v-if="order_placed">
         <h3><span>Order No: </span> {{order_slug}} </h3>
         <span>Your order has been place at {{order_created_at}}</span>
-        <a href="javascript:void(0);" class="button button-dark button-xlarge button-rounded">Successfully!</a>
-
-
-    </div>
-<!--     <div class="col_half">
-        <div class="card">
-            <div class="card-body">
-                Returning customer? <a href="javascript:void(0);">Click here to login</a>
-            </div>
+        
+        <div class="col_full clearfix">
+                <a href="javascript:void(0);"  @click="PayBill(order_slug,'WechatPay')">
+                    <i class="i-circled i-light wechat_color fab fa-weixin"></i>
+                </a>
+                <a href="javascript:void(0);"  @click="PayBill(order_slug,'AliPay')">
+                    <i class="i-circled i-light alipay_color fab fa-alipay"></i>
+                </a>
         </div>
-    </div> -->
+    </div>
     <div class="col_half col_last">
         <div class="card">
             <div class="card-body">
@@ -241,7 +240,6 @@
     <div class="divider divider-border divider-center" v-if="order_slug!=''">
       <i class="icon-email2"></i>
     </div>
-    <div id="qrcode" class="text-center"></div>
 </div>
 
 </template>
@@ -392,6 +390,8 @@
                   discount:this.couponAmount,
                   existed_customer:this.existed_customer,
                   existed_customer_slug:this.existed_customer_slug,
+                  cartTax:this.cartTax,
+                  CartFinalTotal:this.CartFinalTotal,
                }
                this.$store.dispatch("lotteryshop/placeOrder",params).then(resolve=>{
                       console.log("placed successfully")
@@ -434,7 +434,74 @@
             }
           },reject=>{})
       }
+    },    
+    utf16to8(str) { //二维码编码前把字符串转换成UTF-8
+        var out, i, len, c; 
+            out = ""; 
+            len = str.length; 
+        for(i = 0; i < len; i++) { 
+            c = str.charCodeAt(i); 
+            if ((c >= 0x0001) && (c <= 0x007F)) { 
+                out += str.charAt(i); 
+            } else if (c > 0x07FF) { 
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F)); 
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F)); 
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+            } else { 
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F)); 
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+            } 
+        } 
+        return out; 
     },
+    async PayBill(order_slug,payment){
+        if (payment=="WechatPay" || payment =="AliPay") {
+            const icon_pay= payment=="WechatPay"? "wechat_color fab fa-weixin":"alipay_color fab fa-alipay"
+
+
+            Swal.fire({
+              title: '<i class="i-circled i-light'+icon_pay+'"></i>',
+              showCancelButton: true,
+              confirmButtonText: 'Go to Pay',
+              showLoaderOnConfirm: true,
+              preConfirm: () => {
+                return axios.post(`/api/shop_order/getPayQR/`,{
+                    "order_slug": order_slug,
+                    "brandType": payment
+                }).then(response => {
+                    console.log(response)
+                    if (!response.data.result) {
+                      throw new Error(response.statusText)
+                    }
+                    return response.data
+                  })
+                  .catch(error => {
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}`
+                    )
+                  })
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+              console.log(result)
+              if (result.value.QRurl) {
+                Swal.fire({
+                  title: '<i class="i-circled '+icon_pay+'"></i>',
+                  html: '<div id="paymentQRCode"></div>',
+                  allowOutsideClick: () => False
+                })
+                $("#paymentQRCode").qrcode({
+                    render:"canvas",
+                    width: 320,//宽度
+                    height: 320,//高度
+                    correctLevel:3,
+                    text: this.utf16to8(result.value.QRurl),
+                });
+
+              }
+            })
+        }
+    }
   }
 };
 </script>

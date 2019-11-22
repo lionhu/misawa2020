@@ -6,8 +6,9 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from .models import Message
 from useraccount.models import UserProfile
-
-
+from env_system.ColoPayApiRequest import ColoPayApiRequest
+import logging
+logger=logging.getLogger("error_logger")
 # Create your views here.
 
 def index(request):
@@ -27,6 +28,13 @@ def index(request):
 	            'now_time': ""
 	    	}
 	    )
+
+	rs=ColoPayApiRequest("2254808929160144",999,"テナントA商品")
+	rs.generateSignature()
+	rest=rs.post()
+	logger.error(rest.text)
+
+
 	return render(request, 'chat/index.html', {})
 
 

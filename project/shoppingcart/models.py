@@ -71,6 +71,8 @@ class Order(models.Model):
     address = models.ForeignKey('Address',on_delete=models.CASCADE)
     coupon =models.ForeignKey('Coupon',on_delete=models.CASCADE, blank=True, null=True)
     total = models.IntegerField(default=0,null=True,blank=True)
+    num = models.IntegerField(default=0,null=True,blank=True)
+    tax = models.IntegerField(default=0,null=True,blank=True)
     discount = models.IntegerField(default=0,null=True,blank=True)
     note = models.TextField(default="",blank=True,null=True,max_length=1024)
     logistics = models.CharField(default="logistics",max_length=48, blank=True, null=True)

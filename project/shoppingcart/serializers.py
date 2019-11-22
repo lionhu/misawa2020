@@ -4,7 +4,7 @@ import json
 from rest_framework import serializers
 from rest_framework.renderers import JSONRenderer
 from .models import Address,Cart,CartItem,Order,Coupon
-from lottery_shop.serializers import ProductSerializer
+from lottery_shop.serializers import ProductSerializer,CartItemProductSerializer
 
 
 logger=logging.getLogger("error_logger")
@@ -17,7 +17,7 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class CartItemSerializer(serializers.ModelSerializer):
-    product= ProductSerializer(read_only=True,many=False)
+    product= CartItemProductSerializer(read_only=True,many=False)
     class Meta:
         model = CartItem
         fields = "__all__"
@@ -34,7 +34,6 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ("id","slug","created","cartitems")
-
 
 class OrderSerializer(serializers.ModelSerializer):
     address=AddressSerializer(read_only=True,many=False)

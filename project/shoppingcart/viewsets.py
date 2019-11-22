@@ -13,14 +13,19 @@ from django.conf import settings
 from django.db.models import Count,Sum,Min,Max,Q
 import decimal
 import logging
-import datetime
+from datetime import datetime
 import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin
 from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,OrderSerializer,ProductSerializer,CouponSerializer
 from .models import Address,Cart,CartItem,Order,Coupon
 from lottery_shop.models import Product
+from env_system.ColoPayApiRequest import ColoPayApiRequest
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 
 logger=logging.getLogger("error_logger")
+
 
 class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
@@ -405,6 +410,8 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
             discount=request.data["discount"]
             existed_customer_param=request.data["existed_customer"]
             existed_customer_slug_param=request.data["existed_customer_slug"]
+            cartTax=request.data["cartTax"]
+            CartFinalTotal=request.data["CartFinalTotal"]
         except KeyError:
             raise Http404
         
@@ -434,7 +441,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
         cart=get_object_or_404(Cart,user=request.user,status="new")
 
         serializer=CartSerializer(cart,many=False)
-        order=Order.objects.create(user=request.user,address=address,cart=cart,cartjson=serializer.data,coupon_id=coupon_id,note=note_param,discount=discount)
+        order=Order.objects.create(user=request.user,total=CartFinalTotal,tax=cartTax,address=address,cart=cart,cartjson=serializer.data,coupon_id=coupon_id,note=note_param,discount=discount)
 
         cart.status="Placed"
         cart.save()
@@ -482,6 +489,64 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
 
         else:
             raise Http404
+
+
+    @action(detail=False,methods=["post"])
+    def getPayQR(self,request):
+        order_slug=request.data.get("order_slug",None)
+        _brandType=request.data.get("brandType",None)
+        brandType = "01" if _brandType=="AliPay" else "02"
+
+        order=get_object_or_404(Order,slug=order_slug)
+
+        now = datetime.now()
+        dt_str = now.strftime('%H:%M:%S')
+
+        clientOrderNo=str(request.user.id)+"-"+str(order.id)+"-"+dt_str
+
+        re=ColoPayApiRequest()
+        signature=re.generateSignature(brandType,clientOrderNo,order.total,order.id)
+
+        logger.error(signature)
+        res=re.post()
+        jss=json.loads(res.text)
+
+        if jss["resultType"]=="SUCCESS":
+            return Response({
+                "result":True,
+                "clientOrderNo":clientOrderNo,
+                "QRurl":jss["result"]["codeUrl"],
+                "brandType":jss["result"]["brandType"],
+                "message":"successfully fetch QR from ColoPay GW"
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+            "result":False,
+            "clientOrderNo":clientOrderNo,
+            "QRurl":"",
+            "brandType":brandType,
+            "message":"ERROR when fetching QR from ColoPay GW",
+            "error":res.text
+        }, status=status.HTTP_200_OK)
+
+
+    @action(detail=False,methods=["post"])
+    def callbackPayQR(self,request):
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'shop_publicroom',
+            {
+                'type': 'chat_message',
+                'message': "message",
+                'message_type': "message_type",
+                'display_mode': "modal"
+            }
+        )
+        return Response({
+            "result":False,
+            "request":request.data,
+            "message":"Callback from ColoPay GW",
+        }, status=status.HTTP_200_OK)
 
 
 

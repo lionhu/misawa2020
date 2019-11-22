@@ -241,8 +241,6 @@ class ProductViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrie
             "data":serializer.data
         }, status=status.HTTP_200_OK)
 
-
-
 class GrouponViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset=Groupon.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -372,7 +370,6 @@ class GrouponViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrie
     #       "type":"admin applicant list",
     #       "data":""
     #       }, status=status.HTTP_200_OK)
-
 
 class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset=Applicant.objects.all()
