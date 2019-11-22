@@ -89,7 +89,7 @@
         </div>
 
         <div class="col-lg-6 text-right vertical-middle clearfix">
-            <router-link :to="{name:'checkout'}" class="button button-reveal button-xlarge button-rounded tright"><i class="icon-angle-right"></i><span>Checkout Now</span></router-link>
+            <router-link :to="{name:'checkout'}" class="button button-reveal button-xlarge button-rounded tright"><i class="fas fa-cash-register"></i><span>Checkout Now</span></router-link>
 <!--             <a href="#"  class="button button-reveal button-xlarge button-rounded tright"><i class="icon-angle-right"></i><span>Checkout Now</span></a> -->
           </div>
       </div>

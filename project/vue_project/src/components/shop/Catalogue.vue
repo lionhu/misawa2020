@@ -1,32 +1,39 @@
 <template>
 <div class="container clearfix">
 
-  <!-- Portfolio Filter
-  ============================================= -->
-  <ul id="portfolio-filter" class="portfolio-filter clearfix" data-container="#portfolio" hidden>
+  <div class="postcontent nobottommargin col_last">
+    
+<!--       <ul id="portfolio-filter" class="portfolio-filter clearfix" data-container="#portfolio" hidden>
 
-    <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
-    <li><a href="#" data-filter=".pf-icons">Icons</a></li>
-    <li><a href="#" data-filter=".pf-illustrations">Illustrations</a></li>
-    <li><a href="#" data-filter=".pf-uielements">UI Elements</a></li>
-    <li><a href="#" data-filter=".pf-media">Media</a></li>
-    <li><a href="#" data-filter=".pf-graphics">Graphics</a></li>
+        <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
+        <li><a href="#" data-filter=".pf-icons">Icons</a></li>
+        <li><a href="#" data-filter=".pf-illustrations">Illustrations</a></li>
+        <li><a href="#" data-filter=".pf-uielements">UI Elements</a></li>
+        <li><a href="#" data-filter=".pf-media">Media</a></li>
+        <li><a href="#" data-filter=".pf-graphics">Graphics</a></li>
 
-  </ul><!-- #portfolio-filter end -->
+      </ul>
 
-  <div id="portfolio-shuffle" class="portfolio-shuffle" data-container="#portfolio" hidden="">
-    <i class="icon-random"></i>
+      <div id="portfolio-shuffle" class="portfolio-shuffle" data-container="#portfolio" hidden="">
+        <i class="icon-random"></i>
+      </div>
+
+      <div class="clear"></div> -->
+
+      <!-- Portfolio Items
+      ============================================= -->
+      <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-full portfolio-masonry mixed-masonry grid-container clearfix">
+
+        <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
+
+      </div><!-- #portfolio end -->
+
+
   </div>
 
-  <div class="clear"></div>
 
-  <!-- Portfolio Items
-  ============================================= -->
-  <div id="portfolio" class="portfolio grid-container portfolio-nomargin clearfix">
 
-    <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
 
-  </div><!-- #portfolio end -->
   <!-- Sidebar
   ============================================= -->
   <div class="sidebar nobottommargin">

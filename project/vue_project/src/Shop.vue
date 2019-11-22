@@ -5,7 +5,7 @@
 
         <section class="content">
 
-            <div class="content-wrapper">
+            <div class="content-wrapper topmargin-sm">
                 <router-view name="maincontent"></router-view>
                 <router-view v-if="isRouterAlive"></router-view>
            </div>

@@ -424,15 +424,13 @@
       if(this.address.postcode.length>3){
         FetchAddressByPostcode(this.address.postcode).then(
           resolve=>{
-            if(resolve.result){
-              console.log(resolve.result)
-              this.address.state=resolve.data.address1
-              this.address.city=resolve.data.address2
-              this.address.street_address1=resolve.data.address3
-            }else{
-              showNotification("invalid postcode","warning")
-            }
-          },reject=>{})
+              console.log(resolve.address)
+              this.address.state=resolve.address.state
+              this.address.city=resolve.address.city
+              this.address.street_address1=resolve.address.street_address1
+          },reject=>{
+            showNotification(reject.message,"warning")
+          })
       }
     },    
     utf16to8(str) { //二维码编码前把字符串转换成UTF-8

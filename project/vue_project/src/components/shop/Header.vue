@@ -77,10 +77,9 @@
                 <span class="d-sm-inline-block font-primary t500">Login</span>
               </a>
               <a href="javascript:void(0);" @click="Logout" v-if="ME.username !=undefined">
-                <i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>
-                <span class="d-sm-inline-block font-primary t500">{{ME.username}}</span>
+                <i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>{{ME.username}}
               </a>
-            </div><!-- #top-search end -->
+            </div>
 
           </nav><!-- #primary-menu end -->
 
