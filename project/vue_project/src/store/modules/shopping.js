@@ -95,6 +95,8 @@ const actions= {
         fetchCatalogueProducts: ({ commit },catalogue_id) => {
             shopAPI.productsOfSubCatalogues(catalogue_id).then((res) => {
                 commit("setCatalogueProducts", res.data.products);
+            },reject=>{
+                console.log("error lod product")
             });
         },
         addToCart: ({ commit }, params) => {

@@ -6,7 +6,6 @@
     <div class="fancy-title title-dotted-border title-center mb-4">
       <h4>Shop popular categories</h4>
     </div>
-
     <div class="row shop-categories clearfix">
       <div class="col-lg-7">
         <a href="#" style="background: url(/static/canvas/demos/shop/images/categories/2-1.jpg) no-repeat right center; background-size: cover;">
@@ -213,7 +212,7 @@
 <script>
 
   import {mapActions, mapState,mapGetters} from "vuex"
-  // import Swal from 'sweetalert2'
+  
 
   export default {
     name: 'neworder',
@@ -240,10 +239,7 @@
   computed: {
   },
     mounted() {
-      // this.$store.dispatch("lotteryshop/getOrderBySlug","30c6d1d4-7631-4cde-af14-613c8e802ee20742").then(
-      //         resolve=>{
-      //           console.log(resolve.cart.id)
-      //         },reject=>{})
+
     },
     methods: {
     }

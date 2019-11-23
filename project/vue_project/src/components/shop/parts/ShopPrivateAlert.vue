@@ -52,9 +52,7 @@
         init_websocker(){
 
              this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/shop/public/');
-
-              // this.websocket = new ReconnectingWebSocket('wss://www.exrate.world:3443/wss/systemchannel/public/');
-              console.log(this.websocket )
+              // console.log(this.websocket )
               this.websocket.onopen = this.websocketonopen;
 
 　　　　　　　　this.websocket.onerror = this.websocketonerror;
@@ -69,7 +67,7 @@
             console.log("connection closed (" + e.code + ")"); 
         },
         websocketonmessage(e){
-              console.log(e)
+              // console.log(e)
               var data = JSON.parse(e.data);
               
               if(data.message_type=="userstatus"){

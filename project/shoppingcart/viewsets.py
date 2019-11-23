@@ -3,6 +3,7 @@ from rest_framework import viewsets, permissions,status
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets,mixins,generics
 from django.shortcuts import get_object_or_404
+from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated,BasePermission,SAFE_METHODS,AllowAny
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view,action
 from rest_framework.response import Response
@@ -22,6 +23,8 @@ from lottery_shop.models import Product
 from env_system.ColoPayApiRequest import ColoPayApiRequest
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from pyzbar.pyzbar import decode
+from PIL import Image
 
 
 logger=logging.getLogger("error_logger")
@@ -527,6 +530,36 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
             "brandType":brandType,
             "message":"ERROR when fetching QR from ColoPay GW",
             "error":res.text
+        }, status=status.HTTP_200_OK)
+
+
+
+    @action(detail=False,methods=["post"],
+        parser_classes=[parsers.MultiPartParser,parsers.FormParser],)
+    def scanQR(self,request):
+        QRType = request.POST.get("QRType")
+        order_slug = request.POST.get("order_slug")
+        data = decode(Image.open(request.FILES.get("cpm_code")))
+
+        if QRType=="coupon":
+            coupon_slug=data[0][0].decode('utf-8', 'ignore')
+            coupon = get_object_or_404(Coupon,slug=coupon_slug)
+
+            serializer=CouponSerializer(coupon,many=False)
+            
+            return Response({
+                "result":True,
+                "coupon":serializer.data,
+            }, status=status.HTTP_200_OK)
+
+
+
+        return Response({
+            "result":True,
+            "order_slug":order_slug,
+            "QRCODE":data[0][0].decode('utf-8', 'ignore'),
+            "QRType":QRType,
+            "message":"ERROR when fetching QR from ColoPay GW",
         }, status=status.HTTP_200_OK)
 
 

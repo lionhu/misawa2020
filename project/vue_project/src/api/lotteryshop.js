@@ -36,7 +36,7 @@ export default {
             axios.get(url,).then((res)=>{
                 resolve(res)
             }).catch(function(error){
-                reject(error)
+                window.location.href="/shop/#/catalogue/1"
             })
         });
     },

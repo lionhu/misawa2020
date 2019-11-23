@@ -1,10 +1,15 @@
 from rest_framework import serializers
 from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage,Article
 from useraccount.serializers import UserSerializer
-
+import logging
+logger=logging.getLogger("error_logger")
 # class SubcatalogueUrlField(serializers.RelatedField):
 #     def to_representation(self,value):
 #         return "subcatalogue/%s"%(value.slug)
+
+
+
+
 
 class GalleryImageSerializer_list(serializers.ModelSerializer):
     class Meta:
@@ -68,12 +73,20 @@ class ProductSerializer_list(serializers.ModelSerializer):
         subproducts=Product.objects.filter(active=True,main_product_id=instance.id)
         result["subproducts"]=len(subproducts)
 
+        try:
+            logger.error(instance.groupon)
+            result["hasGroupon"]=True
+            result["grouponSlug"]=instance.groupon.slug
+            result["grouponActive"]= True if instance.groupon.status=="active" else False
+        except:
+            result["hasGroupon"]=False
+
         return result
 
     class Meta:
         model = Product
 
-        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","article")
+        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","article","manufacturer","brand")
 
 
 class SubcatalogueSerializer(serializers.ModelSerializer):
@@ -82,8 +95,6 @@ class SubcatalogueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcatalogue
         fields = ("id","name","avatar","slug","products")
-
-
 
 class SubcatalogueSerializer_list(serializers.ModelSerializer):
     class Meta:
@@ -96,7 +107,6 @@ class SubcatalogueSerializer_list(serializers.ModelSerializer):
         result["url"]="subcatalogue/%s"%(instance.slug)
 
         return result
-
 
 class CatalogueSerializer(serializers.ModelSerializer):
     subcatalogues=SubcatalogueSerializer_list(many=True,read_only=True)

@@ -12,9 +12,12 @@
                 <a href="javascript:void(0);"  @click="PayBill(order_slug,'AliPay')">
                     <i class="i-circled i-light alipay_color fab fa-alipay"></i>
                 </a>
+                <a href="javascript:void(0);"  @click="PayBill(order_slug,'CPM')">
+                    <i class="i-circled i-light fas fa-qrcode"></i>
+                </a>
         </div>
     </div>
-    <div class="col_half col_last">
+    <div class="col_half col_last"  v-if="!order_placed">
         <div class="card">
             <div class="card-body">
                 Have a coupon? <a href="javascript:void(0);" @click="userCoupon">Click here to enter your code</a>
@@ -180,7 +183,7 @@
                     </tbody>
                 </table>
             </div>
-          <div class="fancy-title title-bottom-border">
+<!--           <div class="fancy-title title-bottom-border">
             <h4><span>支払いについて</span></h4>
           </div>
             <div class="accordion clearfix">
@@ -192,7 +195,7 @@
 
                 <div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>
                 <div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>
-            </div>
+            </div> -->
             <a href="javascript:void(0);" class="button button-3d fright" @click="PlaceOrder" v-if="!order_placed">Place Order</a>
         </div>
     </div>
@@ -251,8 +254,9 @@
   import {setToken,getToken,showNotification,FetchAddressByPostcode} from "../../lib/util.js"
   import Swal from 'sweetalert2'
 
+
   export default {
-    name: 'cart',
+    name: 'Checkout',
     data () {
       return {
         address:{
@@ -291,13 +295,12 @@
           return this.coupon.discount
         }
         if(this.coupon.coupontype=="ratio"){
-          console.log(this.cart.summary.Total)
-          console.log(this.coupon.discount)
-          console.log(this.cart.summary.Total*this.coupon.discount/100)
           return parseInt(this.cart.summary.Total*this.coupon.discount/100)
         }
+      }else{
+        return 0;
       }
-      return 0;
+
     },
     cartTax(){
       return parseInt(this.cart.summary.Total*0.1)
@@ -311,35 +314,64 @@
   },
   methods: {
     async userCoupon(){
-        Swal.fire({
-          title: this.$t("m.use_coupon"),
-          input: 'text',
-          showCancelButton: true,
-          inputPlaceholder: this.$t("m.coupon"),
-          confirmButtonText: 'OK',
-          showLoaderOnConfirm: true,
-          preConfirm: (slug) => {
-            return axios.post('/api/coupon/couponValidate/',{
-                "slug":slug
-            }).then((res)=>{
-                if(res.data.result){
-                  this.hascoupon=true
-                  return res.data.coupon
-                }else{
-                  throw new Error("invalid coupon")
-                }
-            }).catch(function(error){
+        var vm=this;
+        const { value: file } = await Swal.fire({
+                  title: 'Scan CouponQR',
+                  input: 'file',
+                  inputAttributes: {
+                    accept: 'image/*',
+                    'aria-label': 'Upload your profile picture'
+                  }
+                })
+
+        if (file) {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            let formData = new FormData();
+            formData.append('cpm_code', file)
+            // formData.append('coupon', order_slug)
+            formData.append('QRType', "coupon")
+
+            axios.post(`/api/shop_order/scanQR/`,formData,{
+                        headers: {
+                            'Content-type':'multipart/form-data'
+                        }
+                    }
+                ).then(response => {
+                    if (!response.data.result) {
+                        vm.hascoupon=false
+                        vm.coupon={
+                              id:"",
+                              coupontype:"",
+                              discount:0,
+                              description:""
+                            }
+                        throw new Error(response.statusText)
+                    }
+                // return response.data
+                    vm.hascoupon=true
+                    vm.coupon= response.data.coupon
+
+                    var message = 'Discount: '+ String(vm.couponAmount) 
+
+
+                    Swal.fire({
+                      title: 'Coupon Validated ',
+                      html: message,
+                      imageUrl: e.target.result,
+                      imageAlt: 'The uploaded picture'
+                    })
+              })
+              .catch(error => {
                 Swal.showValidationMessage(
-                  // `Request failed: ${error}`
-                  'Invalid Coupon Code!'
+                  `Request failed: ${error}`
                 )
-            })
-          },
-          allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            Swal.fire(result.value.description)
-            this.coupon=result.value
-        })
+              })
+
+
+          }
+          reader.readAsDataURL(file)
+        }
     },
     confirm_exist_customer(){
       if (this.address.phone.length>6){
@@ -395,7 +427,6 @@
                }
                this.$store.dispatch("lotteryshop/placeOrder",params).then(resolve=>{
                       console.log("placed successfully")
-                      console.log(resolve)
                       this.order_slug=resolve.order_slug
                       this.order_created_at=resolve.created_at
                       this.order_placed=true
@@ -420,11 +451,9 @@
         });
     },
     getAddressFromPostcode(){
-      console.log(this.address.postcode)
       if(this.address.postcode.length>3){
         FetchAddressByPostcode(this.address.postcode).then(
           resolve=>{
-              console.log(resolve.address)
               this.address.state=resolve.address.state
               this.address.city=resolve.address.city
               this.address.street_address1=resolve.address.street_address1
@@ -453,6 +482,50 @@
         return out; 
     },
     async PayBill(order_slug,payment){
+        if(payment=="CPM"){
+                const { value: file } = await Swal.fire({
+                  title: 'Select image',
+                  input: 'file',
+                  inputAttributes: {
+                    accept: 'image/*',
+                    'aria-label': 'Upload your profile picture'
+                  }
+                })
+
+                if (file) {
+                  const reader = new FileReader()
+                  reader.onload = (e) => {
+                    let formData = new FormData();
+                    formData.append('cpm_code', file)
+                    formData.append('order_slug', order_slug)
+                    formData.append('QRType', "Coupon")
+
+                    axios.post(`/api/shop_order/scanQR/`,formData,{
+                                headers: {
+                                    'Content-type':'multipart/form-data'
+                                }
+                            }
+                        ).then(response => {
+                        if (!response.data.result) {
+                          throw new Error(response.statusText)
+                        }
+                        Swal.fire({
+                          title: 'Your uploaded picture',
+                          imageUrl: e.target.result,
+                          imageAlt: 'The uploaded picture'
+                        })
+                      })
+                      .catch(error => {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Unknown PayCode!',
+                        })
+                      })
+                  }
+                  reader.readAsDataURL(file)
+                }
+        }
         if (payment=="WechatPay" || payment =="AliPay") {
             const icon_pay= payment=="WechatPay"? "wechat_color fab fa-weixin":"alipay_color fab fa-alipay"
 
@@ -467,7 +540,6 @@
                     "order_slug": order_slug,
                     "brandType": payment
                 }).then(response => {
-                    console.log(response)
                     if (!response.data.result) {
                       throw new Error(response.statusText)
                     }
@@ -481,12 +553,11 @@
               },
               allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
-              console.log(result)
               if (result.value.QRurl) {
                 Swal.fire({
                   title: '<i class="i-circled '+icon_pay+'"></i>',
                   html: '<div id="paymentQRCode"></div>',
-                  allowOutsideClick: () => False
+                  allowOutsideClick: () => false
                 })
                 $("#paymentQRCode").qrcode({
                     render:"canvas",

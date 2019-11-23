@@ -3925,7 +3925,9 @@ body.device-touch.device-xs .portfolio-notitle .portfolio-desc { display: none !
 
 .postcontent .portfolio-desc h3 { font-size: 17px; }
 
-.postcontent .portfolio-desc span { font-size: 12px; }
+.postcontent .portfolio-desc span { font-size: 18px!important; font-weight: 700; }
+.postcontent .portfolio-desc span  ins{ color: #1ABC9C!important;}
+
 
 
 /* Portfolio - Sidebar - No Title
@@ -4607,6 +4609,22 @@ body:not(.device-touch):not(.device-sm):not(.device-xs) .portfolio-overlay a {
 .portfolio-overlay .portfolio-desc span {
 	margin-top: 7px;
 	color: #DDD !important;
+}
+
+
+.portfolio-overlay .portfolio-desc span ins{
+	margin-top: 7px;
+	color: #32f596 !important;
+}
+
+.portfolio-overlay .portfolio-desc span del{
+	margin-top: 7px;
+	color: #898e8b !important;
+}
+
+.portfolio-overlay .portfolio-desc span .product_price{ 
+	font-size: 18px!important; 
+	font-weight: 700
 }
 
 .portfolio-overlay .portfolio-desc span a {
@@ -13820,4 +13838,227 @@ body:not(.no-transition) #wrapper,
 	text-shadow: none !important;
 }
 
+
+
+/* ribbon */
+.ribbon-wrapper,
+.ribbon-wrapper-reverse,
+.ribbon-wrapper-bottom,
+.ribbon-wrapper-right-bottom {
+  position: relative;
+  background: #333333;
+  padding: 50px 15px 15px 50px;
+  border-radius: 5px;
+}
+.ribbon-overflow {
+  overflow: hidden;
+}
+.ribbon-wrapper-reverse {
+  padding: 50px 50px 15px 15px;
+}
+.ribbon-wrapper-bottom {
+  padding: 15px 15px 50px 50px;
+}
+.ribbon-wrapper-right-bottom {
+  padding: 15px 50px 50px 15px;
+}
+.ribbon {
+  padding: 0 20px;
+  height: 30px;
+  line-height: 30px;
+  clear: left;
+  position: absolute;
+  top: 5px;
+  left: -2px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 10;
+}
+.ribbon-bookmark:before {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: block;
+  width: 0;
+  height: 0;
+  content: '';
+  border: 15px solid #2b2b2b;
+  border-right: 10px solid transparent;
+}
+.ribbon-right {
+  left: auto;
+  right: -2px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.ribbon-bookmark.ribbon-right:before {
+  right: 100%;
+  left: auto;
+  border-right: 15px solid #2b2b2b;
+  border-left: 10px solid transparent;
+}
+.ribbon-vertical-l,
+.ribbon-vertical-r {
+	clear: none;
+    padding: 0 5px;
+    height: 40px;
+    width: 30px;
+    line-height: 40px;
+    text-align: center;
+    left: 5px;
+    top: -2px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 0px;
+}
+.ribbon-vertical-r {
+    left: auto;
+    right: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 0px;
+}
+.ribbon-bookmark.ribbon-vertical-l:before,
+.ribbon-bookmark.ribbon-vertical-r:before {
+  top: 100%;
+  left: 0;
+  margin-top: -14px;
+  border-right: 15px solid #2b2b2b;
+  border-bottom: 10px solid transparent;
+}
+.ribbon-bookmark{
+	border-radius: 0;
+	left: 0;
+	padding-top: 6px;
+	background-color: #e4e7ea!important;
+}
+.ribbon-bookmark.ribbon-right {
+    right: -5px;
+	left: auto;
+}
+.ribbon-badge {
+  top: 15px;
+  overflow: hidden;
+  left: -90px;
+  width: 100%;
+  text-align: center;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.ribbon-badge.ribbon-right {
+  left: auto;
+  right: -90px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.ribbon-badge.ribbon-bottom {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.ribbon-badge.ribbon-right.ribbon-bottom {
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+
+
+.ribbon-bookmark.bg-primary:before {
+  border-color: #ea0808;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-primary:before {
+  border-right-color: #33cabb;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-primary:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-primary:before {
+  border-right-color: #33cabb;
+  border-bottom-color: transparent;
+}
+
+
+.ribbon-bookmark.bg-success:before {
+  border-color: #06f9b4;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-success:before {
+  border-right-color: #06d79c;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-success:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-success:before {
+  border-right-color: #06d79c;
+  border-bottom-color: transparent;
+}
+
+
+.ribbon-bookmark.bg-info:before {
+  border-color: #03a9f3;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-info:before {
+  border-right-color: #03a9f3;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-info:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-info:before {
+  border-right-color: #03a9f3;
+  border-bottom-color: transparent;
+}
+
+
+.ribbon-bookmark.bg-warning:before {
+  border-color: #e9ab2e;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-warning:before {
+  border-right-color: #e9ab2e;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-warning:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-warning:before {
+  border-right-color: #e9ab2e;
+  border-bottom-color: transparent;
+}
+
+
+.ribbon-bookmark.bg-danger:before {
+  border-color: #dc3445;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-danger:before {
+  border-right-color: #fb9678;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-danger:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-danger:before {
+  border-right-color: #fb9678;
+  border-bottom-color: transparent;
+}
+
+.ribbon-bookmark.bg-secondary:before {
+  border-color: #e4e7ea;
+  border-right-color: transparent;
+}
+.ribbon-bookmark.ribbon-right.bg-secondary:before {
+  border-right-color: #e4e7ea;
+  border-left-color: transparent;
+}
+.ribbon-bookmark.ribbon-vertical-l.bg-secondary:before,
+.ribbon-bookmark.ribbon-vertical-r.bg-secondary:before {
+  border-right-color: #e4e7ea;
+  border-bottom-color: transparent;
+}
 

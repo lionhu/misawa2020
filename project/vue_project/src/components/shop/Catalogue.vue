@@ -3,26 +3,17 @@
 
   <div class="postcontent nobottommargin col_last">
     
-<!--       <ul id="portfolio-filter" class="portfolio-filter clearfix" data-container="#portfolio" hidden>
+          <div id="portfolio-ajax-wrap">
+            <div id="portfolio-ajax-container"></div>
+          </div>
 
-        <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
-        <li><a href="#" data-filter=".pf-icons">Icons</a></li>
-        <li><a href="#" data-filter=".pf-illustrations">Illustrations</a></li>
-        <li><a href="#" data-filter=".pf-uielements">UI Elements</a></li>
-        <li><a href="#" data-filter=".pf-media">Media</a></li>
-        <li><a href="#" data-filter=".pf-graphics">Graphics</a></li>
+          <div id="portfolio-ajax-loader"><img src="/static/canvas/images/preloader-dark.gif" alt="Preloader"></div>
 
-      </ul>
+          <div class="clear"></div>
 
-      <div id="portfolio-shuffle" class="portfolio-shuffle" data-container="#portfolio" hidden="">
-        <i class="icon-random"></i>
-      </div>
-
-      <div class="clear"></div> -->
-
-      <!-- Portfolio Items
-      ============================================= -->
-      <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-full portfolio-masonry mixed-masonry grid-container clearfix">
+          <!-- Portfolio Items
+          ============================================= -->
+      <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-ajax clearfix">
 
         <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
 
@@ -80,7 +71,7 @@
   import Article from "./parts/Article.vue"
 
   export default {
-    name: 'neworder',
+    name: 'productlist',
     components:{
       Product,
       Article
@@ -106,19 +97,14 @@
       }
     },
     watch: {
-        $route: {
-          handler(to, from) {
-            console.log(from)
-            console.log(to)
-            const to_id=to.params.catalogue_id
-            const from_id =from.params.catalogue_id
-            if(from_id !== to_id){
-              this.loadCatalogueProducts(to_id)
-            }
-            window.location.reload()
-          },
-          deep: true
-    }  
+      '$route' (to, from) {
+          console.log("watch route222")
+          const to_id=to.params.catalogue_id
+          const from_id =from.params.catalogue_id
+          if(from_id !== to_id){
+            this.loadCatalogueProducts(to_id)
+          }
+      }
   }
 };
 </script>

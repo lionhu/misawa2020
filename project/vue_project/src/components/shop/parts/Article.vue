@@ -1,7 +1,7 @@
 <template>
 <div>
 
-          <article class="portfolio-item pf-media pf-icons wide"  v-if="product.article.mediatype=='standard'">
+<!--           <article class="portfolio-item pf-media pf-icons wide"  v-if="product.article.mediatype=='standard'">
             <div class="portfolio-image">
               <router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">
                 <img :src="product.thumbimage" alt="Open Imagination">
@@ -11,13 +11,15 @@
                 <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
                 <div class="portfolio-desc">
                   <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
-                  <span>{{product.open_price|currency}}</span>
+                  <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
                 </div>
                 <a :href="product.avatar" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
                 <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon" ><i class="icon-shopping-cart"></i></a>
               </div>
             </div>
           </article>
+
+
 
           <article class="portfolio-item pf-icons pf-illustrations wide"  v-if="product.article.mediatype=='gallery'">
             <div class="portfolio-image">
@@ -35,15 +37,21 @@
               <div class="portfolio-overlay" data-lightbox="gallery">
                 <div class="sale-flash soldout" v-if="product.stock==0">Sold Out!</div>
                 <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
-                <div class="portfolio-desc">
-                  <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
-                  <span>{{product.open_price|currency}}</span>
-                </div>
+
                 <a :href="_image.postimage" v-bind:class="{'left-icon':_image.memo=='show','hidden':_image.memo=='hidden'}"  data-lightbox="gallery-item" v-for="_image in product.article.galleryimages"><i class="icon-line-stack-2"></i></a>
                 <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon"  ><i class="icon-shopping-cart"></i></a>
               </div>
             </div>
+            <div class="portfolio-desc">
+              <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
+              <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
+            </div>
           </article>
+
+
+
+
+
           <article class="portfolio-item pf-graphics pf-media pf-uielements"  v-if="product.article.mediatype=='video'">
             <div class="portfolio-image">
               <router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">
@@ -54,31 +62,38 @@
                 <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
                 <div class="portfolio-desc">
                   <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
-                  <span>{{product.open_price|currency}}</span>
+                  <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
                 </div>
                 <a :href="product.article.video_url" class="left-icon" data-lightbox="iframe"><i class="icon-line-play"></i></a>
                 <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon" ><i class="icon-shopping-cart"></i></a>
               </div>
             </div>
-          </article>
+          </article> -->
 
-<!--   <article class="portfolio-item pf-media pf-icons" v-if="product.article.mediatype=='standard'">
-    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
+  <article class="portfolio-item pf-media pf-icons" data-loader="include/ajax/portfolio-ajax-image.php" v-if="product.article.mediatype=='standard'">
+    <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
+      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug)"><i class="fas fa-bullhorn"></i></a>
+    </div>
     <div class="portfolio-image">
         <img :src="product.thumbimage" :alt="product.name">
-      <div class="portfolio-overlay">
-        <a :href="product.avatar" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
-        <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon"><i class="icon-shopping-cart"></i></a>
-      </div>
+        <div class="portfolio-overlay">
+          <a :href="product.avatar" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+          <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon"><i class="icon-shopping-cart"></i></a>
+        </div>
     </div>
     <div class="portfolio-desc">
-      <h3><a href="portfolio-single-gallery.html">{{product.name}}</a></h3>
-      <span>{{product.open_price}}<ins>{{product.price}}</ins></span>
-    </div>
+        <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
+        <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
+    </div>  
+    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
   </article>
 
-  <article class="portfolio-item pf-icons pf-illustrations" v-if="product.article.mediatype=='gallery'">
-    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
+
+
+  <article class="portfolio-item pf-icons pf-illustrations"  data-loader="include/ajax/portfolio-ajax-gallery.php" v-if="product.article.mediatype=='gallery'">
+    <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
+      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug)"><i class="fas fa-bullhorn"></i></a>
+    </div>
     <div class="portfolio-image">
       <div class="fslider" data-arrows="false" data-speed="400" data-pause="4000">
         <div class="flexslider">
@@ -97,14 +112,17 @@
       </div>
     </div>
     <div class="portfolio-desc">
-      <h3><a href="portfolio-single-gallery.html">{{product.name}}</a></h3>
-      <span>{{product.subtitle}}</span>
-    </div>
+        <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
+        <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
+    </div>    
+    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
   </article>
 
 
-  <article class="portfolio-item pf-graphics pf-uielements" v-if="product.article.mediatype=='video'">
-    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
+  <article class="portfolio-item pf-graphics pf-uielements"  data-loader="include/ajax/portfolio-ajax-video.php"  v-if="product.article.mediatype=='video'">
+    <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
+      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug)"><i class="fas fa-bullhorn"></i></a>
+    </div>
     <div class="portfolio-image">
       <a href="#">
         <img :src="product.thumbimage" :alt="product.name">
@@ -115,10 +133,11 @@
       </div>
     </div>
     <div class="portfolio-desc">
-        <h3><a href="portfolio-single-gallery.html">{{product.name}}</a></h3>
-        <span>{{product.subtitle}}</span>
-    </div>
-  </article> -->
+        <h3><router-link :to="{name:'singleproduct',params:{product_slug:product.slug}}"  class="t400">{{product.name}}</router-link></h3>
+        <span class="product_price"><del>{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></span>
+    </div>    
+    <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
+  </article>
 
 
 </div>
@@ -170,6 +189,9 @@
         }else{
           showNotification("You have to login!","warning")
         }
+      },
+      GrouponME(grouponSlug){
+        console.log(grouponSlug)
       }
     }
 };
