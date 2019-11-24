@@ -9,8 +9,6 @@
 
           <div id="portfolio-ajax-loader"><img src="/static/canvas/images/preloader-dark.gif" alt="Preloader"></div>
 
-          <div class="clear"></div>
-
           <!-- Portfolio Items
           ============================================= -->
       <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-ajax clearfix">
