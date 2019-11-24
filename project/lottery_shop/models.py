@@ -260,7 +260,7 @@ class Groupon(models.Model):
 class Applicant(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     groupon=models.ForeignKey(Groupon,on_delete=models.CASCADE,blank=False,null=False,related_name="applicants")    
-    address=JSONField()
+    address=JSONField(blank=True,null=True)
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="user_applicants",blank=False,null=False)
     num=models.IntegerField(default=0)
     price=models.IntegerField(default=0)

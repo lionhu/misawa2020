@@ -251,7 +251,7 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
 
-  import {setToken,getToken,showNotification,FetchAddressByPostcode} from "../../lib/util.js"
+  import {setToken,getToken,showNotification,FetchAddressByPostcode,utf16to8} from "../../lib/util.js"
   import Swal from 'sweetalert2'
 
 

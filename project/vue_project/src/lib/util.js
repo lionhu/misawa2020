@@ -35,6 +35,26 @@ export const showNotification = (message = '',type="success") => {
 
 }
 
+export const  utf16to8= (str = '') =>{ //二维码编码前把字符串转换成UTF-8
+        var out, i, len, c; 
+            out = ""; 
+            len = str.length; 
+        for(i = 0; i < len; i++) { 
+            c = str.charCodeAt(i); 
+            if ((c >= 0x0001) && (c <= 0x007F)) { 
+                out += str.charAt(i); 
+            } else if (c > 0x07FF) { 
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F)); 
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F)); 
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+            } else { 
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F)); 
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+            } 
+        } 
+        return out; 
+}
+
 export const FetchAddressByPostcode = (Postcode = '') => {
 	return new Promise((resolve,reject)=>{
         var key="AIzaSyBgFQF5WNfpGu1hlzwhtm8pQknGx8YG3uc"

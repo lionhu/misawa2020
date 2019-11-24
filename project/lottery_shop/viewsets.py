@@ -15,9 +15,15 @@ from django.conf import settings
 from django.db.models import Count,Sum,Min,Max,Q
 import decimal
 import logging
-import datetime
+from datetime import datetime
 import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin,IsAdminOrReadOnly
+import uuid
+from env_system.ColoPayApiRequest import ColoPayApiRequest
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from pyzbar.pyzbar import decode
+from PIL import Image
 
 
 logger=logging.getLogger("error_logger")
@@ -288,6 +294,33 @@ class GrouponViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrie
               "paycode":""
         }, status=status.HTTP_200_OK)
 
+    @action(detail=False,methods=["post"], permission_classes=[IsAuthenticated,])
+    def getUserGrouponApplicant(self,request):
+        groupon_slug=request.data.get("groupon_slug",None)
+
+        groupon = get_object_or_404(Groupon,slug=groupon_slug)
+        serializer_groupon=GrouponSerializer(groupon,many=False)
+
+        try:
+            applicant = Applicant.objects.get(user=request.user,groupon=groupon)
+            logger.error(applicant)
+            serializer_applicant = ApplicantSerializer(applicant,many=False)
+            logger.error(serializer_applicant.data)
+
+            return Response({
+                    "result":True,
+                    "AppliedGroupon":True,
+                    "groupon":serializer_groupon.data,
+                    "applicant":serializer_applicant.data
+                },status=status.HTTP_200_OK)
+
+        except Applicant.DoesNotExist:
+            return Response({
+                    "result":True,
+                    "AppliedGroupon":False,
+                    "groupon":serializer_groupon.data,
+                    "applicant":{}
+                },status=status.HTTP_200_OK)
 
     # def retrieve(self, request,slug=None):
     #     groupon = get_object_or_404(Groupon,slug=slug)
@@ -376,46 +409,92 @@ class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retr
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     lookup_field="slug"
 
-    def get_serializer_class(self):
-        # if self.action == "AdminProduct":
-        #     return ProductSerializer
-        return ApplicantSerializer
+
+    @action(detail=False,methods=["post"])
+    def getPayQR(self,request):
+        applicant_slug=request.data.get("applicant_slug",None)
+        _brandType=request.data.get("brandType",None)
+        brandType = "01" if _brandType=="AliPay" else "02"
+
+        applicant=get_object_or_404(Applicant,slug=applicant_slug)
+
+        now = datetime.now()
+        dt_str = now.strftime('%H:%M:%S')
+
+        clientOrderNo="GPN_"+str(request.user.id)+"-"+str(applicant.id)+"-"+dt_str
+
+        re=ColoPayApiRequest()
+        signature=re.generateSignature(brandType,clientOrderNo,applicant.price,applicant.id)
+
+        logger.error(signature)
+        res=re.post()
+        jss=json.loads(res.text)
+
+        if jss["resultType"]=="SUCCESS":
+            return Response({
+                "result":True,
+                "clientOrderNo":clientOrderNo,
+                "QRurl":jss["result"]["codeUrl"],
+                "brandType":jss["result"]["brandType"],
+                "message":"successfully fetch QR from ColoPay GW"
+            }, status=status.HTTP_200_OK)
+
+        return Response({
+            "result":False,
+            "clientOrderNo":clientOrderNo,
+            "QRurl":"",
+            "brandType":brandType,
+            "message":"ERROR when fetching QR from ColoPay GW",
+            "error":res.text
+        }, status=status.HTTP_200_OK)
+
 
     def create(self, request):
         groupon_slug = request.data.get("groupon_slug")
         num =  request.data.get("num")
 
         groupon = get_object_or_404(Groupon,slug=groupon_slug)
-        request.data["groupon"]=groupon
-        request.data["user"]=request.user
-        request.data["deposite_paycode"] = "#"+groupon.id+"."+request.user.id+"."+"99"
-        
-        if groupon.applicants_count+num > groupon.target:
+        # request.data["groupon_id"]=groupon.id
+        # request.data["user_id"]=request.user.id
+        # request.data["deposite_paycode"] = uuid.uuid4()
+        logger.error(num)
+        logger.error(type(num))
+        logger.error(groupon.applicants_count())
+        logger.error(type(groupon.applicants_count()))
+
+        if groupon.applicants_count()+int(num) > groupon.target:
           request.data["price"] = groupon.price_overflow
+          request.data["feedbackprice"] = groupon.price_overflow*int(num) 
           request.data["feedbackprice_overflow"] = groupon.feedbackprice_overflow
         else :
           request.data["price"] = groupon.price
+          request.data["feedbackprice"] = groupon.price*int(num) 
           request.data["feedbackprice_overflow"] = groupon.feedbackprice
 
-        serializer = self.serializer(data=request.data)
+        try:
+            applicant = Applicant.objects.get(groupon=groupon,user=request.user)
+            serializer = ApplicantSerializer(applicant,data=request.data)
+        except Applicant.DoesNotExist:
+            serializer = ApplicantSerializer(data=request.data)
 
         if serializer.is_valid():
-          serializer.save()
+              serializer.save(groupon=groupon,user=request.user)
 
-          return Response({
-              "result":True,
-              "type":"couponn create",
-              "applicant_slug":serializer.data.slug,
-              "message":"couponn created",
-              "paycode":paycode
-          }, status=status.HTTP_200_OK)
+              return Response({
+                  "result":True,
+                  "type":"couponn create",
+                  "applicant":serializer.data,
+                  "message":"couponn created",
+                  # "paycode":paycode
+              }, status=status.HTTP_200_OK)
 
         return Response({
               "result":True,
               "type":"couponn create",
               "applicant_slug":"",
               "message":"invalid data",
-              "paycode":""
+              "paycode":"",
+              "data_error":serializer.errors
         }, status=status.HTTP_200_OK)
 
 

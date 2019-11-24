@@ -116,7 +116,8 @@ class CatalogueSerializer(serializers.ModelSerializer):
 
 
 class GrouponSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(many=False, read_only=True)
+    # product = ProductSerializer(many=False, read_only=True)
+    product=serializers.ReadOnlyField(source="product.slug")
 
     class Meta:
         model = Groupon
@@ -144,8 +145,10 @@ class GrouponSerializer(serializers.ModelSerializer):
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
-    groupon = GrouponSerializer(many=False, read_only=True)
-    user = UserSerializer(many=False, read_only=True)
+    # groupon = GrouponSerializer(many=False, read_only=True)
+    # user = UserSerializer(many=False, read_only=True)
+    groupon = serializers.ReadOnlyField(source="groupon_slug")
+    user = serializers.ReadOnlyField(source="user.slug")
 
     class Meta:
         model = Applicant
@@ -157,7 +160,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
             "feedbackprice",
             "groupon",
             "user",
-            "deposite_paycode",
+            # "deposite_paycode",
             "deposite_paid",
             "deposite_paid_at",
             "orderpaid",
