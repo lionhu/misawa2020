@@ -23,8 +23,8 @@ from lottery_shop.models import Product
 from env_system.ColoPayApiRequest import ColoPayApiRequest
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-# from pyzbar.pyzbar import decode
-# from PIL import Image
+from pyzbar.pyzbar import decode
+from PIL import Image
 
 
 logger=logging.getLogger("error_logger")
@@ -534,23 +534,23 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
 
 
 
-    # @action(detail=False,methods=["post"],
-    #     parser_classes=[parsers.MultiPartParser,parsers.FormParser],)
-    # def scanQR(self,request):
-    #     QRType = request.POST.get("QRType")
-    #     order_slug = request.POST.get("order_slug")
-    #     data = decode(Image.open(request.FILES.get("cpm_code")))
+    @action(detail=False,methods=["post"],
+        parser_classes=[parsers.MultiPartParser,parsers.FormParser],)
+    def scanQR(self,request):
+        QRType = request.POST.get("QRType")
+        order_slug = request.POST.get("order_slug")
+        data = decode(Image.open(request.FILES.get("cpm_code")))
 
-    #     if QRType=="coupon":
-    #         coupon_slug=data[0][0].decode('utf-8', 'ignore')
-    #         coupon = get_object_or_404(Coupon,slug=coupon_slug)
+        if QRType=="coupon":
+            coupon_slug=data[0][0].decode('utf-8', 'ignore')
+            coupon = get_object_or_404(Coupon,slug=coupon_slug)
 
-    #         serializer=CouponSerializer(coupon,many=False)
+            serializer=CouponSerializer(coupon,many=False)
             
-    #         return Response({
-    #             "result":True,
-    #             "coupon":serializer.data,
-    #         }, status=status.HTTP_200_OK)
+            return Response({
+                "result":True,
+                "coupon":serializer.data,
+            }, status=status.HTTP_200_OK)
 
 
 
