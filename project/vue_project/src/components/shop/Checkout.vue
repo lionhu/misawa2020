@@ -509,8 +509,10 @@
                         if (!response.data.result) {
                           throw new Error(response.statusText)
                         }
+                        console.log(response.data)
                         Swal.fire({
-                          title: 'Your uploaded picture',
+                          title: 'response.data.message',
+                          html:response.data.QRCODE,
                           imageUrl: e.target.result,
                           imageAlt: 'The uploaded picture'
                         })

@@ -550,6 +550,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
             return Response({
                 "result":True,
                 "coupon":serializer.data,
+                "scanQR":coupon_slug,
             }, status=status.HTTP_200_OK)
 
 
