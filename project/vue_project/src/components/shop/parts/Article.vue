@@ -2,7 +2,7 @@
 <div>
 
 
-  <article class="portfolio-item pf-media pf-icons" data-loader="include/ajax/portfolio-ajax-image.php" v-if="product.article.mediatype=='standard'">
+  <article class="portfolio-item pf-media pf-icons" data-loader="/static/canvas/include/ajax/portfolio-ajax-image.php" v-if="product.article.mediatype=='standard'">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
     </div>
@@ -22,7 +22,7 @@
 
 
 
-  <article class="portfolio-item pf-icons pf-illustrations"  data-loader="include/ajax/portfolio-ajax-gallery.php" v-if="product.article.mediatype=='gallery'">
+  <article class="portfolio-item pf-icons pf-illustrations"  data-loader="/static/canvas/include/ajax/portfolio-ajax-gallery.php" v-if="product.article.mediatype=='gallery'">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
     </div>
@@ -51,7 +51,7 @@
   </article>
 
 
-  <article class="portfolio-item pf-graphics pf-uielements"  data-loader="include/ajax/portfolio-ajax-video.php"  v-if="product.article.mediatype=='video'">
+  <article class="portfolio-item pf-graphics pf-uielements"  data-loader="/static/canvas/include/ajax/portfolio-ajax-video.php"  v-if="product.article.mediatype=='video'">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
     </div>
