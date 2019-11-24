@@ -22,8 +22,8 @@ import uuid
 from env_system.ColoPayApiRequest import ColoPayApiRequest
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from pyzbar.pyzbar import decode
-from PIL import Image
+# from pyzbar.pyzbar import decode
+# from PIL import Image
 
 
 logger=logging.getLogger("error_logger")

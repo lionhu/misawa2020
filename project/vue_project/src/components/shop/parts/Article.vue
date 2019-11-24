@@ -289,27 +289,45 @@
             }
           }
         })
+
         const icon_pay= brandType=="WechatPay"? "wechat_color fab fa-weixin":"alipay_color fab fa-alipay"
         if (brandType) {
-            axios.post('/api/applicant/getPayQR/',{
-              "applicant_slug": applicant_slug,
-              "brandType":brandType
-            }).then(response => {
-              if (response.data.result) {
-                  Swal.fire({
-                    title: '<i class="i-circled '+icon_pay+'"></i>',
-                    html: '<div id="paymentQRCode"></div>',
-                    allowOutsideClick: () => false
-                  })
-                  $("#paymentQRCode").qrcode({
-                      render:"canvas",
-                      width: 320,//宽度
-                      height: 320,//高度
-                      correctLevel:3,
-                      text: this.utf16to8(response.data.QRurl),
-                  });
-                }            
-            })
+
+          Swal.fire({
+            // title: 'Auto close alert!',
+            html: 'Applying QR code for payment',
+            // timer: 2000,
+            // timerProgressBar: true,
+            allowOutsideClick: function() {
+                return !Swal.isLoading();
+              },
+            onBeforeOpen: () => {
+              Swal.showLoading()
+              axios.post('/api/applicant/getPayQR/',{
+                "applicant_slug": applicant_slug,
+                "brandType":brandType
+              }).then(response => {
+                if (response.data.result) {
+                    Swal.fire({
+                      title: '<i class="i-circled '+icon_pay+'"></i>',
+                      html: '<div id="paymentQRCode"></div>',
+                      allowOutsideClick: () => false
+                    })
+                    $("#paymentQRCode").qrcode({
+                        render:"canvas",
+                        width: 320,//宽度
+                        height: 320,//高度
+                        correctLevel:3,
+                        text: this.utf16to8(response.data.QRurl),
+                    });
+                  }
+                  return "hello"
+              })
+            }
+          }).then((result) => {
+            console.log(result)
+
+          })
 
         }
       },
@@ -328,9 +346,11 @@
                         Swal.fire({
                           type:"success",
                           html: htmlStr,
+                          position : 'bottom',
                           confirmButtonText: 'Pay Deposite Now!',
                           showConfirmButton: ! applicant.deposite_paid,
                           showCancelButton: true,
+                          reverseButtons : true,
                           footer: '<a href="javascript:void(0);">See my coupon list?</a>'
                         }).then((result)=>{
                           if(result.value){
