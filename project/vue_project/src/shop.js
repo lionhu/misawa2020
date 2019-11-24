@@ -54,4 +54,4 @@ const Header=new Vue({
     store,
     render: h => h(shop_header)
 });
-console.log("hello_lionhu from shop.js")
+// console.log("hello_lionhu from shop.js")

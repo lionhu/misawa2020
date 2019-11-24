@@ -46,7 +46,6 @@
 
     mounted() {
       this.init_websocker()
-      console.log("shop init_websocker")
     },
     methods: {
         init_websocker(){

@@ -295,8 +295,6 @@
               "applicant_slug": applicant_slug,
               "brandType":brandType
             }).then(response => {
-              console.log(response.data.result)
-              console.log(response.data.QRurl)
               if (response.data.result) {
                   Swal.fire({
                     title: '<i class="i-circled '+icon_pay+'"></i>',
@@ -330,12 +328,13 @@
                         Swal.fire({
                           type:"success",
                           html: htmlStr,
-                          confirmButtonText: '申請詳細確認',
+                          confirmButtonText: 'Pay Deposite Now!',
+                          showConfirmButton: ! applicant.deposite_paid,
                           showCancelButton: true,
                           footer: '<a href="javascript:void(0);">See my coupon list?</a>'
                         }).then((result)=>{
                           if(result.value){
-                            console.log("jump to details")
+                            this.showQR(applicant.slug)
                           }
                         })
                   }else{

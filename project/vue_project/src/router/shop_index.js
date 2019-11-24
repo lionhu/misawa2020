@@ -82,7 +82,6 @@ const router = new Router({
     ]
 });
 
-console.log("shop index")
 const HAS_LOGINED = false
 router.beforeEach((to, from, next) => {
 

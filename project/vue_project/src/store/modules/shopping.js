@@ -65,20 +65,13 @@ const mutations= {
     };
 const actions= {
         fetchCatalogues: ({ commit }) => {
-            console.log("fetchCatalogues")
-            //simulating a fake ajax request to fetch products from database
             shopAPI.getCatalogues().then((res) => {
-                //passing the products recieved from response as a payload to the mutation
                 commit("setCatalogues", res.data.catalogues);
-                // commit("showToast", "products loaded");
             });
         },
         fetchProducts: ({ commit }) => {
-            //simulating a fake ajax request to fetch products from database
             shopAPI.getProducts().then((products) => {
-                //passing the products recieved from response as a payload to the mutation
                 commit("setUpProducts", products);
-                // commit("showToast", "products loaded");
             });
         },
         getProductBySlug: ({ commit },slug) => {
