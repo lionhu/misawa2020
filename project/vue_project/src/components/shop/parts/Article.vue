@@ -71,6 +71,14 @@
     <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
   </article>
 
+<!-- <div class="demo-image__preview">
+  <el-image 
+    :name="product.name"
+    style="width: 100px; height: 100px"
+    :src="url" 
+    :preview-src-list="srcList">
+  </el-image>
+</div> -->
 
 </div>
 
@@ -81,25 +89,28 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-  import { Rate,Dialog,Button } from 'element-ui';
+  import { Rate,Image } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
   import {setToken,getToken,showNotification} from "../../../lib/util.js"
 
 
   export default {
-    name: 'product',
+    name: 'product_article',
     props:["product"],
-    components:{
-      Dialog,Rate,Button
-    },
     data () {
       return {
         value:0,
-        centerDialogVisible:false
+        centerDialogVisible:false,
+        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+        srcList: [
+          'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
+          'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+        ]
       }
     },    
     components:{
-      elRate:Rate
+      elRate:Rate,
+      // elImage:Image
     },
     mounted() {
       this.value=this.product.ranks

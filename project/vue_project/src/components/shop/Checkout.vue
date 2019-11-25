@@ -332,42 +332,62 @@
             // formData.append('coupon', order_slug)
             formData.append('QRType', "coupon")
 
-            axios.post(`/api/shop_order/scanQR/`,formData,{
-                        headers: {
-                            'Content-type':'multipart/form-data'
-                        }
-                    }
-                ).then(response => {
-                    if (!response.data.result) {
-                        vm.hascoupon=false
-                        vm.coupon={
-                              id:"",
-                              coupontype:"",
-                              discount:0,
-                              description:""
+              Swal.fire({
+                // title: 'Auto close alert!',
+                html: 'Validating Your Coupon Code',
+                // timer: 2000,
+                // timerProgressBar: true,
+                allowOutsideClick: function() {
+                    return !Swal.isLoading();
+                  },
+                onBeforeOpen: () => {
+                  Swal.showLoading()
+
+                    axios.post(`/api/shop_order/scanQR/`,formData,{
+                                headers: {
+                                    'Content-type':'multipart/form-data'
+                                }
                             }
-                        throw new Error(response.statusText)
-                    }
-                // return response.data
-                    vm.hascoupon=true
-                    vm.coupon= response.data.coupon
+                        ).then(response => {
+                            if (!response.data.result) {
+                                vm.hascoupon=false
+                                vm.coupon={
+                                      id:"",
+                                      coupontype:"",
+                                      discount:0,
+                                      description:""
+                                    }
+                                Swal.fire({
+                                  type:"danger",
+                                  html: 'Invalid Coupon'
+                                })
 
-                    var message = 'Discount: '+ String(vm.couponAmount) 
+                                throw new Error(response.statusText)
+                            }
+                            vm.hascoupon=true
+                            vm.coupon= response.data.coupon
+
+                            var message = 'Discount: '+ String(vm.couponAmount) 
 
 
-                    Swal.fire({
-                      title: 'Coupon Validated ',
-                      html: message,
-                      imageUrl: e.target.result,
-                      imageAlt: 'The uploaded picture'
-                    })
+                            Swal.fire({
+                              title: 'Coupon Validated ',
+                              html: message,
+                              imageUrl: e.target.result,
+                              imageAlt: 'The uploaded picture'
+                            })
+                      })
+                      .catch(error => {
+                            Swal.fire({
+                              type:"danger",
+                              html: 'Coupon does not Exist!'
+                            })
+                      })
+                }
+              }).then((result) => {
+                console.log(result)
+
               })
-              .catch(error => {
-                Swal.showValidationMessage(
-                  `Request failed: ${error}`
-                )
-              })
-
 
           }
           reader.readAsDataURL(file)
