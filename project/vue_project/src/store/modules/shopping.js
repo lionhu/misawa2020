@@ -6,6 +6,7 @@ const state={
         products: null,
         catalogue_products:[],
         catalogues:[],
+        catalogue_now:{},
         cart: {
             summary:{
                 Qty:0,
@@ -36,6 +37,11 @@ const getters= {
 const mutations= {
         setCatalogues(state,data){
             state.catalogues=data
+        },
+        setCurrentCatalogue(state,catalogue_id){
+              const cataloIndex = state.catalogues.findIndex(catalogue => catalogue.id = catalogue_id)
+
+              state.catalogue_now = state.catalogues[cataloIndex]
         },
         setUpProducts: (state, productsPayload) => {
             //sets the state's  products property to the products array recieved as payload
@@ -88,6 +94,7 @@ const actions= {
         fetchCatalogueProducts: ({ commit },catalogue_id) => {
             shopAPI.productsOfSubCatalogues(catalogue_id).then((res) => {
                 commit("setCatalogueProducts", res.data.products);
+                commit("setCurrentCatalogue", catalogue_id);
             },reject=>{
                 console.log("error lod product")
             });

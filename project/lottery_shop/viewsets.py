@@ -16,6 +16,7 @@ from django.db.models import Count,Sum,Min,Max,Q
 import decimal
 import logging
 from datetime import datetime
+from django.core.cache import cache
 import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin,IsAdminOrReadOnly
 import uuid
@@ -43,14 +44,25 @@ class CatalogueViewSet(viewsets.ModelViewSet):
             raise Http404
 
     def list(self, request):
-        catalogues = Catalogue.objects.all()
-        serializer = CatalogueSerializer(catalogues,many=True)
+        cache_catalogues=cache.get("ShopCatalogues")
 
-        content={
-          "type":"list",
-          "catalogues":serializer.data,
-        }
+        if cache_catalogues is not None:
+            content={
+              "type":"list",
+              "catalogues":cache_catalogues
+            }
+        else:
 
+            catalogues = Catalogue.objects.all()
+            serializer = CatalogueSerializer(catalogues,many=True)
+            cache.set("ShopCatalogues",serializer.data,600)
+
+            content={
+              "type":"list",
+              "catalogues":serializer.data
+            }
+
+        logger.error(content)
         return Response(content)
 
     def retrieve(self, request, pk=None):

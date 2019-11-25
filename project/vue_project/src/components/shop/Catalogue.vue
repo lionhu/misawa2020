@@ -33,17 +33,15 @@
         <h4>Select Category</h4>
         <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
           <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
-          <li><a href="#" data-filter=".sf-dress">Dress</a><span>3</span></li>
-          <li><a href="#" data-filter=".sf-tshirt">Tshirts</a><span>2</span></li>
-          <li><a href="#" data-filter=".sf-pant">Pants</a><span>2</span></li>
-          <li><a href="#" data-filter=".sf-sunglass">Sunglasses</a><span>2</span></li>
-          <li><a href="#" data-filter=".sf-shoes">Shoes</a><span>2</span></li>
-          <li><a href="#" data-filter=".sf-watch">Watches</a><span>1</span></li>
+          <li v-for="item in subcatalogues_now">
+            <a href="#" data-filter=".sf-dress">{{item.name}}</a>
+            <span>{{item.product_num}}</span>
+          </li>
         </ul>
 
       </div>
 
-      <div class="widget widget-filter-links clearfix">
+<!--       <div class="widget widget-filter-links clearfix">
 
         <h4>Sort By</h4>
         <ul class="shop-sorting">
@@ -53,7 +51,7 @@
           <li><a href="#" data-sort-by="price_hl">Price: High to Low</a></li>
         </ul>
 
-      </div>
+      </div> -->
 
     </div>
   </div><!-- .sidebar end -->
@@ -84,7 +82,11 @@
   computed: {
     catalogue_products:function(){
       return this.$store.state.lotteryshop.catalogue_products
-    }
+    },
+    subcatalogues_now:function(){
+      const catalogue = this.$store.state.lotteryshop.catalogue_now
+      return catalogue.subcatalogues
+    },
   },
     mounted() {
       this.loadCatalogueProducts(this.$route.params.catalogue_id)

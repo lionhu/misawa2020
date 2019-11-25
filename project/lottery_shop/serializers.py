@@ -103,8 +103,11 @@ class SubcatalogueSerializer_list(serializers.ModelSerializer):
 
     def to_representation(self,instance):
         result=super().to_representation(instance)
+        products=Product.objects.filter(active=True,catalogue=instance)
 
         result["url"]="subcatalogue/%s"%(instance.slug)
+        result["product_num"]=products.count()
+
 
         return result
 
