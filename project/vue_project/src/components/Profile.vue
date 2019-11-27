@@ -42,46 +42,6 @@
                     </h4>
                   </div>
                 </div>
-<!--                 <h2 class="title w-p100 mt-10 mb-0 p-20">Last Transactions</h2>
-                <div class="col-12">
-                  <div class="media-list media-list-hover w-p100 mt-0">
-                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
-                        <p>
-                        <i class="fa fa-circle text-red pr-10 font-size-12"></i>Deal number 1548
-                        <span class="subtitle pl-20 mt-10">by<span class="text-red">Johen Doe</span></span>             
-                        </p>
-                        <p class="text-right pull-right"><span class="badge badge-sm badge-danger mb-10">sell</span><br>0.12458921 BTC</p>
-                    </h5>
-                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
-                        <p>
-                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
-                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
-                        </p>
-                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
-                    </h5>
-                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
-                        <p>
-                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
-                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
-                        </p>
-                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
-                    </h5>
-                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
-                        <p>
-                        <i class="fa fa-circle text-red pr-10 font-size-12"></i>Deal number 1548
-                        <span class="subtitle pl-20 mt-10">by<span class="text-red">Johen Doe</span></span>             
-                        </p>
-                        <p class="text-right pull-right"><span class="badge badge-sm badge-danger mb-10">sell</span><br>0.12458921 BTC</p>
-                    </h5>
-                    <h5 class="media media-single py-10 px-0 w-p100 justify-content-between">
-                        <p>
-                        <i class="fa fa-circle text-success pr-10 font-size-12"></i>Deal number 1548
-                        <span class="subtitle pl-20 mt-10">by<span class="text-success">Johen Doe</span></span>             
-                        </p>
-                        <p class="text-right pull-right"><span class="badge badge-sm badge-success mb-10">sell</span><br>0.12458921 BTC</p>
-                    </h5>
-                  </div>
-                </div> -->
               </div>
 
               </div>
@@ -112,78 +72,6 @@
             <h5 class="mt-3 mb-1"><a class="hover-primary" href="#">{{$t("m.introcode")}}</a></h5>
             <span id="introcode_url" >{{introcode_url}}</span>
           </div>
-          <!-- <div class="box box-solid bg-black"> -->
-<!--               <div class="box-header with-border">
-                <h3 class="box-title">{{$t("m.personal_info")}}</h3>
-              </div> -->
-              <!-- /.box-header -->
-<!--               <div class="box-body">
-                <div class="row">
-                    <div class="col-12">
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">{{$t("m.avatar")}}</label>
-                        <div class="col-sm-4">
-                          <input @change="selectedFile" type="file" name="avatar" title="Avatar Image">
-                        </div>
-                        <div class="col-sm-6">
-                          <img v-if="profile.imageUrl" :src="profile.imageUrl" class="avatar">
-                        </div>
-                      </div> -->
-<!--                       <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">ID Image</label>
-                        <div class="col-sm-10">
-                          <input @change="selectedFile" type="file" name="id_image" title="ID Image">
-                        </div>
-                        <div class="col-sm-8 offset-sm-2">
-                          <img v-if="profile.id_imageUrl" :src="profile.id_imageUrl" class="avatar" style="width:100%">
-                        </div>
-                      </div> -->
-<!--                       <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10 text-right">
-                        <button  @click="submit_update_profile" class="btn btn-yellow">{{$t("m.submit")}}</button>
-                        </div>
-                      </div>
-                    </div> -->
-<!--                 </div>
-              </div>
-          </div> -->
-<!--           <div class="box box-solid bg-black">
-              <div class="box-header with-border">
-                <h3 class="box-title">Personal Social Contact</h3>
-              </div>
-              <div class="box-body">
-                <div class="row">
-                <div class="col-12">
-                  <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Wechat</label>
-                    <div class="col-sm-4">
-
-                      <input @change="selectedFile" type="file" name="wechat" title="Wechat">
-                    </div>
-                    <div class="col-sm-6">
-                      <img v-if="profile.wechatUrl" :src="profile.wechatUrl" class="avatar">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Line</label>
-                    <div class="col-sm-4">
-                      <input @change="selectedFile" type="file" name="line" title="Line">
-                    </div>
-                    <div class="col-sm-6">
-                      <img v-if="profile.lineUrl" :src="profile.lineUrl" class="avatar">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-10 text-right">
-                    <button  @click="submit_update_social" class="btn btn-yellow">Submit</button>
-                    </div>
-                  </div>
-                </div>
-                </div>
-              </div>
-          </div> -->
         </div>
       </div>
 </div>
@@ -271,9 +159,9 @@
 
 
 
-      const introcode="http://"+location.host+"/member/#/signup?introcode="+this.ME.slug
+      const introcode="https://"+location.host+"/member/#/signup?introcode="+this.ME.slug
 
-      this.introcode_url="http://"+location.host+"/member/#/signup?introcode="+this.ME.slug
+      this.introcode_url="https://"+location.host+"/member/#/signup?introcode="+this.ME.slug
 
       $("#qrcode").qrcode({
                 render:"canvas",
@@ -355,145 +243,16 @@
           }
           return true
         },
-      // selectedFile(e){
-      //   e.preventDefault();
-      //   // console.log(e.target.name)
-      //   let files = e.target.files;
-      //   let file = files[0];
-
-      //   const isJPGPNG = file.type === 'image/jpeg' || file.type ==='image/png';
-      //   const isLt2M = file.size / 1024 / 1024 < 2;
-
-      //   if (!isJPGPNG) {
-      //       Swal.fire({
-      //         type: 'error',
-      //         title: 'Oops...',
-      //         text: '上传头像图片只能是 JPG 格式!'
-      //       })
-      //   }
-      //   if (!isLt2M) {
-      //       Swal.fire({
-      //         type: 'error',
-      //         title: 'Oops...',
-      //         text: '上传头像图片大小不能超过 2MB!'
-      //       })
-      //   }
-
-      //   if (isJPGPNG && isLt2M){
-      //     switch(e.target.name){
-      //       case "wechat":          
-      //           this.profile.wechat = file;
-      //           this.profile.wechatUrl = URL.createObjectURL(this.profile.wechat);
-      //           break;
-      //       case "line":          
-      //           this.profile.line = file;
-      //           this.profile.lineUrl = URL.createObjectURL(this.profile.line);
-      //           break;
-      //       case "avatar":          
-      //           this.profile.avatar = file;
-      //           this.profile.imageUrl = URL.createObjectURL(this.profile.avatar);
-      //           break;
-      //       case "id_image":          
-      //           this.profile.id_image = file;
-      //           this.profile.id_imageUrl = URL.createObjectURL(this.profile.id_image);
-      //           // console.log(this.profile.id_image)
-      //           // console.log(this.profile.id_imageUrl)
-      //           break;
-      //     }
-      //   }    
-      // },
-      // submit_update_profile(){
-      //   let formData = new FormData();
-      //   if (this.profile.avatar){
-      //     formData.append('avatar', this.profile.avatar)
-      //   }
-      //   if (this.profile.id_image){
-      //     formData.append('id_image', this.profile.id_image)
-      //   }
-
-      //   // console.log(this.ME.user.id)
-      //   if(this.profile.avatar !="" || this.profile.id_image!=""){
-      //       this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData});
-      //       this.ME=this.$store.state.users.profile;
-      //       Swal.fire({
-      //         title: 'Success!',
-      //         text: 'Upload main successfully',
-      //         type: 'success',
-      //         confirmButtonText: 'OK'
-      //       })
-      //   }else{
-      //     Swal.fire({
-      //         title: 'Error!',
-      //         text: 'Nothing changed',
-      //         type: 'error',
-      //         confirmButtonText: 'OK'
-      //       })
-      //   }
-
-      // },
-      // submit_update_social(){
-      //   let formData = new FormData();
-      //   if (this.profile.line){
-      //     formData.append('line', this.profile.line)
-      //   }
-      //   if (this.profile.wechat){
-      //     formData.append('wechat', this.profile.wechat)
-      //   }
-
-      //   if(this.profile.line!="" || this.profile.wechat!=""){
-      //       this.$store.dispatch("users/upload_mainImage",formData);
-      //       this.ME=this.$store.state.users.profile;
-      //       Swal.fire({
-      //         title: 'Success!',
-      //         text: 'Upload main successfully',
-      //         type: 'success',
-      //         confirmButtonText: 'OK'
-      //       })
-      //   }else{
-      //     Swal.fire({
-      //         title: 'Error!',
-      //         text: 'Nothing changed',
-      //         type: 'error',
-      //         confirmButtonText: 'OK'
-      //       })
-      //   }
-
-      // },
     }
 };
 
 </script>
 
 <style>
-/*    #app {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
 
-        h1 {
-            color: #CC3333;
-        }
-    }*/
     .swal2-image{
       height:280px;
     }
-/*     .avatar-uploader .el-upload {
-    }
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }*/
   .avatar {
     width: 178px;
     height: 178px;
