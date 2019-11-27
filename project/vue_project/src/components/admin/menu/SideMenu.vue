@@ -64,7 +64,7 @@
           </a>
           <ul class="treeview-menu" style="display: none;">
             <li>
-              <router-link :to="{ name: 'orders'}">Orders</router-link>
+              <router-link :to="{ name: 'auctionorders'}">Auction Orders</router-link>
             </li>
           </ul>
         </li>

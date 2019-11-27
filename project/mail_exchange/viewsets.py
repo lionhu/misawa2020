@@ -1,5 +1,8 @@
 from .models import Order,Offer,Transaction
-from .serializers import OrderSerializer,OfferSerializer,TransactionsSerializer,OrderSerializer_withOffers_byUser,OrderSerializer_byUser,OfferSerializer_withOrder,PublicOrders_Serializer,OrderSerializer_withOffers,SimpleOrderSerializer,UserOfferSerializer
+from .serializers import OrderSerializer,OfferSerializer,PureOrderSerializer, \
+          TransactionsSerializer,OrderSerializer_withOffers_byUser,OrderSerializer_byUser, \
+          OfferSerializer_withOrder,PublicOrders_Serializer,OrderSerializer_withOffers,\
+          SimpleOrderSerializer,UserOfferSerializer
 from rest_framework import viewsets, permissions,status
 from rest_framework.views import APIView
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view
@@ -17,6 +20,8 @@ import json
 from django.core.cache import cache
 from musics.tasks import sendEmail_OrderOwner_OfferChange
 from .models import Offer,Order
+from env_system.permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin,IsAdminOrReadOnly
+
 
 
 logger=logging.getLogger("error_logger")
@@ -251,11 +256,30 @@ class OrderViewSet(viewsets.ModelViewSet):
           else:
             order.rate -=decimal.Decimal(settings.ORDER_MARGINRATE_RMB)
 
-      OrderType=request.data["OrderType"]
-
-      if OrderType=="withOffers":
+      try:
+        OrderType=request.data["OrderType"]
         serializer=OrderSerializer_withOffers(orders,many=True)
-      else:
+      except KeyError:
+        serializer=PureOrderSerializer(orders,many=True)
+
+      return Response({
+          "error":0,
+          "type": "list",
+          "summary":order_summary,
+          "orders":serializer.data
+      },status=status.HTTP_200_OK)
+
+
+    @list_route(methods=["post"],permission_classes=[IsAdmin,])
+    def AdminOrdersList(self,request,format=None):
+      orders = Order.objects.all().order_by("-created","-due_at","from_currency","amount")
+      order_summary=Order.objects.all().values("from_currency").annotate(count=Count("amount"),
+        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+
+      try:
+        OrderType=request.data["OrderType"]
+        serializer=OrderSerializer_withOffers(orders,many=True)
+      except KeyError:
         serializer=PureOrderSerializer(orders,many=True)
 
       return Response({

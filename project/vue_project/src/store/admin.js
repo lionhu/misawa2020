@@ -2,8 +2,8 @@ import Vue from "vue"
 import Vuex from 'vuex';
 import createPersistedState from "vuex-persistedstate";
 import system from './modules/system'
-import orders from './modules/orders'
-import users from './modules/adminUsers'
+import orders from './admin/orders.js'
+import users from './admin/users'
 
 Vue.use(Vuex);
 

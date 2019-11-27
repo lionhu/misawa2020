@@ -24,7 +24,7 @@ class SimpleOrderSerializer(serializers.ModelSerializer):
         )
 
 class PureOrderSerializer(serializers.ModelSerializer):
-    offers = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    # offers = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
 
     class Meta:
         model = Order
@@ -44,8 +44,13 @@ class PureOrderSerializer(serializers.ModelSerializer):
             'price',
             'send_notification',
             "memo",
-            "offers"
+            # "offers"
         )
+
+    def to_representation(self,instance):
+        result = super().to_representation(instance)
+        result["offers_num"]=instance.offers.count()
+        return result
 
 class OrderSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True)
@@ -143,8 +148,6 @@ class UserOfferSerializer(serializers.ModelSerializer):
         )
 
 
-
-
 class TransactionsSerializer(serializers.ModelSerializer):
     order = OrderSerializer(read_only = True)
     order_id = serializers.PrimaryKeyRelatedField(queryset=Order.objects.all(), write_only=True)
@@ -204,8 +207,6 @@ class OfferSerializer_withSimpleOrder(serializers.ModelSerializer):
         )
 
 
-
-
 class OfferSerializer_withOrder(serializers.ModelSerializer):
     follower = UserSerializer(read_only = True)
     follower_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
@@ -259,7 +260,7 @@ class OfferSerializer_withOrder(serializers.ModelSerializer):
 
 
 class OrderSerializer_withOffers(serializers.ModelSerializer):
-    offers = OfferSerializer(read_only=True,many=True)
+    # offers = OfferSerializer(read_only=True,many=True)
 
     class Meta:
         model = Order
@@ -279,9 +280,12 @@ class OrderSerializer_withOffers(serializers.ModelSerializer):
             'price',
             'send_notification',
             "memo",
-            "offers"
+            # "offers"
         )
-
+    def to_representation(self,instance):
+        result = super().to_representation(instance)
+        result["offers_num"]=instance.offers.count()
+        return result
 
 
 class OrderSerializer_byUser(serializers.ModelSerializer):

@@ -21,13 +21,22 @@ const router = new Router({
                 maincontent:loadView("Home")
             }
         },
+        // {
+        //     path: '/orders',
+        //     name:"orders",
+        //     components:{
+        //         topmenu:loadView("menu/TopMenu"),
+        //         sidemenu:loadView("menu/SideMenu"),
+        //         maincontent:loadView("Orders")
+        //     }
+        // },
         {
-            path: '/orders',
-            name:"orders",
+            path: '/auctionorders',
+            name:"auctionorders",
             components:{
                 topmenu:loadView("menu/TopMenu"),
                 sidemenu:loadView("menu/SideMenu"),
-                maincontent:loadView("Orders")
+                maincontent:loadView("AuctionOrders")
             }
         },
         {

@@ -420,7 +420,10 @@ class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retr
     queryset=Applicant.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     lookup_field="slug"
+    serializer_class =ApplicantSerializer
 
+    # def get_serializer_class(self):
+    #     return ApplicantSerializer
 
     @action(detail=False,methods=["post"])
     def getPayQR(self,request):
