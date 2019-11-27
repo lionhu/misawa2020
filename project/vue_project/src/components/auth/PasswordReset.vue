@@ -76,7 +76,7 @@
     },
     methods: {
       submit_resetpassword(){
-        const loginURL="http://"+window.location.host+"/member/#/login/"
+        const loginURL="/member/#/login/"
         console.log(loginURL)
         if(this.newpassword.password !="" && this.newpassword.password==this.newpassword.password2 && this.newpassword.email!=="" && this.newpassword.token!=""){
 

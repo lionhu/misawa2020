@@ -88,7 +88,7 @@
     methods: {
       SignupMe(){
 
-        const singupURL='http://'+window.location.host+'/api/userprofiles/singup/'
+        const singupURL='/api/userprofiles/singup/'
         if(this.newuser.agreed){
           if(this.newuser.password ==this.newuser.password2 && this.newuser.password.length >0 ){
             if(this.newuser.username.length>0 &&  this.newuser.email.length>0){
