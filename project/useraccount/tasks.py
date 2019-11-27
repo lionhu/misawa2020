@@ -68,7 +68,7 @@ def sendPasswordResetEmail(email="test@me.com"):
     # 发送邮件
     # send_status = send_mail(email_title, email_body, DEFAULT_FROM_EMAIL, [email])
 
-    url_link=settings.HOSTNAME+"member/#/resetpassword?token={}".format(token)
+    url_link="https://www.exrate.world/member/#/resetpassword?token={}".format(token)
 
     logger.error(url_link)
     html_content = render_to_string('email/password_reset_notification.htm',{'url_link':url_link})
