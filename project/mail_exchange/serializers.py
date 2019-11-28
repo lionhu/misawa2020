@@ -25,6 +25,7 @@ class SimpleOrderSerializer(serializers.ModelSerializer):
 
 class PureOrderSerializer(serializers.ModelSerializer):
     # offers = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
+    user = serializers.ReadOnlyField(source="user.username")
 
     class Meta:
         model = Order
@@ -44,6 +45,7 @@ class PureOrderSerializer(serializers.ModelSerializer):
             'price',
             'send_notification',
             "memo",
+            "user"
             # "offers"
         )
 
@@ -66,6 +68,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
         validated_data['slug'] = str(uuid.uuid4())
         validated_data["bonuspoint"]=int(settings.AUCTION_ORDER_BONUS_JPY)*validated_data["amount"]
+
+        if validated_data["from_currency"]=="rmb" and validated_data["to_currency"]=="jpy":
+          validated_data["rate_alpha"]= settings.ORDER_MARGINRATE_RMB
+        else:
+          validated_data["rate_alpha"]= settings.ORDER_MARGINRATE_JPY
 
         return Order.objects.create(**validated_data)
 
@@ -106,6 +113,38 @@ class OrderSerializer(serializers.ModelSerializer):
         )
 
 
+class AdminOrderSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = "user.username")
+
+    class Meta:
+        model = Order
+        fields = (
+            'id',
+            'slug',
+            'created',
+            'last_updated',
+            'amount',
+            "bonuspoint",
+            'from_currency',
+            'to_currency',
+            'due_at',
+            'rate',
+            'rate_alpha',
+            'active',
+            "status",
+            'privacy',
+            'send_notification',
+            'memo',
+            'user',
+            'over_due',
+            'price',
+            'price_alpha',
+        )
+
+
+
+
+
 class OfferSerializer(serializers.ModelSerializer):
     follower = UserSerializer(read_only = True)
     follower_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
@@ -125,6 +164,13 @@ class OfferSerializer(serializers.ModelSerializer):
             'send_notification', 
             'status', 
         )
+
+class AdminOfferSerializer(serializers.ModelSerializer):
+    follower = serializers.ReadOnlyField(source = "follower.username")
+
+    class Meta:
+        model = Offer
+        fields = "__all__"
 
 
 class UserOfferSerializer(serializers.ModelSerializer):
@@ -261,6 +307,7 @@ class OfferSerializer_withOrder(serializers.ModelSerializer):
 
 class OrderSerializer_withOffers(serializers.ModelSerializer):
     # offers = OfferSerializer(read_only=True,many=True)
+    user = serializers.ReadOnlyField(source="user.username")
 
     class Meta:
         model = Order
@@ -280,6 +327,7 @@ class OrderSerializer_withOffers(serializers.ModelSerializer):
             'price',
             'send_notification',
             "memo",
+            "user"
             # "offers"
         )
     def to_representation(self,instance):

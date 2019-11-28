@@ -11,7 +11,6 @@ import logging
 
 logger=logging.getLogger("error_logger")
 
-
 class Order(models.Model):
 
     # Fields
@@ -24,6 +23,7 @@ class Order(models.Model):
     to_currency = models.CharField(max_length=3,default="rmb")
     due_at = models.DateTimeField(null=False,blank=False,default= datetime.datetime.now()+datetime.timedelta(hours=72))
     rate = models.DecimalField(max_digits=10, decimal_places=4)
+    rate_alpha = models.DecimalField(default=0,max_digits=10, decimal_places=4)
     active = models.BooleanField(default=False)
     status = models.CharField(max_length=10, default="new")
     privacy = models.CharField(max_length=10,default="public")
@@ -66,6 +66,19 @@ class Order(models.Model):
             price = math.floor(self.amount*self.rate*100)
         else:
             price = math.floor(self.amount/self.rate*100)
+        return price
+
+    @property
+    def price_alpha(self):
+        price=0
+        new_rate=0
+
+        if self.from_currency=="jpy":
+            new_rate=self.rate+self.rate_alpha
+            price = math.floor(self.amount*new_rate*100)
+        else:
+            new_rate=self.rate-self.rate_alpha
+            price = math.floor(self.amount/new_rate*100)
         return price
 
     @property

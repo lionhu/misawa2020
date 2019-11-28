@@ -21,15 +21,15 @@ const router = new Router({
                 maincontent:loadView("Home")
             }
         },
-        // {
-        //     path: '/orders',
-        //     name:"orders",
-        //     components:{
-        //         topmenu:loadView("menu/TopMenu"),
-        //         sidemenu:loadView("menu/SideMenu"),
-        //         maincontent:loadView("Orders")
-        //     }
-        // },
+        {
+            path: '/single_auctionorder',
+            name:"single_auctionorder",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("AuctionSingleOrder")
+            }
+        },
         {
             path: '/auctionorders',
             name:"auctionorders",

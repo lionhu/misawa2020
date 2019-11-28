@@ -49,6 +49,8 @@
                       <span class="flag-icon flag-icon-cn" v-if="scope.row.from_currency=='rmb'"></span>
                   </template>
                 </el-table-column>
+                <el-table-column sortable prop="user" label="User" min-width='100' align="center">
+                </el-table-column>
                 <el-table-column
                   sortable
                   prop="amount"
@@ -89,8 +91,17 @@
                     label="Due"
                     min-width="120"
                     :formatter="format_due_at">
-                  </el-table-column>
+                  </el-table-column>                
+                  <el-table-column
+                  label="Operations"
+                  align="center"
+                  min-width="100">
+                  <template slot-scope="scope">
+                    <a href="javascript:void(0);" v-if="scope.row.offers_num ==0"><i class="far fa-trash-alt"></i></a>
+                  </template>
+                </el-table-column>
               </el-table>
+
               <el-pagination
                 small
                 layout="prev, pager, next"
@@ -144,7 +155,7 @@
     },
     methods: {
       SelectOrder(row, event, column){
-        // this.$router.push({ name: 'singleorder', params: { slug: row.slug }})
+        this.$router.push({ name: 'single_auctionorder', params: { slug: row.slug }})
       },
       checkIsAdmin(){
         const membership=this.$store.state.users.profile.membership

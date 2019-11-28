@@ -71,16 +71,16 @@ export default {
     //     })
     // },
 
-    // get_singleorder(slug,cb, errorCb){
-    //     axios.post('/api/auction_order/get_order_by_slug/',{
-    //         "slug":slug
-    //     })
-    //     .then((res)=>{
-    //         cb(res)
-    //     }).catch(function(error){
-    //         errorCb(error)
-    //     })
-    // },
+    getAdminAuctionSingleOrder(slug,cb, errorCb){
+        axios.post('/api/auction_order/AdminSingleOrder/',{
+            "slug":slug
+        })
+        .then((res)=>{
+            cb(res)
+        }).catch(function(error){
+            errorCb(error)
+        })
+    },
 
 
 

@@ -2,7 +2,9 @@ from .models import Order,Offer,Transaction
 from .serializers import OrderSerializer,OfferSerializer,PureOrderSerializer, \
           TransactionsSerializer,OrderSerializer_withOffers_byUser,OrderSerializer_byUser, \
           OfferSerializer_withOrder,PublicOrders_Serializer,OrderSerializer_withOffers,\
-          SimpleOrderSerializer,UserOfferSerializer
+          SimpleOrderSerializer,UserOfferSerializer, \
+          AdminOrderSerializer,AdminOfferSerializer
+
 from rest_framework import viewsets, permissions,status
 from rest_framework.views import APIView
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view
@@ -53,7 +55,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def list(self, request):
 
       cache_orders=cache.get("mail_exchange_public_orders")
-      # cache_ordersummary=cache.get("mail_exchange_public_ordersummary")
+      
       order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
@@ -67,19 +69,14 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 
       orders = Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
-      # order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
-        # sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+
 
       serializer=PublicOrders_Serializer(orders,many=True)
-      # serializer=PublicOrders_Serializer(orders,many=True,extra={"user_id":request.user.id})
 
 
       cache_orders=serializer.data
-      # cache_ordersummary=serializers.serialize("json",order_summary)
 
       cache.set("mail_exchange_public_orders",cache_orders,timeout=300)
-
-      # cache.set("mail_exchange_public_ordersummary",cache_ordersummary,timeout=300)
 
       logger.error(orders)
       return Response({
@@ -280,7 +277,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         OrderType=request.data["OrderType"]
         serializer=OrderSerializer_withOffers(orders,many=True)
       except KeyError:
-        serializer=PureOrderSerializer(orders,many=True)
+        serializer=AdminOrderSerializer(orders,many=True)
 
       return Response({
           "error":0,
@@ -288,6 +285,48 @@ class OrderViewSet(viewsets.ModelViewSet):
           "summary":order_summary,
           "orders":serializer.data
       },status=status.HTTP_200_OK)
+
+
+    @list_route(methods=['post'])
+    def AdminSingleOrder(self,request,format=None):
+
+        isOrderOwner=False
+        serializer_transaction=None
+
+        try:
+          search_slug=request.data["slug"]
+          content={
+              "error":True,
+              "slug":search_slug,
+              "order":{},
+              "offers":{},
+              "Transaction":serializer_transaction,
+              "alpha":0,
+              "isOrderOwner":isOrderOwner,
+          }
+
+          order=Order.objects.filter(slug=search_slug).first()
+          if order:
+              isOrderOwner = True if order.user==request.user else False
+              offers=Offer.objects.filter(order_id=order.id)
+              serializer_order=AdminOrderSerializer(order,many=False)
+              serializer_offers=AdminOfferSerializer(offers,many=True)
+
+              content={
+                  "error":False,
+                  "slug":search_slug,
+                  "admin_order":serializer_order.data,
+                  "admin_offers":serializer_offers.data,
+                  "isOrderOwner":isOrderOwner
+              }
+
+
+        except KeyError:
+          pass
+
+        return Response(content)
+
+
 
 
 class OfferViewSet(viewsets.ModelViewSet):

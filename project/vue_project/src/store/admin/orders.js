@@ -47,6 +47,20 @@ const actions = {
             }
         );
     },
+    getAdminAuctionSingleOrder({ commit },slug) {
+        return new Promise((resolve,reject)=>{
+            ordersAPI.getAdminAuctionSingleOrder(slug,
+                res => {
+                    if( !res.data.error ){
+                        resolve(res.data)
+                    }
+                },err =>{
+                    console.log(err)
+                }
+            );
+        })
+    },
+
 
     // get_my_offerlist({commit}){
     //     return new Promise((resolve,reject)=>{
@@ -77,19 +91,7 @@ const actions = {
     //     })
     // },
 
-    // get_singleorder({ commit },slug) {
-    //     return new Promise((resolve,reject)=>{
-    //         ordersAPI.get_singleorder(slug,
-    //             res => {
-    //                 if( !res.data.error ){
-    //                     resolve(res.data)
-    //                 }
-    //             },err =>{
-    //                 console.log(err)
-    //             }
-    //         );
-    //     })
-    // },
+
 
     // post_createoffer({commit},params){
     //     return new Promise((resolve,reject)=>{

@@ -7,6 +7,7 @@
   "../../static/bundles/SideMenu-vue.js": "../../static/bundles/SideMenu-vue.js",
   "../../static/bundles/TopMenu-vue.js": "../../static/bundles/TopMenu-vue.js",
   "../../static/bundles/admin-AuctionOrders-vue.js": "../../static/bundles/admin-AuctionOrders-vue.js",
+  "../../static/bundles/admin-AuctionSingleOrder-vue.js": "../../static/bundles/admin-AuctionSingleOrder-vue.js",
   "../../static/bundles/admin-Home-vue.js": "../../static/bundles/admin-Home-vue.js",
   "../../static/bundles/admin-ShopUsers-vue.js": "../../static/bundles/admin-ShopUsers-vue.js",
   "../../static/bundles/admin-Users-vue.js": "../../static/bundles/admin-Users-vue.js",
