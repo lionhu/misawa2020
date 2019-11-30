@@ -98,7 +98,8 @@
     },
     methods: {
       SelectOrder(row, event, column){
-        this.$router.push({ name: 'singleorder', params: { slug: row.order.slug }})
+        console.log(row)
+        this.$router.push({ name: 'singleorder', params: { slug: row.order_slug }})
       },
       my_offerlist(){
         this.$store.dispatch("orders/get_my_offerlist").then(

@@ -38,6 +38,7 @@ const actions = {
     get_my_orderlist({commit}){
         ordersAPI.get_my_orders(
             res => {
+                console.log(res.data)
                 commit("setMyOrderList",res.data);
             },err =>{
                 console.log(err)

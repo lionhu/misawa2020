@@ -23,37 +23,6 @@ from django.conf import settings
 #             'to_currency',
 #         )
 
-# class PureOrderSerializer(serializers.ModelSerializer):
-#     # offers = serializers.PrimaryKeyRelatedField(many=True,read_only=True)
-#     user = serializers.ReadOnlyField(source="user.username")
-
-#     class Meta:
-#         model = Order
-#         fields = (
-#             'id',
-#             'slug',
-#             'created',
-#             "status",
-#             'last_updated',
-#             'amount',
-#             'from_currency',
-#             'to_currency',
-#             'due_at',
-#             'rate',
-#             'active',
-#             'privacy',
-#             'price',
-#             'send_notification',
-#             "memo",
-#             "user"
-#             # "offers"
-#         )
-
-#     def to_representation(self,instance):
-#         result = super().to_representation(instance)
-#         result["offers_num"]=instance.offers.count()
-#         return result
-
 # class OrderSerializer(serializers.ModelSerializer):
 #     user = UserSerializer(read_only = True)
 #     user_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
@@ -223,6 +192,7 @@ class PublicOrderSerializer(serializers.ModelSerializer):
 # Good for user
 class OfferSerializer(serializers.ModelSerializer):
     follower = serializers.ReadOnlyField(source="follower.username")
+    order_slug = serializers.ReadOnlyField(source="order.slug")
 
     def __init__(self, *args, **kwargs):
         context = kwargs.pop("context")
@@ -234,7 +204,7 @@ class OfferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
         fields = ('id','slug',"follower",'created', 'last_updated', 'currency',
-            'due_at', 'send_notification', 'status',"price",)
+            'due_at', 'send_notification', 'status',"price","order_slug")
 
     def to_representation(self,instance):
         result = super().to_representation(instance)
@@ -414,12 +384,42 @@ class TransactionsSerializer(serializers.ModelSerializer):
 #         return result
 
 
-# class OrderSerializer_byUser(serializers.ModelSerializer):
-#     orders = PureOrderSerializer(read_only=True,many=True)
-#     profile = UserProfileSerializer_Full(read_only=True,many=False)
-#     class Meta:
-#         model = User
-#         fields=("orders","profile")
+class PureOrderSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.username")
+
+    class Meta:
+        model = Order
+        fields = (
+            'id',
+            'slug',
+            'created',
+            "status",
+            'last_updated',
+            'amount',
+            'from_currency',
+            'to_currency',
+            'due_at',
+            'rate',
+            'active',
+            'privacy',
+            'price',
+            'send_notification',
+            "memo",
+            "user"
+        )
+
+    def to_representation(self,instance):
+        result = super().to_representation(instance)
+        result["offers_num"]=instance.offers.count()
+        return result
+
+
+class OrderSerializer_byUser(serializers.ModelSerializer):
+    orders = PureOrderSerializer(read_only=True,many=True)
+    profile = UserProfileSerializer_Full(read_only=True,many=False)
+    class Meta:
+        model = User
+        fields=("orders","profile")
 
 # class OrderSerializer_withOffers_byUser(serializers.ModelSerializer):
 #     orders = OrderSerializer_withOffers(read_only=True,many=True)

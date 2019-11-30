@@ -5,7 +5,8 @@ from .models import Order,Offer,Transaction
 #           SimpleOrderSerializer,UserOfferSerializer
           
 from .serializers import AdminOrderSerializer,AdminOfferSerializer, \
-  PublicOrderSerializer,OfferSerializer,TransactionsSerializer
+  PublicOrderSerializer,OfferSerializer,TransactionsSerializer,\
+  OrderSerializer_byUser
 
 
 from rest_framework import viewsets, permissions,status,mixins,generics
@@ -277,75 +278,70 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    @list_route(methods=["post"])
-    def list_user_orders(self,request,format=None):
-      orders=Order.objects.filter(user=request.user)
-      order_summary=Order.objects.filter(user=request.user).values("from_currency").annotate(count=Count("amount"),
-        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+    # @list_route(methods=["post"])
+    # def list_user_orders(self,request,format=None):
+    #   orders=Order.objects.filter(user=request.user)
+    #   order_summary=Order.objects.filter(user=request.user).values("from_currency").annotate(count=Count("amount"),
+    #     sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
 
-      content={
-        "success":0,
-        "message":"message",
-        "summary":order_summary,
-        "orders":{}
-      }
+    #   content={
+    #     "success":0,
+    #     "message":"message",
+    #     "summary":order_summary,
+    #     "orders":{}
+    #   }
 
-      if orders:
-        serializer=OrderSerializer(orders,many=True)
+    #   if orders:
+    #     serializer=OrderSerializer(orders,many=True)
 
-        content={
-          "success":1,
-          "message":"orders of {}".format(request.user.username),
-          "summary":order_summary,
-          "orders":serializer.data
-        }
-        return Response(content,status=status.HTTP_200_OK)
+    #     content={
+    #       "success":1,
+    #       "message":"orders of {}".format(request.user.username),
+    #       "summary":order_summary,
+    #       "orders":serializer.data
+    #     }
+    #     return Response(content,status=status.HTTP_200_OK)
 
-      return Response(content,status=status.HTTP_404_NOT_FOUND)
+    #   return Response(content,status=status.HTTP_404_NOT_FOUND)
 
 
-    @list_route(methods=["post"])
-    def Dashboard_summary(self,request,format=None):
-      order_summary=Order.objects.filter(status="new",due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
-        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+    # @list_route(methods=["post"])
+    # def Dashboard_summary(self,request,format=None):
+    #   order_summary=Order.objects.filter(status="new",due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
+    #     sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
-      if order_summary:
+    #   if order_summary:
 
-        content={
-          "result":1,
-            "data":{
-              "summary":order_summary,
-            }
-        }
-        return Response(content,status=status.HTTP_200_OK)
+    #     content={
+    #       "result":1,
+    #         "data":{
+    #           "summary":order_summary,
+    #         }
+    #     }
+    #     return Response(content,status=status.HTTP_200_OK)
 
-      else:
-          content={
-            "result":0,
-            "data":{
-              "summary":{},
-            }
-          }
+    #   else:
+    #       content={
+    #         "result":0,
+    #         "data":{
+    #           "summary":{},
+    #         }
+    #       }
           
-          return Response(content,status=status.HTTP_200_OK)
+    #       return Response(content,status=status.HTTP_200_OK)
 
 
     @list_route(methods=["post"])
     def UserOrdersList(self,request,format=None):
 
-      OrderType=request.data["OrderType"]
-
-      if OrderType=="withOffers":
-        serializer=OrderSerializer_withOffers_byUser(request.user,many=False)
-      else:
-        serializer=OrderSerializer_byUser(request.user,many=False)
+      serializer=OrderSerializer_byUser(request.user,many=False)
 
       order_summary=Order.objects.filter(user=request.user).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
       content={
-        "success":0,
+        "result":True,
         "message":"message",
         "data":serializer.data,
         "order_summary":order_summary
@@ -353,33 +349,33 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
       return Response(content,status=status.HTTP_200_OK)
 
 
-    @list_route(methods=["post"])
-    def PublicOrdersList(self,request,format=None):
-      orders = Order.objects.filter(due_at__gte=datetime.date.today()).order_by("-due_at","from_currency","amount")
-      order_summary=Order.objects.filter(due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
-        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+    # @list_route(methods=["post"])
+    # def PublicOrdersList(self,request,format=None):
+    #   orders = Order.objects.filter(due_at__gte=datetime.date.today()).order_by("-due_at","from_currency","amount")
+    #   order_summary=Order.objects.filter(due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
+    #     sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
-      for order in orders:
-        if order.user_id == request.user.id:
-          pass
-        else:
-          if order.from_currency == "jpy":
-            order.rate +=decimal.Decimal(settings.ORDER_MARGINRATE_JPY)
-          else:
-            order.rate -=decimal.Decimal(settings.ORDER_MARGINRATE_RMB)
+    #   for order in orders:
+    #     if order.user_id == request.user.id:
+    #       pass
+    #     else:
+    #       if order.from_currency == "jpy":
+    #         order.rate +=decimal.Decimal(settings.ORDER_MARGINRATE_JPY)
+    #       else:
+    #         order.rate -=decimal.Decimal(settings.ORDER_MARGINRATE_RMB)
 
-      try:
-        OrderType=request.data["OrderType"]
-        serializer=OrderSerializer_withOffers(orders,many=True)
-      except KeyError:
-        serializer=PureOrderSerializer(orders,many=True)
+    #   try:
+    #     OrderType=request.data["OrderType"]
+    #     serializer=OrderSerializer_withOffers(orders,many=True)
+    #   except KeyError:
+    #     serializer=PureOrderSerializer(orders,many=True)
 
-      return Response({
-          "error":0,
-          "type": "list",
-          "summary":order_summary,
-          "orders":serializer.data
-      },status=status.HTTP_200_OK)
+    #   return Response({
+    #       "error":0,
+    #       "type": "list",
+    #       "summary":order_summary,
+    #       "orders":serializer.data
+    #   },status=status.HTTP_200_OK)
 
 
 
@@ -393,12 +389,17 @@ class OfferViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
 
     def create(self, request):
 
-      order_id=request.data.get('order_id')
-      # offer_id=request.data.get('offer_id')
-      follower_id=request.data.get('follower_id')
-      currency=request.data.get('currency')
+      try:
 
-      logger.error(request.data)
+        order_id=request.data.get('order_id')
+        follower_id=request.data.get('follower_id')
+        currency=request.data.get('currency')
+      except KeyError:
+        return Response({
+              "result":False,
+              "request":request.data
+          })
+
       content={
         "result":0,
         "data":{},
@@ -411,18 +412,9 @@ class OfferViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
             "offer_alpha": 0
           }
 
-      # try:
-      #   offer=Offer.objects.get(pk=offer_id)
-      #   serializer=OfferSerializer(offer,context=offer_context,data=request.data)
-      # except Offer.DoesNotExist:
       serializer=OfferSerializer(data=request.data,context=offer_context)
 
-      logger.error("offer input is valid: %s"%serializer.is_valid())
       if serializer.is_valid():
-          # serializer.save()
-          # if follower_id is None:
-          #     serializer.save(follower_id=request.user.id,order_id=order_id)
-          # else:
           serializer.save(follower_id=request.user.id,order_id=order_id)
           
           content={
@@ -438,10 +430,15 @@ class OfferViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
     @detail_route(methods=["post"])
     def update_orderoffer(self, request, pk=None):
 
-      follower_id=request.data.get('follower_id', 1)
-      offer_id=request.data.get('offer_id', 1)
-      price=request.data.get('price', 1)
-
+      try:
+        follower_id=request.data.get('follower_id', 1)
+        offer_id=request.data.get('offer_id', 1)
+        price=request.data.get('price', 1)
+      except KeyError:
+        return Response({
+              "result":False,
+              "request":request.data
+          })
 
 
       try:
@@ -560,9 +557,12 @@ class OfferViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
         "offers":{},
         "offer_summary":offer_summary
       }
-
+      offer_context={
+        "IsOrderUser": True ,
+        "offer_alpha": 0
+      }
       if offers:
-        serializer=UserOfferSerializer(offers,many=True)
+        serializer=OfferSerializer(offers,context=offer_context,many=True)
 
         content={
           "success":1,

@@ -25,7 +25,7 @@ export default {
         })
     },
     get_my_offers(cb, errorCb){
-        axios.post('/api/autcion_offer/list_user_offers/')
+        axios.post('/api/auction_offer/list_user_offers/')
         .then((res)=>{
             cb(res)
         }).catch(function(error){
