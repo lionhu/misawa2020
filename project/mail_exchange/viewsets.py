@@ -1,9 +1,4 @@
 from .models import Order,Offer,Transaction
-# from .serializers import OrderSerializer,PureOrderSerializer, \
-#           OrderSerializer_withOffers_byUser,OrderSerializer_byUser, \
-#           OfferSerializer_withOrder,OrderSerializer_withOffers,\
-#           SimpleOrderSerializer,UserOfferSerializer
-          
 from .serializers import AdminOrderSerializer,AdminOfferSerializer, \
   PublicOrderSerializer,OfferSerializer,TransactionsSerializer,\
   OrderSerializer_byUser
@@ -195,7 +190,7 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
       },status=status.HTTP_200_OK)
 
 
-    @list_route(methods=['post'])
+    @list_route(methods=['post'],permission_classes=[IsAdmin,])
     def AdminSingleOrder(self,request,format=None):
 
         isOrderOwner=False
@@ -232,6 +227,51 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
 
         except KeyError:
           raise Http404
+
+    @list_route(methods=['post'],permission_classes=[IsAdmin,])
+    def AdminSingleOrderUpdate(self,request,format=None):
+
+        try:
+          search_slug=request.data["slug"]
+          update_type=request.data["update_type"]
+          content={
+              "result":False,
+              "slug":search_slug,
+              "order":{},
+          }
+        except KeyError:
+          return Response({
+                "result":False,
+                "message":"KeyError, need slug",
+            },status=status.HTTP_404_NOT_FOUND)
+
+        try:
+          order=Order.objects.get(slug=search_slug)
+
+          serializer=AdminOrderSerializer(order,data=request.data,many=False,partial=True)
+
+          if serializer.is_valid():
+              serializer.save()
+
+              content={
+                  "result":True,
+                  "slug":search_slug,
+                  "update_type":update_type,
+                  "order":serializer.data,
+              }
+
+              return Response(content,status=status.HTTP_200_OK)
+          else:
+              return Response({
+                  "result":False,
+                  "message":serializer.errors
+              },status=status.HTTP_200_OK)
+        except Order.DoesNotExist:
+            return Response({
+                "result":False,
+                "message":"No Order with slug exist!",
+            },status=status.HTTP_404_NOT_FOUND)
+
 
 
     @list_route(methods=['post'],permission_classes=[IsAdmin,])
@@ -334,8 +374,9 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
 
     @list_route(methods=["post"])
     def UserOrdersList(self,request,format=None):
-
-      serializer=OrderSerializer_byUser(request.user,many=False)
+      orders = Order.objects.filter(user=request.user).order_by("-due_at","created")
+      logger.error(orders)
+      serializer=PublicOrderSerializer(orders, context={'user_id': request.user.id},many=True)
 
       order_summary=Order.objects.filter(user=request.user).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
@@ -343,7 +384,7 @@ class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.Generi
       content={
         "result":True,
         "message":"message",
-        "data":serializer.data,
+        "orders":serializer.data,
         "order_summary":order_summary
       }
       return Response(content,status=status.HTTP_200_OK)

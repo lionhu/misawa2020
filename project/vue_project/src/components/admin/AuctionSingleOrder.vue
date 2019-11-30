@@ -76,10 +76,10 @@
       <div class="box-body center" v-if="order.status !=='Matching'">
             <flip-countdown :deadline="deadline"></flip-countdown>
       </div>
-      <div class="box-footer" v-if="!isOrderOwner && order.status=='new'">
+<!--       <div class="box-footer" v-if="!isOrderOwner && order.status=='new'">
         <button class="btn btn-lg btn-success pull-right" @click="buyOrder">Buy</button>
         <button class="btn btn-lg btn-danger pull-left" @click="deleteOffer">Delete My Offer</button>
-      </div>
+      </div> -->
     </div>
     <div class="box box-inverse box-dark">
           <div class="box-header with-border">

@@ -56,6 +56,8 @@
                   align="right">
                   <template slot-scope="scope">
                     {{scope.row.amount|currency}}{{scope.row.from_currency =="jpy"? "万円":"元"}}
+                    <a href="javascript:void(0);" @click="OrderUpdate(scope.row,'privacy')">
+                    <i class="fas " :class="{'fa-lock-open':scope.row.privacy=='public','fa-lock':scope.row.privacy !='public'}" style="margin-left:3px;"></i></a>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -124,7 +126,7 @@
   import {setToken,getToken} from "../../lib/util.js"
 
   export default {
-    name: 'admin_home',
+    name: 'AuctionOrders',
     components:{
       elTable: Table,
       elTableColumn: TableColumn,
@@ -152,6 +154,32 @@
 
     },
     methods: {
+      OrderUpdate(order,update_type,value){
+        const url="/api/auction_order/AdminSingleOrderUpdate/";
+        const order_slug = order.slug;
+        const order_privacy = order.privacy=='public'?'private':'public';
+        var params={};
+        console.log("update "+value)
+        if (update_type =="privacy"){
+          params={
+            "update_type":"privacy",
+            "privacy":order_privacy,
+            "slug":order_slug
+          }
+        }
+        axios.post(url,params).then(
+          res=>{
+            if(res.data.update_type=='privacy'){
+              const orderIndex=this.tableData.findIndex(order => order.slug==order_slug)
+
+              if(orderIndex >-1){
+                this.tableData[orderIndex].privacy=order_privacy
+              }
+            }
+          },reject=>{
+            console.log(reject)
+          })
+      },
       SelectOrder(row){
         this.$router.push({ name: 'single_auctionorder', params: { slug: row.slug }})
       },

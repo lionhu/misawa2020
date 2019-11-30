@@ -80,7 +80,7 @@
                   align="center"
                   min-width="70">
                   <template slot-scope="scope">
-                    <span style="width:30px;" class="badge badge-pill badge-warning" v-if="scope.row.offers.length">{{scope.row.offers.length}}</span>
+                    <span style="width:30px;" class="badge badge-pill badge-warning" v-if="scope.row.offers_num">{{scope.row.offers_num}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
