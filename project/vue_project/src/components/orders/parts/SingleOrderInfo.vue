@@ -2,11 +2,12 @@
     <div class="box">
       <div class="box-header flexbox flex-justified ">
         <div class="text-left">
-          <h6 class="mb-0"  v-if="order.user.id==ME.user.id">
-            <i class="fa fa-user text-success mr-5"></i>{{order.user.username}}
+          <h6 class="mb-0"  v-if="order.user==ME.user.username">
+            <i class="fa fa-user text-success mr-5"></i>{{order.user}}
           </h6>
-          <h6 class="mb-0"  v-if="order.user.id !=ME.user.id">
-            <i class="fa fa-user text-success mr-5" ></i>{{order.user.username | filterUsername}}
+          <h6 class="mb-0"  v-if="order.user !=ME.user.username">
+            <i class="fa fa-user text-success mr-5" ></i>
+            {{order.user | filterUsername}}
           </h6>
           <small class="text-warning">
             <i class="fas fa-stopwatch"></i> {{deadline}}

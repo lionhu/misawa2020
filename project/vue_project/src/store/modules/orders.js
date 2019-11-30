@@ -64,7 +64,7 @@ const actions = {
         return new Promise((resolve,reject)=>{
             ordersAPI.post_new_order(params,
                 res => {
-                    if(res.data.id>0){
+                    if(res.data.result){
                         resolve(true)
                     }
                 },err =>{

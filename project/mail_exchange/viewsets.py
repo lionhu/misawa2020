@@ -1,11 +1,14 @@
 from .models import Order,Offer,Transaction
-from .serializers import OrderSerializer,OfferSerializer,PureOrderSerializer, \
-          TransactionsSerializer,OrderSerializer_withOffers_byUser,OrderSerializer_byUser, \
-          OfferSerializer_withOrder,PublicOrders_Serializer,OrderSerializer_withOffers,\
-          SimpleOrderSerializer,UserOfferSerializer, \
-          AdminOrderSerializer,AdminOfferSerializer
+# from .serializers import OrderSerializer,PureOrderSerializer, \
+#           OrderSerializer_withOffers_byUser,OrderSerializer_byUser, \
+#           OfferSerializer_withOrder,OrderSerializer_withOffers,\
+#           SimpleOrderSerializer,UserOfferSerializer
+          
+from .serializers import AdminOrderSerializer,AdminOfferSerializer, \
+  PublicOrderSerializer,OfferSerializer,TransactionsSerializer
 
-from rest_framework import viewsets, permissions,status
+
+from rest_framework import viewsets, permissions,status,mixins,generics
 from rest_framework.views import APIView
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view
 from rest_framework.response import Response
@@ -44,39 +47,41 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         return obj.user == request.user
 
+# mixins.ListModelMixin,mixins.CreateModelMixin,
+#   mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet
 
-class OrderViewSet(viewsets.ModelViewSet):
+class OrderViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.GenericViewSet):
     """ViewSet for the Bill class"""
 
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = PublicOrderSerializer
     permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
+
+    # Public related Order API
     def list(self, request):
 
-      cache_orders=cache.get("mail_exchange_public_orders")
-      
-      order_summary=Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
+
+      auction_publicOrders=cache.get("auction_publicOrders_%s"%(request.user.id))
+
+      order_summary=Order.objects.filter(privacy="public",status__in=["new","Matching"],due_at__gte=datetime.date.today()).values("from_currency").annotate(count=Count("amount"),
         sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
 
-      if cache_orders:
+      if auction_publicOrders:
           return Response({
               "error":0,
               "type": "cached mail_exchange_public_orders",
               "summary":order_summary,
-              "orders":cache_orders
+              "orders":auction_publicOrders
           },status=status.HTTP_200_OK)
 
 
-      orders = Order.objects.filter(status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
+      orders = Order.objects.filter(privacy="public",status__in=["new","Matching"],due_at__gte=datetime.date.today()).order_by("-due_at","created")
 
 
-      serializer=PublicOrders_Serializer(orders,many=True)
+      serializer=self.serializer_class(orders, context={'user_id': request.user.id},many=True)
 
-
-      cache_orders=serializer.data
-
-      cache.set("mail_exchange_public_orders",cache_orders,timeout=300)
+      cache.set("auction_publicOrders_%s"%(request.user.id),serializer.data,timeout=300)
 
       logger.error(orders)
       return Response({
@@ -86,6 +91,172 @@ class OrderViewSet(viewsets.ModelViewSet):
           "orders":serializer.data
       },status=status.HTTP_200_OK)
 
+    def create(self,request):
+
+      logger.error("create order request.data")
+      logger.error(request.data)
+
+      try:
+        from_currency=request.data["from_currency"]
+
+        serializer = self.serializer_class(data=request.data, context={'user_id': request.user.id})
+
+        if serializer.is_valid():
+          rate_alpha = settings.ORDER_MARGINRATE_JPY if from_currency=="jpy" else settings.ORDER_MARGINRATE_RMB
+          serializer.save(user=request.user,rate_alpha=rate_alpha)
+          
+          cache.delete("auction_publicOrders")
+
+          return Response({
+                "result":True,
+                "order":serializer.data
+            })
+        else:
+          return Response({
+                "result":False,
+                "message":serializer.error
+            })
+      except KeyError:
+          return Response({
+                "result":False,
+                "message":"KeyError"
+            })
+
+    @list_route(methods=['post'])
+    def getOrderBySlug(self,request,format=None):        
+      content={
+          "result":False,
+          "slug":"",
+          "order":{},
+          "offers":{},
+          "message":""
+      }
+      try:
+
+        search_slug=request.data.get("slug",None)
+        content["slug"]=search_slug
+
+        if search_slug:
+
+           try:
+             order=Order.objects.get(slug=search_slug)
+             serializer_order=self.serializer_class(order, context={'user_id': request.user.id},many=False)
+
+             offers=Offer.objects.filter(order_id=order.id)
+             offer_context={
+                "IsOrderUser": True if request.user==order.user else False,
+                "offer_alpha": order.price_alpha - order.price
+              }
+             logger.error(offer_context)
+             serializer_offers=OfferSerializer(offers, context=offer_context,many=True)
+           except Order.DoesNotExist:
+             return Response({
+                  "result":False,
+                  "slug":"",
+                  "order":{},
+                  "offers":{},
+                  "message":"order doesn't exist"
+              })
+        return Response({
+            "result":True,
+            "slug":search_slug,
+            "order":serializer_order.data,
+            "offers":serializer_offers.data,
+            "message":"fetch order successfully"
+        })
+      except KeyError:
+       return Response({
+            "result":False,
+            "slug":"",
+            "order":{},
+            "offers":{},
+            "message":"need order slug"
+        })
+      else:
+        raise Http404
+
+
+
+    # Admin related Order API
+    @list_route(methods=["post"],permission_classes=[IsAdmin,])
+    def AdminOrdersList(self,request,format=None):
+      orders = Order.objects.all().order_by("-created","-due_at","from_currency","amount")
+      order_summary=Order.objects.all().values("from_currency").annotate(count=Count("amount"),
+        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+
+      serializer=AdminOrderSerializer(orders,many=True)
+
+      return Response({
+          "error":0,
+          "type": "list",
+          "summary":order_summary,
+          "orders":serializer.data
+      },status=status.HTTP_200_OK)
+
+
+    @list_route(methods=['post'])
+    def AdminSingleOrder(self,request,format=None):
+
+        isOrderOwner=False
+        serializer_transaction=None
+
+        try:
+          search_slug=request.data["slug"]
+          content={
+              "error":True,
+              "slug":search_slug,
+              "order":{},
+              "offers":{},
+              "Transaction":serializer_transaction,
+              "alpha":0,
+              "isOrderOwner":isOrderOwner,
+          }
+
+          order=Order.objects.filter(slug=search_slug).first()
+          if order:
+              isOrderOwner = True if order.user==request.user else False
+              offers=Offer.objects.filter(order_id=order.id)
+              serializer_order=AdminOrderSerializer(order,many=False)
+              serializer_offers=AdminOfferSerializer(offers,many=True)
+
+              content={
+                  "error":False,
+                  "slug":search_slug,
+                  "admin_order":serializer_order.data,
+                  "admin_offers":serializer_offers.data,
+                  "isOrderOwner":isOrderOwner
+              }
+
+              return Response(content)
+
+        except KeyError:
+          raise Http404
+
+
+    @list_route(methods=['post'],permission_classes=[IsAdmin,])
+    def deleteOrderBySlug(self,request):
+      try:
+        order_slug=request.data.get("slug",None)
+        order=Order.objects.get(slug=order_slug)
+
+        order.delete()
+
+        return Response({
+            "result":True,
+            "order_slug":order_slug,
+            "message":"order deleted"
+          })
+      except KeyError:
+          return Response({
+              "result":False,
+              "message":"KeyError order_slug"
+            })
+      except Order.DoesNotExist:
+          return Response({
+              "result":False,
+              "order_slug":order_slug,
+              "message":"order doesn't exist"
+            })
 
     @detail_route(methods=['post'])
     def update_order(self, request, pk, format=None):
@@ -105,62 +276,6 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response(context)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @list_route(methods=['post'])
-    def get_order_by_slug(self,request,format=None):
-
-        search_slug=request.data["slug"]
-        isOrderOwner=False
-        hasOrderOffer=False
-        serializer_transaction=None
-
-        content={
-            "error":True,
-            "slug":search_slug,
-            "order":{},
-            "offers":{},
-            "Transaction":serializer_transaction,
-            "alpha":0,
-            "isOrderOwner":isOrderOwner,
-            "hasOrderOffer":hasOrderOffer
-        }
-
-        if search_slug:
-           order=Order.objects.filter(slug=search_slug).first()
-
-           if order:
-              isOrderOwner = True if order.user_id==request.user.id else False
-              offers=Offer.objects.filter(order_id=order.id)
-
-              alpha_rate=order.rate*(order.rate-decimal.Decimal(settings.ORDER_MARGINRATE_RMB))*10
-              alpha = settings.ORDER_MARGINRATE_JPY*order.amount*100 if order.from_currency=="jpy" else int(order.amount*settings.OFFER_MARGIN_JPY/alpha_rate)
-                  
-              if isOrderOwner:
-                for offer in offers:
-                  offer.price -= alpha
-              else:
-                if order.from_currency == "jpy":
-                  order.rate +=decimal.Decimal(settings.ORDER_MARGINRATE_JPY)
-                else:
-                  order.rate -=decimal.Decimal(settings.ORDER_MARGINRATE_RMB)
-
-              serializer_order=OrderSerializer(order,many=False)
-              serializer_offers=OfferSerializer(offers,many=True)
-
-              if order.transactions.count():
-                serializer_transaction=TransactionsSerializer(order.transactions.first(),many=False)
-
-              content={
-                  "error":False,
-                  "slug":search_slug,
-                  "order":serializer_order.data,
-                  "offers":serializer_offers.data,
-                  "transaction":serializer_transaction.data if serializer_transaction else {},
-                  "alpha":alpha,
-                  "isOrderOwner":isOrderOwner,
-                  "hasOrderOffer":hasOrderOffer
-              }
-
-        return Response(content)
 
     @list_route(methods=["post"])
     def list_user_orders(self,request,format=None):
@@ -267,69 +382,9 @@ class OrderViewSet(viewsets.ModelViewSet):
       },status=status.HTTP_200_OK)
 
 
-    @list_route(methods=["post"],permission_classes=[IsAdmin,])
-    def AdminOrdersList(self,request,format=None):
-      orders = Order.objects.all().order_by("-created","-due_at","from_currency","amount")
-      order_summary=Order.objects.all().values("from_currency").annotate(count=Count("amount"),
-        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
-
-      try:
-        OrderType=request.data["OrderType"]
-        serializer=OrderSerializer_withOffers(orders,many=True)
-      except KeyError:
-        serializer=AdminOrderSerializer(orders,many=True)
-
-      return Response({
-          "error":0,
-          "type": "list",
-          "summary":order_summary,
-          "orders":serializer.data
-      },status=status.HTTP_200_OK)
 
 
-    @list_route(methods=['post'])
-    def AdminSingleOrder(self,request,format=None):
-
-        isOrderOwner=False
-        serializer_transaction=None
-
-        try:
-          search_slug=request.data["slug"]
-          content={
-              "error":True,
-              "slug":search_slug,
-              "order":{},
-              "offers":{},
-              "Transaction":serializer_transaction,
-              "alpha":0,
-              "isOrderOwner":isOrderOwner,
-          }
-
-          order=Order.objects.filter(slug=search_slug).first()
-          if order:
-              isOrderOwner = True if order.user==request.user else False
-              offers=Offer.objects.filter(order_id=order.id)
-              serializer_order=AdminOrderSerializer(order,many=False)
-              serializer_offers=AdminOfferSerializer(offers,many=True)
-
-              content={
-                  "error":False,
-                  "slug":search_slug,
-                  "admin_order":serializer_order.data,
-                  "admin_offers":serializer_offers.data,
-                  "isOrderOwner":isOrderOwner
-              }
-
-
-        except KeyError:
-          pass
-
-        return Response(content)
-
-
-
-
-class OfferViewSet(viewsets.ModelViewSet):
+class OfferViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,viewsets.GenericViewSet):
     """ViewSet for the Bill class"""
 
     queryset = Offer.objects.all()
@@ -338,10 +393,12 @@ class OfferViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
 
-      offer_id=request.data.get('offer_id')
+      order_id=request.data.get('order_id')
+      # offer_id=request.data.get('offer_id')
       follower_id=request.data.get('follower_id')
       currency=request.data.get('currency')
 
+      logger.error(request.data)
       content={
         "result":0,
         "data":{},
@@ -349,22 +406,27 @@ class OfferViewSet(viewsets.ModelViewSet):
         "request":request.data
       }
 
-      try:
-        offer=Offer.objects.get(pk=offer_id)
-        serializer=OfferSerializer_withOrder(offer,data=request.data)
-      except Offer.DoesNotExist:
-        serializer=OfferSerializer_withOrder(data=request.data)
+      offer_context={
+            "IsOrderUser": False,
+            "offer_alpha": 0
+          }
+
+      # try:
+      #   offer=Offer.objects.get(pk=offer_id)
+      #   serializer=OfferSerializer(offer,context=offer_context,data=request.data)
+      # except Offer.DoesNotExist:
+      serializer=OfferSerializer(data=request.data,context=offer_context)
 
       logger.error("offer input is valid: %s"%serializer.is_valid())
       if serializer.is_valid():
           # serializer.save()
-          if follower_id is None:
-              serializer.save(follower_id=request.user.id)
-          else:
-              serializer.save()
+          # if follower_id is None:
+          #     serializer.save(follower_id=request.user.id,order_id=order_id)
+          # else:
+          serializer.save(follower_id=request.user.id,order_id=order_id)
           
           content={
-            "result":1,
+            "result":True,
             "offer":serializer.data
           }
 
@@ -389,7 +451,13 @@ class OfferViewSet(viewsets.ModelViewSet):
         if offer:
           offer.price=price
           offer.save()
-          serializer=OfferSerializer(offer,many=False)
+          
+          offer_context={
+                "IsOrderUser": False,
+                "offer_alpha": 0
+              }
+
+          serializer=OfferSerializer(offer,context=offer_context,many=False)
 
           content={
             "result":True,
@@ -405,6 +473,79 @@ class OfferViewSet(viewsets.ModelViewSet):
             "message":"No Offer with id: %d found."%int(pk)
           }
           return Response(content,status=status.HTTP_404_NOT_FOUND)
+
+
+    @list_route(methods=["post"],permission_classes=[IsAdmin,])
+    def AdminDeleteOrder(self, request, pk=None):
+
+      logger.error("AdminDeleteOrder")
+      try:
+        offer_params=request.data["offer"]
+
+        offer=Offer.objects.get(pk=offer_params["id"])
+        order = Order.objects.get(pk=offer_params["order"])
+
+        if offer_params["status"] == "Matching":
+          transaction= Transaction.objects.get(order__id=offer_params["order"],offer__id=offer_params["id"])
+          transaction.delete()
+
+          offer.delete()
+
+          order.status = "new"
+          order.save()
+          return Response({
+              "result":True,
+              "status":"Matching",
+              "message":"delete successfully"
+            },status=status.HTTP_200_OK)
+        else:
+          offer.delete()
+          return Response({
+              "result":True,
+              "status":"Matching",
+              "message":"delete successfully"
+            },status=status.HTTP_200_OK)
+
+      except KeyError:
+          return Response({
+              "result":False,
+              "message":"KeyError"
+            },status=status.HTTP_200_OK)
+      # follower_id=request.data.get('follower_id', 1)
+      # offer_id=request.data.get('offer_id', 1)
+      # price=request.data.get('price', 1)
+
+
+
+      # try:
+
+      #   offer=Offer.objects.get(pk=pk)
+
+      #   if offer:
+      #     offer.price=price
+      #     offer.save()
+          
+      #     offer_context={
+      #           "IsOrderUser": False,
+      #           "offer_alpha": 0
+      #         }
+
+      #     serializer=OfferSerializer(offer,context=offer_context,many=False)
+
+      #     content={
+      #       "result":True,
+      #       "order_id":pk,
+      #       "offer":serializer.data
+      #     }
+
+      #     return Response(content,status=status.HTTP_200_OK)
+      # except Offer.DoesNotExist:
+      #     content={
+      #       "result":False,
+      #       "order_id":pk,
+      #       "message":"No Offer with id: %d found."%int(pk)
+      #     }
+      #     return Response(content,status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -474,8 +615,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
           serializer=TransactionsSerializer(data=data)
 
         if serializer.is_valid():
-
-            # update order's status
             order=Order.objects.get(pk=order_id)
             offer=Offer.objects.get(pk=offer_id)
 
@@ -485,14 +624,15 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
               offer.status="Matching"
               offer.save()
+              serializer.save(order=order,offer=offer)
 
               content={
                 "type":"createTransaction",
-                "result":1,
-                "data":data
+                "result":True,
+                "transaction":serializer.data
               }
 
-              serializer.save()
+
 
         return Response(content)
 

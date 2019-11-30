@@ -90,7 +90,10 @@ export default {
     },
 
     filterUsername(value){
-      var str=value.substr(0,1)+"****"+value.substr(value.length-1,1)
-      return str
+      if(value !="" && value !=undefined){
+        var str=value.substr(0,1)+"****"+value.substr(value.length-1,1)
+        return str
+      }
+
     }
 }

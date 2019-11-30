@@ -35,10 +35,7 @@
               <h3 class="box-title">{{$t("m.my_order_list")}}</h3>
             </div>
             <div class="box-body">
-              <el-table
-                @row-click="SelectOrder"
-                :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-                style="width: 100%">
+              <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%">
                 <el-table-column
                   sortable
                   prop="from_currency"
@@ -74,15 +71,16 @@
                   align="center"
                   min-width="120">
                   <template slot-scope="scope">
-                    <a href="javascript:void(0)" style="width:95px;" class="btn b-1" v-bind:class="{'border-success':scope.row.status=='new','border-danger':scope.row.status=='Matching'}">{{scope.row.status}}</a>
+                    <a href="javascript:void(0)" style="width:95px;" class="btn b-1" v-bind:class="{'border-success':scope.row.status=='new','border-danger':scope.row.status=='Matching'}" @click="SelectOrder(scope.row)">{{scope.row.status}}</a>
                   </template>
                 </el-table-column>
                 <el-table-column
                   label="Offers"
                   align="center"
+                  prop="offers_num"
                   min-width="70">
                   <template slot-scope="scope">
-                    <span style="width:30px;" class="badge badge-pill badge-warning" v-if="scope.row.offers_num">{{scope.row.offers_num}}</span>
+                      <span class="badge badge-pill badge-warning" style="width:50px;" v-if="scope.row.offers_num">{{scope.row.offers_num}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -97,7 +95,7 @@
                   align="center"
                   min-width="100">
                   <template slot-scope="scope">
-                    <a href="javascript:void(0);" v-if="scope.row.offers_num ==0"><i class="far fa-trash-alt"></i></a>
+                    <a href="javascript:void(0);" v-if="scope.row.offers_num ==0" @click="DeleteOrder(scope.row)"><i class="far fa-trash-alt"></i></a>
                   </template>
                 </el-table-column>
               </el-table>
@@ -154,8 +152,54 @@
 
     },
     methods: {
-      SelectOrder(row, event, column){
+      SelectOrder(row){
         this.$router.push({ name: 'single_auctionorder', params: { slug: row.slug }})
+      },
+      DeleteOrder(row){
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+                axios.post("/api/auction_order/deleteOrderBySlug/",{
+                  "slug":row.slug
+                }).then(res=>{
+                    if(res.data.result){
+                      console.log(res)
+                      const orderIndex=this.tableData.findIndex(order => order.slug ==res.data.order_slug)
+
+                      console.log(orderIndex)
+                      if(orderIndex > -1){
+                        this.tableData.splice(orderIndex,1)
+                      }
+                      swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      )
+                    }else{
+                      swalWithBootstrapButtons.fire(
+                        'ERROR!',
+                        res.data.message,
+                        'danger'
+                      )
+                    }
+                })
+          } 
+        })
       },
       checkIsAdmin(){
         const membership=this.$store.state.users.profile.membership

@@ -46,12 +46,12 @@
               </el-table-column>
               <el-table-column
                 sortable
-                prop="follower.username"
+                prop="follower"
                 label="User">
 
                 <template slot-scope="scope">
-                  <span v-if="scope.row.follower.id==ME.user.id">{{scope.row.follower.username}}</span>
-                  <span v-if="scope.row.follower.id!=ME.user.id">{{scope.row.follower.username|filterUsername}}</span>
+                  <span v-if="scope.row.follower==ME.user.username">{{scope.row.follower}}</span>
+                  <span v-if="scope.row.follower!=ME.user.username">{{scope.row.follower|filterUsername}}</span>
                 </template>
 
               </el-table-column>
@@ -85,7 +85,7 @@
 
 
   export default {
-    name: 'neworder',
+    name: 'autionSingleOrder',
     components:{      
       elTable: Table,
       elTableColumn: TableColumn,
@@ -124,13 +124,14 @@
     },
     mounted(){
       this.$store.dispatch("orders/get_singleorder",this.$route.params.slug).then(res=>{
-        // console.log("SingleOrder res")
+        console.log("public SingleOrder res")
+        console.log(res)
         this.order=res.order;
         this.offers=res.offers;
-        this.transaction=res.transaction;
         this.total=res.offers.length
-        this.isOrderOwner=res.isOrderOwner
-        var offerindex=this.offers.findIndex(offer => offer.follower.id == this.ME.user.id)
+        this.isOrderOwner=res.order.isOrderOwner
+
+        var offerindex=this.offers.findIndex(offer=>offer.follower==this.ME.user.username)
         this.hasOffered= offerindex>-1?true:false
         if(this.hasOffered){
             this.hasOffer_index=offerindex
@@ -171,7 +172,7 @@
 
       },
       async SelectOffer(offer){
-                Swal.fire({
+        Swal.fire({
           title: '再次确认想要交易的金额?',
           text: "交易金额: "+ offer.price,
           type: 'warning',
@@ -189,6 +190,7 @@
               }
               this.$store.dispatch("orders/post_createTransaction",params)
               .then(resolve=>{
+                console.log(resolve)
                 if(resolve.result){
                   this.order.status="Matching"
                   this.transaction.offer_id=offer.id
@@ -204,7 +206,7 @@
           },
           allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
-            console.log("catch: "+result)
+            console.log(result)
           if(result){
             Swal.fire({
               title: '成功发起交易邀请!',

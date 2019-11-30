@@ -67,42 +67,25 @@
                   label="Rate"
                   align="right">
                 </el-table-column>
-                <el-table-column
-                  sortable
-                  prop="status"
-                  label="Status"
-                  align="center"
-                  min-width="120">
+                <el-table-column sortable prop="status" label="Status" align="center" min-width="120">
                   <template slot-scope="scope">
-                    <a href="javascript:void(0)" style="width:110px;" class="btn b-1" v-bind:class="{'border-success':scope.row.status=='new','border-danger':scope.row.status=='Matching'}">
-                    {{scope.row.status}}
-                    <i class="fa fa-user pull-right" v-if="scope.row.user.id==ME.id"></i>
-                  </a>
+                      <a href="javascript:void(0)" style="width:110px;" class="btn b-1" v-bind:class="{'border-success':scope.row.status=='new','border-danger':scope.row.status=='Matching'}">
+                        {{scope.row.status}}
+                        <i class="fa fa-user pull-right" v-if="scope.row.user==ME.username"></i>
+                      </a>
                   </template>
                 </el-table-column>
-                <el-table-column
-                    sortable
-                    prop="user.username"
-                    label="User"
-                    min-width="120">
+                <el-table-column sortable prop="user" label="User" min-width="120">
                     <template slot-scope="scope">
-                      {{ scope.row.user.username |filterUsername}}
+                      {{ scope.row.user |filterUsername}}
                   </template>
                   </el-table-column>
-                <el-table-column
-                    sortable
-                    label="Offers"
-                    min-width="100">
+                <el-table-column sortable label="Offers" min-width="100">
                     <template slot-scope="scope">
-                      <span class="badge badge-pill badge-warning" style="width:50px;" v-if="scope.row.offers.length">{{scope.row.offers.length}}</span>
+                      <span class="badge badge-pill badge-warning" style="width:50px;" v-if="scope.row.offers_num">{{scope.row.offers_num}}</span>
                   </template>
                   </el-table-column>
-                <el-table-column
-                    sortable
-                    prop="due_at"
-                    label="Due"
-                    min-width="120"
-                    :formatter="format_due_at">
+                <el-table-column sortable prop="due_at" label="Due" min-width="120" :formatter="format_due_at">
                   </el-table-column>
               </el-table>
               <el-pagination

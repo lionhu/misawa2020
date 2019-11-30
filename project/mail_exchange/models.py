@@ -11,10 +11,15 @@ import logging
 
 logger=logging.getLogger("error_logger")
 
+def uuid_time():
+    now=datetime.datetime.now()
+    nowstr=now.strftime("%Y%m%d%H%M%S")
+    return str(uuid.uuid4())+nowstr
+
 class Order(models.Model):
 
     # Fields
-    slug = models.SlugField(default=uuid.uuid4(),null=True, blank=True)
+    slug = models.SlugField(default=uuid_time,null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     amount = models.IntegerField(default=0)
@@ -137,8 +142,8 @@ class Transaction(models.Model):
 
     slug = models.SlugField(default=uuid.uuid4(),null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
-    order = models.ForeignKey(Order,on_delete=models.CASCADE, related_name="transactions",)
-    offer = models.ForeignKey(Offer,on_delete=models.CASCADE, related_name="transactions",)
+    order = models.OneToOneField(Order,on_delete=models.CASCADE, related_name="transaction",)
+    offer = models.OneToOneField(Offer,on_delete=models.CASCADE, related_name="transaction",)
     status = models.CharField(max_length=10,default="new")
 
     def __str__(self):

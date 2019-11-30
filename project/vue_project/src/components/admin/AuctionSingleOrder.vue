@@ -34,7 +34,7 @@
               <i class="fas fa-exchange-alt"></i>Rate
             </small>
             <div class="font-size-20 text-pink">{{order.rate}}</div>
-            <div class="font-size-20 text-pink">{{order.rate}}</div>
+            <div class="font-size-20 text-pink">{{order.rate}}+{{order.rate_alpha}}</div>
           </li>
 
           <li class="bg-warning" style="padding:5px;">
@@ -45,7 +45,7 @@
             <small>Ask(買い)</small>
             <div class="font-size-20 text-white">{{ order_price |currency}}
             {{order.from_currency=="rmb"?"円":"元"}} <br>
-            {{ order_price |currency}}
+            {{ order.price_alpha |currency}}
             {{order.from_currency=="rmb"?"円":"元"}} 
             </div>
 
@@ -90,18 +90,6 @@
             <el-table
               :data="offers.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               style="width: 100%">
-<!--               <el-table-column
-                  sortable
-                  prop="from_currency"
-                  label="Type"
-                  width="80">
-                  <template slot-scope="props">
-                    <router-link :to="{ name: 'singleorder', params: { slug: props.row.slug }}">
-                        <span class="flag-icon flag-icon-jp" v-if="props.row.from_currency=='jpy'"></span>
-                        <span class="flag-icon flag-icon-cn" v-if="props.row.from_currency=='rmb'"></span>
-                    </router-link>
-                  </template>
-              </el-table-column> -->
               <el-table-column
                 sortable
                 prop="price"
@@ -121,7 +109,7 @@
               </el-table-column>
               <el-table-column
                 sortable
-                prop="follower.username"
+                prop="follower"
                 label="User">
               </el-table-column>
               <el-table-column
@@ -131,6 +119,17 @@
                   width="100"
                   :formatter="format_created">
                 </el-table-column>
+              <el-table-column
+                  label="Created"
+                  width="100">
+                <template slot-scope="scope">
+                  <a href="javascript:void(0)" @click="deleteOffer(scope.row)">
+                    <i class="far fa-trash-alt"></i>
+                  </a>
+                </template>
+
+                </el-table-column>
+            </el-table>
             </el-table>
             <el-pagination
               small
@@ -153,7 +152,7 @@
 
 
   export default {
-    name: 'neworder',
+    name: 'AdminSingleAuctionOrder',
     components:{      
       elTable: Table,
       elTableColumn: TableColumn,
@@ -202,7 +201,7 @@
     mounted(){
       console.log(this.$route.params.slug)
       this.$store.dispatch("orders/getAdminAuctionSingleOrder",this.$route.params.slug).then(res=>{
-        console.log("SingleOrder res")
+        console.log("getAdminAuctionSingleOrder res")
         console.log(res)
         this.order=res.admin_order;
         this.offers=res.admin_offers;
@@ -287,7 +286,8 @@
           })
       },
 
-      async deleteOffer(){
+      async deleteOffer(offer){
+        console.log(offer)
         Swal.fire({
           title: 'Are you sure?',
           text: "You won't be able to revert this!",
@@ -299,7 +299,7 @@
         }).then((result) => {
           if (result.value) {
 
-            this.$store.dispatch("orders/post_deleteOffer",this.hasOffer_id).then(
+            axios.post("/api/auction_offer/AdminDeleteOrder/",{"offer":offer}).then(
               res=>{
                   Swal.fire({
                       "type":"success",

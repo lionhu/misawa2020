@@ -72,7 +72,7 @@ export default {
     },
 
     get_singleorder(slug,cb, errorCb){
-        axios.post('/api/auction_order/get_order_by_slug/',{
+        axios.post('/api/auction_order/getOrderBySlug/',{
             "slug":slug
         })
         .then((res)=>{

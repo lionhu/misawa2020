@@ -4,7 +4,7 @@
       <div class="box-header flexbox flex-justified ">
         <div class="text-left">
           <h4 class="mb-0">
-            <i class="fa fa-user text-success mr-5"></i>{{order.user.username}} </h4>
+            <i class="fa fa-user text-success mr-5"></i>{{order.user}} </h4>
           <small class="text-warning">
             <i class="fas fa-stopwatch"></i> {{deadline}}
           </small>
@@ -148,7 +148,7 @@
 
 
   export default {
-    name: 'neworder',
+    name: 'sigle_auction_order',
     components:{      
       elTable: Table,
       elTableColumn: TableColumn,
@@ -191,6 +191,7 @@
 
       this.$store.dispatch("orders/get_singleorder",this.$route.params.slug).then(res=>{
         console.log("SingleOrder res")
+        console.log(res)
         this.order=res.order;
         this.offers=res.offers;
         this.transaction=res.transaction;
