@@ -3,9 +3,12 @@ export const m = {
   new_order: '新規売り注文',//网易云音乐
   my_transactions: '個人取引履歴',//发现音乐
   order: '売り注文',//我的音乐
-  dsorder: '固定レート売り',//我的音乐
+  dsorder: '固定レート取引',//我的音乐
   offer: '買い注文',//朋友
-  transactions:"売り注文一覧",
+  transactions:"オークション取引一覧",
+  auction:"オークション取引",
+  information:"関連情報",
+  law:"特定商取引法",
 
   amount:"金額",
   amount_jp:"注意：万円単位",

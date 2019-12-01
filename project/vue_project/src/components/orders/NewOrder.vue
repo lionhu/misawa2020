@@ -60,7 +60,7 @@
                       </label>
                       <div class="col-sm-10">
                           <input class="form-control" @blur="confirm_selectDate" type="date" v-model="order.due_at" id="example-date-input">
-                          <p class="help-block">(例：2019-8-29)</p>
+                          <p>*sample: 2019-12-1</p>
                       </div>
                     </div>
                     <div class="form-group">
@@ -120,8 +120,8 @@
           rate:0,
           from_currency:"jpy",
           to_currency:"rmb",
-          due_at:"",
           price:6200,
+          due_at:"",
           user_id:0,
           memo:"....",
           send_notification:false
@@ -133,9 +133,14 @@
       //     return this.$store.state.users.profile;
       // },
     },
+    created(){
+    },
     mounted() {
       this.ME=this.$store.state.users.profile;
       this.order.user_id= this.ME.user.id;
+
+
+
       this.$store.dispatch("system/get_todayrate").then(
         resolve=>{
           this.todayrate=resolve.todayrate

@@ -63,6 +63,15 @@ const router = new Router({
             }
         },
         {
+            path: '/law',
+            name:"law",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("exrate/Law.vue")
+            }
+        },
+        {
             path: '/introduction',
             name:"introduction",
             components:{

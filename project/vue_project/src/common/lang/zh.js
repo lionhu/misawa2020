@@ -6,6 +6,8 @@ export const m = {
   dsorder: '固定汇率交易',//我的音乐
   offer: '拍单',//朋友
   transactions:"市场挂单一览",
+  auction:"拍单交易",
+  information:"其他信息",
 
 　amount:"金额",
   amount_jp:"单位：万日元",

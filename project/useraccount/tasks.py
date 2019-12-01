@@ -71,7 +71,7 @@ def sendPasswordResetEmail(email="test@me.com"):
     url_link="https://www.exrate.world/member/#/resetpassword?token={}".format(token)
 
     logger.error(url_link)
-    html_content = render_to_string('email/password_reset_notification.htm',{'url_link':url_link})
+    html_content = render_to_string('email/password_reset_notification.htm',{'url_link':url_link,"title":"Reset Password"})
     msg = EmailMessage("Password Reset",html_content,settings.DEFAULT_FROM_EMAIL,[email])
     msg.content_subtype = "html" # Main content is now text/html
     msg.send()

@@ -37,7 +37,7 @@
               <i class="fas fa-exchange-alt"></i>
             </small>
             <div class="font-size-20 text-pink">{{order.rate}}</div>
-            <small>Rate</small>
+            <small>{{$t("m.rate")}}</small>
           </li>
 
           <li class="bg-warning">

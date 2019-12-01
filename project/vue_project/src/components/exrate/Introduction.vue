@@ -1,16 +1,63 @@
 <template>
 <div>
-
-Hello Introductiion
-
-<p v-if="$t('m.language')=='jpy'">
-  こんにちは  
-</p>
-
-<p v-if="$t('m.language')=='rmb'">
-  你好
-</p>
-
+    <h3>【特定商取引法に基づく表記】</h3>
+    <table bgcolor="#999999" border="0" cellpadding="9" cellspacing="1" style="font-size:13px;text-align:left">
+        <tr>
+            <th >販売社名</th>
+            <td >日栄株式会社</td>
+        </tr>
+        <tr>
+            <th  >設立年月</th>
+            <td >2019年6月</td>
+        </tr>
+        <tr>
+            <th  >資本金</th>
+            <td >500万円</td>
+        </tr>
+        <tr>
+            <th  >運営統括責任者</th>
+            <td >佐藤　淳一</td>
+        </tr>
+        <tr>
+            <th  >所在地</th>
+            <td >埼玉県さいたま市南区鹿手袋7−19−17</td>
+        </tr>
+        <tr>
+            <th >電話番号</th>
+            <td >048-708-6883</td>
+        </tr>
+        <tr>
+            <th >メールアドレス</th>
+            <td > crs@nichiei.services</td>
+        </tr>
+        <tr>
+            <th >サービスURL</th>
+            <td > https://www.exrate.world</td>
+        </tr>
+        <tr>
+            <th >提供サービス</th>
+            <td >【外貨両替】<br />
+                　インターネットを経由し一般個人顧客に利便性が高い外貨両替マッチングサービスを提供致します。
+                <br>現時点、日本円と中国元のみを取り扱っております。
+            </td>
+        </tr>
+        <tr>
+            <th >お支払い方法</th>
+            <td >クレジットカード
+                <br />銀行振込
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <th >商品引渡し方法</th>
+            <td >当方にて手配後、運送会社による配送</td>
+        </tr>
+        <tr>
+            <th >表現、及びサービスに関する注意書き</th>
+            <td >本商品に示された表現や再現性には個人差があり、
+                <br />必ずしも利益や効果を保証したものではございません。</td>
+        </tr>
+    </table>
 </div>
 </template>
 
@@ -25,220 +72,19 @@ Hello Introductiion
     },
     data () {
       return {
-        ME:{
-          avatar:"",
-          user:{
-            username:"",
-            email:""
-          }
-        },
-        profile:{
-          avatar:"",
-          imageUrl:"",
-          wechat:"",
-          wechatUrl:"",
-          line:"",
-          lineUrl:"",
-          id_image:"",
-          id_imageUrl:"",
-
-          postcode:"",
-          address1:"",
-          address2:"",
-          telephone:"08043608496",
-
-          father:{
-            profile:{
-              avatar:""
-            }
-          },
-          grandfather:{
-            profile:{
-              avatar:""
-            }
-          },
-          partner:{
-            profile:{
-              avatar:""
-            }
-          }
-        },
-        introcode_url:""
       }
-    },
-    computed:{
-      token(){
-              return this.$store.state.system.token;
-      },
-      // myprofile(){
-      //     return this.$store.state.users.profile;
-      // },
-    },
-
-    mounted() {
-
-
-    },
-    methods: {
-        utf16to8(str) { //二维码编码前把字符串转换成UTF-8
-            var out, i, len, c; 
-                out = ""; 
-                len = str.length; 
-            for(i = 0; i < len; i++) { 
-                c = str.charCodeAt(i); 
-                if ((c >= 0x0001) && (c <= 0x007F)) { 
-                    out += str.charAt(i); 
-                } else if (c > 0x07FF) { 
-                    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F)); 
-                    out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F)); 
-                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
-                } else { 
-                    out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F)); 
-                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
-                } 
-            } 
-            return out; 
-        },
-      selectedFile(e){
-        e.preventDefault();
-        // console.log(e.target.name)
-        let files = e.target.files;
-        let file = files[0];
-
-        const isJPGPNG = file.type === 'image/jpeg' || file.type ==='image/png';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPGPNG) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: '上传头像图片只能是 JPG 格式!'
-            })
-        }
-        if (!isLt2M) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: '上传头像图片大小不能超过 2MB!'
-            })
-        }
-
-        if (isJPGPNG && isLt2M){
-          switch(e.target.name){
-            case "wechat":          
-                this.profile.wechat = file;
-                this.profile.wechatUrl = URL.createObjectURL(this.profile.wechat);
-                break;
-            case "line":          
-                this.profile.line = file;
-                this.profile.lineUrl = URL.createObjectURL(this.profile.line);
-                break;
-            case "avatar":          
-                this.profile.avatar = file;
-                this.profile.imageUrl = URL.createObjectURL(this.profile.avatar);
-                break;
-            case "id_image":          
-                this.profile.id_image = file;
-                this.profile.id_imageUrl = URL.createObjectURL(this.profile.id_image);
-                // console.log(this.profile.id_image)
-                // console.log(this.profile.id_imageUrl)
-                break;
-          }
-        }    
-      },
-      submit_update_profile(){
-        let formData = new FormData();
-        if (this.profile.avatar){
-          formData.append('avatar', this.profile.avatar)
-        }
-        if (this.profile.id_image){
-          formData.append('id_image', this.profile.id_image)
-        }
-
-        console.log(this.ME.user.id)
-        if(this.profile.avatar !="" || this.profile.id_image!=""){
-            this.$store.dispatch("users/upload_mainImage",{id:this.ME.user.id,formData:formData});
-            this.ME=this.$store.state.users.profile;
-            Swal.fire({
-              title: 'Success!',
-              text: 'Upload main successfully',
-              type: 'success',
-              confirmButtonText: 'OK'
-            })
-        }else{
-          Swal.fire({
-              title: 'Error!',
-              text: 'Nothing changed',
-              type: 'error',
-              confirmButtonText: 'OK'
-            })
-        }
-
-      },
-      submit_update_social(){
-        let formData = new FormData();
-        if (this.profile.line){
-          formData.append('line', this.profile.line)
-        }
-        if (this.profile.wechat){
-          formData.append('wechat', this.profile.wechat)
-        }
-
-        if(this.profile.line!="" || this.profile.wechat!=""){
-            this.$store.dispatch("users/upload_mainImage",formData);
-            this.ME=this.$store.state.users.profile;
-            Swal.fire({
-              title: 'Success!',
-              text: 'Upload main successfully',
-              type: 'success',
-              confirmButtonText: 'OK'
-            })
-        }else{
-          Swal.fire({
-              title: 'Error!',
-              text: 'Nothing changed',
-              type: 'error',
-              confirmButtonText: 'OK'
-            })
-        }
-
-      },
     }
 };
 
 </script>
 
 <style lang="scss">
-    #app {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
+table tr th{
+  width:110px;
+  background-color:rgb(47,47,47);
+}
 
-        h1 {
-            color: #CC3333;
-        }
-    }
-     .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-    border: 1px dashed #d9d9d9;
-    border-color: #409EFF;
-  }
+table tr td{
+  background-color:rgb(47,47,47);
+}
 </style>

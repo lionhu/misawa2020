@@ -747,8 +747,8 @@ a:active, a:focus, a:hover {
     position: relative!important;
     float: right;
     width: auto!important;
-    left: 180px!important;
-    top: -40px!important;
+    left: 0px!important;
+    /*top: -40px!important;*/
     z-index: 900;
 }
 .sidebar-mini:not(.sidebar-mini-expand-feature).sidebar-collapse .sidebar-menu>li.user-profile:hover>a>.pull-right-container {

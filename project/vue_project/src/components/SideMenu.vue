@@ -35,42 +35,13 @@
         </li>
         <li class="header nav-small-cap">
           <router-link class="text-center font-weight-600" :to="{ name: 'newdsorder'}" style="background-color:#964848">
-            <i class="fa fa-legal" aria-hidden="true"></i>Fixed Rate</router-link>
+            <i class="fa fa-legal" aria-hidden="true"></i>{{$t("m.dsorder")}}</router-link>
         </li>
         <li class="header nav-small-cap">PERSONAL</li>
         <li class="">
           <router-link :to="{ name: 'home', params: { }}">
             <i class="icon-home"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right"></i>
-            </span>
           </router-link>
-        </li>
-        <li>
-          <a href="/exrate/#/order/list">
-            <i class="icon-refresh"></i> <span v-text="$t('m.transactions')"></span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right"></i>
-            </span>
-          </a>
-<!--           <router-link :to="{ name: 'orderlist', params: { }}">
-            <i class="icon-refresh"></i> <span>Transactions</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right"></i>
-            </span>
-          </router-link> -->
-        </li>
-        <li>
-
-          <a href="/exrate/#/order/new">
-          <!-- <router-link :to="{ name: 'neworder', params: { }}"> -->
-            <i class="icon-equalizer"></i>
-            <span v-text="$t('m.new_order')"></span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-right pull-right"></i>
-            </span>
-          <!-- </router-link> -->
-          </a>
         </li>
         <li class="treeview">
           <a href="#">
@@ -89,16 +60,40 @@
             </li>
             <li><router-link :to="{ name: 'myofferlist', params: { }}">{{$t('m.offer')}}</router-link></li>
           </ul>
+        </li>        
+
+        <li class="header nav-small-cap"><i class="fas fa-balance-scale icon-warning"></i>{{$t("m.auction")}}</li>
+        <li>
+          <a href="/exrate/#/order/list">
+            <i class="icon-refresh"></i> <span v-text="$t('m.transactions')"></span>
+          </a>
+        </li>
+        <li>
+
+          <a href="/exrate/#/order/new">
+            <i class="icon-equalizer"></i>
+            <span v-text="$t('m.new_order')"></span>
+          </a>
         </li>
 
-        <li>
-          <router-link :to="{ name: 'introduction', params: { }}">
-            <i class="icon-equalizer"></i>
-            <span v-text="$t('m.trade_introduction')"></span>
+
+        <li class="header nav-small-cap"></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fas fa-info-circle"></i>
+            <span v-text="$t('m.information')"></span>
             <span class="pull-right-container">
               <i class="fa fa-angle-right pull-right"></i>
             </span>
-          </router-link>
+          </a>
+          <ul class="treeview-menu" style="display: none;">
+            <li>
+              <router-link :to="{ name: 'law', params: { }}">{{$t('m.law')}}</router-link>
+            </li>
+<!--             <li>
+              <router-link :to="{ name: 'introduction', params: { }}">introduction</router-link>
+            </li> -->
+          </ul>
         </li>
 
       </ul>
@@ -179,4 +174,7 @@
 </script>
 
 <style lang="scss">
+.icon-warning{
+  color:rgb(251,174,28)
+}
 </style>

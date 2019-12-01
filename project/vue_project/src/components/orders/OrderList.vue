@@ -34,7 +34,7 @@
       <div class="col-12">
         <div class="box box-inverse box-dark">
             <div class="box-header with-border">
-              <h3 class="box-title">Recent Transactions</h3>
+              <h3 class="box-title">{{$t("m.transactions")}}</h3>
             </div>
             <div class="box-body">
               <el-table

@@ -22,6 +22,7 @@
   "../../static/bundles/auth-shop-PasswordReset-vue.js": "../../static/bundles/auth-shop-PasswordReset-vue.js",
   "../../static/bundles/auth-shop-Signup-vue.js": "../../static/bundles/auth-shop-Signup-vue.js",
   "../../static/bundles/exrate-Introduction-vue.js": "../../static/bundles/exrate-Introduction-vue.js",
+  "../../static/bundles/exrate-Law-vue.js": "../../static/bundles/exrate-Law-vue.js",
   "../../static/bundles/home-vue.js": "../../static/bundles/home-vue.js",
   "../../static/bundles/maincontent-vue.js": "../../static/bundles/maincontent-vue.js",
   "../../static/bundles/orders-NewDSOrder-vue.js": "../../static/bundles/orders-NewDSOrder-vue.js",

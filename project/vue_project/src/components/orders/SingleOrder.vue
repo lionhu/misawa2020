@@ -9,7 +9,7 @@
     <div class="box box-inverse box-dark">
           <div class="box-header with-border">
             <div class="ribbon ribbon-right bg-warning">{{offers.length}}</div>
-            <h3 class="box-title">Offers</h3>
+            <h3 class="box-title">{{$t("m.offer")}}</h3>
             <h6 class="text-warning"><i class="fab fa-first-order fa-spin"></i> {{order.slug}} </h6>
           </div>
           <div class="box-body">
