@@ -1,5 +1,4 @@
 <template>
-<div>
   <div class="col-lg-4 mb-4">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
@@ -106,7 +105,6 @@
   </article>
  -->
 
-</div>
 
 
 </template>
