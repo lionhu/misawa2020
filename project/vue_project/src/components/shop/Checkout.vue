@@ -260,15 +260,15 @@
     data () {
       return {
         address:{
-          first_name:"HU",
-          last_name:"Haiguang",
-          postcode:"3360031",
+          first_name:"",
+          last_name:"",
+          postcode:"",
           state:"",
           city:"",
-          email:"huhaiguang@me.com",
+          email:"",
           street_address1:"",
           street_address2:"street_address2",
-          phone:"13816321110",
+          phone:"",
         },
         note:"note added",
         existed_customer:false,

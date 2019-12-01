@@ -21,6 +21,8 @@
   "../../static/bundles/auth-shop-Login-vue.js": "../../static/bundles/auth-shop-Login-vue.js",
   "../../static/bundles/auth-shop-PasswordReset-vue.js": "../../static/bundles/auth-shop-PasswordReset-vue.js",
   "../../static/bundles/auth-shop-Signup-vue.js": "../../static/bundles/auth-shop-Signup-vue.js",
+  "../../static/bundles/exrate-Contact-vue.js": "../../static/bundles/exrate-Contact-vue.js",
+  "../../static/bundles/exrate-FAQ-vue.js": "../../static/bundles/exrate-FAQ-vue.js",
   "../../static/bundles/exrate-Introduction-vue.js": "../../static/bundles/exrate-Introduction-vue.js",
   "../../static/bundles/exrate-Law-vue.js": "../../static/bundles/exrate-Law-vue.js",
   "../../static/bundles/home-vue.js": "../../static/bundles/home-vue.js",

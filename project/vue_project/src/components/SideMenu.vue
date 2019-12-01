@@ -90,9 +90,9 @@
             <li>
               <router-link :to="{ name: 'law', params: { }}">{{$t('m.law')}}</router-link>
             </li>
-<!--             <li>
-              <router-link :to="{ name: 'introduction', params: { }}">introduction</router-link>
-            </li> -->
+            <li>
+              <router-link :to="{ name: 'contact', params: { }}">Contact Us</router-link>
+            </li>
           </ul>
         </li>
 

@@ -72,6 +72,24 @@ const router = new Router({
             }
         },
         {
+            path: '/faq',
+            name:"faq",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("exrate/FAQ.vue")
+            }
+        },
+        {
+            path: '/contact',
+            name:"contact",
+            components:{
+                topmenu:loadView("TopMenu.vue"),
+                sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("exrate/Contact.vue")
+            }
+        },
+        {
             path: '/introduction',
             name:"introduction",
             components:{
