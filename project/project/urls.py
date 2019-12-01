@@ -68,6 +68,7 @@ urlpatterns = [
     path('exrate/', TemplateView.as_view(template_name="vue.html")),
     path('superadmin/', TemplateView.as_view(template_name="vue_admin.html")),
     path('shoptop/', TemplateView.as_view(template_name="shop_top.html")),
+    path('payment/', TemplateView.as_view(template_name="shop_payment.html")),
     path('shop/', TemplateView.as_view(template_name="shop.html")),
     path('chat/', include('chat.urls')),
 

@@ -496,41 +496,94 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
 
     @action(detail=False,methods=["post"])
     def getPayQR(self,request):
-        order_slug=request.data.get("order_slug",None)
-        _brandType=request.data.get("brandType",None)
-        brandType = "01" if _brandType=="AliPay" else "02"
 
-        order=get_object_or_404(Order,slug=order_slug)
-
-        now = datetime.now()
-        dt_str = now.strftime('%H:%M:%S')
-
-        clientOrderNo=str(request.user.id)+"-"+str(order.id)+"-"+dt_str
-
-        re=ColoPayApiRequest()
-        signature=re.generateSignature(brandType,clientOrderNo,order.total,order.id)
-
-        logger.error(signature)
-        res=re.post()
-        jss=json.loads(res.text)
-
-        if jss["resultType"]=="SUCCESS":
+        try:
+            order_slug=request.data.get("order_slug",None)
+            brandType=request.data.get("brandType",None)
+        except KeyError:
             return Response({
-                "result":True,
-                "clientOrderNo":clientOrderNo,
-                "QRurl":jss["result"]["codeUrl"],
-                "brandType":jss["result"]["brandType"],
-                "message":"successfully fetch QR from ColoPay GW"
+                "result":False,
+                "QRurl":"",
+                "brandType":brandType,
+                "message":"ERROR KeyError"
             }, status=status.HTTP_200_OK)
 
-        return Response({
-            "result":False,
-            "clientOrderNo":clientOrderNo,
-            "QRurl":"",
-            "brandType":brandType,
-            "message":"ERROR when fetching QR from ColoPay GW",
-            "error":res.text
-        }, status=status.HTTP_200_OK)
+
+        now = datetime.now()
+
+        try:
+            order=Order.objects.get(slug=order_slug)
+            paymemocode = now.strftime('%Y%m%d-')+str(order.id)
+
+            if brandType == "CARD":
+                return Response({
+                    "result":True,
+                    "brandType":brandType,
+                    "message":"You will receive invoice later. <br>Check your email <br> %s"%(order.user.email)
+                }, status=status.HTTP_200_OK)
+            elif brandType == "WechatPay":
+                payQR = "/static/img/exrate_wechat.jpg"
+            elif brandType == "AliPay":
+                payQR = "/static/img/AliPay.png"
+            elif brandType == "LINE":
+                payQR = "/static/img/LINE.png"
+
+
+            return Response({
+                "result":True,
+                "QRurl":payQR,
+                "paymemocode":paymemocode,
+                "brandType":brandType,
+                "message":"Successfully fetch PayQR"
+            }, status=status.HTTP_200_OK)
+
+        except Order.DoesNotExist:
+            logger.error("ERROR DoesNotExist")
+            return Response({
+                "result":False,
+                "brandType":brandType,
+                "message":"Order does not exist"
+            }, status=status.HTTP_200_OK)
+
+
+
+    # @action(detail=False,methods=["post"])
+    # def getPayQR(self,request):
+    #     order_slug=request.data.get("order_slug",None)
+    #     _brandType=request.data.get("brandType",None)
+    #     brandType = "01" if _brandType=="AliPay" else "02"
+
+    #     order=get_object_or_404(Order,slug=order_slug)
+
+    #     now = datetime.now()
+    #     dt_str = now.strftime('%H:%M:%S')
+
+    #     clientOrderNo=str(request.user.id)+"-"+str(order.id)+"-"+dt_str
+
+    #     re=ColoPayApiRequest()
+    #     signature=re.generateSignature(brandType,clientOrderNo,order.total,order.id)
+
+    #     logger.error(signature)
+    #     res=re.post()
+    #     jss=json.loads(res.text)
+
+    #     if jss["resultType"]=="SUCCESS":
+    #         return Response({
+    #             "result":True,
+    #             "clientOrderNo":clientOrderNo,
+    #             "QRurl":jss["result"]["codeUrl"],
+    #             "brandType":jss["result"]["brandType"],
+    #             "message":"successfully fetch QR from ColoPay GW"
+    #         }, status=status.HTTP_200_OK)
+
+    #     return Response({
+    #         "result":False,
+    #         "clientOrderNo":clientOrderNo,
+    #         "QRurl":"",
+    #         "brandType":brandType,
+    #         "message":"ERROR when fetching QR from ColoPay GW",
+    #         "error":res.text
+    #     }, status=status.HTTP_200_OK)
 
 
 

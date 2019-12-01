@@ -1,4 +1,11 @@
-<template>
+{% extends 'shop_base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+
+{% load render_bundle from webpack_loader%}
+
+{% block maincontent %}
 
 <div style="margin-top:100px;">
     <div id="form-container">
@@ -10,28 +17,9 @@
    </div> <!-- end #form-container --> 
 </div>
 
-</template>
-
 <script>
-  import {mapActions, mapState,mapGetters} from "vuex"
-
-  import {setToken,getToken,showNotification,FetchAddressByPostcode} from "../../lib/util.js"
-  import Swal from 'sweetalert2'
-
-  export default {
-    name: 'payment',
-    data () {
-      return {
-        paymentForm:null,
-      }
-    },
-  computed: {
-    cart(){
-      return this.$store.state.lotteryshop.cart
-    },
-  },
-  mounted() {
-       this.paymentForm = new SqPaymentForm({
+	
+       paymentForm = new SqPaymentForm({
        // Initialize the payment form elements
        
        //TODO: Replace with your sandbox application ID
@@ -84,19 +72,16 @@
            }
        }
      });
-      this.paymentForm.build();
-       function onGetCardNonce(event) {
+      paymentForm.build();
+
+
+      function onGetCardNonce(event) {
          event.preventDefault();
          paymentForm.requestCardNonce();
      }
-  },
-  methods: {
-    //   onGetCardNonce:function(event) {
-    //      // Don't submit the form until SqPaymentForm returns with a nonce
-    //      event.preventDefault();
-    //      // Request a nonce from the SqPaymentForm object
-    //      this.paymentForm.requestCardNonce();
-    // }
-  }
-};
 </script>
+
+{% endblock %}
+
+
+

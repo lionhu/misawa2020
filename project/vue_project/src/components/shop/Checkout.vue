@@ -11,9 +11,15 @@
                 </a>
                 <a href="javascript:void(0);"  @click="PayBill(order_slug,'AliPay')">
                     <i class="i-circled i-light alipay_color fab fa-alipay"></i>
+                </a>                
+                <a href="javascript:void(0);"  @click="PayBill(order_slug,'LINE')">
+                    <i class="i-circled i-light wechat_color fab fa-line"></i>
                 </a>
                 <a href="javascript:void(0);"  @click="PayBill(order_slug,'CPM')">
                     <i class="i-circled i-light fas fa-qrcode"></i>
+                </a>
+                <a href="javascript:void(0);"  @click="PayBill(order_slug,'CARD')">
+                    <i class="i-circled i-light credit_color fas fa-credit-card"></i>
                 </a>
         </div>
     </div>
@@ -502,6 +508,21 @@
         return out; 
     },
     async PayBill(order_slug,payment){
+        var icon_pay="";
+        switch (payment){
+            case "WechatPay":
+                icon_pay= "wechat_color fab fa-weixin";
+                break;
+            case "AliPay":
+                icon_pay = "alipay_color fab fa-alipay";
+                break;
+            case "LINE":
+                icon_pay = "wechat_color fab fa-line";
+                break;
+            case "CARD":
+                icon_pay = "credit_color fas fa-credit-card";
+        }
+
         if(payment=="CPM"){
                 const { value: file } = await Swal.fire({
                   title: 'Select image',
@@ -548,54 +569,70 @@
                   reader.readAsDataURL(file)
                 }
         }
-        if (payment=="WechatPay" || payment =="AliPay") {
-            const icon_pay= payment=="WechatPay"? "wechat_color fab fa-weixin":"alipay_color fab fa-alipay"
 
+        Swal.fire({
+          title: '<i class="i-circled i-light'+icon_pay+'"></i>',
+          showCancelButton: true,
+          confirmButtonText: 'Go to Pay',
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            return axios.post(`/api/shop_order/getPayQR/`,{
+                "order_slug": order_slug,
+                "brandType": payment
+            }).then(response => {
+                if (!response.data.result) {
+                  throw new Error(response.statusText)
+                }
+                return response.data
+              })
+              .catch(error => {
+                Swal.showValidationMessage(
+                  `Request failed: ${error}`
+                )
+              })
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        })
+        .then((result) => {
+            console.log(result)
+            if(result.value.result){
+                if(result.value.brandType =="CARD"){
+                    Swal.fire({
+                      title: '<i class="i-circled i-light wechat_color fas fa-envelope"></i>',
+                      html: result.value.message,
+                    })
+                }else{
+                    Swal.fire({
+                      title: '<i class="i-circled '+icon_pay+'"></i>',
+                      html: 'PayCode: '+result.value.paymemocode,
+                      imageUrl: result.value.QRurl,
+                      imageWidth: 320,
+                      imageHeight: 320,
+                    })
+                }
 
-            Swal.fire({
-              title: '<i class="i-circled i-light'+icon_pay+'"></i>',
-              showCancelButton: true,
-              confirmButtonText: 'Go to Pay',
-              showLoaderOnConfirm: true,
-              preConfirm: () => {
-                return axios.post(`/api/shop_order/getPayQR/`,{
-                    "order_slug": order_slug,
-                    "brandType": payment
-                }).then(response => {
-                    if (!response.data.result) {
-                      throw new Error(response.statusText)
-                    }
-                    return response.data
-                  })
-                  .catch(error => {
-                    Swal.showValidationMessage(
-                      `Request failed: ${error}`
-                    )
-                  })
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-              if (result.value.QRurl) {
-                Swal.fire({
-                  title: '<i class="i-circled '+icon_pay+'"></i>',
-                  html: '<div id="paymentQRCode"></div>',
-                  allowOutsideClick: () => false
-                })
-                $("#paymentQRCode").qrcode({
-                    render:"canvas",
-                    width: 320,//宽度
-                    height: 320,//高度
-                    correctLevel:3,
-                    text: this.utf16to8(result.value.QRurl),
-                });
-
-              }
-            })
-        }
+            }
+          // if (result.value.QRurl) {
+          //   Swal.fire({
+          //     title: '<i class="i-circled '+icon_pay+'"></i>',
+          //     html: '<div id="paymentQRCode"></div>',
+          //     allowOutsideClick: () => false
+          //   })
+          //   $("#paymentQRCode").qrcode({
+          //       render:"canvas",
+          //       width: 320,//宽度
+          //       height: 320,//高度
+          //       correctLevel:3,
+          //       text: this.utf16to8(result.value.QRurl),
+          //   });
+        })
     }
   }
 };
 </script>
 
 <style lang="scss">
+.credit_color{
+    color:#f08200;
+}
 </style>

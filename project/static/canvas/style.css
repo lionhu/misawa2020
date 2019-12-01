@@ -10890,7 +10890,8 @@ blockquote.float-right {
 	height: 100%;
 	content: "";
 	display: block;
-	opacity: 0.6;
+	opacity: 0;
+	/*opacity: 0.6;*/
 	background-color: #000;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;

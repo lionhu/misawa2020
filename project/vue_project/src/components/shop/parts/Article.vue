@@ -1,7 +1,41 @@
 <template>
 <div>
+  <div class="col-lg-4 mb-4">
+    <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
+      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
+    </div>
+    <div class="flip-card text-center">
+      <div class="flip-card-front dark" :style="'background-image: url('+product.article.postimage+')'">
+<!--         <div class="flip-card-inner">
+          <div class="card nobg noborder text-center">
+            <div class="card-body">
+              <i class="icon-line2-camera h1"></i>
+              <h3 class="card-title">Special title treatment</h3>
+              <p class="card-text t400">With supporting text below as a natural lead-in to additional content.</p>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="flip-card-back bg-danger no-after"  :style="'background-image: url('+product.article.postimage+')'">
+        <div class="flip-card-inner back-inner">
+          <p class="mb-2 text-white">{{product.name}} <br>
+          <span class="product_price">
+            <!-- <del>{{product.open_price|currency_jpy}}</del> -->
+            <ins>{{product.price|currency_jpy}}</ins>
+          </span>
+          </p>
+          <div class="text-center">
+            <a :href="product.avatar" class="left-icon" data-lightbox="image"><i class="i-circled i-light  icon-line-plus"></i></a>
+            <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon"><i class="i-circled i-light icon-shopping-cart"></i></a>
+        </div>
+            
+          </div>
+      </div>
+    </div>
+  </div>
 
 
+<!-- 
   <article class="portfolio-item pf-media pf-icons" data-loader="/static/canvas/include/ajax/portfolio-ajax-image.php" v-if="product.article.mediatype=='standard'">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
@@ -70,15 +104,7 @@
     </div>    
     <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
   </article>
-
-<!-- <div class="demo-image__preview">
-  <el-image 
-    :name="product.name"
-    style="width: 100px; height: 100px"
-    :src="url" 
-    :preview-src-list="srcList">
-  </el-image>
-</div> -->
+ -->
 
 </div>
 
@@ -345,23 +371,8 @@
 </script>
 
 <style lang="scss">
-.soldout{
-  background-color:red;
-  color:white-space
-}
-.message{
-  text-align:left;
-  color:black!important;
-}
-.title{
-  display:inline-block;
-  width:150px;
-  font-size:16px;
-  font-weight:700;
-  text-align:right;
-}
-.message_content{
-  display:inline-block;
-  margin-left: 10px;
+.back-inner{
+  opacity: 0.8;
+  background-color: #000;
 }
 </style>
