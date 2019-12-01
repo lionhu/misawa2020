@@ -8,6 +8,7 @@ export const m = {
   transactions:"市场挂单一览",
   auction:"拍单交易",
   information:"其他信息",
+  law:"特定商交易法",
 
 　amount:"金额",
   amount_jp:"单位：万日元",
