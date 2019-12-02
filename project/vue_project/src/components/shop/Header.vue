@@ -73,7 +73,12 @@
             <!-- Top Search
             ============================================= -->
             <div id="top-account">
-              <a href="javascript:void(0);" @click="showLogin"  v-if="ME.username ==undefined">
+<!--               <a href="javascript:void(0);" @click="showLogin"  v-if="ME.username ==undefined">
+                <span class="d-sm-inline-block font-primary t500"><i class="icon-line2-user position-relative" ></i></span>
+              </a>
+               -->
+
+              <a href="/member/#/login?callback=shop"   v-if="ME.username ==undefined">
                 <span class="d-sm-inline-block font-primary t500"><i class="icon-line2-user position-relative" ></i></span>
               </a>
               <a href="javascript:void(0);" @click="Logout" v-if="ME.username !=undefined">
@@ -163,6 +168,7 @@
               '<input id="swal_username" placeholder="username" class="swal2-input" value="root">' +
               '<input id="swal_password" type="password" placeholder="password" class="swal2-input" value="Hisshghu3500">',
             focusConfirm: false,
+            footer: '<a href="/member/#/login?callback=shop">Sign Up</a>',
             // showCancelButton: true,
             // confirmButtonText: 'Login!',
             // cancelButtonText: 'Logout!',

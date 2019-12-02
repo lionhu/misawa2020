@@ -20,25 +20,17 @@
                 <div class="col-12">
                   <div class="media-list media-list-hover media-list-divided w-p100 mt-30">
                     <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">My Profile</span>
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title"><router-link :to="{ name: 'mydsorderlist', params: {type:'userdsorderlist' }}">{{$t('m.dsorder')}}</router-link></span>
                     </h4>
                     <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Invests</span>
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">
+                        <router-link :to="{ name: 'myorderlist', params: {type:'userorderlist' }}">{{$t('m.order')}}</router-link>
+                      </span>
                     </h4>
                     <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">The Wallet</span>
-                    </h4>
-                    <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Deposit</span>
-                    </h4>
-                    <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Reports</span>
-                    </h4>
-                    <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Services</span>
-                    </h4>
-                    <h4 class="media media-single p-15">
-                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">Support</span>
+                      <i class="fa fa-arrow-circle-o-right mr-10"></i><span class="title">
+                        <router-link :to="{ name: 'myofferlist', params: { }}">{{$t('m.offer')}}</router-link>
+                      </span>
                     </h4>
                   </div>
                 </div>

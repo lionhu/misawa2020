@@ -3,19 +3,25 @@
 
   <div class="postcontent nobottommargin col_last">
     
-          <div id="portfolio-ajax-wrap">
+
+    <div class="row grid-container" data-layout="masonry" style="overflow: visible">
+        <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
+    </div>
+
+
+
+
+<!--           <div id="portfolio-ajax-wrap">
             <div id="portfolio-ajax-container"></div>
           </div>
 
           <div id="portfolio-ajax-loader"><img src="/static/canvas/images/preloader-dark.gif" alt="Preloader"></div>
 
-          <!-- Portfolio Items
-          ============================================= -->
       <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-ajax clearfix">
 
         <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
 
-      </div><!-- #portfolio end -->
+      </div> -->
 
 
   </div>
@@ -23,8 +29,6 @@
 
 
 
-  <!-- Sidebar
-  ============================================= -->
   <div class="sidebar nobottommargin">
     <div class="sidebar-widgets-wrap">
 
@@ -41,20 +45,8 @@
 
       </div>
 
-<!--       <div class="widget widget-filter-links clearfix">
-
-        <h4>Sort By</h4>
-        <ul class="shop-sorting">
-          <li class="widget-filter-reset active-filter"><a href="#" data-sort-by="original-order">Clear</a></li>
-          <li><a href="#" data-sort-by="name">Name</a></li>
-          <li><a href="#" data-sort-by="price_lh">Price: Low to High</a></li>
-          <li><a href="#" data-sort-by="price_hl">Price: High to Low</a></li>
-        </ul>
-
-      </div> -->
-
     </div>
-  </div><!-- .sidebar end -->
+  </div>
 
 </div>
 </template>

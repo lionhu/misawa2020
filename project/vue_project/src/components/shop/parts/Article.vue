@@ -1,7 +1,7 @@
 <template>
-<!--   <div class="col-lg-4 mb-4">
-    <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
-      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
+  <div class="col-lg-4 mb-4">
+    <div class="ribbon ribbon-bookmark bg-secondary" style="padding: 0 5px!important;" v-if="product.hasGroupon">
+      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="icon-thumbs-up"></i></a>
     </div>
     <div class="flip-card text-center">
       <div class="flip-card-front dark" :style="'background-image: url('+product.article.postimage+')'">
@@ -15,17 +15,17 @@
           </span>
           </p>
           <div class="text-center">
-            <a :href="product.avatar" class="left-icon" data-lightbox="image"><i class="i-circled i-light  icon-line-plus"></i></a>
-            <a href="javascript:void(0);"  @click="addProductToCart(product.slug)" class="right-icon"><i class="i-circled i-light icon-shopping-cart"></i></a>
+            <a :href="product.avatar" data-lightbox="image"><i class=" icon-line-plus"></i></a>
+            <a href="javascript:void(0);"  @click="addProductToCart(product.slug)"><i class="icon-shopping-cart"></i></a>
         </div>
             
           </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
 
-<div>
+<!-- <div>
   <article class="portfolio-item pf-media pf-icons" data-loader="/static/canvas/include/ajax/portfolio-ajax-image.php" v-if="product.article.mediatype=='standard'">
     <div class="ribbon ribbon-bookmark bg-secondary" v-if="product.hasGroupon">
       <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fas fa-bullhorn"></i></a>
@@ -97,7 +97,7 @@
 
 
   
-</div>
+</div> -->
 
 
 </template>

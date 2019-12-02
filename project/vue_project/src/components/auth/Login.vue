@@ -64,7 +64,8 @@
     data () {
       return {
         username:"",
-        password:""
+        password:"",
+        callback:""
       }
     },
     computed:{
@@ -72,8 +73,8 @@
       //     return this.$store.state.users.profile;
       // },
     },
-    created() {
-
+    mounted() {
+      this.callback=this.$route.query.callback;
     },
     methods: {
       loadProfile(){
@@ -96,12 +97,16 @@
               this.$store.dispatch("users/get_myprofile").then(
                 resolve=>{
                     this.$store.dispatch("system/get_systemEnvs")
-                    // this.$router.push("/exrate/")
-                    if(resolve.membership=="ADMIN"){
-                      window.location.href="/superadmin/"
+                    if(this.callback !=""){
+                      window.location.href="/shop/#/";
                     }else{
-                      window.location.href="/exrate/"
+                      if(resolve.membership=="ADMIN"){
+                        window.location.href="/superadmin/"
+                      }else{
+                        window.location.href="/exrate/"
+                      }
                     }
+
                 },rejecte=>{});
 
             })

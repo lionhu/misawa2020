@@ -1547,7 +1547,7 @@ body #side-panel.dark #side-panel-trigger-close a {
 	border-color: #a94442;
 }
 
-.dark .card { background-color: rgba(0,0,0,0.2); }
+.dark .card { background-color: rgba(12, 12, 12, 0.55)!important; }
 
 .dark .card-footer {
 	background-color: rgba(255,255,255,0.1);
