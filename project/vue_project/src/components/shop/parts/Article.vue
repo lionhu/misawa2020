@@ -1,28 +1,35 @@
 <template>
-  <div class="col-lg-4 mb-4">
+<div class="col-lg-4 mb-4">
     <div class="ribbon ribbon-bookmark bg-secondary" style="padding: 0 5px!important;" v-if="product.hasGroupon">
-      <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="icon-thumbs-up"></i></a>
+        <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="icon-thumbs-up"></i></a>
     </div>
     <div class="flip-card text-center">
-      <div class="flip-card-front dark" :style="'background-image: url('+product.article.postimage+')'">
+        <div class="flip-card-front dark" :style="'background-image: url('+product.article.postimage+')'">
 
-      </div>
-      <div class="flip-card-back bg-danger no-after"  :style="'background-image: url('+product.article.postimage+')'">
-        <div class="flip-card-inner back-inner">
-          <p class="mb-2 text-white">{{product.name}} <br>
-          <span class="product_price">
+        </div>
+        <div class="flip-card-back bg-danger no-after" :style="'background-image: url('+product.article.postimage+')'">
+            <div class="flip-card-inner back-inner">
+                <p class="mb-2 text-white">{{product.name}}
+                    <br>
+                    <span class="product_price">
             <ins>{{product.price|currency_jpy}}</ins>
           </span>
-          </p>
-          <div class="text-center">
-            <a :href="product.avatar" data-lightbox="image"><i class=" icon-line-plus"></i></a>
-            <a href="javascript:void(0);"  @click="addProductToCart(product.slug)"><i class="icon-shopping-cart"></i></a>
+                </p>
+                <div class="text-center">
+                    <a :href="product.avatar" data-lightbox="image"><i class=" icon-line-plus"></i></a>
+                    <a href="javascript:void(0);" @click="addProductToCart(product.slug)"><i class="icon-shopping-cart"></i></a>
+                </div>
+
+            </div>
         </div>
-            
-          </div>
-      </div>
     </div>
-  </div>
+    <div class="product-desc">
+        <div class="product-title">
+            <h3><a href="#">{{product.name}}</a></h3></div>
+        <div class="product-price">{{product.open_price|currency_jpy}}</del><ins>{{product.price|currency_jpy}}</ins></div>
+        <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
+    </div>
+</div>
 
 
 <!-- <div>
