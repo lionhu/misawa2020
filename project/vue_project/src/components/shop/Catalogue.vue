@@ -8,26 +8,7 @@
         <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
     </div>
 
-
-
-
-<!--           <div id="portfolio-ajax-wrap">
-            <div id="portfolio-ajax-container"></div>
-          </div>
-
-          <div id="portfolio-ajax-loader"><img src="/static/canvas/images/preloader-dark.gif" alt="Preloader"></div>
-
-      <div id="portfolio" class="portfolio grid-container portfolio-nomargin portfolio-ajax clearfix">
-
-        <Article v-for="product in catalogue_products" :product="product" :key="product.slug"></Article>
-
-      </div> -->
-
-
   </div>
-
-
-
 
   <div class="sidebar nobottommargin">
     <div class="sidebar-widgets-wrap">

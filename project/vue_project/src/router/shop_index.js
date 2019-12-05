@@ -66,6 +66,13 @@ const router = new Router({
             }
         },
         {
+            path: '/product_article/:slug',
+            name:"product_article",
+            components:{
+                maincontent:loadView("shop/parts/ArticleProduct.vue")
+            }
+        },
+        {
             path: '/login',
             name:"login",
             components:{
