@@ -39,11 +39,6 @@
         </div>
         
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
-        <div class="style-msg infomsg"  v-if="product.hasGroupon">
-              <div class="sb-msg">
-                 This alert 
-              </div>
-          </div>
     </div>
 </div>
 
