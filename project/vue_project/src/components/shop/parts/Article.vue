@@ -31,12 +31,17 @@
         <div class="product-price">
           <del>{{product.open_price|currency_jpy}}</del>
           <ins>{{product.price|currency_jpy}}</ins>
+          <ol class="breadcrumb_groupon">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Blog</li>
+		</ol>
+          <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
         </div>
+        
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
         <div class="style-msg infomsg"  v-if="product.hasGroupon">
               <div class="sb-msg">
                  This alert 
-                  <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
               </div>
           </div>
     </div>
