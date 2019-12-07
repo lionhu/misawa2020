@@ -23,9 +23,7 @@
             <span>{{item.product_num}}</span>
           </li>
         </ul>
-
       </div>
-
     </div>
   </div>
 
@@ -39,17 +37,19 @@
   import Product from "./Product.vue"
   import Article from "./parts/Article.vue"
 
+
   export default {
     name: 'productlist',
     components:{
       Product,
-      Article
+      Article,
     },
     inject:["reload"],
     data () {
       return {
         ME:null,
 
+      lastClicked: 'click on something!'
       }
     },
   computed: {
@@ -67,7 +67,7 @@
     methods: {
       loadCatalogueProducts(catalogue_id){
         this.$store.dispatch("lotteryshop/fetchCatalogueProducts",catalogue_id)
-      }
+      },
     },
     watch: {
       '$route' (to, from) {

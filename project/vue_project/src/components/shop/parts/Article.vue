@@ -16,7 +16,7 @@
           </span>
                 </p>
                 <div class="text-center">
-                    <a :href="product.avatar" data-lightbox="image"><i class=" icon-line-plus"></i></a>
+                    <router-link :to="{name:'product_article',params:{slug:product.slug}}"><i class=" icon-line-plus"></i></router-link>
                     <a href="javascript:void(0);" @click="addProductToCart(product.slug)" class="leftmargin-sm"><i class="icon-shopping-cart"></i></a>
                 </div>
 
@@ -31,11 +31,14 @@
         <div class="product-price">
           <del>{{product.open_price|currency_jpy}}</del>
           <ins>{{product.price|currency_jpy}}</ins>
-          <ol class="breadcrumb_groupon">
-			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Blog</li>
-		</ol>
-          <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
+          <div class="groupon" v-if="product.hasGroupon">
+            <ol class="breadcrumb_groupon">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Blog</li>
+            </ol>
+            <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
+          </div>
+
         </div>
         
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
@@ -62,11 +65,6 @@
       return {
         value:0,
         centerDialogVisible:false,
-        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        srcList: [
-          'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-          'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
-        ]
       }
     },    
     components:{

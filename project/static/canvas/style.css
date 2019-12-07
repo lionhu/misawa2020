@@ -14080,3 +14080,16 @@ body:not(.no-transition) #wrapper,
   border-bottom-color: transparent;
 }
 
+#CircleMenu .oy-menu-item a{
+	margin-top:40%
+}
+
+.oy-menu-btn button {
+	background-color:transparent;
+	color:white;
+	padding:10%
+}
+.vue-radial-menu-container{
+	bottom:8%;
+}
+

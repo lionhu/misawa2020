@@ -90,6 +90,12 @@ module.exports ={
             test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,
             loader: 'url-loader'
           },
+         {
+           test: /\.(png|svg|jpg|gif)$/,
+           use: [
+             'file-loader',
+           ],
+         },
         ]
     },
   plugins:[

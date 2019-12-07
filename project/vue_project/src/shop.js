@@ -4,6 +4,8 @@ import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate)
 
+
+
 import VueI18n from 'vue-i18n'
 
 import {setToken,getToken} from "./lib/util.js"

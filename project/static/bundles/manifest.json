@@ -51,6 +51,9 @@
   "../../static/bundles/shop-Top-vue.js": "../../static/bundles/shop-Top-vue.js",
   "../../static/bundles/shop-parts-Article-vue.js": "../../static/bundles/shop-parts-Article-vue.js",
   "../../static/bundles/shop-parts-ArticleProduct-vue.js": "../../static/bundles/shop-parts-ArticleProduct-vue.js",
+  "../../static/bundles/shop-parts-FloatRadiusButtonMenu-vue.js": "../../static/bundles/shop-parts-FloatRadiusButtonMenu-vue.js",
+  "../../static/bundles/shop-parts-Gallery-vue.js": "../../static/bundles/shop-parts-Gallery-vue.js",
+  "../../static/bundles/shop-parts-MoaGallery-vue.js": "../../static/bundles/shop-parts-MoaGallery-vue.js",
   "../../static/bundles/shop-parts-ShopPrivateAlert-vue.js": "../../static/bundles/shop-parts-ShopPrivateAlert-vue.js",
   "../../static/bundles/shop-parts-ShopPublicAlert-vue.js": "../../static/bundles/shop-parts-ShopPublicAlert-vue.js",
   "admin.js": "admin.js",
@@ -58,5 +61,12 @@
   "member.js": "member.js",
   "order.js": "order.js",
   "shop.js": "shop.js",
-  "vendor.js": "vendor.js"
+  "vendor.js": "vendor.js",
+  "loading.gif": "05992d3434d3589b38a3a5431842d38f.gif",
+  "error.svg": "19ee6b7e6642d75d6144b0c8209c93d6.svg",
+  "play-pause.svg": "21dfa3149b274acb9c1819d342a6a169.svg",
+  "video-play.png": "288308b2037f409d293916c7a3913f20.png",
+  "error.png": "90901890fbf9b379405f47a23313e63b.png",
+  "video-play.svg": "9b737958b1644b46b23904e53afcac50.svg",
+  "play-pause.png": "a012413b54276e2eefd145c7aec60f93.png"
 }

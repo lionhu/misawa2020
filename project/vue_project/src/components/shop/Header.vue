@@ -93,6 +93,9 @@
       </div>
 
     </header><!-- #header end -->
+
+      <ButtonMenu></ButtonMenu>
+
 </div>
 </template>
 
@@ -100,12 +103,13 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-
+  import ButtonMenu from "./parts/FloatRadiusButtonMenu.vue"
   import {setToken,getToken} from "../../lib/util.js"
 
   export default {
     name: 'shop_header',
     components:{
+      ButtonMenu,
     },
     // inject:["reload"],
     data () {
@@ -113,7 +117,11 @@
         user:{
           username:"",
           password:""
-        }
+        },
+        items: [{value:'order',icon:"<i class='fas fa-list'></i>",href:"http://www.baidu.com"}, 
+                {value:'new',icon:"<i class='fas fa-list'></i>",href:""},
+                {value:'memo',icon:"<i class='fas fa-list'></i>",href:""},
+        ],
       }
     },
     computed:{
@@ -142,6 +150,10 @@
     },
     methods: {
 
+      handleClick (item) {
+        this.lastClicked = item;
+        console.log(item)
+      },
       load_myprofile(){
           this.$store.dispatch("users/get_myprofile").then(resolve=>{
             this.$i18n.locale = this.ME.language;
