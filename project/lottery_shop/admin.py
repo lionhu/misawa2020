@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,Article,GalleryImage
+from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
 
 # Register your models here.
 
@@ -16,10 +16,15 @@ class CatalogueAdmin(admin.ModelAdmin):
 # 	readonly_fields = ('slug',)
 		
 
+
+class GalleryImageInline(admin.TabularInline):
+    model = GalleryImage
+
+
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ('name', "purchase_price",'price', 'open_price','point')
 	list_editable = ("purchase_price",'price', 'open_price','point')
-	# inlines = [ProductImageInline]
+	inlines = [GalleryImageInline]
 	fieldsets = (
         (None, {
             'fields': ('active', "name","vendor")
@@ -65,34 +70,8 @@ class GrouponAdmin(admin.ModelAdmin):
 	search_fields = ("name",)
 
 
-
-class GalleryImageInline(admin.TabularInline):
-    model = GalleryImage
         
 
-
-class ArticleAdmin(admin.ModelAdmin):
-    # list_display = ('name', "product",'status', 'target',)
-    # list_editable = ("purchase_price",'price', 'open_price','point')
-    inlines = [GalleryImageInline]
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('product',"status")
-    #     }),
-    #     (None, {
-    #         'fields': ("name","description"),
-    #     }),
-    #     (None, {
-    #         # 'classes': ('collapse',),
-    #         'fields': ("target",'price', 'feedbackprice',),
-    #     }),
-    # )
-    # search_fields = ("name",)
-
-
-
-
-admin.site.register(Article,ArticleAdmin)
 admin.site.register(Groupon,GrouponAdmin)
 admin.site.register(Catalogue,CatalogueAdmin)
 admin.site.register(Product,ProductAdmin)

@@ -1,30 +1,14 @@
 from rest_framework import serializers
-from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage,Article
+from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
 from useraccount.serializers import UserSerializer
 import logging
 logger=logging.getLogger("error_logger")
-# class SubcatalogueUrlField(serializers.RelatedField):
-#     def to_representation(self,value):
-#         return "subcatalogue/%s"%(value.slug)
 
 
-
-
-
-class GalleryImageSerializer_list(serializers.ModelSerializer):
+class GalleryImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
-        fields = ("slug","thumbimage","postimage","memo",)
-
-
-        
-class ArticleSerializer(serializers.ModelSerializer):
-    galleryimages = GalleryImageSerializer_list(many=True,read_only=True)
-
-    class Meta:
-        model = Article
-        fields = ("slug","mediatype","thumbimage","postimage","ajax_url","video_url","memo","galleryimages",)
-
+        model = GalleryImage
+        fields = ("slug","mediatype","thumbimage","postimage","memo","title","description","href")
 
         
 class SubproductSerializer(serializers.ModelSerializer):
@@ -36,7 +20,7 @@ class SubproductSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
-    article = ArticleSerializer(many=False,read_only=True)
+    galleryimages = GalleryImageSerializer(many=True,read_only=True)
 
     def to_representation(self,instance):
         result=super().to_representation(instance)
@@ -49,7 +33,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue","article")
+        fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue","galleryimages")
 
 
 class CartItemProductSerializer(serializers.ModelSerializer):
@@ -65,7 +49,7 @@ class CartItemProductSerializer(serializers.ModelSerializer):
         
 class ProductSerializer_list(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
-    article = ArticleSerializer(many=False,read_only=True)
+    galleryimages = GalleryImageSerializer(many=True,read_only=True)
 
     def to_representation(self,instance):
         result=super().to_representation(instance)
@@ -76,6 +60,8 @@ class ProductSerializer_list(serializers.ModelSerializer):
         try:
             logger.error(instance.groupon)
             result["hasGroupon"]=True
+            result["groupon_applicants_count"]=instance.groupon.applicants_count()
+            result["groupon_target"]=instance.groupon.target
             result["grouponSlug"]=instance.groupon.slug
             result["grouponActive"]= True if instance.groupon.status=="active" else False
         except:
@@ -86,7 +72,7 @@ class ProductSerializer_list(serializers.ModelSerializer):
     class Meta:
         model = Product
 
-        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","article","manufacturer","brand")
+        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","galleryimages","manufacturer","brand")
 
 
 class SubcatalogueSerializer(serializers.ModelSerializer):

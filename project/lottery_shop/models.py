@@ -165,49 +165,19 @@ class Product(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
-
-class Article(models.Model):
-    slug = models.SlugField(null=True,blank=True,default=now_slug)
-    mediatype = models.CharField(default="Image",max_length=10,choices=ProductImageType)
-    product = models.OneToOneField("Product",on_delete=models.CASCADE, blank=True, null=True, related_name="article")
-    postimage = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
-    thumbnail = ImageSpecField(source='postimage',
-                            processors=[ResizeToFill(320,320)],
-                            format="PNG",
-                            options={'quality': 60}
-                            )
-
-    ajax_url = models.CharField(default="ajax_url",max_length=256,blank=True)
-    video_url = models.CharField(default="video_url",max_length=256,blank=True)
-    memo = models.CharField(default="hidden",max_length=256,blank=True)
-
-    mod_date = models.DateTimeField('Last modified',auto_now=True)
-
-
-    class Meta:
-        verbose_name="Article"
-        app_label="lottery_shop"
-
-    def __str__(self):
-        return "{} article".format(self.product.name)
-    def __unicode__(self):
-        return self.product.name
-
-    def thumbimage(self):
-        return self.thumbnail.url
-
-
-
-
 class GalleryImage(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    article = models.ForeignKey("Article",on_delete=models.CASCADE, blank=True, null=True, related_name="galleryimages")
+    mediatype = models.CharField(default="Image",max_length=10,choices=ProductImageType)
+    product = models.ForeignKey("Product",on_delete=models.CASCADE, blank=True, null=True, related_name="medias")
     postimage = models.ImageField(upload_to=get_image_path,default="new.jpg", blank=True, null=True)
     thumbnail = ImageSpecField(source='postimage',
                             processors=[ResizeToFill(320,320)],
                             format="PNG",
                             options={'quality': 80}
                             )
+    title = models.CharField(default="title",max_length=20,blank=True)
+    description = models.CharField(default="description",max_length=20,blank=True)
+    href = models.CharField(default="href",max_length=20,blank=True)
     memo = models.CharField(default="memo",max_length=20,blank=True)
     created = models.DateTimeField('created',auto_now=True)
 
@@ -217,9 +187,9 @@ class GalleryImage(models.Model):
         app_label="lottery_shop"
 
     def __str__(self):
-        return "{} image".format(self.article.id)
+        return "{} image".format(self.product.id)
     def __unicode__(self):
-        return self.self.article.id
+        return self.self.product.id
 
     def thumbimage(self):
     	return self.thumbnail.url

@@ -344,6 +344,70 @@ class ShopPublicConsumer(AsyncWebsocketConsumer):
         }))
 
 
+class ShopProductConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_name = "product"
+        self.room_group_name = 'shop_product'
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'danger',
+                'event': 'shop_product disconnect event',
+                'message_type': "disconnect public product channel",
+            }
+        )
+
+        # Leave room group
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+
+    # Receive message from WebSocket
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        event = text_data_json['event']
+        message = text_data_json['message']
+        message_type = text_data_json['message_type']
+        display_mode = text_data_json['display_mode']
+
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'event': event,
+                'message': message,
+                'message_type': message_type,
+                'display_mode': display_mode
+            }
+        )
+
+    # Receive message from room group
+    async def chat_message(self, event):
+        event = event['event']
+        message = event['message']
+        message_type = event['message_type']
+        display_mode = event['display_mode']
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'event': event,
+            'message': message,
+            'message_type': message_type,
+            'display_mode': display_mode
+        }))
+
+
 
 class ShopPrivateConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -398,4 +462,5 @@ class ShopPrivateConsumer(AsyncWebsocketConsumer):
             'message_type': message_type,
             'display_mode': display_mode
         }))
+
 

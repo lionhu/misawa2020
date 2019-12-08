@@ -303,6 +303,11 @@ span.middot {
 	position: relative !important;
 }
 
+.leftmargin-10 { margin-left: 10px !important; }
+
+.rightmargin-10 { margin-right: 10px !important; }
+
+
 .allmargin { margin: 50px !important; }
 
 .leftmargin { margin-left: 50px !important; }

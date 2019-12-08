@@ -13,5 +13,6 @@ websocket_urlpatterns = [
 
     # Shop Related ShopPrivateConsumer
     path('wss/shop/public/', consumers.ShopPublicConsumer),
+    path('wss/shop/product/', consumers.ShopProductConsumer),
     path('wss/shop/private/', consumers.ShopPrivateConsumer),
 ]

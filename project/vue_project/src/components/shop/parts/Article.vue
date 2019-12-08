@@ -27,20 +27,15 @@
         <div class="product-title">
           <h3><a href="https://www.instagram.com/p/B5sYR1UAhNB/">{{product.name}}</a></h3>
         </div>
-
         <div class="product-price">
           <del>{{product.open_price|currency_jpy}}</del>
           <ins>{{product.price|currency_jpy}}</ins>
           <div class="groupon" v-if="product.hasGroupon">
-            <ol class="breadcrumb_groupon">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Blog</li>
-            </ol>
+            <span class="fright leftmargin-10">{{product.groupon_applicants_count}} / {{product.groupon_target}}</span>
             <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
           </div>
-
         </div>
-        
+        <Thumbup :product="product"></Thumbup>
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
     </div>
 </div>
@@ -56,7 +51,7 @@
   import { Rate,Image } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
   import {setToken,getToken,showNotification} from "../../../lib/util.js"
-  // import "../../../lib/jquery.sparkline.min.js"
+  import Thumbup from "./ProductThumbup.vue"
 
   export default {
     name: 'product_article',
@@ -65,11 +60,13 @@
       return {
         value:0,
         centerDialogVisible:false,
+      options: {},
+      series: [44, 55, 41, 17, 15]
       }
     },    
     components:{
       elRate:Rate,
-      // elImage:Image
+      Thumbup
     },
     mounted() {
       this.value=this.product.ranks;
