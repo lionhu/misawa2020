@@ -49,13 +49,14 @@ class CartItemProductSerializer(serializers.ModelSerializer):
         
 class ProductSerializer_list(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
-    galleryimages = GalleryImageSerializer(many=True,read_only=True)
+    medias = GalleryImageSerializer(many=True,read_only=True)
 
     def to_representation(self,instance):
         result=super().to_representation(instance)
 
         subproducts=Product.objects.filter(active=True,main_product_id=instance.id)
         result["subproducts"]=len(subproducts)
+        # result["galleryimages"]=instance.medias
 
         try:
             logger.error(instance.groupon)
@@ -72,7 +73,7 @@ class ProductSerializer_list(serializers.ModelSerializer):
     class Meta:
         model = Product
 
-        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","galleryimages","manufacturer","brand")
+        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","manufacturer","brand","medias")
 
 
 class SubcatalogueSerializer(serializers.ModelSerializer):

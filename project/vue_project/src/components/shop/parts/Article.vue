@@ -4,10 +4,10 @@
         <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="icon-thumbs-up"></i></a>
     </div>
     <div class="flip-card text-center">
-        <div class="flip-card-front dark" :style="'background-image: url('+product.article.postimage+')'">
+        <div class="flip-card-front dark" :style="'background-image: url('+product.thumbimage+')'">
 
         </div>
-        <div class="flip-card-back bg-danger no-after" :style="'background-image: url('+product.article.postimage+')'">
+        <div class="flip-card-back bg-danger no-after" :style="'background-image: url('+product.thumbimage+')'">
             <div class="flip-card-inner back-inner">
                 <p class="mb-2 text-white">{{product.name}}
                     <br>
@@ -30,10 +30,10 @@
         <div class="product-price">
           <del>{{product.open_price|currency_jpy}}</del>
           <ins>{{product.price|currency_jpy}}</ins>
-          <div class="groupon" v-if="product.hasGroupon">
+<!--           <div class="groupon" v-if="product.hasGroupon">
             <span class="fright leftmargin-10">{{product.groupon_applicants_count}} / {{product.groupon_target}}</span>
             <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
-          </div>
+          </div> -->
         </div>
         <Thumbup :product="product"></Thumbup>
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>

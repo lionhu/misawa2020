@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
+from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,\
+            GalleryImage,snsURL
 
 # Register your models here.
 
@@ -19,12 +20,17 @@ class CatalogueAdmin(admin.ModelAdmin):
 
 class GalleryImageInline(admin.TabularInline):
     model = GalleryImage
+    extra=0
+
+class snsURLInline(admin.TabularInline):
+    model = snsURL
+    extra=0
 
 
 class ProductAdmin(admin.ModelAdmin):
 	list_display = ('name', "purchase_price",'price', 'open_price','point')
 	list_editable = ("purchase_price",'price', 'open_price','point')
-	inlines = [GalleryImageInline]
+	inlines = [GalleryImageInline,snsURLInline]
 	fieldsets = (
         (None, {
             'fields': ('active', "name","vendor")

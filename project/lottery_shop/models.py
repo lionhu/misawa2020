@@ -19,6 +19,15 @@ ProductImageType = (
     ('Others', 'Others'),
 )
 
+SNSType = (
+    ('youtube', 'youtube'),
+    ('facebook', 'facebook'),
+    ('twitter', 'twitter'),
+    ('instagram', 'instagram'),
+    ('line', 'line'),
+    ('wechat', 'wechat'),
+)
+
 
 def get_image_path(instance, filename):
     # prefix = 'avatars/'
@@ -165,6 +174,26 @@ class Product(models.Model):
     def thumbimage(self):
     	return self.thumbnail.url
 
+class snsURL(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    mediatype = models.CharField(default="facebook",max_length=10,choices=SNSType)
+    product = models.ForeignKey("Product",on_delete=models.CASCADE, blank=True, null=True, related_name="snsURLs")
+    description = models.CharField(default="description",max_length=256,blank=True)
+    href = models.CharField(default="href",max_length=256,blank=True)
+    memo = models.CharField(default="memo",max_length=1024,blank=True)
+    created = models.DateTimeField('created',auto_now=True)
+
+
+    class Meta:
+        verbose_name="snsURL"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{} snsURL".format(self.product.id)
+
+    def __unicode__(self):
+        return self.self.product.id
+
 class GalleryImage(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     mediatype = models.CharField(default="Image",max_length=10,choices=ProductImageType)
@@ -175,10 +204,10 @@ class GalleryImage(models.Model):
                             format="PNG",
                             options={'quality': 80}
                             )
-    title = models.CharField(default="title",max_length=20,blank=True)
-    description = models.CharField(default="description",max_length=20,blank=True)
-    href = models.CharField(default="href",max_length=20,blank=True)
-    memo = models.CharField(default="memo",max_length=20,blank=True)
+    title = models.CharField(default="title",max_length=256,blank=True)
+    description = models.CharField(default="description",max_length=256,blank=True)
+    href = models.CharField(default="href",max_length=256,blank=True)
+    memo = models.CharField(default="memo",max_length=1024,blank=True)
     created = models.DateTimeField('created',auto_now=True)
 
 
@@ -192,7 +221,7 @@ class GalleryImage(models.Model):
         return self.self.product.id
 
     def thumbimage(self):
-    	return self.thumbnail.url
+        return self.thumbnail.url
 
 
 class Groupon(models.Model):

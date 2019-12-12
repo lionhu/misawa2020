@@ -118,10 +118,6 @@
           username:"",
           password:""
         },
-        items: [{value:'order',icon:"<i class='fas fa-list'></i>",href:"http://www.baidu.com"}, 
-                {value:'new',icon:"<i class='fas fa-list'></i>",href:""},
-                {value:'memo',icon:"<i class='fas fa-list'></i>",href:""},
-        ],
       }
     },
     computed:{

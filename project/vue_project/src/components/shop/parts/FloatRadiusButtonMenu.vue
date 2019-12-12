@@ -1,10 +1,10 @@
 <template>
 
 <radial-menu
-  style="margin: auto;z-index:10;position:fixed;top:120px;right:10px; background-color: #1ABC9C;color:white"
+  style="margin: auto;z-index:10;position:fixed;bottom:10px;right:10px; background-color: #1ABC9C;color:white"
   :itemSize="50"
-  :radius="80"
-  :rotate ="-90"
+  :radius="70"
+  :rotate ="0"
   :angle-restriction="90">
     <radial-menu-item 
       v-for="(item, index) in items" 
@@ -30,9 +30,9 @@
     data () {
       return {
         ME:null,
-        items: [{value:'order',icon:"<i class='fas fa-list'></i>",href:"http://www.baidu.com"}, 
-                {value:'new',icon:"<i class='fas fa-list'></i>",href:""},
-                {value:'user',icon:"<i class='icon-line2-user mr-1 position-relative'></i>",href:""},
+        items: [{value:'exchange',icon:'<i class="fas fa-comments-dollar"></i>',href:"/exrate/"}, 
+                {value:'shop',icon:'<i class="fas fa-store"></i>',href:"/shop/"},
+                {value:'user',icon:"<i class='icon-line2-user mr-1 position-relative'></i>",href:"/"},
         ],
       }
     },

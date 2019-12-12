@@ -35,6 +35,7 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(url,).then((res)=>{
                 resolve(res)
+
             }).catch(function(error){
                 window.location.href="/shop/#/catalogue/1"
             })
