@@ -18,17 +18,20 @@
               </span>
         </div>
     </div>
+    <ThumbUpAlert></ThumbUpAlert>
   </div>
 </template>
 <script>
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
+  import ThumbUpAlert from "./websocks/ProductThumbup.vue"
 
   export default {
     name: 'char_alert',
     props:["visible"],
     components:{
+      ThumbUpAlert
     },
     data () {
       return {

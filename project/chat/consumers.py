@@ -357,14 +357,14 @@ class ShopProductConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'danger',
-                'event': 'shop_product disconnect event',
-                'message_type': "disconnect public product channel",
-            }
-        )
+        # await self.channel_layer.group_send(
+        #     self.room_group_name,
+        #     {
+        #         'type': 'danger',
+        #         'event': 'shop_product disconnect event',
+        #         'message_type': "disconnect public product channel",
+        #     }
+        # )
 
         # Leave room group
         await self.channel_layer.group_discard(
@@ -377,16 +377,19 @@ class ShopProductConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         event = text_data_json['event']
+        product_slug = text_data_json['product_slug']
         message = text_data_json['message']
         message_type = text_data_json['message_type']
         display_mode = text_data_json['display_mode']
 
+        logger.error(text_data_json)
 
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
                 'event': event,
+                'product_slug': product_slug,
                 'message': message,
                 'message_type': message_type,
                 'display_mode': display_mode
@@ -395,13 +398,16 @@ class ShopProductConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def chat_message(self, event):
-        event = event['event']
+        _event = event['event']
+        product_slug = event['product_slug']
         message = event['message']
         message_type = event['message_type']
         display_mode = event['display_mode']
+        logger.error(event)
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'event': event,
+            'event': _event,
+            'product_slug': product_slug,
             'message': message,
             'message_type': message_type,
             'display_mode': display_mode

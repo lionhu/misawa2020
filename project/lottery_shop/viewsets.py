@@ -469,13 +469,6 @@ class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retr
         num =  request.data.get("num")
 
         groupon = get_object_or_404(Groupon,slug=groupon_slug)
-        # request.data["groupon_id"]=groupon.id
-        # request.data["user_id"]=request.user.id
-        # request.data["deposite_paycode"] = uuid.uuid4()
-        logger.error(num)
-        logger.error(type(num))
-        logger.error(groupon.applicants_count())
-        logger.error(type(groupon.applicants_count()))
 
         if groupon.applicants_count()+int(num) > groupon.target:
           request.data["price"] = groupon.price_overflow
@@ -494,6 +487,19 @@ class ApplicantViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retr
 
         if serializer.is_valid():
               serializer.save(groupon=groupon,user=request.user)
+              channel_layer = get_channel_layer()
+              logger.error(channel_layer)
+              async_to_sync(channel_layer.group_send)('shop_product',
+                    {
+                        'type': 'chat_message',
+                        'event': "CRUD",
+                        'product_slug': groupon.product.slug,
+                        "applicant":serializer.data,
+                        'message': "add new thumbup",
+                        'message_type': "success",
+                        'display_mode': "toast"
+                    }
+                )
 
               return Response({
                   "result":True,

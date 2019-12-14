@@ -43,7 +43,7 @@ export default {
 </script> 
  
 <style scoped>
-#blueimp-gallery p.description{
+#blueimp-gallery p .description{
   margin-top: 10px;
 }
 </style> 

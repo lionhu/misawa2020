@@ -16,3 +16,6 @@ docker_misawa.yml
 docker_exrate.yml
 docker_iots.yml
 docker_compose.yml
+
+
+misawa/.env
