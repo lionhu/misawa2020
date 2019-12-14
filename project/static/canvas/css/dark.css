@@ -947,7 +947,7 @@ body.top-search-open .dark #header-wrap:not(.not-dark) #top-search a,
 .dark .title-block > span { color: #999; }
 
 .dark .heading-block:not(.not-dark),
-.dark .counter { text-shadow: 1px 1px 1px rgb(68, 67, 67); }
+.dark .counter { text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
 
 .dark .heading-block:not(.not-dark) h1,
 .dark .heading-block:not(.not-dark) h2,
@@ -1547,7 +1547,7 @@ body #side-panel.dark #side-panel-trigger-close a {
 	border-color: #a94442;
 }
 
-.dark .card { background-color: rgba(12, 12, 12, 0.55)!important; }
+.dark .card { background-color: rgba(0,0,0,0.2); }
 
 .dark .card-footer {
 	background-color: rgba(255,255,255,0.1);

@@ -44,12 +44,19 @@ const mutations= {
               state.catalogue_now = state.catalogues[cataloIndex]
         },
         setUpProducts: (state, productsPayload) => {
-            //sets the state's  products property to the products array recieved as payload
             state.products = productsPayload;
         },
         setCatalogueProducts: (state, productsPayload) => {
-            //sets the state's  products property to the products array recieved as payload
-            state.catalogue_products = productsPayload;
+            const newproducts=productsPayload.map(product=>{
+                if(product.medias.length){
+                  product.medias.map(media=>{
+                    media["href"]=media["postimage"]
+                    return media
+                  })
+                }
+                return product
+            })
+            state.catalogue_products = newproducts;
         },
         setUpCart(state,data){
             state.cart=data

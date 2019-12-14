@@ -1,18 +1,19 @@
+
 /********************************************
- * REVOLUTION 5.4.6.5 EXTENSION - VIDEO FUNCTIONS
- * @version: 2.2.2 (04.06.2018)
+ * REVOLUTION 5.4.6.4 EXTENSION - VIDEO FUNCTIONS
+ * @version: 2.2.0 (28.11.2017)
  * @requires jquery.themepunch.revolution.js
  * @author ThemePunch
 *********************************************/
-;(function($) {
+(function($) {
 	"use strict";
 var _R = jQuery.fn.revolution,
 	_ISM = _R.is_mobile(),
 	_ANDROID = _R.is_android(),
 	extension = {	alias:"Video Min JS",
 					name:"revolution.extensions.video.min.js",
-					min_core: "5.4.8",
-					version:"2.2.2"
+					min_core: "5.4.6.4",
+					version:"2.2.0"
 			  };
 
 
@@ -59,7 +60,6 @@ jQuery.extend(true,_R, {
 	},
 
 	resetVideo : function(_nc,opt,preset,nextli) {	
-	
 		var _ = _nc.data();	
 		switch (_.videotype) {
 			case "youtube":
@@ -86,30 +86,23 @@ jQuery.extend(true,_R, {
 			break;
 
 			case "vimeo":
-			
-				var f = _nc.data('vimeoplayer');	
-				try{
-					
-					if (_.forcerewind=="on") 	{	  //Removed Force Rewind Protection for Handy here !!!	
-
-						var s = getStartSec(_.videostartat),
-							ct = 0,
-							wasdead = s==-1 ? true : false,
-							forceseek =  _.bgvideo===1 || _nc.find('.tp-videoposter').length>0 ? true : false;
-						s= s==-1 ? 0 : s;							
-						if ((s!==0 && !wasdead) || forceseek) {	
-							
-							// 5.4.6.5
-							f.pause().then(function() {
-								
-								f.setCurrentTime(s);
-								
-							});	
-						}					
-					}
-					
-				} catch(e) {}
-
+				if(!nextli) {
+					var f = _nc.data('vimeoplayer');	
+					try{
+						if (_.forcerewind=="on") 	{	  //Removed Force Rewind Protection for Handy here !!!					
+							var s = getStartSec(_.videostartat),
+								ct = 0,
+								wasdead = s==-1 ? true : false,
+								forceseek =  _.bgvideo===1 || _nc.find('.tp-videoposter').length>0 ? true : false;
+							s= s==-1 ? 0 : s;							
+							if ((s!==0 && !wasdead) || forceseek) {	
+								f.setCurrentTime(s);								
+								f.pause();				
+							}					
+						}
+						
+					} catch(e) {}
+				}
 				if (_nc.find('.tp-videoposter').length==0 && _.bgvideo!==1 && preset!==true)
 					punchgs.TweenLite.to(_nc.find('iframe'),0.3,{autoAlpha:1,display:"block",ease:punchgs.Power3.easeInOut});
 			break;
@@ -413,9 +406,6 @@ jQuery.extend(true,_R, {
 
 	prepareCoveredVideo : function(opt,_nc) {
 		
-		// only resize/reposition fullscreen video
-		if(_nc.hasClass('tp-caption') && !_nc.hasClass('coverscreenvideo')) return;
-		
 		if (_nc.data('vimeoid')!==undefined && _nc.data('vimeoplayerloaded')===undefined) return;
 
 		var _ = {};
@@ -426,11 +416,8 @@ jQuery.extend(true,_R, {
 		_.wa = _.asp.split(':')[0];
 		_.ha = _.asp.split(':')[1];
 		_.vd = _.wa/_.ha;
-		
-		// 5.4.6.5
-		var conw = opt.sliderType !== 'carousel' ? opt.conw : _nc.closest('.tp-revslider-slidesli').width();
 	
-		if (conw===0 || opt.conh===0) {			
+		if (opt.conw===0 || opt.conh===0) {			
 			_R.setSize(opt);
 			clearTimeout(_.ifr.data('resizelistener'));
 			_.ifr.data('resizelistener',setTimeout(function() {					
@@ -440,7 +427,7 @@ jQuery.extend(true,_R, {
 		}
 
 						
-		var od = conw / opt.conh,
+		var od = opt.conw / opt.conh,
 			nvh = (od/_.vd)*100,
 			nvw = (_.vd/od)*100;
 		
@@ -570,16 +557,10 @@ jQuery.extend(true,_R, {
 				var apptxt = '<'+tag+' '+_funcs+' style="object-fit:cover;background-size:cover;visible:hidden;width:100%; height:100%" class="" '+videoloop+' preload="'+videopreload+'">';
 				
 				if (videopreload=="auto") opt.mediapreload = true;
-				//if (_.videoposter!=undefined) apptxt = apptxt + 'poster="'+_nc.data('videoposter')+'">';				
-				if (tag === 'video') {
-					if (videowebm!=undefined && _R.get_browser().toLowerCase()=="firefox") apptxt = apptxt + '<source src="'+videowebm+'" type="video/webm" />';
-					if (videomp!=undefined) apptxt = apptxt + '<source src="'+videomp+'" type="video/mp4" />';
-					if (videoogv!=undefined) apptxt = apptxt + '<source src="'+videoogv+'" type="video/ogg" />';
-				} else 
-				if (tag === 'audio') {
-					if (videomp!=undefined) apptxt = apptxt + '<source src="'+videomp+'" type="audio/mpeg" />';
-					if (videoogv!=undefined) apptxt = apptxt + '<source src="'+videoogv+'" type="audio/ogg" />';
-				}
+				//if (_.videoposter!=undefined) apptxt = apptxt + 'poster="'+_nc.data('videoposter')+'">';
+				if (videowebm!=undefined && _R.get_browser().toLowerCase()=="firefox") apptxt = apptxt + '<source src="'+videowebm+'" type="video/webm" />';
+				if (videomp!=undefined) apptxt = apptxt + '<source src="'+videomp+'" type="video/mp4" />';
+				if (videoogv!=undefined) apptxt = apptxt + '<source src="'+videoogv+'" type="video/ogg" />';
 				apptxt = apptxt + '</'+tag+'>';
 				var hfm ="";
 				if (videoafs==="true" ||  videoafs===true)
@@ -627,8 +608,7 @@ jQuery.extend(true,_R, {
 			 		if (vida.toLowerCase().indexOf('controls')==-1)
 			 		  vida = vida+"&controls=0";
 			 	}
-				
-			 	if (_.videoinline===true || _.videoinline==="true" || _.videoinline===1 || _nc.hasClass('rs-background-video-layer') || _nc.data('autoplay') === 'on')
+			 	if (_.videoinline===true || _.videoinline==="true" || _.videoinline===1 || _nc.hasClass('rs-background-video-layer'))
 			 		vida = vida + "&playsinline=1";
 			 	var	s = getStartSec(_nc.data('videostartat')),
 			 		e = getStartSec(_nc.data('videoendat'));
@@ -649,16 +629,14 @@ jQuery.extend(true,_R, {
 			 		vida_new = vida;
 			 	}	
 			 	
-				// youtube/chrome fix Jason (removed "visibility: hidden" from markup)
 			 	var yafv = videoafs==="true" ||  videoafs===true ? "allowfullscreen" : "";		 	
-			 	_nc.data('videomarkup','<iframe type="text/html" src="'+httpprefix+'://www.youtube-nocookie.com/embed/'+vidytid+'?'+vida_new+'" '+yafv+' width="100%" height="100%" style="opacity:0;width:100%;height:100%"></iframe>');
+			 	_nc.data('videomarkup','<iframe type="text/html" src="'+httpprefix+'://www.youtube.com/embed/'+vidytid+'?'+vida_new+'" '+yafv+' width="100%" height="100%" style="opacity:0;visibility:hidden;width:100%;height:100%"></iframe>');
 			break;
 
 			case "vimeo":
 			//	if (location.protocol === 'https:')
-				httpprefix = "https";	
-
-				_nc.data('videomarkup','<iframe src="'+httpprefix+'://player.vimeo.com/video/'+vimeoid+'?'+vida+'" webkitallowfullscreen mozallowfullscreen allowfullscreen width="100%" height="100%" style="opacity:0;visibility:hidden;width:100%;height:100%"></iframe>');
+				httpprefix = "https";												
+				_nc.data('videomarkup','<iframe src="'+httpprefix+'://player.vimeo.com/video/'+vimeoid+'?'+vida+'" webkitallowfullscreen mozallowfullscreen allowfullscreen width="100%" height="100%" style="opacity:0;visibility:hidden;100%;height:100%"></iframe>');
 				
 			break;
 		}
@@ -696,16 +674,8 @@ jQuery.extend(true,_R, {
 		_nc.addClass("HasListener");	
 
 		if (_nc.data('bgvideo')==1) {
-			
-			// youtube/chome fix Jason, iframe must be visible for iframe-API Post-Messaging to work
-			if(_nc.data('ytid')) {
-				punchgs.TweenLite.set(_nc.find('iframe'),{opacity:0});
-			}
-			else {
-				punchgs.TweenLite.set(_nc.find('video, iframe'),{autoAlpha:0});
-			}
+			punchgs.TweenLite.set(_nc.find('video, iframe'),{autoAlpha:0});
 		}
-		
 	}
 	
 });
@@ -742,12 +712,12 @@ var getVideoDatas = function(p,t,d) {
 
 
 var callPrepareCoveredVideo = function(opt,_nc) {
+
 	// CARE ABOUT ASPECT RATIO
 	if (_nc.data('bgvideo')==1 || _nc.data('forcecover')==1) {
 		if (_nc.data('forcecover')===1) _nc.removeClass("fullscreenvideo").addClass("coverscreenvideo");
 		var a =_nc.data('aspectratio');
-		if (a===undefined && a.split(":").length<=1) _nc.data('aspectratio','16:9');
-
+		if (a===undefined && a.split(":").length<=1) _nc.data('aspectratio','16:9');					
 		_R.prepareCoveredVideo(opt,_nc);	
 	}
 }
@@ -932,19 +902,13 @@ var addVideoListener = function(_nc,opt,startnow) {
 				isrc = isrc.replace(/&api=0|&api=1/g, '');
 				
 				var isVideoMobile = _R.is_mobile(),
-					isAutoplay = _nc.data('autoplay'),
-					toMute = _nc.data('volume')=="mute",
 					deviceCheck = isVideoMobile || _R.isSafari11(),
 					isVideoBg = _nc.hasClass('rs-background-video-layer');
 				
-				isAutoplay = isAutoplay === 'on' || isAutoplay === 'true' || isAutoplay === true;
-				if(isAutoplay && deviceCheck) {
-					
-					isrc += '?autoplay=1&autopause=0&muted=1&background=1&playsinline=1';
-					_nc.data({vimeoplaysinline: true, volume: 'mute'});
-					
-				}
-
+				// adds "playsinline" to the video from the Vimeo side
+				// will work for both "pro/plus" and regular videos
+				// only works on desktop for some reason
+				if(deviceCheck && isVideoBg) isrc += '&background=1';
 				ifr.attr('src',isrc);
 				
 				var player = _nc.find('iframe')[0],
@@ -959,7 +923,29 @@ var addVideoListener = function(_nc,opt,startnow) {
 					f = _nc.data('vimeoplayer');
 				}
 				
+				if(deviceCheck) {
+					
+					var toMute;
+					if(isVideoBg) {
+						toMute = true;
+					}
+					else {	
+						var isAutoplay = _nc.data('autoplay');
+						if(isAutoplay === 'on' || isAutoplay === 'true' || isAutoplay === true) {
+							if(isVideoMobile) _nc.data('autoplay', false);
+							toMute = true;
+						}
+						
+					}
+					
+					if(toMute) {
+						f.setVolume(0);
+						_nc.data('volume', 'mute');
+					}			
+				}
+
 				// Read out the Real Aspect Ratio from Vimeo Video
+				
 				
 				f.on('loaded',function(data) {
 					var newas = {};
@@ -1000,17 +986,11 @@ var addVideoListener = function(_nc,opt,startnow) {
 						opt.c.trigger('stoptimer');
 					else
 						opt.videoplaying=false;
-					
-					if(!_nc.data('vimeoplaysinline')) {
-					
-						if (_nc.data('volume')=="mute" || _R.lastToggleState(_nc.data('videomutetoggledby')) || opt.globalmute===true)
-						  f.setVolume(0);
-						else
-						  f.setVolume(parseInt(_nc.data('volume'),0)/100 || 0.75);
-						_R.toggleState(_.videotoggledby);
-						
-					}
-					
+					if (_nc.data('volume')=="mute" || _R.lastToggleState(_nc.data('videomutetoggledby')) || opt.globalmute===true)
+					  f.setVolume(0);
+					else
+					  f.setVolume(parseInt(_nc.data('volume'),0)/100 || 0.75);
+					_R.toggleState(_.videotoggledby);
 				});
 
 				f.on('timeupdate',function(data) {					
@@ -1181,8 +1161,7 @@ var htmlvideoevents = function(_nc,opt,startnow) {
 		if (_nc.data('forcecover')==1 || _nc.data('bgvideo')==1) {
 			html5vid.addClass("fullcoveredvideo");	
 			var a = _nc.data('aspectratio');
-			if (a===undefined || a.split(':').length==1) _nc.data('aspectratio','16:9');	
-
+			if (a===undefined || a.split(':').length==1) _nc.data('aspectratio','16:9');			
 			_R.prepareCoveredVideo(opt,_nc);
 		}
 		else

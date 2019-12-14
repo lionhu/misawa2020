@@ -4,7 +4,7 @@ import { setToken,getToken } from '../../lib/util'
 
 // initial state
 const state = {
-    ME:{},
+    ME:null,
     rules: {},
     profile:{},
     accesstoken:""
@@ -118,9 +118,9 @@ const mutations = {
         state.profile.line=data.line
     },
     reset_ME(state){
-        state.ME={}
-        setToken("","username")
-        setToken("","jwt_token")
+        state.ME=null;
+        setToken("","username");
+        setToken("","jwt_token");
     },
     set_accesstoken(state,token){
         state.accesstoken=token

@@ -28,13 +28,6 @@ export default {
       if(productIndex > -1){
         const findProduct=this.$store.state.lotteryshop.catalogue_products[productIndex]
         this.product=findProduct
-
-        if(this.product.medias.length){
-          this.product.medias.map(function(media){
-            media["href"]=media["postimage"]
-            return media
-          })
-        }
       }
     }
 

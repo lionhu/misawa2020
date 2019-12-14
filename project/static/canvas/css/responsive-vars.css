@@ -750,6 +750,8 @@
 
 	.responsive-sticky-header:not(.static-sticky) #top-cart .top-cart-content { top: 40px; }
 
+	#header.responsive-sticky-header:not(.static-sticky) ~ #page-menu.sticky-page-menu #page-menu-wrap { top: 60px; }
+
 
 	/* Off Canvas Menu
 	-----------------------------------------------------------------*/

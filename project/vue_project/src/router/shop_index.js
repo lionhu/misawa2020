@@ -1,7 +1,7 @@
 
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../store'
+import store from '../store/shop_index'
 import { setTitle, setToken, getToken } from '../lib/util'
 
 
@@ -70,6 +70,13 @@ const router = new Router({
             name:"product_article",
             components:{
                 maincontent:loadView("shop/parts/ArticleProduct.vue")
+            }
+        },
+        {
+            path: '/user/orderlist',
+            name:"orderlist",
+            components:{
+                maincontent:loadView("shop/user/OrderManagement.vue")
             }
         },
         {

@@ -21,8 +21,8 @@ import './style/mystyle.scss';
 // Vue.use(Button,Select,Table,TableColumn)
 
 import App from './App.vue';
-import router from './router/index'
-import store from "./store/index";
+import router from './router/exrate'
+import store from "./store/exrate";
 
 const MainContent=new Vue({
     el: '#app',

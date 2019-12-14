@@ -8,8 +8,8 @@ Vue.use(VeeValidate)
 import './style/mystyle.scss';
 
 import Single from './Single.vue';
-import router from './router/index'
-import store from "./store/index";
+import router from './router/exrate'
+import store from "./store/exrate";
 import msaFilters from './api/plugins/filters';
 Vue.filter('currency', msaFilters.currency);
 Vue.filter('currency_jpy', msaFilters.currency_jp);

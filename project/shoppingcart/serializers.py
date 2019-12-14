@@ -42,7 +42,15 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
-        # exclude = ['cartjson']
+
+class OrderListSerializer(serializers.ModelSerializer):
+    last_name=serializers.ReadOnlyField(source = "address.last_name")
+    first_name=serializers.ReadOnlyField(source = "address.first_name")
+
+    class Meta:
+        model = Order
+        fields = ["total","discount","tax","logistics","tracking_no","delivered_at","note","first_name","last_name","created_at"]
+
 
 class CouponSerializer(serializers.ModelSerializer):
     class Meta:

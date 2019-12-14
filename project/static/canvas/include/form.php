@@ -63,6 +63,20 @@ $mail = new PHPMailer();
 
 
 /*-------------------------------------------------
+	Form Messages
+---------------------------------------------------*/
+
+$message = array(
+	'success'			=> 'We have <strong>successfully</strong> received your Message and will get Back to you as soon as possible.',
+	'error'				=> 'Email <strong>could not</strong> be sent due to some Unexpected Error. Please Try Again later.',
+	'error_bot'			=> 'Bot Detected! Form could not be processed! Please Try Again!',
+	'error_unexpected'	=> 'An <strong>unexpected error</strong> occured. Please Try Again later.',
+	'recaptcha_invalid'	=> 'Captcha not Validated! Please Try Again!',
+	'recaptcha_error'	=> 'Captcha not Submitted! Please Try Again.'
+);
+
+
+/*-------------------------------------------------
 	Form Processor
 ---------------------------------------------------*/
 
@@ -71,20 +85,6 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$prefix		= !empty( $_POST['prefix'] ) ? $_POST['prefix'] : '';
 	$submits	= $_POST;
 	$botpassed	= false;
-
-
-	/*-------------------------------------------------
-		Form Messages
-	---------------------------------------------------*/
-
-	$message = array(
-		'success'			=> 'We have <strong>successfully</strong> received your Message and will get Back to you as soon as possible.',
-		'error'				=> 'Email <strong>could not</strong> be sent due to some Unexpected Error. Please Try Again later.',
-		'error_bot'			=> 'Bot Detected! Form could not be processed! Please Try Again!',
-		'error_unexpected'	=> 'An <strong>unexpected error</strong> occured. Please Try Again later.',
-		'recaptcha_invalid'	=> 'Captcha not Validated! Please Try Again!',
-		'recaptcha_error'	=> 'Captcha not Submitted! Please Try Again.'
-	);
 
 
 	$message_form					= !empty( $submits['message'] ) ? $submits['message'] : array();

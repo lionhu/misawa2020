@@ -31,7 +31,6 @@
             reload(){
                 this.isRouterAlive=false
                 this.$nextTick(function(){
-                    console.log("page reload")
                     this.isRouterAlive=true
 
                     // window.location.reload()

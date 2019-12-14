@@ -31,13 +31,14 @@ const i18n = new VueI18n({
 import './style/mystyle.scss';
 
 import App from './Shop.vue';
-import shop_header from './components/shop/Header.vue'
+import shop_header from './components/shop/parts/Header.vue'
 import router from './router/shop_index'
 import store from "./store/shop_index";
 import msaFilters from './api/plugins/filters';
 Vue.filter('currency', msaFilters.currency);
 Vue.filter('currency_jpy', msaFilters.currency_jpy);
 Vue.filter('currency_rmb', msaFilters.currency_rmb);
+Vue.filter('StandardDate', msaFilters.StandardDate);
 Vue.filter('filterUsername', msaFilters.filterUsername);
 
 

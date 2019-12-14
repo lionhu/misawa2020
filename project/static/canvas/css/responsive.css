@@ -606,7 +606,7 @@
 	#side-panel-trigger { right: 71px; }
 
 	#top-account {
-		margin: 40px 0;
+		margin: 33px 0 32px;
 		right: 75px;
 	}
 
@@ -732,7 +732,7 @@
 
 	.responsive-sticky-header:not(.static-sticky) #top-cart .top-cart-content { top: 40px; }
 
-	.responsive-sticky-header:not(.static-sticky) ~ #page-menu.sticky-page-menu #page-menu-wrap { top: 60px; }
+	#header.responsive-sticky-header:not(.static-sticky) ~ #page-menu.sticky-page-menu #page-menu-wrap { top: 60px; }
 
 
 	/* Off Canvas Menu
@@ -1400,6 +1400,14 @@
 
 	.news-carousel .overlay { display: none; }
 
+	.landing-video {
+		position: relative;
+		top: 14px;
+		width: 76%;
+		height: auto;
+		margin: 19px auto 0;
+	}
+
 	/* Cookie Notifications
 	-----------------------------------------------------------------*/
 
@@ -1524,14 +1532,6 @@
 
 	.error404,
 	.error404-wrap .error404 { font-size: 160px; }
-
-	.landing-video {
-		position: relative;
-		top: 14px;
-		width: 76%;
-		height: auto;
-		margin: 19px auto 0;
-	}
 
 }
 

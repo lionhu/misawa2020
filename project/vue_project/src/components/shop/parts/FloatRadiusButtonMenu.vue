@@ -5,7 +5,7 @@
   :itemSize="50"
   :radius="70"
   :rotate ="0"
-  :angle-restriction="90">
+  :angle-restriction="90" v-if="ME.username !=undefined ">
     <radial-menu-item 
       v-for="(item, index) in items" 
       :key="index" 
@@ -29,11 +29,17 @@
     },
     data () {
       return {
-        ME:null,
         items: [{value:'exchange',icon:'<i class="fas fa-comments-dollar"></i>',href:"/exrate/"}, 
                 {value:'shop',icon:'<i class="fas fa-store"></i>',href:"/shop/"},
                 {value:'user',icon:"<i class='icon-line2-user mr-1 position-relative'></i>",href:"/"},
         ],
+      }
+    },
+    computed:{
+      ME: function(){
+        console.log(this.$store.state.users.ME.username)
+        console.log(this.$store.state.users.ME.username !=undefined )
+        return this.$store.state.users.ME;
       }
     },
     methods: {

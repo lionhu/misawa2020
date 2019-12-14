@@ -17,7 +17,9 @@ import logging
 from datetime import datetime
 import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin
-from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,OrderSerializer,ProductSerializer,CouponSerializer
+from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,\
+                    OrderSerializer,OrderListSerializer,\
+                    ProductSerializer,CouponSerializer
 from .models import Address,Cart,CartItem,Order,Coupon
 from lottery_shop.models import Product
 from env_system.ColoPayApiRequest import ColoPayApiRequest
@@ -481,7 +483,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
         orders=Order.objects.filter(user=request.user)
 
         if orders is not None:
-            serializer=OrderSerializer(orders,many=True)
+            serializer=OrderListSerializer(orders,many=True)
 
             return Response({
                 "result":True,

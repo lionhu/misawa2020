@@ -38,8 +38,8 @@ const i18n = new VueI18n({
 import './style/mystyle.scss';
 
 import App from './App.vue';
-import router from './router/index'
-import store from "./store/index";
+import router from './router/exrate'
+import store from "./store/exrate";
 import msaFilters from './api/plugins/filters';
 Vue.filter('currency', msaFilters.currency);
 Vue.filter('currency_jpy', msaFilters.currency_jpy);
