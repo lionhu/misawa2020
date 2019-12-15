@@ -17,48 +17,48 @@
     </div>
   </div>
   <div class="postcontent nobottommargin col_last">
-      <el-table
-        @row-click="SelectOrder"
-        :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-        style="width: 100%">
-        <el-table-column
-          min-width='100'
-          label="Customer"
-          align="right">
-          <template slot-scope="scope">
-            <span>{{scope.row.last_name}} {{scope.row.first_name}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          sortable
-          prop="total"
-          label="Amount"
-          min-width='150'
-          align="right">
-          <template slot-scope="scope">
-            <span class="amount">{{scope.row.total|currency}}</span>
-            <span class="badge badge-success" v-if="scope.row.discount >0">{{scope.row.discount|currency}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Logistic" align="center" min-width="120">
-          <template slot-scope="scope">
-            <a href="" class="btn btn-info text-white">
-              {{scope.row.logistic}} oooo<span class="badge badge-light">M</span>
-            </a>
-          </template>
-        </el-table-column>
-        <el-table-column sortable prop="created_at" label="Created" min-width="120">
+        <el-table
+          @row-click="SelectOrder"
+          :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+          style="width: 100%">
+          <el-table-column
+            min-width='100'
+            label="Customer"
+            align="right">
             <template slot-scope="scope">
-              <span class="" >{{scope.row.created_at|StandardDate}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        small
-        layout="prev, pager, next"
-        :total="total"
-        @current-change="current_change">
-      </el-pagination>
+              <span>{{scope.row.last_name}} {{scope.row.first_name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            sortable
+            prop="total"
+            label="Amount"
+            min-width='100'
+            align="right">
+            <template slot-scope="scope">
+              <span class="amount">{{scope.row.total|currency}}</span>
+              <span class="badge badge-success right-corner" v-if="scope.row.discount >0"><i class="fas fa-tags rightmargin-5"></i>{{scope.row.discount|currency}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Logistic" align="center" min-width="120">
+            <template slot-scope="scope">
+              <a href="" class="btn btn-info text-white">
+                {{scope.row.logistic}} oooo<span class="badge badge-light delivery_status">M</span>
+              </a>
+            </template>
+          </el-table-column>
+          <el-table-column sortable prop="created_at" label="Created" min-width="120">
+              <template slot-scope="scope">
+                <span class="" >{{scope.row.created_at|StandardDate}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          small
+          layout="prev, pager, next"
+          :total="total"
+          @current-change="current_change">
+        </el-pagination>
   </div>
 </div>
 </template>
@@ -68,7 +68,7 @@
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
   import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
-  import 'element-ui/lib/theme-chalk/index_shop.css';
+  import 'element-ui/lib/theme-chalk/index.css';
 
   export default {
     name: 'UserOrderList',
@@ -144,5 +144,14 @@
 }
 table {
   margin-bottom :0 !important;
+}
+.right-corner{
+  position:absolute;
+  top:5px;
+  right:30px;
+}
+.delivery_status{
+  position:absolute!important;
+  top: 5px!important;
 }
 </style>

@@ -23,6 +23,15 @@ const router = new Router({
             }
         },
         {
+            path: '/user/home',
+            name:"userhome",
+            components:{
+                // topmenu:loadView("shop/Header.vue"),
+                // sidemenu:loadView("SideMenu.vue"),
+                maincontent:loadView("shop/user/Home.vue")
+            }
+        },
+        {
             path: '/cart/',
             name:"cart",
             components:{

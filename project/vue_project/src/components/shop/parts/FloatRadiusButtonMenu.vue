@@ -31,7 +31,7 @@
       return {
         items: [{value:'exchange',icon:'<i class="fas fa-comments-dollar"></i>',href:"/exrate/"}, 
                 {value:'shop',icon:'<i class="fas fa-store"></i>',href:"/shop/"},
-                {value:'user',icon:"<i class='icon-line2-user mr-1 position-relative'></i>",href:"/"},
+                {value:'user',icon:"<i class='icon-line2-user mr-1 position-relative'></i>",href:"/shop/#/user/home"},
         ],
       }
     },
