@@ -468,14 +468,14 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
         order=get_object_or_404(Order,slug=slug)
         self.check_object_permissions(request,order)
         serializer=OrderSerializer(order)
-        cart_serializer=CartSerializer(order.cart)
+        # cart_serializer=CartSerializer(order.cart)
 
         return Response({
             "result":True,
             "type":"get order by Slug",
             "message":"successfully get order by slug",
             "order":serializer.data,
-            "cart":cart_serializer.data
+            # "cart":cart_serializer.data
         }, status=status.HTTP_200_OK)
 
     @action(detail=False,methods=["post"])

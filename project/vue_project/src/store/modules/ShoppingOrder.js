@@ -50,100 +50,17 @@ const mutations= {
         // }
     };
 const actions= {
-        // getUserOrders: ({ commit }) => {
-        //     shopAPI.getCatalogues().then((res) => {
-        //         commit("setCatalogues", res.data.catalogues);
-        //     });
-        // },
-        // fetchCatalogues: ({ commit }) => {
-        //     shopAPI.getCatalogues().then((res) => {
-        //         commit("setCatalogues", res.data.catalogues);
-        //     });
-        // },
-        // fetchProducts: ({ commit }) => {
-        //     shopAPI.getProducts().then((products) => {
-        //         commit("setUpProducts", products);
-        //     });
-        // },
-        // getProductBySlug: ({ commit },slug) => {
-        //     return new Promise((resolve,reject)=>{
-        //         shopAPI.getProductBySlug(slug).then((res) => {
-        //             if(res.data.result){
-        //                 commit("resetCart")
-        //                 resolve(res.data.product)
-        //             }
-        //         });
-        //     })
-
-        // },
-        // fetchCatalogueProducts: ({ commit },catalogue_id) => {
-        //     shopAPI.productsOfSubCatalogues(catalogue_id).then((res) => {
-        //         commit("setCatalogueProducts", res.data.products);
-        //         commit("setCurrentCatalogue", catalogue_id);
-        //     },reject=>{
-        //         console.log("error lod product")
-        //     });
-        // },
-        // addToCart: ({ commit }, params) => {
-        //     return new Promise((resolve,reject)=>{
-        //         shopAPI.AddCartItem(params).then((res) => {
-        //             if(res.data.result){
-        //                 commit("setUpCart",res.data.cart)
-        //                 resolve(res.data.product)
-        //             }else{
-        //                 showNotification(res.data.message,"warning")
-        //             }
-        //         });
-        //     })
-
-        // },
-        // removeFromCart: ({ commit }, params) => {
-        //     return new Promise((resolve,reject)=>{
-        //         shopAPI.RemoveCartItem(params).then((res) => {
-        //             if(res.data.result){
-        //                 commit("setUpCart",res.data.cart)
-        //                 resolve(res.data.product)
-        //             }
-        //         });
-        //     });
-        // },
-        // removeFullItemFromCart: ({ commit }, params) => {
-        //     shopAPI.RemoveFullCartItem(params).then((res) => {
-        //         if(res.data.result){
-        //             commit("setUpCart",res.data.cart)
-        //         }
-        //     });
-        // },
-        // updateCartItem: ({ commit }, params) => {
-        //     shopAPI.updateCartItem(params).then((res) => {
-        //         if(res.data.result){
-        //             commit("setUpCart",res.data.cart)
-        //         }
-        //     });
-        // },
-
-        // placeOrder({ commit },params){
-        //     return new Promise((resolve,reject)=>{
-        //         shopAPI.PlaceOrder(params).then((res) => {
-        //             if(res.data.result){
-        //                 resolve(res.data)
-
-        //             }
-        //         })
-        //     })
-
-        // },
-        // getOrderBySlug({ commit },slug){
-        //     return new Promise((resolve,reject)=>{
-        //         shopAPI.GetOrderBySlug(slug).then((res) => {
-        //             if(res.data.result){
-        //                 resolve(res.data)
-
-        //             }
-        //         })
-        //     })
-
-        // },
+        getOrderBySlug({ commit },slug){
+            return new Promise((resolve,reject)=>{
+                shopAPI.GetOrderBySlug(slug).then(res=> {
+                    if(res.data.result){
+                        resolve(res.data)
+                    }
+                },rej=>{
+                    reject(false)
+                })
+            })
+        },
         // getShoppingCart({ commit }){
         //     shopAPI.GetCart().then((res) => {
         //         if(res.data.result){

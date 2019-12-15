@@ -37,8 +37,6 @@
     },
     computed:{
       ME: function(){
-        console.log(this.$store.state.users.ME.username)
-        console.log(this.$store.state.users.ME.username !=undefined )
         return this.$store.state.users.ME;
       }
     },
@@ -49,12 +47,10 @@
     },
     watch: {
       '$route' (to, from) {
-          console.log("watch route222")
-          const to_id=to.params.catalogue_id
-          const from_id =from.params.catalogue_id
-          if(from_id !== to_id){
-            // this.loadCatalogueProducts(to_id)
-          }
+          // const to_id=to.params.catalogue_id
+          // const from_id =from.params.catalogue_id
+          // if(from_id !== to_id){
+          // }
       }
   }
 };

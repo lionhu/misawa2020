@@ -9,7 +9,6 @@ export const m = {
   auction:"拍单交易",
   information:"其他信息",
   law:"特定商交易法",
-
 　amount:"金额",
   amount_jp:"单位：万日元",
   amount_cn:"单位：元",
@@ -48,11 +47,6 @@ export const m = {
   my_offer_list:"买单交易清单",
   my_fixedrate_list:"固定汇率交易清单",
 
-
-
-  // shopping
-  use_coupon:"输入您的打折券",
-  coupon:"打折券",
-  add2cart:"追加到了购物车！"
-
 }
+
+

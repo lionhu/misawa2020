@@ -39,6 +39,24 @@ export const m = {
   coupon:"クーポン",
   invalidcoupon:"クーポンは無効です",
   add2cart:"カードに追加された！",
-  inputmissing:"入力されていない項目がございます"
+  inputmissing:"入力されていない項目がございます",
+
+    // order related
+  shop_customer:"顧客",
+  shop_summary:"サマリー",
+  shop_address:"住所",
+  shop_email:"メール",
+  shop_phone:"電話",
+
+  shop_cart_subtotal:"商品代金",
+  shop_tax:"税金",
+  shop_total:"合計",
+  shop_ordercontent:"注文詳細",
+  shop_product:"製品",
+  shop_quantity:"数量",
+  shop_subtotal:"小計",
+  shop_logistics:"物流",
+
+  shop_orderlist:"注文履歴"
 
 }

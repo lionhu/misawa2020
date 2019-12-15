@@ -49,7 +49,7 @@ class OrderListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ["total","discount","tax","logistics","tracking_no","delivered_at","note","first_name","last_name","created_at"]
+        fields = ["slug","total","discount","tax","logistics","tracking_no","delivered_at","note","first_name","last_name","created_at"]
 
 
 class CouponSerializer(serializers.ModelSerializer):

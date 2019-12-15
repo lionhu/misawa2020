@@ -1,53 +1,7 @@
 <template>
 <div class="container clearfix">
 
-  <div class="postcontent nobottommargin col_last">
-    
-
-          <div class="table-responsive">
-            <table class="table cart">
-              <thead>
-                <tr>
-                  <th class="cart-product-remove">&nbsp;</th>
-                  <th class="cart-product-name">Customer</th>
-                  <th class="cart-product-price">Total</th>
-                  <th class="cart-product-quantity">Logistic</th>
-                  <th class="cart-product-subtotal">Created</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="cart_item" v-for="order in orders">
-                  <td class="cart-product-remove">
-                    <a href="#" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
-                  </td>
-
-                  <td class="cart-product-name">
-                    <a href="#">{{order.last_name}} {{order.first_name}}</a>
-                  </td>
-
-                  <td class="cart-product-price">
-                    <span class="amount">{{order.total|currency}}</span>
-                    <span class="badge badge-success" v-if="order.discount >0">{{order.discount|currency}}</span>
-                  </td>
-
-                  <td class="cart-product-name">
-                    <a href="" class="btn btn-info text-white">
-                      {{order.logistic}} oooo<span class="badge badge-light">M</span>
-                    </a>
-                  </td>
-
-                  <td class="cart-product-name">
-                    <span class="" >{{order.created_at|StandardDate}}</span>
-                  </td>
-                </tr>
-              </tbody>
-
-            </table>
-          </div>
-
-  </div>
-
-<!--   <div class="sidebar nobottommargin">
+  <div class="sidebar nobottommargin">
     <div class="sidebar-widgets-wrap">
 
       <div class="widget widget-filter-links clearfix">
@@ -55,15 +9,57 @@
         <h4>Select Category</h4>
         <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
           <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
-          <li v-for="item in subcatalogues_now">
-            <a href="#" data-filter=".sf-dress">{{item.name}}</a>
-            <span>{{item.product_num}}</span>
+          <li>
+            <router-link :to="{name:'orderlist'}">{{$t("m.shop_orderlist")}}</router-link>
           </li>
         </ul>
       </div>
     </div>
-  </div> -->
-
+  </div>
+  <div class="postcontent nobottommargin col_last">
+      <el-table
+        @row-click="SelectOrder"
+        :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        style="width: 100%">
+        <el-table-column
+          min-width='100'
+          label="Customer"
+          align="right">
+          <template slot-scope="scope">
+            <span>{{scope.row.last_name}} {{scope.row.first_name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          sortable
+          prop="total"
+          label="Amount"
+          min-width='150'
+          align="right">
+          <template slot-scope="scope">
+            <span class="amount">{{scope.row.total|currency}}</span>
+            <span class="badge badge-success" v-if="scope.row.discount >0">{{scope.row.discount|currency}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Logistic" align="center" min-width="120">
+          <template slot-scope="scope">
+            <a href="" class="btn btn-info text-white">
+              {{scope.row.logistic}} oooo<span class="badge badge-light">M</span>
+            </a>
+          </template>
+        </el-table-column>
+        <el-table-column sortable prop="created_at" label="Created" min-width="120">
+            <template slot-scope="scope">
+              <span class="" >{{scope.row.created_at|StandardDate}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="current_change">
+      </el-pagination>
+  </div>
 </div>
 </template>
 
@@ -71,16 +67,27 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-
+  import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
+  import 'element-ui/lib/theme-chalk/index_shop.css';
 
   export default {
     name: 'UserOrderList',
     components:{
+      elTable: Table,
+      elTableColumn: TableColumn,
+      elPagination:Pagination,
+      elForm:Form,
+      elFormItem:FormItem
     },
     data () {
       return {
         ME:null,
-        orders:[]
+        // orders:[],
+        tableData: [],
+        order_summaries:{},
+        total:0,
+        pagesize:10,
+        currentPage:1,
       }
     },
   computed: {
@@ -96,26 +103,46 @@
       this.loadMyOrderlist()
     },
     methods: {
+      current_change:function(currentPage){
+          console.log(currentPage)
+          this.currentPage = currentPage;
+      },
       loadMyOrderlist(){
         this.$store.dispatch("orders/getMyOrderList").then(resolve=>{
           if(resolve.result){
-            this.orders=resolve.orders
+            // this.orders=resolve.orders
+            this.tableData= resolve.orders
+            this.ME= this.$store.state.users.profile.user;
+            this.order_summaries= resolve.summary
+            this.total=this.tableData.length;
           }
         })
+      },
+      SelectOrder(row, event, column){
+        this.$router.push({ name: 'orderdetail', params: { slug: row.slug }})
       },
     },
     watch: {
       '$route' (to, from) {
-          console.log("watch route222")
-          const to_id=to.params.catalogue_id
-          const from_id =from.params.catalogue_id
-          if(from_id !== to_id){
-            this.loadCatalogueProducts(to_id)
-          }
+          // console.log("watch route222")
+          // const to_id=to.params.catalogue_id
+          // const from_id =from.params.catalogue_id
+          // if(from_id !== to_id){
+          //   this.loadCatalogueProducts(to_id)
+          // }
       }
   }
 };
 </script>
 
 <style lang="scss">
+.el-table th, .el-table tr {
+  background-color:#FFF;
+}
+.el-table thead {
+    color: #909399!important;
+}
+table {
+  margin-bottom :0 !important;
+}
 </style>

@@ -80,6 +80,13 @@ const router = new Router({
             }
         },
         {
+            path: '/user/orderdetail/:slug',
+            name:"orderdetail",
+            components:{
+                maincontent:loadView("shop/user/OrderDetails.vue")
+            }
+        },
+        {
             path: '/login',
             name:"login",
             components:{

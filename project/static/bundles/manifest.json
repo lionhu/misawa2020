@@ -55,6 +55,7 @@
   "../../static/bundles/shop-parts-ShopPrivateAlert-vue.js": "../../static/bundles/shop-parts-ShopPrivateAlert-vue.js",
   "../../static/bundles/shop-parts-ShopPublicAlert-vue.js": "../../static/bundles/shop-parts-ShopPublicAlert-vue.js",
   "../../static/bundles/shop-parts-websocks-ProductThumbup-vue.js": "../../static/bundles/shop-parts-websocks-ProductThumbup-vue.js",
+  "../../static/bundles/shop-user-OrderDetails-vue.js": "../../static/bundles/shop-user-OrderDetails-vue.js",
   "../../static/bundles/shop-user-OrderManagement-vue.js": "../../static/bundles/shop-user-OrderManagement-vue.js",
   "admin.js": "admin.js",
   "main.js": "main.js",

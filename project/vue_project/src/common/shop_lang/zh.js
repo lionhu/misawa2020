@@ -41,6 +41,29 @@ export const m = {
   coupon:"打折券",
   invalidcoupon:"无效打折券",
   add2cart:"追加到了购物车！",
-  inputmissing:"漏了什么信息啦？"
+  inputmissing:"漏了什么信息啦？",
+
+    // shopping
+  use_coupon:"输入您的打折券",
+  coupon:"打折券",
+  add2cart:"追加到了购物车！",
+
+  // order related
+  shop_customer:"顾客",
+  shop_summary:"订单信息",
+  shop_address:"住址",
+  shop_email:"邮箱",
+  shop_phone:"电话",
+
+  shop_cart_subtotal:"商品总计",
+  shop_tax:"消费税",
+  shop_total:"总计",
+  shop_ordercontent:"订单内容",
+  shop_product:"商品",
+  shop_quantity:"数量",
+  shop_subtotal:"小计",
+  shop_logistics:"物流",
+  shop_orderlist:"订单一览"
+  
 
 }
