@@ -16,7 +16,7 @@
           </span>
                 </p>
                 <div class="text-center">
-                    <router-link :to="{name:'product_article',params:{slug:product.slug}}"><i class=" icon-line-plus"></i></router-link>
+                    <router-link :to="{name:'product_article',params:{slug:product.slug}}" v-if="product.medias.length>0"><i class="icon-line-stack-2"></i></router-link>
                     <a href="javascript:void(0);" @click="addProductToCart(product.slug)" class="leftmargin-sm"><i class="icon-shopping-cart"></i></a>
                 </div>
 
