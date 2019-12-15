@@ -58,6 +58,7 @@
   "../../static/bundles/shop-user-Home-vue.js": "../../static/bundles/shop-user-Home-vue.js",
   "../../static/bundles/shop-user-OrderDetails-vue.js": "../../static/bundles/shop-user-OrderDetails-vue.js",
   "../../static/bundles/shop-user-OrderManagement-vue.js": "../../static/bundles/shop-user-OrderManagement-vue.js",
+  "../../static/bundles/shop-user-parts-SideMenu-vue.js": "../../static/bundles/shop-user-parts-SideMenu-vue.js",
   "admin.js": "admin.js",
   "main.js": "main.js",
   "member.js": "member.js",

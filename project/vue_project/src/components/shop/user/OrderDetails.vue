@@ -1,7 +1,7 @@
 <template>
 <div class="container clearfix">
 
-  <div class="sidebar nobottommargin">
+<!--   <div class="sidebar nobottommargin">
     <div class="sidebar-widgets-wrap">
 
       <div class="widget widget-filter-links clearfix">
@@ -15,7 +15,8 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
+  <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
     <div class="col_half card">
         <div class="card-header">{{$t("m.shop_customer")}}</div>
@@ -72,7 +73,7 @@
         </div>
     </div>
     <div class="col_full">
-        <h4>{{$t("m.shop_product")}}</h4>
+        <h4>{{$t("m.shop_ordercontent")}}</h4>
         <div class="table-responsive">
           <table class="table cart">
             <thead>
@@ -116,12 +117,12 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-
+  import SideMenu from "./parts/SideMenu.vue"
 
   export default {
     name: 'UserOrderDetail',
     components:{
-
+      SideMenu
     },
     data () {
       return {

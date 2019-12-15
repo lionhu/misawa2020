@@ -1,7 +1,7 @@
 <template>
 <div class="container clearfix">
 
-  <div class="sidebar nobottommargin">
+<!--   <div class="sidebar nobottommargin">
     <div class="sidebar-widgets-wrap">
 
       <div class="widget widget-filter-links clearfix">
@@ -15,7 +15,9 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
         <el-table
           @row-click="SelectOrder"
@@ -69,6 +71,8 @@
   import Swal from 'sweetalert2'
   import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
+  import SideMenu from "./parts/SideMenu.vue"
+
 
   export default {
     name: 'UserOrderList',
@@ -77,7 +81,8 @@
       elTableColumn: TableColumn,
       elPagination:Pagination,
       elForm:Form,
-      elFormItem:FormItem
+      elFormItem:FormItem,
+      SideMenu
     },
     data () {
       return {
