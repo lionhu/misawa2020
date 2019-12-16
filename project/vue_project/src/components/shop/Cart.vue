@@ -6,10 +6,10 @@
             <tr>
               <th class="cart-product-remove">&nbsp;</th>
               <th class="cart-product-thumbnail">&nbsp;</th>
-              <th class="cart-product-name">Product</th>
-              <th class="cart-product-price">Unit Price</th>
-              <th class="cart-product-quantity">Quantity</th>
-              <th class="cart-product-subtotal">Total</th>
+              <th class="cart-product-name">{{$t("m.shop_product")}}</th>
+              <th class="cart-product-price">{{$t("m.shop_price")}}</th>
+              <th class="cart-product-quantity">{{$t("m.shop_quantity")}}</th>
+              <th class="cart-product-subtotal">{{$t("m.shop_subtotal")}}</th>
             </tr>
           </thead>
           <tbody>
@@ -50,14 +50,14 @@
 
       <div class="row clearfix">
         <div class="col-lg-6 clearfix">
-          <h4>Cart Totals</h4>
+          <h4>{{$t("m.cartinfo")}}</h4>
 
           <div class="table-responsive">
               <table class="table cart">
                 <tbody>
                   <tr class="cart_item">
                     <td class="cart-product-name">
-                      <strong>Cart Subtotal</strong>
+                      <strong>{{$t("m.shop_cart_subtotal")}}</strong>
                     </td>
 
                     <td class="cart-product-name text-right">
@@ -66,7 +66,7 @@
                   </tr>
                   <tr class="cart_item">
                     <td class="cart-product-name">
-                      <strong>Tax</strong>
+                      <strong>{{$t("m.shop_tax")}}</strong>
                     </td>
 
                     <td class="cart-product-name text-right">
@@ -75,7 +75,7 @@
                   </tr>
                   <tr class="cart_item">
                     <td class="cart-product-name">
-                      <strong>Total</strong>
+                      <strong>{{$t("m.shop_total")}}</strong>
                     </td>
 
                     <td class="cart-product-name text-right">
@@ -89,7 +89,7 @@
         </div>
 
         <div class="col-lg-6 text-right vertical-middle clearfix">
-            <router-link :to="{name:'checkout'}" class="button button-reveal button-xlarge button-rounded tright"><i class="fas fa-cash-register"></i><span>Checkout Now</span></router-link>
+            <router-link :to="{name:'checkout'}" class="button button-reveal button-xlarge button-rounded tright"><i class="fas fa-cash-register"></i><span>{{$t("m.checkout")}}</span></router-link>
 <!--             <a href="#"  class="button button-reveal button-xlarge button-rounded tright"><i class="icon-angle-right"></i><span>Checkout Now</span></a> -->
           </div>
       </div>
