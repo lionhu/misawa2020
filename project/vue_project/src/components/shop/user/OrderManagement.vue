@@ -23,6 +23,12 @@
           @row-click="SelectOrder"
           :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
           style="width: 100%">
+          <el-table-column type="expand">
+      <template slot-scope="props">
+            <PayBill :order_slug="props.row.slug" :order_created_at="props.row.created_at" v-if="props.row.paystatus"></PayBill>
+      </template>
+    </el-table-column>
+
           <el-table-column
             min-width='100'
             label="Customer"
@@ -72,7 +78,7 @@
   import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
   import SideMenu from "./parts/SideMenu.vue"
-
+  import PayBill from "../../shop/parts/PayBill.vue"
 
   export default {
     name: 'UserOrderList',
@@ -82,7 +88,8 @@
       elPagination:Pagination,
       elForm:Form,
       elFormItem:FormItem,
-      SideMenu
+      SideMenu,
+      PayBill
     },
     data () {
       return {

@@ -1,7 +1,7 @@
 <template>
 
 <div class="container clearfix mt-3">
-    <div class="promo promo-dark promo-flat bottommargin" v-if="order_placed">
+<!--     <div class="promo promo-dark promo-flat bottommargin" v-if="order_placed">
         <h3><span>Order No: </span> {{order_slug}} </h3>
         <span>Your order has been place at {{order_created_at}}</span>
         
@@ -22,7 +22,8 @@
                     <i class="i-circled i-light credit_color fas fa-credit-card"></i>
                 </a>
         </div>
-    </div>
+    </div> -->
+    <PayBill :order_slug="order_slug" :order_created_at="order_created_at"  v-if="order_placed"></PayBill>
     <div class="col_half col_last"  v-if="!order_placed">
         <div class="card">
             <div class="card-body">
@@ -259,10 +260,14 @@
 
   import {setToken,getToken,showNotification,FetchAddressByPostcode,utf16to8} from "../../lib/util.js"
   import Swal from 'sweetalert2'
+  import PayBill from "./parts/PayBill.vue"
 
 
   export default {
     name: 'Checkout',
+    components:{
+        PayBill
+    },
     data () {
       return {
         address:{

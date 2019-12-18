@@ -11,6 +11,19 @@ import datetime
 
 logger=logging.getLogger("error_logger")
 
+PayStatus = (
+    ('unpaid', 'unpaid'),
+    ('paid', 'paid'),
+)
+
+PayMethod = (
+    ('bank', 'bank'),
+    ('wechat', 'wechat'),
+    ('alipay', 'alipay'),
+    ('line', 'line'),
+    ('jcoin', 'jcoin'),
+)
+
 def get_image_path(instance, filename):
     # prefix = 'avatars/'
     prefix = "products/"
@@ -79,7 +92,10 @@ class Order(models.Model):
     tracking_no = models.CharField(default="tracking_no",max_length=126, blank=True, null=True)
     delivered_at = models.DateTimeField(auto_now_add=True)
 
-    # cartjson = models.TextField(default="",blank=True,null=True,max_length=1024)
+
+    paystatus = models.CharField(default="unpaid",max_length=10,choices=PayStatus)
+    paymethod = models.CharField(default="bank",max_length=10,choices=PayMethod)
+    paid_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
