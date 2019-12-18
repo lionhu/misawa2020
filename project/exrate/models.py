@@ -89,6 +89,7 @@ class BonusDetail(models.Model):
 
 # Create your models here.
 class SystemEnv(models.Model):
+    env_type = models.CharField(max_length=20, null=True, blank=True)
     name = models.CharField(max_length=50, null=False, blank=False)
     params=JSONField()
     created = models.DateTimeField(auto_now_add=True)

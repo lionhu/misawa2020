@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BankRate, Bonus, BonusDetail
+from .models import BankRate, Bonus, BonusDetail,SystemEnv
 
 # Register your models here.
 
@@ -7,8 +7,9 @@ class BankRateAdmin(admin.ModelAdmin):
 	fields=("hui_in","hui_out","chao_in","chao_out","code",)
 	list_display = ("hui_in","hui_out","chao_in","chao_out","code",)
 
-
-admin.site.register(BankRate,BankRateAdmin)
+class SystemEnvAdmin(admin.ModelAdmin):
+	fields=("env_type","name","params")
+	list_display = ("env_type","name",)
 
 # Register your models here.
 class BonusDetailInline(admin.TabularInline):
@@ -23,3 +24,5 @@ class BonusAdmin(admin.ModelAdmin):
 	search_fields = ("user",)
 
 admin.site.register(Bonus,BonusAdmin)
+admin.site.register(SystemEnv,SystemEnvAdmin)
+admin.site.register(BankRate,BankRateAdmin)
