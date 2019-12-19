@@ -21,6 +21,10 @@
           <a href="javascript:void(0)" @click="logout" class="link" data-toggle="tooltip" title="" data-original-title="Logout">
             <i class="ion ion-power"></i>
           </a>
+
+          <a href="/superadmin/" class="link" v-if="ME.user.username =='root'">
+            <i class="fas fa-user-shield" style="color:#00c292 !important"></i>
+          </a>
         </div>
       </div>
       <ul class="sidebar-menu" data-widget="tree">
