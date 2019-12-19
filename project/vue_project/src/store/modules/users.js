@@ -28,7 +28,6 @@ const actions = {
         usersAPI.get_myprofile(
             res => {
                 if(res.data.result){
-                    state.ME={}
                     commit("set_myprofile",res.data.data);
                     resolve(res.data.data)
                 }
@@ -103,7 +102,6 @@ const actions = {
 const mutations = {
     set_myprofile(state,data){
         state.profile=data;
-        console.log(state)
         state.ME.username=data.user.username
         state.ME.email=data.user.email
         state.ME.language=data.language
@@ -124,7 +122,7 @@ const mutations = {
         state.profile.line=data.line
     },
     reset_ME(state){
-        state.ME=null;
+        state.ME={};
         setToken("","username");
         setToken("","jwt_token");
     },

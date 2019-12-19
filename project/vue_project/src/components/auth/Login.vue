@@ -106,11 +106,10 @@
                         window.location.href="/exrate/"
                       }
                     }
-
                 },rejecte=>{});
 
             })
-            .catch(error => {              
+            .catch(error => {
                 Swal.fire({
                   type: 'error',
                   title: 'Oops...',
