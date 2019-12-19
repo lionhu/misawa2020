@@ -113,11 +113,55 @@ def fetch_bankrate():
     msg.send()
 
 
-    # mail_sent = send_mail(subject,
-    #                       json.dumps(jpy_rate, ensure_ascii=False),
-    #                       settings.DEFAULT_FROM_EMAIL,
-    #                       ['lionhu2009@gmail.com'])
-    # return mail_sent
+@shared_task
+def NotificationMemberTodayRate():
+    subject = 'message from chat'
+    r = ShowapiRequest("http://route.showapi.com/105-32","76812","ff6b110b4d884acf9d1ddc030a16c5a0" )
+    r.addBodyPara("bankCode", "icbc")
+    res = r.post()
+
+    data=json.loads(res.text)
+
+    fetch_error = data["showapi_res_error"]
+
+    if not fetch_error:
+      rates=data["showapi_res_body"]["codeList"]
+      data_time=data["showapi_res_body"]["time"]
+      data_day=data["showapi_res_body"]["day"]
+      l_names = [d.get("name") for d in rates]
+
+      jpy_index = l_names.index("日元")
+
+      if jpy_index >-1:
+        jpy_rate=rates[jpy_index]
+        jpy_rate_db = {
+            "name":"jpy",
+            "code":jpy_rate["code"],
+            "hui_in":decimal.Decimal(jpy_rate["hui_in"]),
+            "hui_out":decimal.Decimal(jpy_rate["hui_out"]),
+            "chao_in":decimal.Decimal(jpy_rate["chao_in"]),
+            "chao_out":decimal.Decimal(jpy_rate["chao_out"])
+          }
+        jpy_rate = {
+            "name":"jpy",
+            "time":data_time,
+            "day":data_day,
+            "code":jpy_rate["code"],
+            "hui_in":decimal.Decimal(jpy_rate["hui_in"]),
+            "hui_out":decimal.Decimal(jpy_rate["hui_out"]),
+            "chao_in":decimal.Decimal(jpy_rate["chao_in"]),
+            "chao_out":decimal.Decimal(jpy_rate["chao_out"])
+          }
+        BankRate.objects.create(**jpy_rate_db)
+
+        cache.set("todayrate",jpy_rate,3600)
+        logger.error(cache.get("todayrate"))
+
+    html_content = render_to_string('emails/todayrate.html',{'todayrate':jpy_rate})
+    msg = EmailMessage("[Exrate Notification]Today's BOC rate",html_content,settings.DEFAULT_FROM_EMAIL,["crs@nichiei.service"])
+    msg.content_subtype = "html"
+    msg.send()
+
 
 
 @shared_task
