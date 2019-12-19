@@ -4,7 +4,11 @@ import { setToken,getToken } from '../../lib/util'
 
 // initial state
 const state = {
-    ME:null,
+    ME:{
+      username:"",
+      email:"",
+      language:""
+    },
     rules: {},
     profile:{},
     accesstoken:""

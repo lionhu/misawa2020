@@ -131,7 +131,7 @@ def register_notification(email):
     mail_sent = send_mail(subject,
                           message,
                           'huhaiguang@me.com',
-                          ['lionhu2009@gmail.com'])
+                          ['huhaiguang@me.com'])
     return mail_sent
 
 @task
@@ -158,14 +158,11 @@ def sendEmail_newuser_registered(username,email):
 
     logger.error("in sendEmail_newuser_registered function: {%s}"%(username))
 
-
-    # order=Order.objects.filter(slug=order_slug).first()
-    # logger.error(order)
-    # logger.error(order.user.email)
     url="%s/admin/user/%s"%(settings.HOSTNAME,username)
     html_content = render_to_string('emails/register_notifications.htm',{'title':"New User Registered",'url':url,"username":username,"email":email})
     msg = EmailMessage("[Exrate Notification]New User Registered",html_content,settings.DEFAULT_FROM_EMAIL,["huhaiguang@me.com"])
     msg.content_subtype = "html" # Main content is now text/html
     msg.send()
+
 
 

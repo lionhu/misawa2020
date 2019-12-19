@@ -32,7 +32,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import BaseAuthentication
 from django.views.decorators.csrf import csrf_exempt
 from musics.tasks import EmailVerifyRecord
-from .tasks import sendPasswordResetEmail
+from .tasks import sendPasswordResetEmail,notificationUserLogin
 from .models import EmailPasswordReset
 from musics.tasks import sendEmail_newuser_registered
 from env_system.permissions import IsAdmin
@@ -88,8 +88,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             image.save()
 
         return Response({'message': 'OK'})
-
-
 
     @list_route(methods=['get'], permission_classes=[IsAdmin])
     def Admin_UserList(self,request,format=None):
@@ -172,6 +170,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         user.backend = 'useraccount.viewsets.CustomBackend'
         auth.login(request, user)
 
+        notificationUserLogin.delay(user.username,user.email)
         logger.error("AlsoLoginMeSync Good")
 
     @action(detail=False,methods=["get"], permission_classes=[inBlacklist])
@@ -190,31 +189,6 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             "result":False,
             "data":{}
         }, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-
-
-    # @action(detail=False,methods=["post"],permission_classes=[AllowAny])
-    # def LoginMeSync(self,request):
-    #     username=request.data.get("username",None)
-    #     pwd=request.data.get("password",None)
-
-    #     success=auth.authenticate(request,username=username,password=pwd)
-    #     if success :
-
-    #         user = User.objects.get(username=username)
-    #         user.backend = 'useraccount.viewsets.CustomBackend'
-    #         auth.login(request, user)
-
-    #         logger.error("LoginMeSync Good")
-    #         return Response({
-    #                 "result":True,
-    #                 "message":"sync login success"
-    #             }, status=status.HTTP_200_OK)
-
-    #     raise Http404
 
 
     @action(detail=False,methods=["post"],permission_classes=[AllowAny])

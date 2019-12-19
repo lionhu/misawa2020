@@ -81,6 +81,19 @@ def sendPasswordResetEmail(email="test@me.com"):
 
 
 @task
+def notificationUserLogin(username,email):
+
+
+    logger.error("in notificationUserLogin function: {%s}"%(username))
+
+    url="%s/admin/user/%s"%(settings.HOSTNAME,username)
+    html_content = render_to_string('emails/notificationUserLogin.htm',{'title':"User Login",'url':url,"username":username,"email":email})
+    msg = EmailMessage("[Admin Notification]User Login",html_content,settings.DEFAULT_FROM_EMAIL,["huhaiguang@me.com"])
+    msg.content_subtype = "html" # Main content is now text/html
+    msg.send()
+
+
+@task
 def register_notification(email):
     subject = 'register_notification from Celery '
     message = 'User {} has been registered.'.format(email)
