@@ -23,11 +23,12 @@ const getters = {
 // actions
 const actions = {
     
-    get_myprofile({ commit }) {
+    get_myprofile({ commit,state }) {
       return new Promise((resolve,reject)=>{
         usersAPI.get_myprofile(
             res => {
                 if(res.data.result){
+                    state.ME={}
                     commit("set_myprofile",res.data.data);
                     resolve(res.data.data)
                 }
@@ -102,6 +103,7 @@ const actions = {
 const mutations = {
     set_myprofile(state,data){
         state.profile=data;
+        console.log(state)
         state.ME.username=data.user.username
         state.ME.email=data.user.email
         state.ME.language=data.language
