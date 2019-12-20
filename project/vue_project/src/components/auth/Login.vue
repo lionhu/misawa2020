@@ -38,7 +38,7 @@
 
 <!--         <div class="social-auth-links text-center">
           <p>- OR -</p>
-          <a href="#" class="btn btn-social-icon btn-circle btn-facebook"><i class="fa fa-facebook"></i></a>
+          <v-facebook-login app-id="1076451029210276"></v-facebook-login>
           <a href="#" class="btn btn-social-icon btn-circle btn-google"><i class="fa fa-google-plus"></i></a>
         </div> -->
         <!-- /.social-auth-links -->
@@ -57,7 +57,7 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-
+// import { VFBLogin as VFacebookLogin } from 'vue-facebook-login-component'
 
   export default {
     name: 'login',
@@ -68,6 +68,9 @@
         callback:""
       }
     },
+    // components: {
+    //   VFacebookLogin
+    // },
     computed:{
       // myprofile(){
       //     return this.$store.state.users.profile;

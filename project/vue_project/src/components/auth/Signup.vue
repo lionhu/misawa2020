@@ -3,9 +3,9 @@
 
      <div class="register-box-body">
         <div class="register-logo">
-
             <img src="/static/img/logo.svg" alt="logo" class="dark-logo lionhu_img">
             <img src="/static/img/nichiei_text.svg" alt="logo" class="dark-logo lionhu_img">
+            <img :src="newuser.avatar" v-if="isFacebookAuth">
         </div>
         <div class="form-element">
           <div class="form-group has-feedback">
@@ -42,11 +42,21 @@
           </div>
         </div>
       
-<!--         <div class="social-auth-links text-center">
+        <div class="social-auth-links text-center">
           <p>- OR -</p>
-          <a href="#" class="btn btn-social-icon btn-circle btn-facebook"><i class="fa fa-facebook"></i></a>
-          <a href="#" class="btn btn-social-icon btn-circle btn-google"><i class="fa fa-google-plus"></i></a>
-        </div> -->
+          <v-facebook-login
+              style="margin:0 auto!important;"
+              app-id="1076451029210276"
+              version="v5.0"
+              :login-options="scope"
+              @sdk-init="setSdk"
+              @connect="connected"
+              @logout="onLogout">      
+              <span slot="login">Facebookで登録</span>
+              <span slot="logout">Facebookからログアウト</span>
+          </v-facebook-login>
+          <!-- <a href="#" class="btn btn-social-icon btn-circle btn-google"><i class="fa fa-google-plus"></i></a> -->
+        </div>
       <!-- /.social-auth-links -->
     
       <div class="margin-top-20 text-center">
@@ -62,22 +72,31 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
+import { VFBLogin as VFacebookLogin } from 'vue-facebook-login-component'
 
 
   export default {
     name: 'login',
     data () {
       return {
+        sdkFB: undefined,
+        scope: { scope: "public_profile, email" },
+        isFacebookAuth: false,
+        facebookInfo: undefined,
         newuser:{
           username:"",
           email:"",
           password:"",
           password2:"",
           introcode:"",
-          agreed:true
+          agreed:true,
+          avatar:""
         }
 
       }
+    },
+    components: {
+      VFacebookLogin
     },
     computed:{
     },
@@ -146,6 +165,31 @@
                 })
         }
       },
+      // sdkの読み込み完了
+    setSdk(sdk) {
+      this.sdkFB = sdk.FB;
+    },
+    // 認証が完了したらconnectedが呼ばれる
+    connected() {
+      this.isFacebookAuth = true;
+      // id、名前、写真、メールアドレスを取得
+      this.sdkFB.api(
+        "/me?fields=id,name,picture,email",
+        function(response) {
+          // 取得したデータを設定
+          this.newuser = {
+            id: response.id,
+            username: response.name,
+            email: response.email,
+            avatar: response.picture.data.url
+          };
+        }.bind(this)
+      );
+    },
+    // ログアウト時は認証フラグをfalse
+    onLogout(response) {
+      this.isFacebookAuth = false;
+    }
     }
   };
 
@@ -156,6 +200,9 @@
   display:block;
   margin: 0 auto;
   width: 20%;
+}
+.v-facebook-login{
+  margin:0 auto;
 }
 </style>
 
