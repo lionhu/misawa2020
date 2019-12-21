@@ -86,11 +86,3 @@ class DSOrder(models.Model):
     # def dis_bonus(self):
     #     bonus = math.floor(self.amount/10*settings.ORDER_BONUS_DISTRIBUTOR)
     #     return bonus
-
-# @receiver(post_save, sender=DSOrder)
-# def create_enrolled_record(sender, instance=None, created=False, **kwargs):
-
-#     logger.error("in post_save function")
-#     logger.error(instance)
-
-

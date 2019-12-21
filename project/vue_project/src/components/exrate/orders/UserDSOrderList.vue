@@ -36,6 +36,7 @@
             </div>
             <div class="box-body">
               <el-table
+                @row-click="SelectOrder"
                 :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                 style="width: 100%">
                 <el-table-column
@@ -135,6 +136,9 @@
       this.load_orderlist()
     },
     methods: {
+      SelectOrder(row, event, column){
+        this.$router.push({ name: 'dsorder_detail', params: { slug: row.slug }})
+      },
        handleDSOrderDelete(slug){
         Swal.fire({
           title: 'Are you sure?',

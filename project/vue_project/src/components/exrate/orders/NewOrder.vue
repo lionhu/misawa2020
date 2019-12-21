@@ -1,7 +1,7 @@
 <template>
   <div>
       <BOCRate></BOCRate>
-      <form class="form-horizontal" @submit.prevent="submitform">
+      <form class="form-horizontal" @submit.prevent="submitform"  v-if="validTodayRate">
           <div class="box box-solid bg-dark">
             <div class="box-header with-border">
               <h3 class="box-title">{{$t("m.exchange")}}</h3>
@@ -96,6 +96,14 @@
             </div>
           </div>
       </form>
+      <div class="info-box"  v-if="!validTodayRate">
+        
+        <img class="rounded-circle" style="display:inline-block;width:80px;" src="/static/img/boc.png" alt="User Avatar">
+        <div class="info-box-content" style="display:inline-block;">
+
+          <span class="info-box-text"><i class="fas fa-exclamation-triangle text-danger" style="margin-right:5px;"></i>Error in Fetching BOC Rate</span>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -129,9 +137,9 @@
       }
     },
     computed:{
-      // myprofile(){
-      //     return this.$store.state.users.profile;
-      // },
+      validTodayRate(){
+        return jQuery.isEmptyObject(this.todayrate) ? false:true;
+      }
     },
     created(){
     },

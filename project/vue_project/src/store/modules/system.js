@@ -19,7 +19,6 @@ const getters = {
 const actions = {
 
     get_todayrate({ commit }){
-        // console.log("store get_todayrate");
         return new Promise((resolve,reject)=>{
             system.get_TodayRate(
                 res => {

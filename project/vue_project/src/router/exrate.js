@@ -117,15 +117,6 @@ const router = new Router({
             }
         },
         {
-            path: '/dsorder/mylist',
-            name:"mydsorderlist",
-            components:{
-                topmenu:loadView("exrate/TopMenu.vue"),
-                sidemenu:loadView("exrate/SideMenu.vue"),
-                maincontent:loadView("exrate/orders/UserDSOrderList.vue")
-            }
-        },
-        {
             path: '/offer/mylist',
             name:"myofferlist",
             components:{
@@ -168,6 +159,24 @@ const router = new Router({
                 topmenu:loadView("exrate/TopMenu.vue"),
                 sidemenu:loadView("exrate/SideMenu.vue"),
                 maincontent: loadView("exrate/orders/NewDSOrder.vue")
+            }
+        },
+        {
+            path: '/dsorder/mylist',
+            name:"mydsorderlist",
+            components:{
+                topmenu:loadView("exrate/TopMenu.vue"),
+                sidemenu:loadView("exrate/SideMenu.vue"),
+                maincontent:loadView("exrate/orders/UserDSOrderList.vue")
+            }
+        },
+        {
+            path: '/dsorder/detail',
+            name:"dsorder_detail",
+            components:{
+                topmenu:loadView("exrate/TopMenu.vue"),
+                sidemenu:loadView("exrate/SideMenu.vue"),
+                maincontent:loadView("exrate/orders/DSOrder/SingleOrder.vue")
             }
         },
         {

@@ -17,6 +17,7 @@ from django.core.cache import cache
 from .models import DSOrder
 from .serializers import DSOrderSerializer
 from .permissions import IsAdminOrOwner,IsOwnerOrReadOnly
+from .tasks import notifyNewDSOrder
 
 logger=logging.getLogger("error_logger")
 
@@ -86,7 +87,8 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
         bonus=int(settings.DS_ORDER_BONUS_JPY)*request.data["amount"]
         if serializer.is_valid():
             serializer.save(user=request.user,bonuspoint=bonus)
-
+            logger.error(serializer.slug)
+            notifyNewDSOrder.delay(serializer)
             content={
               "success":True,
               "type":"create DirestSell Order",

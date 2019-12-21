@@ -74,6 +74,7 @@ def fetch_bankrate(toUser):
 
     fetch_error = data["showapi_res_error"]
 
+    logger.error(data)
     if not fetch_error:
       rates=data["showapi_res_body"]["codeList"]
       data_time=data["showapi_res_body"]["time"]
@@ -111,7 +112,6 @@ def fetch_bankrate(toUser):
     msg = EmailMessage("[Exrate Notification]Today's rate",html_content,settings.DEFAULT_FROM_EMAIL,[toUser])
     msg.content_subtype = "html" # Main content is now text/html
     msg.send()
-
 
 @shared_task
 def task_mail_chatmessage(message):
