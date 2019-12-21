@@ -23,7 +23,7 @@ def notifyNewDSOrder(order_slug):
 
     url="%s/superadmin/#/dsorders"%(settings.HOSTNAME)
     if order is not None:
-        html_content = render_to_string('emails/OrderOwner_OfferChanged_notification.htm',{'order':order,'url':url})
-        msg = EmailMessage("[Exrate Notification]Your Order status changed",html_content,settings.DEFAULT_FROM_EMAIL,[order.user.email])
+        html_content = render_to_string('emails/ADMIN_newDSOrder.htm',{'order':order,'url':url})
+        msg = EmailMessage("[Exrate ADMIN Notification]New DS Order",html_content,settings.DEFAULT_FROM_EMAIL,[order.user.email,settings.ADMIN_ROOT_EMAIL])
         msg.content_subtype = "html" # Main content is now text/html
         msg.send()
