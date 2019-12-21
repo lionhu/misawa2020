@@ -19,12 +19,11 @@ def notifyNewDSOrder(order_slug):
 
     logger.error(order_slug)
 
+    order=Order.objects.filter(slug=order_slug).first()
 
-    # order=Order.objects.filter(slug=order_slug).first()
-
-    # url="%s/exrate/#/singleorder/%s"%(settings.HOSTNAME,order.slug)
-    # if order is not None:
-    #     html_content = render_to_string('emails/OrderOwner_OfferChanged_notification.htm',{'order':order,'url':url})
-    #     msg = EmailMessage("[Exrate Notification]Your Order status changed",html_content,settings.DEFAULT_FROM_EMAIL,[order.user.email])
-    #     msg.content_subtype = "html" # Main content is now text/html
-    #     msg.send()
+    url="%s/superadmin/#/dsorders"%(settings.HOSTNAME)
+    if order is not None:
+        html_content = render_to_string('emails/OrderOwner_OfferChanged_notification.htm',{'order':order,'url':url})
+        msg = EmailMessage("[Exrate Notification]Your Order status changed",html_content,settings.DEFAULT_FROM_EMAIL,[order.user.email])
+        msg.content_subtype = "html" # Main content is now text/html
+        msg.send()

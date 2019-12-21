@@ -68,13 +68,13 @@
 
         <li class="header nav-small-cap"><i class="fas fa-balance-scale icon-warning"></i>{{$t("m.auction")}}</li>
         <li>
-          <a href="/exrate/#/order/list">
+          <a href="/exrate/#/auctionorder/list">
             <i class="icon-refresh"></i> <span v-text="$t('m.transactions')"></span>
           </a>
         </li>
         <li>
 
-          <a href="/exrate/#/order/new">
+          <a href="/exrate/#/auctionorder/new">
             <i class="icon-equalizer"></i>
             <span v-text="$t('m.new_order')"></span>
           </a>

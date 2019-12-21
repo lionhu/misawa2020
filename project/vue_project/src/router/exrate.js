@@ -99,12 +99,12 @@ const router = new Router({
             }
         },
         {
-            path: '/order/list',
-            name:"orderlist",
+            path: '/auctionorder/list',
+            name:"auctionorderlist",
             components:{
                 topmenu:loadView("exrate/TopMenu.vue"),
                 sidemenu:loadView("exrate/SideMenu.vue"),
-                maincontent:loadView("exrate/orders/OrderList.vue")
+                maincontent:loadView("exrate/orders/AuctionOrderList.vue")
             }
         },
         {
@@ -126,12 +126,12 @@ const router = new Router({
             }
         },
         {
-            path: '/singleorder/:slug',
-            name:"singleorder",
+            path: '/auctionorder/:slug',
+            name:"auctionorder",
             components:{
                 topmenu:loadView("exrate/TopMenu.vue"),
-                sidemenu:loadView("SideMenu.vue"),
-                maincontent:loadView("exrate/orders/SingleOrder.vue")
+                sidemenu:loadView("exrate/SideMenu.vue"),
+                maincontent:loadView("exrate/orders/AuctionSingleOrder.vue")
             }
         },
         {
@@ -144,12 +144,12 @@ const router = new Router({
             }
         },
         {
-            path: '/order/new',
-            name:"neworder",
+            path: '/auctionorder/new',
+            name:"newauctionorder",
             components:{
                 topmenu:loadView("exrate/TopMenu.vue"),
                 sidemenu:loadView("exrate/SideMenu.vue"),
-                maincontent: loadView("exrate/orders/NewOrder.vue")
+                maincontent: loadView("exrate/orders/NewAuctionOrder.vue")
             }
         },
         {

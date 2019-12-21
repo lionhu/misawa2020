@@ -64,6 +64,9 @@
           </a>
           <ul class="treeview-menu" style="display: none;">
             <li>
+              <router-link :to="{ name: 'dsorders'}">Direct Orders</router-link>
+            </li>
+            <li>
               <router-link :to="{ name: 'auctionorders'}">Auction Orders</router-link>
             </li>
           </ul>

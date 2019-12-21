@@ -15,9 +15,10 @@ import datetime
 import json
 from django.core.cache import cache
 from .models import DSOrder
-from .serializers import DSOrderSerializer
-from .permissions import IsAdminOrOwner,IsOwnerOrReadOnly
+from .serializers import DSOrderSerializer,DSOrderAdminSerializer
 from .tasks import notifyNewDSOrder
+from env_system.permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin,IsAdminOrReadOnly
+
 
 logger=logging.getLogger("error_logger")
 
@@ -87,8 +88,8 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
         bonus=int(settings.DS_ORDER_BONUS_JPY)*request.data["amount"]
         if serializer.is_valid():
             serializer.save(user=request.user,bonuspoint=bonus)
-            logger.error(serializer.slug)
-            notifyNewDSOrder.delay(serializer)
+            # logger.error(serializer.slug)
+            notifyNewDSOrder.delay(serializer.data["slug"])
             content={
               "success":True,
               "type":"create DirestSell Order",
@@ -149,3 +150,47 @@ class DSOrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,
     @detail_route(methods=['post'])
     def update_order(self, request, pk, format=None):
         pass
+
+    # Admin related Order API
+    @list_route(methods=["post"],permission_classes=[IsAdmin,])
+    def AdminOrdersList(self,request,format=None):
+      orders = DSOrder.objects.all().order_by("-created","-due_at","from_currency","amount")
+      order_summary=DSOrder.objects.all().values("from_currency").annotate(count=Count("amount"),
+        sum=Sum("amount"),max_rate=Max("rate"),min_rate=Min("rate"))
+
+      serializer=DSOrderAdminSerializer(orders,many=True)
+
+      return Response({
+          "result":True,
+          "type": "list",
+          "summary":order_summary,
+          "orders":serializer.data
+      },status=status.HTTP_200_OK)
+
+
+    @list_route(methods=['post'],permission_classes=[IsAdmin,])
+    def AdminSingleOrder(self,request,format=None):
+
+        try:
+          search_slug=request.data["slug"]
+          content={
+              "result":False,
+              "slug":search_slug,
+              "order":{}
+          }
+
+          order=DSOrder.objects.filter(slug=search_slug).first()
+          if order:
+              serializer_order=DSOrderAdminSerializer(order,many=False)
+
+              content={
+                  "result":True,
+                  "slug":search_slug,
+                  "order":serializer_order.data
+              }
+
+              return Response(content,status=status.HTTP_200_OK)
+
+        except KeyError:
+          raise Http404
+

@@ -16,3 +16,27 @@ class DSOrderSerializer(serializers.ModelSerializer):
         # fields = "__all__"
         exclude = ['active','privacy','id']
 
+
+class DSOrderAdminSerializer(serializers.ModelSerializer):    
+    user = serializers.ReadOnlyField(source = "user.username")
+    class Meta:
+        model = DSOrder
+        fields = (
+            'id',
+            'slug',
+            'created',
+            'last_updated',
+            'amount',
+            "bonuspoint",
+            'from_currency',
+            'to_currency',
+            'due_at',
+            'rate',
+            'active',
+            "status",
+            'privacy',
+            'send_notification',
+            'memo',
+            'user',
+        )
+

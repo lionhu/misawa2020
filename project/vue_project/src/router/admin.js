@@ -22,12 +22,30 @@ const router = new Router({
             }
         },
         {
+            path: '/dsorder',
+            name:"dsorder",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("Orders/DirectSingleOrder")
+            }
+        },
+        {
+            path: '/dsorders',
+            name:"dsorders",
+            components:{
+                topmenu:loadView("menu/TopMenu"),
+                sidemenu:loadView("menu/SideMenu"),
+                maincontent:loadView("Orders/DirectOrders")
+            }
+        },
+        {
             path: '/single_auctionorder',
             name:"single_auctionorder",
             components:{
                 topmenu:loadView("menu/TopMenu"),
                 sidemenu:loadView("menu/SideMenu"),
-                maincontent:loadView("AuctionSingleOrder")
+                maincontent:loadView("Orders/AuctionSingleOrder")
             }
         },
         {
@@ -36,7 +54,7 @@ const router = new Router({
             components:{
                 topmenu:loadView("menu/TopMenu"),
                 sidemenu:loadView("menu/SideMenu"),
-                maincontent:loadView("AuctionOrders")
+                maincontent:loadView("Orders/AuctionOrders")
             }
         },
         {
