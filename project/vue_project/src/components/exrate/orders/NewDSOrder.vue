@@ -114,7 +114,7 @@
     inject:["reload"],
     data () {
       return {
-        ME:null,
+        ME:{},
         todayrate:{},
         order:{
           amount:10,
@@ -126,7 +126,7 @@
           user:0,
           memo:"....",
           send_notification:false
-        }
+        },
       }
     },
     computed:{
@@ -145,7 +145,10 @@
     mounted() {
       this.ME=this.$store.state.users.profile;
       this.order.user= this.ME.user.id;
-      this.$store.dispatch("system/get_systemEnvs")
+      var vm = this;
+      this.$store.dispatch("system/get_systemEnvs").then(
+        resolve=>{
+        },reject=>{})
       this.$store.dispatch("system/get_todayrate").then(
         resolve=>{
           this.todayrate=resolve.todayrate

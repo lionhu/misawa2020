@@ -24,6 +24,7 @@
   "../../static/bundles/exrate-SideMenu-vue.js": "../../static/bundles/exrate-SideMenu-vue.js",
   "../../static/bundles/exrate-TopMenu-vue.js": "../../static/bundles/exrate-TopMenu-vue.js",
   "../../static/bundles/exrate-orders-NewDSOrder-vue.js": "../../static/bundles/exrate-orders-NewDSOrder-vue.js",
+  "../../static/bundles/exrate-orders-NewDSOrder_bk-vue.js": "../../static/bundles/exrate-orders-NewDSOrder_bk-vue.js",
   "../../static/bundles/exrate-orders-NewOrder-vue.js": "../../static/bundles/exrate-orders-NewOrder-vue.js",
   "../../static/bundles/exrate-orders-OrderList-vue.js": "../../static/bundles/exrate-orders-OrderList-vue.js",
   "../../static/bundles/exrate-orders-SingleOrder-vue.js": "../../static/bundles/exrate-orders-SingleOrder-vue.js",

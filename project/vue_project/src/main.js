@@ -55,4 +55,4 @@ const MainContent=new Vue({
     render: h => h(App)
 });
 
-console.log("hello_lionhu from main.js")
+// console.log("hello_lionhu from main.js")

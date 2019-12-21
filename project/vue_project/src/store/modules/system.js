@@ -19,7 +19,7 @@ const getters = {
 const actions = {
 
     get_todayrate({ commit }){
-        console.log("store get_todayrate");
+        // console.log("store get_todayrate");
         return new Promise((resolve,reject)=>{
             system.get_TodayRate(
                 res => {
@@ -34,13 +34,12 @@ const actions = {
         })
     },
     get_systemEnvs({ commit }){
-        console.log("store systemEnvs");
         return new Promise((resolve,reject)=>{
             system.load_systemEnvs(
                 res => {
                     if(res.data.result){
                         commit("setsystemEnvs",res.data.systemEnvs);
-                        // resolve(res.data)
+                        resolve(res.data.systemEnvs)
                     }
                 },err =>{
                     console.log(err)
@@ -49,7 +48,7 @@ const actions = {
         })
     },
     load_dashboard({commit}){
-        console.log("load_dashboard");
+        // console.log("load_dashboard");
         return new Promise((resolve,reject)=>{
             system.load_dashboard(
                 res => {
