@@ -62,7 +62,6 @@ class Address(models.Model):
     def __str__(self):
         return "%s %s"%(self.first_name,self.last_name)
 
- 
 class Cart(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     created = models.DateTimeField(auto_now_add=True)
@@ -116,8 +115,6 @@ class Order(models.Model):
 
         return {'Qty':qty,'Total':Total}
 
-
-
 class CartItem(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     product = models.ForeignKey(Product, null=True,blank=True,on_delete=models.CASCADE)
@@ -138,8 +135,6 @@ class CartItem(models.Model):
     def __str__(self):
         return "CartItem %s"%(self.quantity)
 
-
- 
 class Coupon(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     created = models.DateTimeField(auto_now_add=True)
@@ -153,3 +148,18 @@ class Coupon(models.Model):
 
     def __str__(self):
         return "%s: %s "%(self.coupon,self.discount)
+
+class Favorite(models.Model):
+    slug = models.SlugField(null=False,blank=False,default=now_slug)
+    user = models.ForeignKey(User, null=False,blank=False,on_delete=models.CASCADE,related_name="favorites")
+    product = models.ForeignKey(Product, null=False,blank=False,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name="FavoriteProduct"
+        app_label="shoppingcart"
+        ordering=['user',"product"] 
+
+    def __str__(self):
+        return "%s like %s"%(self.user.username,self.product.name)
+

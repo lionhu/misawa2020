@@ -19,8 +19,8 @@ import json
 from .permissions import IsOwnerOrReadOnly,IsAdminOrOwner,IsAdmin
 from .serializers import AddressSerializer,CartSerializer,CartItemSerializer,\
                     OrderSerializer,OrderListSerializer,\
-                    ProductSerializer,CouponSerializer
-from .models import Address,Cart,CartItem,Order,Coupon
+                    ProductSerializer,CouponSerializer,FavoriteSerializer
+from .models import Address,Cart,CartItem,Order,Coupon,Favorite
 from lottery_shop.models import Product
 from env_system.ColoPayApiRequest import ColoPayApiRequest
 from channels.layers import get_channel_layer
@@ -657,4 +657,95 @@ class CouponViewSet(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.Gen
         except KeyError:
             raise Http404
 
+
+
+class FavoriteViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+    lookup_field="slug"
+
+    def list(self,request):
+        favorites = Favorite.objects.filter(user = request.user).order_by("created_at")
+
+        if favorites.count():
+            serializer = self.serializer_class(favorites,many=True)
+
+            content={
+                "result":True,
+                "favorites":serializer.data,
+                "message":"favorites of user %s"%(request.user.username)
+            }
+        else :
+            content={
+                "result":False,
+                "message":"favorites of user  doesn't exist"
+            }
+        
+        return Response(content,status=status.HTTP_200_OK)
+
+
+    def create(self, request):
+        product_slug = request.data["slug"]
+        product = Product.objects.filter(slug=product_slug).first()
+        request.data["product"]=product.id
+        request.data["user"]=request.user.id
+
+        favorite = Favorite.objects.filter(user=request.user.id,product=product.id).first()
+
+        if favorite is not None:
+            return Response({
+                "result":False,
+                "message":"user favorite has been exist"
+            }, status=status.HTTP_200_OK)
+
+        if product is not None:
+            serializer = self.serializer_class(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+
+                return Response({
+                    "result":True,
+                    "message":"successfully create user favorite",
+                    "data":serializer.data
+                }, status=status.HTTP_200_OK)
+
+            logger.error(serializer.errors)
+
+        return Response({
+            "result":False,
+            "message":"error in create user favorite"
+        }, status=status.HTTP_200_OK)
+
+    def destroy(self, request,slug=None):
+
+        if slug is not None:
+            favorite = Favorite.objects.filter(slug=slug).first()
+
+            if favorite is not None:
+                favorite.delete()
+
+                return Response({
+                    "result":True,
+                    "type":"destroy Favorite",
+                    "message":"Favorite deleted",
+                    "slug":slug
+                }, status=status.HTTP_200_OK)
+
+        return Response({
+            "result":False,
+            "type":"destroy Favorite",
+            "message":"Favorite is not deleted",
+            "slug":slug
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=False,methods=["post"], permission_classes=[IsAdmin])
+    def adminList(self,request):
+        favorites = Favorite.objects.all()
+        serializer=self.serializer_class(favorites,many=True)
+        return Response({
+            "result":True,
+            "favorites":serializer.data,
+            }, status=status.HTTP_200_OK)
 

@@ -11,7 +11,7 @@ from useraccount.views import users as apiUsers,show_signup,user_active
 from mail_exchange.viewsets  import OrderViewSet as AuctionOrderViewSet,OfferViewSet as AuctionOfferViewSet,TransactionViewSet
 from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet,SystemEnvViewSet
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet,GrouponViewSet,ApplicantViewSet
-from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet
+from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet,FavoriteViewSet
 from ds_exchange.viewsets import DSOrderViewSet
 from chat.viewsets import ChatMessageViewSet
 from rest_framework_swagger.views import get_swagger_view
@@ -39,6 +39,7 @@ router.register('coupon', CouponViewSet)
 router.register('sysenv', SystemEnvViewSet)
 router.register('chat', ChatMessageViewSet)
 router.register('groupon', GrouponViewSet)
+router.register('favorites', FavoriteViewSet)
 router.register('applicant', ApplicantViewSet)
 
 
