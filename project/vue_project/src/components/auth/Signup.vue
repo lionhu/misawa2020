@@ -9,19 +9,19 @@
         </div>
         <div class="form-element">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" v-model="newuser.username" required placeholder="Full name">
+            <input type="text" class="form-control" v-model="newuser.username" required :placeholder="$t('m.username')">
             <span class="ion ion-person form-control-feedback "></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="email" class="form-control" v-model="newuser.email" required placeholder="Email">
+            <input type="email" class="form-control" v-model="newuser.email" required :placeholder="$t('m.email')">
             <span class="ion ion-email form-control-feedback "></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" v-model="newuser.password" required placeholder="Password">
+            <input type="password" class="form-control" v-model="newuser.password" required :placeholder="$t('m.password')">
             <span class="ion ion-locked form-control-feedback "></span>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" @keyup.enter="SignupMe" v-model="newuser.password2" required placeholder="Retype password">
+            <input type="password" class="form-control" @keyup.enter="SignupMe" v-model="newuser.password2" required :placeholder="$t('m.repassword')"
             <span class="ion ion-log-in form-control-feedback "></span>
           </div>
           <div class="form-group has-feedback">
@@ -31,12 +31,12 @@
             <div class="col-12">
               <div class="checkbox">
                 <input type="checkbox" v-model="newuser.agreed" id="basic_checkbox_1">
-          <label for="basic_checkbox_1">I agree to the <a href="#"><b>Terms</b></a></label>
+          <label for="basic_checkbox_1"> <a href="#"><b>{{$t('m.agreeterm')}}</b></a></label>
               </div>
             </div>
             <!-- /.col -->
             <div class="col-12 text-center">
-              <button @click="SignupMe" class="btn btn-info btn-block margin-top-10">SIGN UP</button>
+              <button @click="SignupMe" class="btn btn-info btn-block margin-top-10">{{$t('m.signup')}}</button>
             </div>
             <!-- /.col -->
           </div>
@@ -60,8 +60,8 @@
       <!-- /.social-auth-links -->
     
       <div class="margin-top-20 text-center">
-        <p>Already have an account? 
-          <router-link to="/login" class="text-info m-l-5">Sign In</router-link></p>
+        <p>{{$t('m.haveaccount')}}
+          <router-link to="/login" class="text-info m-l-5">{{$t('m.signin')}}</router-link></p>
       </div>
     
     </div>

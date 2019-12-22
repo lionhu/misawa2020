@@ -107,7 +107,7 @@ class UserProfile(models.Model):
     grandfather = models.ForeignKey(User,on_delete=models.SET(get_default_ancestor), blank=True, null=True, related_name="grandsons")
     partner = models.ForeignKey(User,on_delete=models.SET(get_default_ancestor), blank=True, null=True, related_name="decendants")
     organization = models.CharField('Organization',max_length=128,blank=True)
-    language = models.CharField(default='zh_CN',max_length=10,blank=True)
+    language = models.CharField(default='jp',max_length=10,blank=True)
     membership = models.CharField(choices=MEMBERSHIP_CHOICES, max_length=5,default="B")
     tradesum_sons = models.IntegerField(default=0)
     tradesum_grandsons = models.IntegerField(default=0)

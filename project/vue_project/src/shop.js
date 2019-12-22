@@ -9,11 +9,13 @@ Vue.use(VeeValidate)
 import VueI18n from 'vue-i18n'
 
 import {setToken,getToken} from "./lib/util.js"
-import "./lib/paymentform.js"
-import "./lib/mysqpaymentform.css"
+// import "./lib/paymentform.js"
+// import "./lib/mysqpaymentform.css"
 
-// setToken("zh_CN","lang")
 
+if(getToken("lang") =="" || getToken("lang")==undefined || getToken("lang") == null){
+    setToken("jp","lang")
+}
 
 Vue.use(VueI18n) // 通过插件的形式挂载
 const i18n = new VueI18n({
