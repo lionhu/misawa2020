@@ -30,7 +30,7 @@ export const showNotification = (message = '',type="success") => {
 
 		Toast.fire({
 		  type: type,
-		  title: message
+		  html: message
 		})
 
 }

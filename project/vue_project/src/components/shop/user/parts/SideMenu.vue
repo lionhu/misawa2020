@@ -9,6 +9,9 @@
           <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
           <li>
             <router-link :to="{name:'orderlist'}"><i class="fas fa-clipboard-list rightmargin-5"></i>{{$t("m.shop_orderlist")}}</router-link>
+          </li>          
+          <li>
+            <router-link :to="{name:'favorites'}"><i class="fab fa-gratipay text-danger rightmargin-5"></i>Favorites</router-link>
           </li>
         </ul>
       </div>

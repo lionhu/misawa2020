@@ -1,31 +1,31 @@
 <template>
 <div class="col-lg-4 mb-4">
-    <div class="ribbon ribbon-bookmark bg-secondary" style="padding: 0 5px!important;" v-if="product.hasGroupon">
-        <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="icon-thumbs-up"></i></a>
-    </div>
+<!--     <div class="ribbon ribbon-bookmark bg-secondary" style="padding: 0 5px!important;" v-if="product.hasGroupon">
+        <a href="javascript:void(0);" @click="GrouponME(product.grouponSlug,product.thumbimage)"><i class="fab fa-gratipay"></i></a>
+    </div> -->
     <div class="flip-card text-center">
-        <div class="flip-card-front dark" :style="'background-image: url('+product.thumbimage+')'">
+        <div class="flip-card-front bg-danger no-after" :style="'background-image: url('+product.thumbimage+')'">
 
         </div>
         <div class="flip-card-back bg-danger no-after" :style="'background-image: url('+product.thumbimage+')'">
-            <div class="flip-card-inner back-inner">
+            <div class="flip-card-inner back-inner" style="top:70%!important;">
                 <p class="mb-2 text-white">{{product.name}}
                     <br>
                     <span class="product_price">
-            <ins>{{product.price|currency_jpy}}</ins>
-          </span>
+                      <ins>{{product.price|currency_jpy}}</ins>
+                    </span>
                 </p>
                 <div class="text-center">
                     <router-link :to="{name:'product_article',params:{slug:product.slug}}" v-if="product.medias.length>0"><i class="icon-line-stack-2"></i></router-link>
                     <a href="javascript:void(0);" @click="addProductToCart(product.slug)" class="leftmargin-sm"><i class="icon-shopping-cart"></i></a>
                 </div>
-
             </div>
         </div>
     </div>
     <div class="product-desc">
         <div class="product-title">
-          <h3><a href="https://www.instagram.com/p/B5sYR1UAhNB/">{{product.name}}</a></h3>
+          <h3><a href="javascript:void(0);" @click="addFavorite(product.slug)"><i class="fab fa-gratipay text-danger"></i></a>
+          {{product.name}}</h3>
         </div>
         <div class="product-price">
           <del>{{product.open_price|currency_jpy}}</del>
@@ -267,35 +267,15 @@
                     title: 'Unable to get Groupon Information'
                   })
                 })
-
-
-          // Swal.queue([{
-          //   html: 'Modal with a custom image.',
-          //   imageUrl: productImage,
-          //   imageWidth: "40%",
-          //   imageAlt: 'Custom image',
-          //   confirmButtonText: 'Confirming your applicant',
-          //   showLoaderOnConfirm: true,
-          //   preConfirm: () => {
-          //     return axios.post(ipAPI,{
-          //       "groupon_slug": "5b8a56a5-e59b-4e3c-8ceb-1ea148d70d20_1123"
-          //     }).then(response => {
-          //         console.log(response)
-          //         return response.data
-          //       })
-          //       .then(data => {
-          //           console.log(data)
-          //           var mssage= "lionhu "+data.ip
-          //           Swal.insertQueueStep(mssage)
-          //       })
-          //       .catch(() => {
-          //         Swal.insertQueueStep({
-          //           icon: 'error',
-          //           title: 'Unable to get your public IP'
-          //         })
-          //       })
-          //   }
-          // }])
+      },
+      addFavorite(slug){
+        this.$store.dispatch("lotteryshop/AddMyFavoriate",slug).then(
+          res=>{
+            if(res !==null && res.result == true){
+              showNotification('<i class="fab fa-gratipay text-danger fa-2x"></i>',"success")
+              console.log(res.result);
+            }
+          },reject=>{})
       }
     }
 };

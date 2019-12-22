@@ -82,6 +82,16 @@ const router = new Router({
             }
         },
         {
+            path: '/user/favorites',
+            name:"favorites",
+            components:{
+                maincontent:loadView("shop/user/Favorites.vue")
+            }
+        },
+
+
+
+        {
             path: '/user/orderlist',
             name:"orderlist",
             components:{

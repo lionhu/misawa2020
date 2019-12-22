@@ -207,6 +207,39 @@ const actions= {
                     }
                 });
             })
+        },
+        AddMyFavoriate({ commit },slug){
+            return new Promise((resolve,reject)=>{
+                shopAPI.postAddMyFavoriate(slug).then((res) => {
+                    if(res.data.result){
+                        resolve(res.data)
+                    }else{
+                        resolve(null)
+                    }
+                });
+            })
+        },
+        DeleteMyFavoriate({ commit },slug){
+            return new Promise((resolve,reject)=>{
+                shopAPI.postDeleteMyFavoriate(slug).then((res) => {
+                    if(res.data.result){
+                        resolve(res.data)
+                    }else{
+                        resolve(null)
+                    }
+                });
+            })
+        },
+        getMyFavoriates({ commit }){
+            return new Promise((resolve,reject)=>{
+                shopAPI.getMyFavoriates().then((res) => {
+                    if(res.data.result){
+                        resolve(res.data)
+                    }else{
+                        resolve(null)
+                    }
+                });
+            })
         }
     };
 

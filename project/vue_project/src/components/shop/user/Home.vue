@@ -1,21 +1,8 @@
 <template>
 <div class="container clearfix">
 
-  <div class="sidebar nobottommargin">
-    <div class="sidebar-widgets-wrap">
 
-      <div class="widget widget-filter-links clearfix">
-
-        <h4>Select Category</h4>
-        <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
-          <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
-          <li>
-            <router-link :to="{name:'orderlist'}">{{$t("m.shop_orderlist")}}</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
   Hello
   </div>
@@ -27,11 +14,12 @@
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
 
+  import SideMenu from "./parts/SideMenu.vue"
 
   export default {
     name: 'UserOrderDetail',
     components:{
-
+      SideMenu
     },
     data () {
       return {

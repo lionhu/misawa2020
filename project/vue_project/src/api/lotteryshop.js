@@ -144,5 +144,41 @@ export default {
                     reject(error)
                 })
         });
-    }
+    },
+
+    // favorites related/
+    postAddMyFavoriate: (product_slug) => {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/favorites/',{
+                "slug":product_slug
+            },).then((res)=>{
+                resolve(res)
+            }).catch(function(error){
+                reject(error)
+            })
+        });
+    },
+    postDeleteMyFavoriate: (product_slug) => {
+        return new Promise((resolve, reject) => {
+            axios.delete('/api/favorites/'+product_slug+"/").then((res)=>{
+                resolve(res)
+            }).catch(function(error){
+                reject(error)
+            })
+        });
+    },
+    getMyFavoriates: () => {
+        return new Promise((resolve, reject) => {
+            axios.get('/api/favorites/').then((res)=>{
+                resolve(res)
+            }).catch(function(error){
+                reject(error)
+            })
+        });
+    },
+
+
+
+
+
 }
