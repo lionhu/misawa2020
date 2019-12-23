@@ -23,7 +23,7 @@ exports.default = {
       nextYear: 'Pròxim Any',
       prevMonth: 'Mes anterior',
       nextMonth: 'Pròxim Mes',
-      year: 'Any',
+      year: '',
       month1: 'Gener',
       month2: 'Febrer',
       month3: 'Març',
@@ -113,6 +113,10 @@ exports.default = {
     },
     pageHeader: {
       title: 'Back' // to be translated
+    },
+    popconfirm: {
+      confirmButtonText: 'Yes', // to be translated
+      cancelButtonText: 'No' // to be translated
     }
   }
 };
