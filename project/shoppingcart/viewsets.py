@@ -1,7 +1,6 @@
 
-from rest_framework import viewsets, permissions,status
+from rest_framework import viewsets, permissions,status,mixins,generics
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets,mixins,generics
 from django.shortcuts import get_object_or_404
 from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated,BasePermission,SAFE_METHODS,AllowAny

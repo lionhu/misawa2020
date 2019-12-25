@@ -69,10 +69,22 @@ class RentalHistory(models.Model):
 
 
     def __str__(self):
-        return "%s_<%s-%s>"%(self.product.name,self.start_at,self.end_at)
+        return "%s_<%s-%s>"%(self.product.product.name,self.start_at,self.end_at)
 
     def rentalfee(self):
         return self.days * self.product.rank.price
 
+    # def save(self, *args, **kwargs):
+    #     overlapping_start = RentalHistory.objects.filter(start_at__gte=self.start_at, start_at__lte=self.end_at).exists()
 
+    #     overlapping_end = RentalHistory.objects.filter(end_at__gte=self.start_at, end_at__lte=self.end_at).exists()
+
+    #     enveloping = RentalHistory.objects.filter(start_at__lte=self.start_at, end_at__gte=self.end_at).exists()
+
+    #     overlapping_items_present = overlapping_start or overlapping_end or enveloping
+
+    #     if overlapping_items_present:
+    #         pass
+    #     else:
+    #         super(RentalHistory, self).save(*args, **kwargs) 
 
