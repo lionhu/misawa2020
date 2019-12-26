@@ -11,7 +11,7 @@ from useraccount.views import users as apiUsers,show_signup,user_active
 from mail_exchange.viewsets  import OrderViewSet as AuctionOrderViewSet,OfferViewSet as AuctionOfferViewSet,TransactionViewSet
 from exrate.viewsets import BonusViewSet,BonusDetailViewSet,BankRateViewSet,SystemEnvViewSet
 from lottery_shop.viewsets import CatalogueViewSet,SubcatalogueViewSet,ProductViewSet,GrouponViewSet,ApplicantViewSet
-from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet,FavoriteViewSet
+from shoppingcart.viewsets import AddressViewSet,CartViewSet,CartItemViewSet,OrderViewSet,CouponViewSet,FavoriteViewSet,UserOrderViewSet
 from ds_exchange.viewsets import DSOrderViewSet
 from rentalhouse.viewsets import RentalHistoryViewSet
 from chat.viewsets import ChatMessageViewSet
@@ -46,6 +46,9 @@ router.register('rental',RentalHistoryViewSet)
 
 
 
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
@@ -77,6 +80,9 @@ urlpatterns = [
 
     path('login/', obtain_jwt_token),
     path('active/<str:active_code>/', user_active,name="user_active"),
+
+
+    path('userorders/',UserOrderViewSet.as_view())
 
 
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

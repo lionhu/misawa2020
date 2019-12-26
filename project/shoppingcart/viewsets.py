@@ -1,11 +1,13 @@
 
 from rest_framework import viewsets, permissions,status,mixins,generics
+from django_filters import rest_framework as filters, FilterSet
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated,BasePermission,SAFE_METHODS,AllowAny
 from rest_framework.decorators import list_route,detail_route,permission_classes,api_view,action
 from rest_framework.response import Response
+from rest_framework.filters import OrderingFilter,SearchFilter
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.http import Http404
@@ -26,9 +28,41 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from pyzbar.pyzbar import decode
 from PIL import Image
+from .filters import OrderFilter
 
 
 logger=logging.getLogger("error_logger")
+
+class UserOrderFilter(FilterSet):
+    logistics = filters.CharFilter(field_name="logistics",lookup_expr='icontains')
+    min_total = filters.CharFilter(method="filter_by_min_total")
+    max_total = filters.CharFilter(method="filter_by_max_total")
+
+    class Meta:
+        model = Order
+        fields = ("logistics",)
+        # fields = {
+        #     'logistics': ['icontains','exact'],
+        # }
+
+    def filter_by_min_total(self, queryset,name,value):
+        queryset=queryset.filter(total__gt=value)
+        return queryset
+
+    def filter_by_max_total(self, queryset,name,value):
+        queryset=queryset.filter(total__lt=value)
+        return queryset
+
+
+class UserOrderViewSet(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,OrderingFilter, SearchFilter)
+    # filter_fields=("paymethod","paystatus","address__first_name")
+    filter_class = UserOrderFilter 
+    ordering_fields = ("paymethod","address__first_name")
+    search_fields = ("logistics",)
 
 
 class AddressViewSet(viewsets.ModelViewSet):
@@ -405,6 +439,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsAdminOrOwner)
     lookup_field="slug"
+    # filter_fields=("paymethod","paystatus")
 
     def create(self,request):
         try:
@@ -479,6 +514,10 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
 
     @action(detail=False,methods=["post"])
     def UserOrderList(self,request):
+        testorders = self.filter_class(request.GET, self.queryset)
+        logger.error("testorders")
+        logger.error(testorders)
+
         orders=Order.objects.filter(user=request.user)
 
         if orders is not None:
