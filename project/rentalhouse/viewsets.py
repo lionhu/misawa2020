@@ -16,14 +16,14 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     lookup_field="slug"
 
-    def overlapping_items_present(self, start_at,end_at):
-        if RentalHistory.objects.filter(start_at__gte=start_at, start_at__lte=end_at).exists():
+    def overlapping_items_present(self, start_at,end_at,product_slug):
+        if RentalHistory.objects.filter(start_at__gte=start_at, start_at__lte=end_at,product__slug= product_slug).exists():
           return True
 
-        if RentalHistory.objects.filter(end_at__gte=start_at, end_at__lte=end_at).exists():
+        if RentalHistory.objects.filter(end_at__gte=start_at, end_at__lte=end_at,product__slug= product_slug).exists():
           return True
 
-        if RentalHistory.objects.filter(start_at__lte=start_at, end_at__gte=end_at).exists():
+        if RentalHistory.objects.filter(start_at__lte=start_at, end_at__gte=end_at,product__slug= product_slug).exists():
           return True
 
         return False
@@ -67,7 +67,7 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                  }, status=status.HTTP_200_OK)
 
 
-            period_overlapping = self.overlapping_items_present(start_at,end_at)
+            period_overlapping = self.overlapping_items_present(start_at,end_at,product.slug)
             logger.error(validation_userrenting)
 
             if not period_overlapping :
