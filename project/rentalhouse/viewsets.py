@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions,status,mixins,generics
 from rest_framework.response import Response
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.conf import settings
 from .models import RentalHistory,RentalProduct,ProductRank
 from .serializers import RentalHistorySerializer
 
@@ -15,36 +17,60 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
     lookup_field="slug"
 
     def overlapping_items_present(self, start_at,end_at):
-        overlapping_start = RentalHistory.objects.filter(start_at__gte=start_at, start_at__lte=end_at).exists()
+        if RentalHistory.objects.filter(start_at__gte=start_at, start_at__lte=end_at).exists():
+          return True
 
-        overlapping_end = RentalHistory.objects.filter(end_at__gte=start_at, end_at__lte=end_at).exists()
+        if RentalHistory.objects.filter(end_at__gte=start_at, end_at__lte=end_at).exists():
+          return True
 
-        enveloping = RentalHistory.objects.filter(start_at__lte=start_at, end_at__gte=end_at).exists()
+        if RentalHistory.objects.filter(start_at__lte=start_at, end_at__gte=end_at).exists():
+          return True
+
+        return False
 
 
-        overlapping_items_present = overlapping_start or overlapping_end or enveloping
+    def validate_user_rentals(self, user,in_product):
 
-        logger.error(start_at)
-        logger.error(end_at)
-        logger.error(overlapping_start)
-        logger.error(overlapping_end)
-        logger.error(enveloping)
-        logger.error(overlapping_items_present)
-        if overlapping_items_present:
-            return True
-        else:
-            return False
+        renting_num = RentalHistory.objects.filter(user=user,status__in = settings.IN_RENTAL_MODE).count()
+        logger.error("current renting count %s, max: %s"%(renting_num,settings.MAX_RENTAL_NUM))
+        if renting_num >= settings.MAX_RENTAL_NUM :
+          logger.error("over max rental num")
+          return False
+
+        same_rent = RentalHistory.objects.filter(user = user ,status__in = ["booked","toCustomer","fromCustomer"],product__product = in_product).exists()
+
+        if same_rent :
+
+          logger.error("same rent exists")
+          return False
+
+        return True
 
     def create(self, request):
         try:
             start_at = request.data["start_at"]
             end_at = request.data["end_at"]
+            product_slug = request.data["product_slug"]
 
-            valid_period = self.overlapping_items_present(start_at,end_at)
+            product = get_object_or_404(RentalProduct,slug=product_slug)
+            request.data["product"] = product.id
+            request.data["user"] = request.user.id
 
-            logger.error(valid_period)
 
-            if not valid_period:
+            validation_userrenting = self.validate_user_rentals(request.user, product.product)
+
+            if not validation_userrenting:
+                 return Response({
+                    "result":False,
+                    "type":"create RentalHistory",
+                    "message":"Fail because of validation_userrenting",
+                 }, status=status.HTTP_200_OK)
+
+
+            period_overlapping = self.overlapping_items_present(start_at,end_at)
+            logger.error(validation_userrenting)
+
+            if not period_overlapping :
                 serializer=self.serializer_class(data=request.data)
 
                 if serializer.is_valid():
@@ -57,6 +83,7 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                       "rentalhistory":serializer.data
                    }, status=status.HTTP_200_OK)
                 else:
+                   logger.error(serializer.errors)
                    return Response({
                       "result":False,
                       "type":"create RentalHistory",
@@ -75,5 +102,5 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                return Response({
                       "result":False,
                       "type":"create RentalHistory",
-                      "message":"invalid RentalHistory information"
+                      "message":"KeyError: invalid RentalHistory information"
                }, status=status.HTTP_400_BAD_REQUEST)

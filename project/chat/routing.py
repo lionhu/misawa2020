@@ -2,6 +2,7 @@
 from django.urls import path
 
 from . import consumers
+from rentalhouse.consumers import RentalHouseEventConsumer
 
 websocket_urlpatterns = [
     path('ws/chat/<str:room_name>/', consumers.ChatConsumer),
@@ -15,4 +16,9 @@ websocket_urlpatterns = [
     path('wss/shop/public/', consumers.ShopPublicConsumer),
     path('wss/shop/product/', consumers.ShopProductConsumer),
     path('wss/shop/private/', consumers.ShopPrivateConsumer),
+
+
+
+    path('wss/rentalhouse/<str:product_slug>/', RentalHouseEventConsumer),
+
 ]

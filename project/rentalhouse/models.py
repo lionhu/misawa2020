@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 import logging
 from django.utils.timezone import now
 import datetime
+import uuid
 from lottery_shop.models import Product
 from shoppingcart.models import Address
 
@@ -73,18 +74,4 @@ class RentalHistory(models.Model):
 
     def rentalfee(self):
         return self.days * self.product.rank.price
-
-    # def save(self, *args, **kwargs):
-    #     overlapping_start = RentalHistory.objects.filter(start_at__gte=self.start_at, start_at__lte=self.end_at).exists()
-
-    #     overlapping_end = RentalHistory.objects.filter(end_at__gte=self.start_at, end_at__lte=self.end_at).exists()
-
-    #     enveloping = RentalHistory.objects.filter(start_at__lte=self.start_at, end_at__gte=self.end_at).exists()
-
-    #     overlapping_items_present = overlapping_start or overlapping_end or enveloping
-
-    #     if overlapping_items_present:
-    #         pass
-    #     else:
-    #         super(RentalHistory, self).save(*args, **kwargs) 
 

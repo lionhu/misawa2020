@@ -14,6 +14,7 @@
           locale="ja_JP"
           :customer-shortcuts="shortcuts"
           :overlay="true"/>
+      <RentalProductAlarm :product_slug="product.slug"></RentalProductAlarm>
   </div>
 
 </template>
@@ -23,6 +24,7 @@ import Moment from 'moment'
 import { extendMoment } from 'moment-range';
 const moment = extendMoment(Moment);
 
+import RentalProductAlarm from "./websocks/RentalEvent.vue"
 import Gallery from "./MoaGallery.vue"
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
@@ -30,10 +32,11 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 export default {
   
-  name: "Example",
+  name: "ProductArticle",
   components: {
     Gallery,
-    VueCtkDateTimePicker
+    VueCtkDateTimePicker,
+    RentalProductAlarm
   },
   data() {
     return {
