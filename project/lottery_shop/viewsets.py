@@ -189,7 +189,7 @@ class ProductViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Retrie
         serializer=ProductSerializer(product)
         return Response({
             "result":True,
-            "type":"retrieve sinale product",
+            "type":"retrieve single product",
             "product":serializer.data
         }, status=status.HTTP_200_OK)
 

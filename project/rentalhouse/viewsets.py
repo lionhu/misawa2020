@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 from .models import RentalHistory,RentalProduct,ProductRank
 from .serializers import RentalHistorySerializer
-
+import datetime
 import logging
 logger=logging.getLogger("error_logger")
 
@@ -76,6 +78,25 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                 if serializer.is_valid():
                    serializer.save()
 
+                   now_time=datetime.datetime.now().strftime(settings.DATETIME_FORMAT)
+
+                   room_group_name = 'rentalhouse_%s' % product.product.slug
+
+                   logger.error(room_group_name)
+                   channel_layer = get_channel_layer()
+                   logger.error(channel_layer)
+                   async_to_sync(channel_layer.group_send)(
+                        room_group_name,
+                        {
+                          'type': 'event_message',
+                          'user': request.user.username,
+                          'product_slug': product.product.slug,
+                          'rentalproduct_slug': product.slug,
+                          'start_at': start_at,
+                          'end_at': end_at,
+                          'now_time': now_time
+                        }
+                    )
                    return Response({
                       "result":True,
                       "type":"create RentalHistory",

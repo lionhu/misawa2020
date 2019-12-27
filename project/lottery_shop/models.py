@@ -180,6 +180,10 @@ class GalleryImage(models.Model):
         return self.thumbnail.url
 
 
+    def postimage_url(self):
+        return self.postimage.url
+
+
 class Groupon(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
     product=models.OneToOneField(Product,related_name="groupon",on_delete=models.CASCADE,blank=False,null=False)

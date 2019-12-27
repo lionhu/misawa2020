@@ -97,11 +97,19 @@ export default {
       }
     },
     loadProduct(slug){
-      var productIndex=this.$store.state.lotteryshop.catalogue_products.findIndex(product =>product.slug == slug)
-      if(productIndex > -1){
-        const findProduct=this.$store.state.lotteryshop.catalogue_products[productIndex]
-        this.product=findProduct
-      }
+      axios.get('/api/product/'+this.$route.params.slug+"/",).then((res)=>{
+                console.log(res)
+                if(res.data.result){
+                  this.product = res.data.product
+                }
+            }).catch(function(error){
+                console.log(error)
+            })
+      // var productIndex=this.$store.state.lotteryshop.catalogue_products.findIndex(product =>product.slug == slug)
+      // if(productIndex > -1){
+      //   const findProduct=this.$store.state.lotteryshop.catalogue_products[productIndex]
+      //   this.product=findProduct
+      // }
     }
 
   }

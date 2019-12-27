@@ -21,6 +21,7 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['product_slug']
         self.room_group_name = 'rentalhouse_%s' % self.room_name
         # Join room group
+        logger.error(self.room_group_name)
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -74,7 +75,6 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
         now_time = event['now_time']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': ": "+message,
             'user': user,
             'product_slug': product_slug,
             'rentalproduct_slug': rentalproduct_slug,

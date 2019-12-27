@@ -10,7 +10,7 @@ logger=logging.getLogger("error_logger")
 class RentalHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = RentalHistory
-        fields = "__all__"
+        fields = ("__all__")
 
     # def to_representation(self,instance):
     #     result=super().to_representation(instance)
@@ -19,6 +19,9 @@ class RentalHistorySerializer(serializers.ModelSerializer):
     #     result["slug"]=instance.product.slug
     #     return result
 
-
-
+class RentalProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RentalProduct
+        # fields = ("__all__")
+        exclude = ['product']
 

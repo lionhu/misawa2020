@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
 from useraccount.serializers import UserSerializer
+from rentalhouse.serializers import RentalProductSerializer
 import logging
 logger=logging.getLogger("error_logger")
 
@@ -8,8 +9,12 @@ logger=logging.getLogger("error_logger")
 class GalleryImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GalleryImage
-        fields = ("slug","mediatype","thumbimage","postimage","memo","title","description","href")
+        fields = ("slug","mediatype","thumbimage","postimage","memo","title","description")
 
+    def to_representation(self,instance):
+        result=super().to_representation(instance)
+        result["href"]=instance.postimage_url()
+        return result
         
 class SubproductSerializer(serializers.ModelSerializer):
 
@@ -20,20 +25,21 @@ class SubproductSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
-    galleryimages = GalleryImageSerializer(many=True,read_only=True)
+    medias = GalleryImageSerializer(many=True,read_only=True)
+    rentalproducts = RentalProductSerializer(many=True,read_only=True)
 
-    def to_representation(self,instance):
-        result=super().to_representation(instance)
+    # def to_representation(self,instance):
+    #     result=super().to_representation(instance)
 
-        subproducts=Product.objects.filter(active=True,main_product_id=instance.id)
-        serializer=SubproductSerializer(subproducts,many=True)
-        result["subproducts"]=serializer.data
+    #     # subproducts=Product.objects.filter(active=True,main_product_id=instance.id)
+    #     # serializer=SubproductSerializer(subproducts,many=True)
+    #     # result["subproducts"]=serializer.data
 
-        return result
+    #     return result
 
     class Meta:
         model = Product
-        fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue","galleryimages")
+        fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue","medias","rentalproducts")
 
 
 class CartItemProductSerializer(serializers.ModelSerializer):

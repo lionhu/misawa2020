@@ -45,14 +45,15 @@
     },
 
     mounted() {
+      // console.log(this.$route.params)
       this.init_websocker()
 
     },
     methods: {
         init_websocker(){
 
-             this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/rentalhouse/'+this.product_slug+'/');
-              // console.log(this.websocket )
+             this.websocket = new ReconnectingWebSocket('wss://' + window.location.hostname +':3443/wss/rentalhouse/'+this.$route.params.slug+'/');
+              // console.log(this.websocket.url )
               this.websocket.onopen = this.websocketonopen;
 
 　　　　　　　　this.websocket.onerror = this.websocketonerror;
