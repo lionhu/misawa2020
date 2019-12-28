@@ -20,6 +20,16 @@ export const removeToken = (tokenName = 'jwt_token') => {
   localStorage.removeItem(tokenName)
 }
 
+export const StandardDate = (value = '') => {
+    if(value =="" || value ==undefined ){
+      return "";
+    }
+
+    var time=value.split("T")[0];
+    return time;
+}
+
+
 export const showNotification = (message = '',type="success") => {
 		const Toast = Swal.mixin({
 		  toast: true,

@@ -30,6 +30,8 @@ import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {StandardDate} from "../../../lib/util.js"
+
 export default {
   
   name: "ProductArticle",
@@ -50,27 +52,13 @@ export default {
         { key: 'thisYear', label: 'This year', value: 'year' }
       ],
       disabledDates:[],
-      rentalPeriods:[
-        {start:"2019-12-03",end:"2019-12-06"},
-        {start:"2019-12-08",end:"2019-12-12"},
-        {start:"2019-12-16",end:"2019-12-20"},
-      ]
+      rentalPeriods:[],
+      rentalproduct_sn:""
     }
   },
   mounted(){
     if (this.$route.params.slug !="" || this.$route.params.slug !=undefined){
       this.loadProduct(this.$route.params.slug)
-    }
-
-    for(let i in this.rentalPeriods){
-        var period = this.rentalPeriods[i]
-        const start_date = moment(period.start)
-        var end_date = moment(period.end)
-        var days = end_date.diff(start_date,"days")
-        for (var i =0; i <=days; i++) {
-          var temp_date=moment(period.start).add(i,"days").format('YYYY-MM-DD')
-          this.disabledDates.push(temp_date)
-        }
     }
   },
   computed:{
@@ -98,20 +86,44 @@ export default {
     },
     loadProduct(slug){
       axios.get('/api/product/'+this.$route.params.slug+"/",).then((res)=>{
-                console.log(res)
+                console.log(res.data.product)
                 if(res.data.result){
                   this.product = res.data.product
+                  if (res.data.product.rentalproducts.length>0){
+                    var first_rentalproduct=res.data.product.rentalproducts[0];
+                    this.rentalproduct_sn=first_rentalproduct.sn
+                    this.prepare_rentalCalendar()
+                  }
                 }
             }).catch(function(error){
                 console.log(error)
             })
-      // var productIndex=this.$store.state.lotteryshop.catalogue_products.findIndex(product =>product.slug == slug)
-      // if(productIndex > -1){
-      //   const findProduct=this.$store.state.lotteryshop.catalogue_products[productIndex]
-      //   this.product=findProduct
-      // }
-    }
+    },
+    prepare_rentalCalendar(){
+      var rentalproductIndex = this.product.rentalproducts.findIndex(r_product => r_product.sn = this.rentalproduct_sn)
+      console.log(rentalproductIndex)
+      if (rentalproductIndex > -1){
+        var _rentalPeriods = this.product.rentalproducts[rentalproductIndex].histories.map(history =>{
+          history["start_at"]= StandardDate(history["start_at"])
+          history["end_at"] = StandardDate(history["end_at"])
+          return history
+        })
+        this.rentalPeriods = _rentalPeriods;
 
+        if(this.rentalPeriods.length>0){
+          for(let i in this.rentalPeriods){
+                var period = this.rentalPeriods[i]
+                const start_date = moment(period.start_at)
+                var end_date = moment(period.end_at)
+                var days = end_date.diff(start_date,"days")
+                for (var i =0; i <=days; i++) {
+                  var temp_date=moment(period.start_at).add(i,"days").format('YYYY-MM-DD')
+                  this.disabledDates.push(temp_date)
+                }
+            }
+        }
+      }
+    },
   }
 };
 </script> 

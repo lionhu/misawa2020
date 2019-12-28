@@ -73,25 +73,25 @@
 
     },
     methods: {
-          utf16to8(str) { //二维码编码前把字符串转换成UTF-8
+      utf16to8(str) { //二维码编码前把字符串转换成UTF-8
         var out, i, len, c; 
-            out = ""; 
-            len = str.length; 
+        out = ""; 
+        len = str.length; 
         for(i = 0; i < len; i++) { 
-            c = str.charCodeAt(i); 
-            if ((c >= 0x0001) && (c <= 0x007F)) { 
-                out += str.charAt(i); 
-            } else if (c > 0x07FF) { 
-                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F)); 
-                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F)); 
-                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
-            } else { 
-                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F)); 
-                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
-            } 
+          c = str.charCodeAt(i); 
+          if ((c >= 0x0001) && (c <= 0x007F)) { 
+            out += str.charAt(i); 
+          } else if (c > 0x07FF) { 
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F)); 
+            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F)); 
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+          } else { 
+            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F)); 
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F)); 
+          } 
         } 
         return out; 
-    },
+      },
       addProductToCart(slug){
         const jwt_token=getToken("jwt_token")
 
@@ -172,7 +172,7 @@
         }
       },
       async showQR(applicant_slug){
-          const inputOptions = new Promise((resolve) => {
+        const inputOptions = new Promise((resolve) => {
             resolve({
               'AliPay': '<i class="i-circled i-light alipay_color fab fa-alipay"></i>Aplipay',
               'WechatPay': '<i class="i-circled i-light wechat_color fab fa-weixin"></i>WechatPay'
@@ -226,9 +226,7 @@
             }
           }).then((result) => {
             console.log(result)
-
           })
-
         }
       },
       async GrouponME(grouponSlug,productImage){

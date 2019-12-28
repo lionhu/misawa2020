@@ -54,8 +54,8 @@ class RentalProduct(models.Model):
 
 class RentalHistory(models.Model):
     slug = models.SlugField(null=True,blank=True,default=now_slug)
-    product = models.ForeignKey(RentalProduct,on_delete=models.CASCADE, blank=False, null=False, related_name="rentalproducts")
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=False,related_name="myrentals")
+    product = models.ForeignKey(RentalProduct,on_delete=models.CASCADE, blank=False, null=False, related_name="histories")
+    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=False,null=False,related_name="myhistories")
     start_at = models.DateTimeField(null=False,blank=False,default= now)
     end_at = models.DateTimeField(null=False,blank=False,default= now)
     days = models.IntegerField(null=False,blank=False,default= 0)
