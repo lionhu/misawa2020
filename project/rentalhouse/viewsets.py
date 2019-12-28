@@ -55,8 +55,8 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
             product_slug = request.data["product_slug"]
 
             product = get_object_or_404(RentalProduct,slug=product_slug)
-            request.data["product"] = product.id
-            request.data["user"] = request.user.id
+            # request.data["product_id"] = product.id
+            # request.data["user_id"] = request.user.id
 
 
             validation_userrenting = self.validate_user_rentals(request.user, product.product)
@@ -69,18 +69,23 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                  }, status=status.HTTP_200_OK)
 
 
-            period_overlapping = self.overlapping_items_present(start_at,end_at,product.slug)
+            period_overlapping = self.overlapping_items_present(start_at,end_at,product_slug)
             logger.error(validation_userrenting)
 
             if not period_overlapping :
+                # logger.error(request.data)
                 serializer=self.serializer_class(data=request.data)
 
                 if serializer.is_valid():
-                   serializer.save()
+                   serializer.save(user=request.user,product=product)
+
+                   logger.error(product.slug)
+
 
                    now_time=datetime.datetime.now().strftime(settings.DATETIME_FORMAT)
 
-                   room_group_name = 'rentalhouse_%s' % product.product.slug
+                   logger.error(product.product.slug)
+                   room_group_name = 'rentalhouse_%s' % (product.product.slug)
 
                    logger.error(room_group_name)
                    channel_layer = get_channel_layer()
@@ -89,9 +94,10 @@ class RentalHistoryViewSet(viewsets.ModelViewSet):
                         room_group_name,
                         {
                           'type': 'event_message',
-                          'user': request.user.username,
+                          'user_id': request.user.id,
                           'product_slug': product.product.slug,
                           'rentalproduct_slug': product.slug,
+                          'status': "booked",
                           'start_at': start_at,
                           'end_at': end_at,
                           'now_time': now_time

@@ -29,7 +29,46 @@ export const StandardDate = (value = '') => {
     return time;
 }
 
-
+export const DisplayToast = (data) => {
+                const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 2000
+                    })
+                    // console.log(data)
+                Toast.fire({
+                  type: data.message_type,
+                  html: "<a href='/'>"+data.message+"</a>"
+                })
+}
+export const DisplayModal = (data) => {
+                // console.log(data)
+                let timerInterval
+                Swal.fire({
+                  title: 'New reservation made!',
+                  html: "<b></b><br> "+data.now_time,
+                  timer: 2000,
+                  // timerProgressBar: true,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('b')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+                    console.log('I was closed by the timer') // eslint-disable-line
+                  }
+                })
+}
 export const showNotification = (message = '',type="success") => {
 		const Toast = Swal.mixin({
 		  toast: true,

@@ -12,9 +12,8 @@
           range
           :disabled-dates="disabledDates"
           locale="ja_JP"
-          :customer-shortcuts="shortcuts"
           :overlay="true"/>
-      <RentalProductAlarm :product_slug="product.slug"></RentalProductAlarm>
+      <RentalProductAlarm :product_slug="product.slug" @rentalhistory="eventRentalHistory"></RentalProductAlarm>
   </div>
 
 </template>
@@ -44,13 +43,6 @@ export default {
     return {
       product:{},
       requestDate: '',
-      shortcuts:[
-        { key: 'thisWeek', label: 'This week', value: 'isoWeek' },
-        { key: 'lastWeek', label: 'Last week', value: '-isoWeek' },
-        { key: 'thisMonth', label: 'This month', value: 'month' },
-        { key: 'lastMonth', label: 'Last month', value: '-month' },
-        { key: 'thisYear', label: 'This year', value: 'year' }
-      ],
       disabledDates:[],
       rentalPeriods:[],
       rentalproduct_sn:""
@@ -72,7 +64,7 @@ export default {
         console.log(_range)
 
         const itemIndex= this.rentalPeriods.findIndex(period =>{
-          var exist_range=moment.range(period.start,period.end)
+          var exist_range=moment.range(period.start_at,period.end_at)
           if(_range.overlaps(exist_range) || _range.intersect(exist_range)){
             return true
           }
@@ -86,7 +78,7 @@ export default {
     },
     loadProduct(slug){
       axios.get('/api/product/'+this.$route.params.slug+"/",).then((res)=>{
-                console.log(res.data.product)
+                // console.log(res.data.product.rentalproducts)
                 if(res.data.result){
                   this.product = res.data.product
                   if (res.data.product.rentalproducts.length>0){
@@ -101,7 +93,6 @@ export default {
     },
     prepare_rentalCalendar(){
       var rentalproductIndex = this.product.rentalproducts.findIndex(r_product => r_product.sn = this.rentalproduct_sn)
-      console.log(rentalproductIndex)
       if (rentalproductIndex > -1){
         var _rentalPeriods = this.product.rentalproducts[rentalproductIndex].histories.map(history =>{
           history["start_at"]= StandardDate(history["start_at"])
@@ -124,6 +115,18 @@ export default {
         }
       }
     },
+    eventRentalHistory(data){
+      // console.log(data)
+      var history = data.history
+      var rentalproduct_slug = data.rentalproduct_slug
+      var itemIndex = this.product.rentalproducts.findIndex(rProduct => rProduct.slug == data.rentalproduct_slug)
+
+      // console.log(itemIndex)
+      if(itemIndex>-1){
+        this.product.rentalproducts[itemIndex].histories.push(history)
+        this.prepare_rentalCalendar()
+      }
+    }
   }
 };
 </script> 

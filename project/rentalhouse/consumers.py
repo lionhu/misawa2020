@@ -31,6 +31,18 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
             await self.close()
         else:
             await self.accept()
+        #     await self.channel_layer.group_send(
+        #     self.room_group_name,
+        #     {
+        #         'type': 'event_message',
+        #         'user': "user",
+        #         'product_slug': "product_slug",
+        #         'rentalproduct_slug': "rentalproduct_slug",
+        #         'start_at': "start_at",
+        #         'end_at': "end_at",
+        #         'now_time': "now_time"
+        #     }
+        # )
 
     async def disconnect(self, close_code):
         # Leave room group
@@ -44,9 +56,10 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         product_slug = text_data_json['product_slug']
         rentalproduct_slug = text_data_json['rentalproduct_slug']
+        _status = text_data_json['status']
         start_at = text_data_json['start_at']
         end_at = text_data_json['end_at']
-        user = str(self.scope['user'])
+        user_id = str(self.scope['user_id'])
         now_time=datetime.datetime.now().strftime(settings.DATETIME_FORMAT)
 
         if not self.scope['user'].is_authenticated:
@@ -56,9 +69,10 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'event_message',
-                'user': user,
+                'user_id': user_id,
                 'product_slug': product_slug,
                 'rentalproduct_slug': rentalproduct_slug,
+                'status': _status,
                 'start_at': start_at,
                 'end_at': end_at,
                 'now_time': now_time
@@ -67,20 +81,24 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def event_message(self, event):
-        user = event['user']
+        user_id = event['user_id']
         product_slug = event['product_slug']
         rentalproduct_slug = event['rentalproduct_slug']
+        _status = event['status']
         start_at = event['start_at']
         end_at = event['end_at']
         now_time = event['now_time']
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'user': user,
             'product_slug': product_slug,
             'rentalproduct_slug': rentalproduct_slug,
-            'start_at': start_at,
-            'end_at': end_at,
-            'now_time': now_time
+            'now_time': now_time,
+            'history':{
+                'status': _status,
+                "start_at":start_at.split("T")[0],
+                "end_at":end_at.split("T")[0],
+                'user_id':user_id
+            }
         }))
 
 
