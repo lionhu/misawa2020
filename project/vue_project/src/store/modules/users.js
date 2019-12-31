@@ -105,6 +105,7 @@ const mutations = {
         state.ME.username=data.user.username
         state.ME.email=data.user.email
         state.ME.language=data.language
+        state.ME.rentalhistories = data.user.myrentalhistories;
         setToken(data.user.username,"username")
 
         if(state.ME.language==""){

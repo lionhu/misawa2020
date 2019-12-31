@@ -10143,8 +10143,8 @@ body:not(.device-touch) .team-overlay {
 }
 
 .pricing-box.pricing-extended .pricing-desc {
-	float: left;
-	width: 75%;
+	float: right;
+	width: 60%;
 	padding: 25px;
 }
 
@@ -10173,11 +10173,11 @@ body:not(.device-touch) .team-overlay {
 }
 
 .pricing-box.pricing-extended .pricing-action-area {
-	position: absolute;
+/* 	position: absolute; */
 	top: 0;
-	left: auto;
-	right: 0;
-	width: 25%;
+	right: auto;
+	left: 0;
+	width: 40%;
 	height: 100%;
 	border-left: 1px solid rgba(0,0,0,0.05);
 	background-color: #F9F9F9;

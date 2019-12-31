@@ -21,6 +21,20 @@ class FilteredListSerializer(serializers.ListSerializer):
 class FutureRentalHistoryListSerializer(FilteredListSerializer):
      filter_kwargs = {'end_at__gte': datetime.datetime.now(),"status__in":settings.IN_RENTAL_MODE}
 
+class ProductRankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductRank
+        fields = ("__all__")
+
+class UserRentalHistorySerializer(serializers.ModelSerializer):
+    product_slug = serializers.ReadOnlyField(source="product.product.slug")
+    class Meta:
+        model = RentalHistory
+        # fields =("__all__")
+        fields = ("start_at","end_at","status","product_slug")
+    # def to_representation(self,instance):
+    #     result=super().to_representation(instance)
+    #     return result
 
 class RentalHistorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,7 +48,7 @@ class RentalHistorySerializer(serializers.ModelSerializer):
 
 class RentalProductSerializer(serializers.ModelSerializer):
     histories = RentalHistorySerializer(many=True,read_only=True)
-
+    rank = ProductRankSerializer(many=False,read_only=True)
     class Meta:
         model = RentalProduct
         fields = ['slug',"sn","condition","avaliable","rank","histories"]

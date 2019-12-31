@@ -4,15 +4,15 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /django_project
 WORKDIR /django_project
 
-RUN apt-get update && apt-get install -y  supervisor vim
 
+RUN apt-get update && apt-get install -y nginx supervisor vim libzbar-dev libzbar0
 RUN mkdir -p /var/log/webapplications
 
 
 RUN mkdir -p /etc/supervisor/logs/
 COPY /system/nginx/supervisord_worker.conf /etc/supervisor/conf.d/supervisord.conf
 
-
+RUN pip install --upgrade pip
 COPY /project/requirements.txt /django_project/requirements.txt
 RUN pip install -r requirements.txt
 

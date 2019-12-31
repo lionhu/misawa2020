@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import UserProfile
+from rentalhouse.serializers import UserRentalHistorySerializer
+
 from django.utils.timezone import now
 from django.contrib.auth.models import User
 
@@ -16,9 +18,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
     profile_id = serializers.PrimaryKeyRelatedField(queryset=UserProfile.objects.all(), write_only=True)
+    myrentalhistories = UserRentalHistorySerializer(many=True,read_only=True)
     class Meta:
         model = User
-        fields = ( "id", "username","email","profile","profile_id")
+        fields = ( "id", "username","email","profile","profile_id","myrentalhistories")
 
 
 class UserProfileSerializer_Full(serializers.ModelSerializer):

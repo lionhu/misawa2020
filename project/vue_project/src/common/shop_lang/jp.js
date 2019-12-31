@@ -24,6 +24,7 @@ export const m = {
   shop_customer:"顧客",
   shop_summary:"サマリー",
   shop_address:"住所",
+  shop_address2:"住所2",
   shop_email:"メール",
   shop_phone:"電話",
   shop_postcode:"郵便番号",

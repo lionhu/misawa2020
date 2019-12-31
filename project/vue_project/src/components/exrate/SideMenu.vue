@@ -68,16 +68,15 @@
 
         <li class="header nav-small-cap"><i class="fas fa-balance-scale icon-warning"></i>{{$t("m.auction")}}</li>
         <li>
-          <a href="/exrate/#/auctionorder/list">
+          <router-link  :to="{ name: 'auctionorderlist'}">
             <i class="icon-refresh"></i> <span v-text="$t('m.transactions')"></span>
-          </a>
+          </router-link>
         </li>
         <li>
-
-          <a href="/exrate/#/auctionorder/new">
+          <router-link  :to="{ name: 'newauctionorder'}">
             <i class="icon-equalizer"></i>
             <span v-text="$t('m.new_order')"></span>
-          </a>
+          </router-link>
         </li>
 
 

@@ -25,6 +25,7 @@ export const m = {
   shop_customer:"顾客",
   shop_summary:"订单信息",
   shop_address:"住址",
+  shop_address2:"住址2",
   shop_email:"邮箱",
   shop_phone:"电话",
   shop_postcode:"邮编",
