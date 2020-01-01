@@ -57,18 +57,21 @@
             <div class="col_half col_last bottommargin-sm">
               <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }"   :placeholder="$t('m.town')"   v-model="address.city" />
               <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
+                <p class="alert alert-danger">{{ errors.first('shipping-form-city') }}</p>
               </div>
             </div>
             <div class="clear"></div>
             <div class="col_full bottommargin-sm">
-              <input type="text" id="shipping-form-address" name="shipping-form-address" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address') }"   :placeholder="$t('m.shop_address')"   v-model="address.street_address1" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-address')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
+              <input type="text" id="shipping-form-address1" name="shipping-form-address1" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address1') }"   :placeholder="$t('m.shop_address')"   v-model="address.street_address1" />
+              <div class="form-control-feedback" v-show="errors.has('shipping-form-address1')">
+                <p class="alert alert-danger">{{ errors.first('shipping-form-address1') }}</p>
               </div>
             </div>
             <div class="col_full bottommargin-sm">
-              <input type="text" id="shipping-form-address2" name="shipping-form-adress2" value="" class="sm-form-control" v-model="address.street_address2" :placeholder="$t('m.shop_address2')" />
+              <input type="text" id="shipping-form-address2" name="shipping-form-address2" class="sm-form-control"  data-vv-as="Address" v-model="address.street_address2"  v-validate="'required|min:3'" value="..." :placeholder="$t('m.shop_address2')" />
+              <div class="form-control-feedback" v-show="errors.has('shipping-form-address2')">
+                <p class="alert alert-danger">{{ errors.first('shipping-form-address2') }}</p>
+              </div>
             </div>
             <div class="col_full bottommargin-sm">
               <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label>
@@ -76,7 +79,7 @@
             </div>
 
             <div class="pricing-action">
-              <a href="#" class="button button-3d button-xlarge btn-block nomargin">Get Started</a>
+              <a href="javascript:void(0);" class="button button-3d button-xlarge btn-block nomargin" @click="ProcessLease">Get Started</a>
             </div>
           </div>
 
@@ -153,7 +156,7 @@ import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {StandardDate} from "../../../lib/util.js"
+import {StandardDate,showNotification,FetchAddressByPostcode,utf16to8} from "../../../lib/util.js"
 
 export default {
   name: "ProductArticle",
@@ -186,7 +189,7 @@ export default {
         city:"",
         email:"",
         street_address1:"",
-        street_address2:"",
+        street_address2:"...",
         phone:"",
         note:""
       },
@@ -219,7 +222,12 @@ export default {
       }
     }
   },
-  methods:{    
+  methods:{
+    ProcessLease(){
+      this.$validator.validateAll().then((result)=>{
+        console.log(result)
+      })
+    },
     SwitchRentalProduct(e){
       this.requestDate={}
       this.rentalproduct_sn=e.split(" ")[1];

@@ -64,7 +64,7 @@ def sendEmail(email="huhaiguang@me.com"):
 
 
 @shared_task
-def fetch_bankrate():
+def fetch_bankrate(toUser = "huhaiguang@me.com"):
     subject = 'message from chat'
     r = ShowapiRequest("http://route.showapi.com/105-32","76812","ff6b110b4d884acf9d1ddc030a16c5a0" )
     r.addBodyPara("bankCode", "icbc")
@@ -109,7 +109,7 @@ def fetch_bankrate():
         logger.error(cache.get("todayrate"))
 
     html_content = render_to_string('emails/todayrate.html',{'todayrate':jpy_rate})
-    msg = EmailMessage("[Exrate Notification]Today's rate",html_content,settings.DEFAULT_FROM_EMAIL,["huhaiguang@me.com"])
+    msg = EmailMessage("[Exrate Notification]Today's rate",html_content,settings.DEFAULT_FROM_EMAIL,[toUser])
     msg.content_subtype = "html" # Main content is now text/html
     msg.send()
 
