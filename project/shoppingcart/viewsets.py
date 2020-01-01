@@ -439,7 +439,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
     serializer_class = OrderSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsAdminOrOwner)
     lookup_field="slug"
-    # filter_fields=("paymethod","paystatus")
+    filter_class = UserOrderFilter 
 
     def create(self,request):
         try:

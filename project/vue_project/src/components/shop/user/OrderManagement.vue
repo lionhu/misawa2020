@@ -1,22 +1,6 @@
 <template>
 <div class="container clearfix">
 
-<!--   <div class="sidebar nobottommargin">
-    <div class="sidebar-widgets-wrap">
-
-      <div class="widget widget-filter-links clearfix">
-
-        <h4>Select Category</h4>
-        <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
-          <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
-          <li>
-            <router-link :to="{name:'orderlist'}">{{$t("m.shop_orderlist")}}</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div> -->
-
   <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
         <el-table
@@ -44,8 +28,9 @@
             min-width='100'
             align="right">
             <template slot-scope="scope">
-              <span class="amount">{{scope.row.total|currency}}</span>
-              <span class="badge badge-success right-corner" v-if="scope.row.discount >0"><i class="fas fa-tags rightmargin-5"></i>{{scope.row.discount|currency}}</span>
+              <span class="amount">{{scope.row.total+scope.row.tax-scope.row.discount|currency}}</span>
+              <span class="badge badge-success right-corner" v-if="scope.row.discount >0"><i class="fas fa-tags rightmargin-5"></i></span>              
+<!--               <span class="badge badge-success right-corner" v-if="scope.row.discount >0"><i class="fas fa-tags rightmargin-5"></i>{{scope.row.discount|currency}}</span> -->
             </template>
           </el-table-column>
           <el-table-column label="Logistic" align="center" min-width="120">

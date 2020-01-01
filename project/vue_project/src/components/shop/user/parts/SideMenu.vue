@@ -6,7 +6,10 @@
 
         <h4>User Menu</h4>
         <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
-          <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
+          <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>         
+          <li>
+            <router-link :to="{name:'userhome'}"><i class="fa fa-cog fa-fw fa-spin rightmargin-5"></i>Settings</router-link>
+          </li>
           <li>
             <router-link :to="{name:'orderlist'}"><i class="fas fa-clipboard-list rightmargin-5"></i>{{$t("m.shop_orderlist")}}</router-link>
           </li>          
@@ -54,13 +57,5 @@
 </script>
 
 <style lang="scss">
-abbr strong {
-  display: inline-block;
-  width: 80px;
-  text-align: right;
-  margin-right: 10px;
-}
-abbr{
-  font-size:16px;
-}
+
 </style>

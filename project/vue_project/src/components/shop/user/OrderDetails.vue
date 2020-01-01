@@ -1,21 +1,5 @@
 <template>
 <div class="container clearfix">
-
-<!--   <div class="sidebar nobottommargin">
-    <div class="sidebar-widgets-wrap">
-
-      <div class="widget widget-filter-links clearfix">
-
-        <h4>Select Category</h4>
-        <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
-          <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
-          <li>
-            <router-link :to="{name:'orderlist'}">{{$t("m.shop_orderlist")}}</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div> -->
   <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
     <div class="col_half card">
@@ -33,7 +17,7 @@
     </div>
     <div class="col_half card col_last">
         <div class="card-header">{{$t("m.shop_summary")}}
-          <span v-if="order.discount"><i class="fas fa-tags text-danger"></i></span>
+          <span v-if="order.discount"><i class="fas fa-tags color"></i></span>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -57,13 +41,23 @@
                       <span class="amount">{{order.tax|currency_jpy}}</span>
                     </td>
                   </tr>
+                  <tr class="cart_item" v-if="order.discount">
+                    <td class="cart-product-name">
+                      <strong>Discount</strong>
+                    </td>
+
+                    <td class="cart-product-name tright">
+                      <span class="amount lead text-danger">
+                        <strong>
+                      -{{order.discount|currency_jpy}}</strong></span>
+                    </td>
+                  </tr>
                   <tr class="cart_item">
                     <td class="cart-product-name">
                       <strong>{{$t("m.shop_total")}}</strong>
                     </td>
 
                     <td class="cart-product-name tright">
-                      <span class="amount lead text-danger" v-if="order.discount"><strong>-{{order.discount|currency_jpy}}</strong></span> <br>
                       <span class="amount color lead"><strong>{{order.total + order.tax-order.discount|currency_jpy}}</strong></span>
                     </td>
                   </tr>

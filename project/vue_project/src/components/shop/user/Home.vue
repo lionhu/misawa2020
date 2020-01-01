@@ -4,7 +4,17 @@
 
   <SideMenu></SideMenu>
   <div class="postcontent nobottommargin col_last">
-  Hello
+    <div class="col_full">
+      <span class="title">Language:</span>
+      <el-select v-model="selectedLanguage" @change="ChangeLanguage" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+    </div>
   </div>
 </div>
 </template>
@@ -16,14 +26,28 @@
 
   import SideMenu from "./parts/SideMenu.vue"
 
+import {setToken,getToken} from "../../../lib/util.js"
+  import { Radio,RadioGroup,RadioButton,Select,Option } from 'element-ui';
+  import 'element-ui/lib/theme-chalk/index.css';
+
   export default {
     name: 'UserOrderDetail',
     components:{
-      SideMenu
+      SideMenu,
+      elSelect:Select,
+      elOption:Option
     },
     data () {
       return {
         ME:null,
+        options: [{
+          value: 'jp',
+          label: '日本語'
+        }, {
+          value: 'zh_CN',
+          label: '中文'
+        }],
+        selectedLanguage:""
       }
     },
   computed: {
@@ -39,15 +63,22 @@
       // this.loadOrderDetail()
     },
     methods: {
-      // loadOrderDetail(){
-      //   const slug=this.$route.params.slug;
-      //   var vm = this;
-      //   this.$store.dispatch("orders/getOrderBySlug",slug).then(resolve=>{
-      //       this.order=resolve.order;
-      //   },reject=>{
-      //       window.location.href="/shop/#/user/orderlist"
-      //   })
-      // },
+      ChangeLanguage(){
+            axios.post('/api/userprofiles/update_myprofile_info/',{
+                "language":this.selectedLanguage
+            }).then((res)=>{
+                if(res.data.result){
+                   this.$i18n.locale = this.selectedLanguage;
+                   setToken(this.selectedLanguage,"lang")
+                }else{
+                  throw new Error(res.data.message)
+                }
+            }).catch(function(error){
+                Swal.showValidationMessage(
+                  `Request failed: ${error}`
+                )
+            })
+       }
     },
     watch: {
       '$route' (to, from) {
@@ -62,13 +93,8 @@
 </script>
 
 <style lang="scss">
-abbr strong {
-  display: inline-block;
-  width: 80px;
-  text-align: right;
-  margin-right: 10px;
-}
-abbr{
-  font-size:16px;
+ .title{
+  display:inline-block;
+  width:100px;
 }
 </style>
