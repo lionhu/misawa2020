@@ -16,6 +16,10 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         fields = "__all__"
 
+    def create(self, validated_data):
+            address = Address.objects.create(**validated_data)
+            return address.id
+
 class CartItemSerializer(serializers.ModelSerializer):
     product= CartItemProductSerializer(read_only=True,many=False)
     class Meta:

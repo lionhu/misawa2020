@@ -169,7 +169,7 @@ body {
 
 a {
 	text-decoration: none !important;
-	color: #1ABC9C;
+	color: #1ABC9C !important;
 }
 
 a:hover { color: #222; }
@@ -393,6 +393,30 @@ span.middot {
 
 .nobottompadding { padding-bottom: 0 !important; }
 
+.toppadding-5{
+	padding-top: 5!important;
+}
+
+.toppadding-sm{
+	padding-top: 10px!important;
+}
+
+.toppadding-lg{
+	padding-top: 30px!important;
+}
+
+.padding-lg{
+	padding: 30px!important;
+}
+.padding-5{
+	padding: 5!important;
+}
+
+.padding-sm{
+	padding: 10px!important;
+}
+
+
 .noabsolute { position: relative !important; }
 
 .noshadow { box-shadow: none !important; }
@@ -417,6 +441,9 @@ span.middot {
 	margin-right: auto !important;
 }
 
+.bg-grey{
+	background-color: #F9F9F9;
+}
 .bgcolor,
 .bgcolor #header-wrap { background-color: #1ABC9C !important; }
 
@@ -13946,4 +13973,7 @@ body:not(.no-transition) #wrapper,
 	text-shadow: none !important;
 }
 
+.bg-color{
+	background-color: #1ABC9C ! important;
+}
 

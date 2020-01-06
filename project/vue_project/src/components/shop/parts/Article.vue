@@ -16,7 +16,7 @@
                     </span>
                 </p>
                 <div class="text-center">
-                    <router-link :to="{name:'product_article',params:{slug:product.slug}}" v-if="product.medias.length>0"><i class="icon-line-stack-2"></i></router-link>
+                    <router-link :to="{name:'product_article',params:{slug:product.slug}}"><i class="icon-line-stack-2"></i></router-link>
                     <a href="javascript:void(0);" @click="addProductToCart(product.slug)" class="leftmargin-sm"><i class="icon-shopping-cart"></i></a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             <span class="fright text-info"><i class="fas fa-thumbs-up fa-2x"></i></span>
           </div> -->
         </div>
-        <Thumbup :product="product"></Thumbup>
+        <!-- <Thumbup :product="product"></Thumbup> -->
         <el-rate v-model="value" disabled text-color="#ff9900" score-template="{product.ranks}"></el-rate>
     </div>
 </div>
@@ -269,6 +269,7 @@
       addFavorite(slug){
         this.$store.dispatch("lotteryshop/AddMyFavoriate",slug).then(
           res=>{
+            console.log(res)
             if(res !==null && res.result == true){
               showNotification('<i class="fab fa-gratipay text-danger fa-2x"></i>',"success")
               console.log(res.result);

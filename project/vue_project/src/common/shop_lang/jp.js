@@ -48,4 +48,7 @@ export const m = {
   town:"町",
   note:"備考",
 
+  // rental related
+  shop_rentallist:"レンタル商品一覧"
+
 }

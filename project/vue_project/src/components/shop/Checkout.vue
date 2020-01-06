@@ -24,33 +24,33 @@
         </div>
     </div> -->
     <PayBill :order_slug="order_slug" :order_created_at="order_created_at"  v-if="order_placed"></PayBill>
-    <div class="col_half col_last"  v-if="!order_placed">
+<!--     <div class="col_half col_last"  v-if="!order_placed">
         <div class="card">
             <div class="card-body">
                 Have a coupon? <a href="javascript:void(0);" @click="userCoupon">{{$t("m.use_coupon")}}</a>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="clear"></div>
     <div class="row clearfix">
-        <div class="col-lg-6" v-if="!order_placed">
-            <h3 class="">{{$t("m.shippingaddress")}}</h3>
+        <div class="col_half padding-lg" v-if="!order_placed">
+            <h4 class="">{{$t("m.shippingaddress")}}</h4>
             <div class="alert alert-warning" v-if="existed_customer">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <i class="icon-warning-sign"></i><strong>Warning!</strong> You are trying to update existed customer information.
             </div>
             <div class="col_half">
-                <label for="shipping-form-name">{{$t("m.first_name")}}:</label>
-                <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" v-model="address.first_name" />
+                <!-- <label for="shipping-form-name">{{$t("m.first_name")}}:</label> -->
+                <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" v-model="address.first_name"  :placeholder="$t('m.first_name')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-name')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-name') }}</p>
                 </div>
             </div>
 
             <div class="col_half col_last">
-                <label for="shipping-form-lname">{{$t("m.last_name")}}:</label>
-                <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" v-model="address.last_name" />
+                <!-- <label for="shipping-form-lname">{{$t("m.last_name")}}:</label> -->
+                <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" v-model="address.last_name" :placeholder="$t('m.last_name')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-lname')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-lname') }}</p>
                 </div>
@@ -58,47 +58,47 @@
 
             <div class="clear"></div>
             <div class="col_full">
-                <label for="shipping-form-email">{{$t("m.shop_email")}}</label>
-                <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" v-model="address.email" />
+                <!-- <label for="shipping-form-email">{{$t("m.shop_email")}}</label> -->
+                <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" v-model="address.email" :placeholder="$t('m.shop_email')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-email')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-email') }}</p>
                 </div>
             </div>
 
             <div class="col_half">
-                <label for="shipping-form-phone">{{$t("m.shop_phone")}}</label>
-                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone" />
+                <!-- <label for="shipping-form-phone">{{$t("m.shop_phone")}}</label> -->
+                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone"  :placeholder="$t('m.shop_phone')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="col_half">
-                <label for="shipping-form-postcode">{{$t("m.shop_postcode")}}:</label>
-                <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" @blur="getAddressFromPostcode" />
+                <!-- <label for="shipping-form-postcode">{{$t("m.shop_postcode")}}:</label> -->
+                <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" @blur="getAddressFromPostcode"  :placeholder="$t('m.shop_postcode')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-postcode')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-postcode') }}</p>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="col_half">
-                <label for="shipping-form-state">{{$t("m.state")}}</label>
-                <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }" v-model="address.state" />
+                <!-- <label for="shipping-form-state">{{$t("m.state")}}</label> -->
+                <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }" v-model="address.state"  :placeholder="$t('m.state')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-state')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-state') }}</p>
                 </div>
             </div>
             <div class="col_half col_last">
-                <label for="shipping-form-city">{{$t("m.town")}}:</label>
-                <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }" v-model="address.city" />
+                <!-- <label for="shipping-form-city">{{$t("m.town")}}:</label> -->
+                <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }" v-model="address.city"  :placeholder="$t('m.town')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="col_full">
-                <label for="shipping-form-address">{{$t("m.shop_address")}} :</label>
-                <input type="text" id="shipping-form-address" name="shipping-form-address" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address') }" v-model="address.street_address1" />
+                <!-- <label for="shipping-form-address">{{$t("m.shop_address")}} :</label> -->
+                <input type="text" id="shipping-form-address" name="shipping-form-address" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address') }" v-model="address.street_address1"  :placeholder="$t('m.shop_address')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-address')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
                 </div>
@@ -107,12 +107,12 @@
                 <input type="text" id="shipping-form-address2" name="shipping-form-adress2" value="" class="sm-form-control" v-model="address.street_address2" />
             </div>
             <div class="col_full">
-                <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label>
-                <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="note"></textarea>
+                <!-- <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label> -->
+                <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="note"  :placeholder="$t('m.note')"></textarea>
             </div>
         </div>
 
-        <div class="col-lg-6" v-else-if="order_placed">
+        <div class="col_half" v-else-if="order_placed">
             <h3 class="">{{$t("m.shop_customer")}} </h3>
             <div class="card">
                 <div class="card-header">{{$t("m.shippingaddress")}}</div>
@@ -143,7 +143,7 @@
             </blockquote>
         </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col_half col_last bg-grey padding-lg">
             <h4>{{$t("m.cartinfo")}}</h4>
 
             <div class="table-responsive">
@@ -203,50 +203,57 @@
                 <div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>
                 <div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>
             </div> -->
-            <a href="javascript:void(0);" class="button button-3d fright" @click="PlaceOrder" v-if="!order_placed">{{$t("m.placeOrder")}}</a>
+            <div class="card">
+                <div class="card-body">
+                    Have a coupon? <a href="javascript:void(0);" @click="userCoupon">{{$t("m.use_coupon")}}</a>
+                </div>
+            </div>
+            <a href="javascript:void(0);" class="button button-3d fright text-white topmargin-sm" @click="PlaceOrder" v-if="!order_placed">{{$t("m.placeOrder")}}</a>
+            <div class="clear"></div>
+            <div class="col-lg-12 topmargin-lg">
+                <h4>{{$t("m.shop_ordercontent")}}</h4>
+
+                <div class="table-responsive">
+                    <table class="table cart">
+                        <thead>
+                            <tr>
+                                <th class="cart-product-thumbnail">&nbsp;</th>
+                                <th class="cart-product-name">{{$t("m.shop_product")}}</th>
+                                <th class="cart-product-quantity">{{$t("m.shop_quantity")}}</th>
+                                <th class="cart-product-subtotal">{{$t("m.shop_subtotal")}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cart_item" v-for="cartitem in cart.cartitems">
+                                <td class="cart-product-thumbnail">
+                                    <a href="#"><img width="64" height="64" :src="cartitem.product.avatar" :alt="cartitem.product.name"></a>
+                                </td>
+
+                                <td class="cart-product-name">
+                                    <a href="#">{{cartitem.product.name}}</a>
+                                </td>
+
+                                <td class="cart-product-quantity">
+                                    <div class="quantity clearfix">
+                                        1x{{cartitem.quantity}}
+                                    </div>
+                                </td>
+
+                                <td class="cart-product-subtotal">
+                                    <span class="amount">{{cartitem.sub_total|currency}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>        
         </div>
     </div>
 
 
     <div class="w-100 bottommargin"></div>
-    <div class="col-lg-12">
-        <h4>{{$t("m.shop_ordercontent")}}</h4>
 
-        <div class="table-responsive">
-            <table class="table cart">
-                <thead>
-                    <tr>
-                        <th class="cart-product-thumbnail">&nbsp;</th>
-                        <th class="cart-product-name">{{$t("m.shop_product")}}</th>
-                        <th class="cart-product-quantity">{{$t("m.shop_quantity")}}</th>
-                        <th class="cart-product-subtotal">{{$t("m.shop_subtotal")}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="cart_item" v-for="cartitem in cart.cartitems">
-                        <td class="cart-product-thumbnail">
-                            <a href="#"><img width="64" height="64" :src="cartitem.product.avatar" :alt="cartitem.product.name"></a>
-                        </td>
-
-                        <td class="cart-product-name">
-                            <a href="#">{{cartitem.product.name}}</a>
-                        </td>
-
-                        <td class="cart-product-quantity">
-                            <div class="quantity clearfix">
-                                1x{{cartitem.quantity}}
-                            </div>
-                        </td>
-
-                        <td class="cart-product-subtotal">
-                            <span class="amount">{{cartitem.sub_total|currency}}</span>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-        </div>
-    </div>        
     <div class="divider divider-border divider-center" v-if="order_slug!=''">
       <i class="icon-email2"></i>
     </div>

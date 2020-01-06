@@ -59,7 +59,7 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
         _status = text_data_json['status']
         start_at = text_data_json['start_at']
         end_at = text_data_json['end_at']
-        user_id = str(self.scope['user_id'])
+        user_email = str(self.scope['user_email'])
         now_time=datetime.datetime.now().strftime(settings.DATETIME_FORMAT)
 
         if not self.scope['user'].is_authenticated:
@@ -69,7 +69,7 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'event_message',
-                'user_id': user_id,
+                'user_email': user_email,
                 'product_slug': product_slug,
                 'rentalproduct_slug': rentalproduct_slug,
                 'status': _status,
@@ -81,7 +81,7 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def event_message(self, event):
-        user_id = event['user_id']
+        user_email = event['user_email']
         product_slug = event['product_slug']
         rentalproduct_slug = event['rentalproduct_slug']
         _status = event['status']
@@ -97,7 +97,7 @@ class RentalHouseEventConsumer(AsyncWebsocketConsumer):
                 'status': _status,
                 "start_at":start_at.split("T")[0],
                 "end_at":end_at.split("T")[0],
-                'user_id':user_id
+                'user_email':user_email
             }
         }))
 

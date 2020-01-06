@@ -162,6 +162,28 @@ class AddressViewSet(viewsets.ModelViewSet):
         except KeyError:
             raise Http404
 
+    @action(detail=False,methods=["post"])
+    def CheckExistedCustomer(self,request):
+        
+        try:
+            phone=request.data["phone"]
+            email=request.data["email"]
+
+            address=Address.objects.filter(phone=phone,email=email).first()
+
+            if address is not None:
+                serializer=AddressSerializer(address,many=False)
+
+                return Response({
+                    "result":True,
+                    "type":"CheckExistedCustomer address",
+                    "message":"Existed address information",
+                    "address":serializer.data
+                }, status=status.HTTP_200_OK)
+            else:
+                raise Http404
+        except KeyError:
+            raise Http404
 
 class CartViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
     queryset = Cart.objects.all()

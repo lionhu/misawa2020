@@ -49,4 +49,6 @@ export const m = {
   note:"备注",
   
 
+  // rental related
+  shop_rentallist:"出借一览"
 }

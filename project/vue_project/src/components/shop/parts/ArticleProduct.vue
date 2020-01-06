@@ -1,141 +1,128 @@
 <template>
   <div>
-    <Gallery :images="product.medias" ></Gallery>
-    <div class="fancy-title title-dotted-border title-center">
-      <h3>Pricing Block</h3>
+    <Gallery :images="product.medias" v-if="product.medias !=undefined && product.medias.length"></Gallery>
+    <div class="productimage text-center">
+        <img :src="product.avatar" v-if="product.medias !=undefined && product.medias.length ==0">
     </div>
-    <div class="pricing-box pricing-extended bottommargin clearfix">
-
-      <div class="pricing-desc" v-if="rentalfee">
-        <div class="pricing-title">
-          <h5>Select Rental Product & Period</h5>
+    <section class="rental topmargin-lg" v-if="product.rentalproducts !=undefined && product.rentalproducts.length">
+        <div class="fancy-title title-dotted-border title-center">
+          <h3>レンタル </h3>
         </div>
-        <div class="pricing-features topmargin-sm">
-          <div class="col_full">
-            <div class="col_half bottommargin-sm">
-              <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" :placeholder="$t('m.first_name')" v-model="address.first_name" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-name')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-name') }}</p>
-              </div>
-            </div>
+        <div class="pricing-box pricing-extended bottommargin clearfix" >
 
-            <div class="col_half col_last bottommargin-sm">
-              <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" :placeholder="$t('m.last_name')" v-model="address.last_name" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-lname')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-lname') }}</p>
-              </div>
-            </div>
-
-            <div class="clear"></div>
-            <div class="col_full bottommargin-sm">
-              <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" :placeholder="$t('m.shop_email')" v-model="address.email" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-email')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-email') }}</p>
-              </div>
-            </div>
-
-            <div class="col_half bottommargin-sm">
-              <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" :placeholder="$t('m.shop_phone')"  v-model="address.phone" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
-              </div>
-            </div>
-            <div class="clear"></div>
-            <div class="col_half bottommargin-sm">
-              <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" :placeholder="$t('m.shop_postcode')"   @blur="getAddressFromPostcode" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-postcode')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-postcode') }}</p>
-              </div>
-            </div>
-            <div class="clear"></div>
-            <div class="col_half bottommargin-sm">
-              <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }"  :placeholder="$t('m.state')"  v-model="address.state" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-state')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-state') }}</p>
-              </div>
-            </div>
-            <div class="col_half col_last bottommargin-sm">
-              <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }"   :placeholder="$t('m.town')"   v-model="address.city" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-city') }}</p>
-              </div>
-            </div>
-            <div class="clear"></div>
-            <div class="col_full bottommargin-sm">
-              <input type="text" id="shipping-form-address1" name="shipping-form-address1" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address1') }"   :placeholder="$t('m.shop_address')"   v-model="address.street_address1" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-address1')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-address1') }}</p>
-              </div>
-            </div>
-            <div class="col_full bottommargin-sm">
-              <input type="text" id="shipping-form-address2" name="shipping-form-address2" class="sm-form-control"  data-vv-as="Address" v-model="address.street_address2"  v-validate="'required|min:3'" value="..." :placeholder="$t('m.shop_address2')" />
-              <div class="form-control-feedback" v-show="errors.has('shipping-form-address2')">
-                <p class="alert alert-danger">{{ errors.first('shipping-form-address2') }}</p>
-              </div>
-            </div>
-            <div class="col_full bottommargin-sm">
-              <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label>
-              <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="address.note"></textarea>
-            </div>
-
-            <div class="pricing-action">
-              <a href="javascript:void(0);" class="button button-3d button-xlarge btn-block nomargin" @click="ProcessLease">Get Started</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-
-      <div class="pricing-action-area">
-          <el-radio-group v-model="rentalproduct_sn" size="small" @change="SwitchRentalProduct">
-            <el-radio-button :label="'('+parseInt(i+1)+') '+rentalproduct.sn" v-for="rentalproduct,i in product.rentalproducts" :key="i"></el-radio-button>
-          </el-radio-group>
-          <VueCtkDateTimePicker 
-          @input="PickDate"
-          class = "topmargin-sm"
-          v-model="requestDate"
-          :format="'YYYY-MM-DD'"
-          formatted ="ll"
-          color="#1ABC9C"
-          no-label
-          no-shortcuts
-          range
-          :disabled-dates="disabledDates"
-          locale="ja_JP"
-          :overlay="true" v-if="canRelease">
-        </VueCtkDateTimePicker>
-        <div class="style-msg2 errormsg"  v-if="!canRelease">
+        <div class="style-msg2 errormsg text-center"  v-if="!canRelease">
           <div class="msgtitle">Already Releasing:</div>
           <div class="sb-msg">
             <h4>Status: {{myrentalhistory.status}}</h4>
-            <ul>
-              <li>Start At: {{myrentalhistory.start_at}}</li>
-              <li>End At: {{myrentalhistory.end_at}}</li>
+            <ul style="list-style-type:none;">
+              <li>Start At: {{myrentalhistory.start_at | StandardDate }}</li>
+              <li>End At: {{myrentalhistory.end_at | StandardDate}}</li>
             </ul>
           </div>
         </div>
 
-<!--         <div style="text-align:center;margin-top:10px;">
-          <a href="javascript:void(0);" class="button button-large button-rounded" style="border-radius: 23px;">{{rentalproduct_sn}}</a>
-        </div> -->
-        
-      <!-- <div class="divider divider-rounded divider-center"><i class="icon-map-marker"></i></div> -->
+          <div class="pricing-desc" v-if="rentalfee && canRelease">
+            <div class="pricing-title">
+              <h5>送付先情報：</h5>
+            </div>
+            <div class="pricing-features topmargin-sm">
+              <div class="col_full">
 
-      <div class="pricing-price color topmargin-sm">
-        <span class="price-unit">¥</span>{{rentalfee}}<span class="price-tenure">rental Fee for {{rentalproduct_sn}}</span>
+                <div class="col_full bottommargin-sm">
+                  <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control bg-color text-white" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" :placeholder="$t('m.shop_email')" v-model="address.email" @blur="CheckExistedCustomer"/>
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-email')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-email') }}</p>
+                  </div>
+                </div>
+
+                <div class="col_half bottommargin-sm">
+                  <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control bg-color text-white" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" :placeholder="$t('m.shop_phone')"  v-model="address.phone"  @blur="CheckExistedCustomer"/>
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
+                  </div>
+                </div>
+                <div class="clear"></div>
+
+                <div class="col_half bottommargin-sm">
+                  <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" :placeholder="$t('m.first_name')" v-model="address.first_name" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-name')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-name') }}</p>
+                  </div>
+                </div>
+
+                <div class="col_half col_last bottommargin-sm">
+                  <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" :placeholder="$t('m.last_name')" v-model="address.last_name" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-lname')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-lname') }}</p>
+                  </div>
+                </div>
+
+                <div class="clear"></div>
+                <div class="col_half bottommargin-sm">
+                  <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" :placeholder="$t('m.shop_postcode')"   @blur="getAddressFromPostcode" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-postcode')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-postcode') }}</p>
+                  </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col_half bottommargin-sm">
+                  <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }"  :placeholder="$t('m.state')"  v-model="address.state" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-state')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-state') }}</p>
+                  </div>
+                </div>
+                <div class="col_half col_last bottommargin-sm">
+                  <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }"   :placeholder="$t('m.town')"   v-model="address.city" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-city') }}</p>
+                  </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col_full bottommargin-sm">
+                  <input type="text" id="shipping-form-address1" name="shipping-form-address1" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address1') }"   :placeholder="$t('m.shop_address')"   v-model="address.street_address1" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-address1')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-address1') }}</p>
+                  </div>
+                </div>
+                <div class="col_full bottommargin-sm">
+                  <input type="text" id="shipping-form-address2" name="shipping-form-address2" class="sm-form-control"  data-vv-as="Address" v-model="address.street_address2"  v-validate="'required|min:3'" value="..." :placeholder="$t('m.shop_address2')" />
+                  <div class="form-control-feedback" v-show="errors.has('shipping-form-address2')">
+                    <p class="alert alert-danger">{{ errors.first('shipping-form-address2') }}</p>
+                  </div>
+                </div>
+                <div class="col_full bottommargin-sm">
+                  <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label>
+                  <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="note"></textarea>
+                </div>
+
+                <div class="pricing-action">
+                  <a href="javascript:void(0);" class="button button-3d button-xlarge btn-block nomargin text-white" @click="ProcessLease">Get Started</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="pricing-action-area"  v-if="canRelease" >
+              <el-radio-group v-model="rentalproduct_sn" size="small" @change="SwitchRentalProduct">
+                <el-radio-button :label="'('+parseInt(i+1)+') '+rentalproduct.sn" v-for="rentalproduct,i in product.rentalproducts" :key="i"></el-radio-button>
+            </el-radio-group>
+            <VueCtkDateTimePicker @input="PickDate" class = "topmargin-sm" v-model="requestDate" :format="'YYYY-MM-DD'" formatted ="ll" color="#1ABC9C" no-label no-shortcuts range :disabled-dates="disabledDates" locale="ja_JP" :overlay="true">
+            </VueCtkDateTimePicker>
+
+            <div class="pricing-price color topmargin-sm">
+                <span class="price-unit">¥</span>{{rentalfee}}
+                <span class="price-tenure">rental Fee for <strong>{{rentalproduct_sn}}</strong></span>
+            </div>
+            <div class="pricing-features">
+                <ul class="clearfix">
+                  <li><span>Days:</span>  {{duration}}</li>
+                  <li><span>Rank:</span> {{selectedRentalProduct.rank.name}}</li>
+              </ul>
+            </div>
+          </div>
       </div>
-      <div class="pricing-features">
-        <ul class="clearfix">
-          <li><span>Days:</span>  {{duration}}</li>
-          <li><span>Rank:</span> {{selectedRentalProduct.rank.name}}</li>
-        </ul>
-      </div>
-
-    </div>
-
-
-  </div>
+    </section>
   <RentalProductAlarm :product_slug="product.slug" @rentalhistory="eventRentalHistory"></RentalProductAlarm>
 </div>
 
@@ -182,17 +169,20 @@ export default {
       },
       myrentalhistory:{},
       address:{
-        first_name:"",
-        last_name:"",
-        postcode:"",
-        state:"",
-        city:"",
-        email:"",
-        street_address1:"",
+        first_name:"HU",
+        last_name:"Haiguang",
+        postcode:"3360031",
+        state:"埼玉県",
+        city:"さいたま市",
+        email:"huhaiguang@me.com",
+        street_address1:"鹿手袋7−19−１７",
         street_address2:"...",
-        phone:"",
-        note:""
+        phone:"13816321110"
       },
+      existedAddress:false,
+      existedAddressID:0,
+      note:"",
+      canRelease:false
     }
   },
   mounted(){
@@ -201,18 +191,27 @@ export default {
     }
   },
   computed:{
-    canRelease(){
-      var myrentalhistories = this.$store.state.users.ME.rentalhistories;
-      var itemIndex = myrentalhistories.findIndex(rentalproduct => rentalproduct.product_slug == this.$route.params.slug)
-      this.myrentalhistory = myrentalhistories[itemIndex]
+    // canRelease(){
+    //   console.log(this.myrentalhistories != undefined)
+    //   if (this.myrentalhistories != undefined){
+    //     return false
+    //   }
+    //   var myrentalhistories = this.$store.state.users.ME.rentalhistories;
+    //   var itemIndex = myrentalhistories.findIndex(rentalproduct => rentalproduct.product_slug == this.$route.params.slug)
+    //   this.myrentalhistory = myrentalhistories[itemIndex]
 
-      return itemIndex>-1?false:true;
+    //   return itemIndex>-1?false:true;
 
-    },
+    // },
     duration(){
-      var start_date = moment(this.requestDate.start)
-      var end_date = moment(this.requestDate.end)
-      return  end_date.diff(start_date,"days")
+      if (this.requestDate.start !=undefined && this.requestDate.end !=undefined){
+          var start_date = moment(this.requestDate.start)
+          var end_date = moment(this.requestDate.end)
+          return  end_date.diff(start_date,"days")+1                                         
+      }else{
+        return 0;
+      }
+
     },
     rentalfee(){
       if (this.selectedRentalProduct !=undefined){
@@ -223,9 +222,52 @@ export default {
     }
   },
   methods:{
+    CheckExistedCustomer(){
+        if(this.address.phone !=="" && this.address.email){
+            axios.post('/api/address/CheckExistedCustomer/',{
+                phone:this.address.phone,
+                email:this.address.email
+            }).then((res)=>{
+                if(res.data.result){
+                    this.address = res.data.address;
+                    this.existedAddress = true;
+                    this.existedAddressID = res.data.address.id;
+                }
+            },reject=>{
+                console.log("no existed address matched!")
+            })
+        }
+    },
     ProcessLease(){
       this.$validator.validateAll().then((result)=>{
-        console.log(result)
+        if(result){
+               const params={
+                  address:this.address,
+                  existedAddressID:this.existedAddress ? this.existedAddressID:0,
+                  product_slug: this.product.slug,
+                  rentalproduct_id: this.selectedRentalProduct.id,
+                  requestDate:this.requestDate,
+                  start_at: this.requestDate.start+"T00:00:00",
+                  end_at: this.requestDate.end+"T23:59:59",
+                  days: this.duration,
+                  rentalfee: this.rentalfee,
+                  memo: this.note
+               }
+               axios.post('/api/rental/',params).then((res)=>{
+                               if(res.data.result){
+                                  console.log(res.data)
+                                  this.myrentalhistory={
+                                    start_at: res.data.rentalhistory.start_at,
+                                    end_at: res.data.rentalhistory.end_at,
+                                    status: res.data.rentalhistory.status,
+                                    product_slug: this.product.slug
+                                  }
+                                  this.canRelease = false;
+                               }
+                           },reject=>{
+                                console.log(reject)
+                            })
+        }
       })
     },
     SwitchRentalProduct(e){
@@ -257,6 +299,17 @@ export default {
                   if (res.data.product.rentalproducts.length>0){
                     var first_rentalproduct=res.data.product.rentalproducts[0];
                     this.rentalproduct_sn=first_rentalproduct.sn
+
+                    var myrentalhistories = this.$store.state.users.ME.rentalhistories;
+                    var itemIndex = myrentalhistories.findIndex(rentalproduct => rentalproduct.product_slug == this.$route.params.slug)
+                    if(itemIndex > -1){
+                        this.myrentalhistory = myrentalhistories[itemIndex]
+                        this.canRelease = false;
+                    }else{
+                        this.myrentalhistory = {}
+                        this.canRelease = true;
+                    }
+
                     this.prepare_rentalCalendar()
                   }
                 }
@@ -294,15 +347,24 @@ export default {
       }
     },
     eventRentalHistory(data){
-      // console.log(data)
       var history = data.history
       var rentalproduct_slug = data.rentalproduct_slug
       var itemIndex = this.product.rentalproducts.findIndex(rProduct => rProduct.slug == data.rentalproduct_slug)
 
-      // console.log(itemIndex)
       if(itemIndex>-1){
         this.product.rentalproducts[itemIndex].histories.push(history)
         this.prepare_rentalCalendar()
+        console.log(this.$store.state.users.ME)
+        if (this.$store.state.users.ME.email == data.history.user_email){
+            this.myrentalhistory={
+                start_at: data.history.start_at,
+                end_at: data.history.end_at,
+                status: data.history.status,
+                product_slug: data.product_slug
+            }
+            this.canRelease = false;
+        }
+
       }
     },
     getAddressFromPostcode(){

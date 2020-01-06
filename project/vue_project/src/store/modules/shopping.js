@@ -48,7 +48,7 @@ const mutations= {
         },
         setCatalogueProducts: (state, productsPayload) => {
             const newproducts=productsPayload.map(product=>{
-                if(product.medias.length){
+                if(product.medias !==undefined && product.medias.length){
                   product.medias.map(media=>{
                     media["href"]=media["postimage"]
                     return media

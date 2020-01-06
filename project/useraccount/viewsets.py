@@ -170,7 +170,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         user.backend = 'useraccount.viewsets.CustomBackend'
         auth.login(request, user)
 
-        notificationUserLogin.delay(user.username,user.email)
+        # notificationUserLogin.delay(user.username,user.email)
         logger.error("AlsoLoginMeSync Good")
 
     @action(detail=False,methods=["get"], permission_classes=[inBlacklist])

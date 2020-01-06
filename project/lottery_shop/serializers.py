@@ -1,9 +1,46 @@
 from rest_framework import serializers
 from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
-from useraccount.serializers import UserSerializer
-from rentalhouse.serializers import RentalProductSerializer
+from rentalhouse.models import RentalProduct,ProductRank,RentalHistory
+
+from django.conf import settings
+import datetime
 import logging
 logger=logging.getLogger("error_logger")
+
+class FilteredListSerializer(serializers.ListSerializer):
+
+    filter_kwargs = {}
+
+    def to_representation(self, data):
+        if not self.filter_kwargs or not isinstance(self.filter_kwargs, dict):
+            raise TypeError(_('Invalid Attribute Type: `filter_kwargs` must be a of type `dict`.'))
+        data = data.filter(**self.filter_kwargs)
+        return super().to_representation(data)
+
+class FutureRentalHistoryListSerializer(FilteredListSerializer):
+     filter_kwargs = {'end_at__gte': datetime.datetime.now(),"status__in":settings.IN_RENTAL_MODE}
+
+
+class ProductRankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductRank
+        fields = ("__all__")
+
+
+class RentalHistorySerializer(serializers.ModelSerializer):
+    user_email = serializers.ReadOnlyField(source="user.email")
+    class Meta:
+        model = RentalHistory
+        fields = ("start_at","end_at","status","days","user_email")
+        list_serializer_class = FutureRentalHistoryListSerializer
+
+class RentalProductSerializer(serializers.ModelSerializer):
+    histories = RentalHistorySerializer(many=True,read_only=True)
+    rank = ProductRankSerializer(many=False,read_only=True)
+    class Meta:
+        model = RentalProduct
+        fields = ['id','slug',"sn","condition","avaliable","rank","histories"]
+
 
 
 class GalleryImageSerializer(serializers.ModelSerializer):
@@ -28,15 +65,6 @@ class ProductSerializer(serializers.ModelSerializer):
     medias = GalleryImageSerializer(many=True,read_only=True)
     rentalproducts = RentalProductSerializer(many=True,read_only=True)
 
-    # def to_representation(self,instance):
-    #     result=super().to_representation(instance)
-
-    #     # subproducts=Product.objects.filter(active=True,main_product_id=instance.id)
-    #     # serializer=SubproductSerializer(subproducts,many=True)
-    #     # result["subproducts"]=serializer.data
-
-    #     return result
-
     class Meta:
         model = Product
         fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue","medias","rentalproducts")
@@ -55,7 +83,7 @@ class CartItemProductSerializer(serializers.ModelSerializer):
         
 class ProductSerializer_list(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
-    medias = GalleryImageSerializer(many=True,read_only=True)
+    # medias = GalleryImageSerializer(many=True,read_only=True)
 
     def to_representation(self,instance):
         result=super().to_representation(instance)
@@ -78,8 +106,8 @@ class ProductSerializer_list(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-
-        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","manufacturer","brand","medias")
+        # fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","manufacturer","brand","medias")
+        fields = ("id","name","avatar","thumbimage","slug","price","open_price","ranks","stock","vendor","catalogue","manufacturer","brand")
 
 
 class SubcatalogueSerializer(serializers.ModelSerializer):

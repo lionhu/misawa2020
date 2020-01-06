@@ -98,8 +98,8 @@ export default {
       return "";
     }
 
-    var time=value.split(".")[0];
-    return time.replace("T"," ");
+    var time=value.split("T")[0];
+    return time;
   },
 
 

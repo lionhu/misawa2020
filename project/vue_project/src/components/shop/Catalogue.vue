@@ -19,7 +19,7 @@
         <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
           <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>
           <li v-for="item in subcatalogues_now">
-            <a href="#" data-filter=".sf-dress">{{item.name}}</a>
+            <router-link :to="{name:'catalogue',params:{'catalogue_id':item.id}}">{{item.name}}</router-link>
             <span>{{item.product_num}}</span>
           </li>
         </ul>

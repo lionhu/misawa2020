@@ -92,6 +92,14 @@ const router = new Router({
 
 
         {
+            path: '/user/rentallist',
+            name:"rentallist",
+            components:{
+                maincontent:loadView("shop/user/RentalManagement.vue")
+            }
+        },
+
+        {
             path: '/user/orderlist',
             name:"orderlist",
             components:{
