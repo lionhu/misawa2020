@@ -1,7 +1,8 @@
 <template>
 <div class="promo promo-dark promo-flat bottommargin">
-    <h3><span>Order No: </span> {{order_slug}} </h3>
-    <span>Your order has been place at {{order_created_at}}</span>
+    <h3 class="text-white">Passcode: {{order_sn}} </h3>
+    <span>Your order has been placed successfully! </span>
+    <span>At {{order_created_at}}</span>
     
     <div class="col_full clearfix">
             <a href="javascript:void(0);"  @click="PayBill(order_slug,'WechatPay')">
@@ -34,7 +35,7 @@
 
   export default {
     name: 'Checkout',
-    props:["order_slug","order_created_at"],
+    props:["order_slug","order_sn","order_created_at"],
     data () {
       return {
       }

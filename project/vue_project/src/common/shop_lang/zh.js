@@ -40,6 +40,7 @@ export const m = {
   shop_subtotal:"小计",
   shop_logistics:"物流",
   shop_orderlist:"订单一览",
+  shop_payment:"支付方法",
 
   shippingaddress:"收件人信息",
   first_name:"姓",

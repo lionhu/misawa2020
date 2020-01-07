@@ -229,3 +229,24 @@ input.switch-toggle-round:checked + label:before,
 	.portfolio-filter li a:hover { color: #1ABC9C; }
 
 }
+
+.border-thin-grey{
+	border: solid thin #e2e0e0;
+}
+
+.alipay_color{
+	color: #02abf7 ! important;
+}
+
+.line_color{
+	color: #38c526 ! important;
+}
+
+.credit_color{
+	color: #ec8807eb ! important;
+}
+
+.jcoin_color{
+	color: #f521d9b5 ! important;
+}
+

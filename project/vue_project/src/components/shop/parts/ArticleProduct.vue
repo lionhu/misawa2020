@@ -135,8 +135,8 @@ const moment = extendMoment(Moment);
 
 import RentalProductAlarm from "./websocks/RentalEvent.vue"
 
-  import { Radio,RadioGroup,RadioButton } from 'element-ui';
-  import 'element-ui/lib/theme-chalk/index.css';
+import { Radio,RadioGroup,RadioButton } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 import Gallery from "./MoaGallery.vue"
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';

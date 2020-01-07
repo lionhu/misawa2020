@@ -1,47 +1,16 @@
 <template>
 
 <div class="container clearfix mt-3">
-<!--     <div class="promo promo-dark promo-flat bottommargin" v-if="order_placed">
-        <h3><span>Order No: </span> {{order_slug}} </h3>
-        <span>Your order has been place at {{order_created_at}}</span>
-        
-        <div class="col_full clearfix">
-                <a href="javascript:void(0);"  @click="PayBill(order_slug,'WechatPay')">
-                    <i class="i-circled i-light wechat_color fab fa-weixin"></i>
-                </a>
-                <a href="javascript:void(0);"  @click="PayBill(order_slug,'AliPay')">
-                    <i class="i-circled i-light alipay_color fab fa-alipay"></i>
-                </a>                
-                <a href="javascript:void(0);"  @click="PayBill(order_slug,'LINE')">
-                    <i class="i-circled i-light wechat_color fab fa-line"></i>
-                </a>
-                <a href="javascript:void(0);"  @click="PayBill(order_slug,'CPM')">
-                    <i class="i-circled i-light fas fa-qrcode"></i>
-                </a>
-                <a href="javascript:void(0);"  @click="PayBill(order_slug,'CARD')">
-                    <i class="i-circled i-light credit_color fas fa-credit-card"></i>
-                </a>
-        </div>
-    </div> -->
-    <PayBill :order_slug="order_slug" :order_created_at="order_created_at"  v-if="order_placed"></PayBill>
-<!--     <div class="col_half col_last"  v-if="!order_placed">
-        <div class="card">
-            <div class="card-body">
-                Have a coupon? <a href="javascript:void(0);" @click="userCoupon">{{$t("m.use_coupon")}}</a>
-            </div>
-        </div>
-    </div> -->
-
+    <PayBill :order_slug="order_slug" :order_sn="order_sn" :order_created_at="order_created_at"  v-if="order_placed"></PayBill>
     <div class="clear"></div>
-    <div class="row clearfix">
-        <div class="col_half padding-lg" v-if="!order_placed">
+    <div class="col_full border-thin-grey clearfix">
+        <div class="col_half padding-sm" v-if="!order_placed">
             <h4 class="">{{$t("m.shippingaddress")}}</h4>
             <div class="alert alert-warning" v-if="existed_customer">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <i class="icon-warning-sign"></i><strong>Warning!</strong> You are trying to update existed customer information.
             </div>
             <div class="col_half">
-                <!-- <label for="shipping-form-name">{{$t("m.first_name")}}:</label> -->
                 <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" v-model="address.first_name"  :placeholder="$t('m.first_name')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-name')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-name') }}</p>
@@ -49,7 +18,6 @@
             </div>
 
             <div class="col_half col_last">
-                <!-- <label for="shipping-form-lname">{{$t("m.last_name")}}:</label> -->
                 <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" v-model="address.last_name" :placeholder="$t('m.last_name')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-lname')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-lname') }}</p>
@@ -58,23 +26,20 @@
 
             <div class="clear"></div>
             <div class="col_full">
-                <!-- <label for="shipping-form-email">{{$t("m.shop_email")}}</label> -->
-                <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" v-model="address.email" :placeholder="$t('m.shop_email')"/>
+                <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" v-model="address.email" :placeholder="$t('m.shop_email')"  @blur="CheckExistedCustomer"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-email')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-email') }}</p>
                 </div>
             </div>
 
             <div class="col_half">
-                <!-- <label for="shipping-form-phone">{{$t("m.shop_phone")}}</label> -->
-                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone"  :placeholder="$t('m.shop_phone')"/>
+                <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" v-model="address.phone"  :placeholder="$t('m.shop_phone')" @blur="CheckExistedCustomer"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
                 </div>
             </div>
             <div class="clear"></div>
             <div class="col_half">
-                <!-- <label for="shipping-form-postcode">{{$t("m.shop_postcode")}}:</label> -->
                 <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" @blur="getAddressFromPostcode"  :placeholder="$t('m.shop_postcode')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-postcode')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-postcode') }}</p>
@@ -82,14 +47,12 @@
             </div>
             <div class="clear"></div>
             <div class="col_half">
-                <!-- <label for="shipping-form-state">{{$t("m.state")}}</label> -->
                 <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }" v-model="address.state"  :placeholder="$t('m.state')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-state')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-state') }}</p>
                 </div>
             </div>
             <div class="col_half col_last">
-                <!-- <label for="shipping-form-city">{{$t("m.town")}}:</label> -->
                 <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }" v-model="address.city"  :placeholder="$t('m.town')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
@@ -97,7 +60,6 @@
             </div>
             <div class="clear"></div>
             <div class="col_full">
-                <!-- <label for="shipping-form-address">{{$t("m.shop_address")}} :</label> -->
                 <input type="text" id="shipping-form-address" name="shipping-form-address" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address') }" v-model="address.street_address1"  :placeholder="$t('m.shop_address')"/>
                 <div class="form-control-feedback" v-show="errors.has('shipping-form-address')">
                     <p class="alert alert-danger">{{ errors.first('shipping-form-address') }}</p>
@@ -107,12 +69,11 @@
                 <input type="text" id="shipping-form-address2" name="shipping-form-adress2" value="" class="sm-form-control" v-model="address.street_address2" />
             </div>
             <div class="col_full">
-                <!-- <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label> -->
                 <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="note"  :placeholder="$t('m.note')"></textarea>
             </div>
         </div>
 
-        <div class="col_half" v-else-if="order_placed">
+        <div class="col_half padding-lg" v-else-if="order_placed">
             <h3 class="">{{$t("m.shop_customer")}} </h3>
             <div class="card">
                 <div class="card-header">{{$t("m.shippingaddress")}}</div>
@@ -127,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card topmargin-lg">
               <div class="card-header">{{$t("m.shippingaddress")}}</div>
               <div class="card-body">
                   <p class="card-text">
@@ -136,14 +97,14 @@
                       <br> {{address.street_address1}}
                       <br> {{address.street_address2}}
                   </p>
-            </div>
-            <blockquote class="quote">
+              </div>
+              <blockquote class="quote">
                 <p>{{note}}</p>
                 <footer class="blockquote-footer"> note added</footer>
             </blockquote>
+            </div>
         </div>
-        </div>
-        <div class="col_half col_last bg-grey padding-lg">
+        <div class="col_half col_last bg-grey padding-sm">
             <h4>{{$t("m.cartinfo")}}</h4>
 
             <div class="table-responsive">
@@ -190,19 +151,7 @@
                     </tbody>
                 </table>
             </div>
-<!--           <div class="fancy-title title-bottom-border">
-            <h4><span>支払いについて</span></h4>
-          </div>
-            <div class="accordion clearfix">
-                <div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Direct Bank Transfer</div>
-                <div class="acc_content clearfix">Donec sed odio dui. Nulla vitae elit libero, a pharetra augue. Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</div>
 
-                <div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Cheque Payment</div>
-                <div class="acc_content clearfix">Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur. Cras mattis consectetur purus sit amet fermentum.</div>
-
-                <div class="acctitle"><i class="acc-closed icon-ok-circle"></i><i class="acc-open icon-remove-circle"></i>Paypal</div>
-                <div class="acc_content clearfix">Nullam id dolor id nibh ultricies vehicula ut id elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Duis mollis, est non commodo luctus. Aenean lacinia bibendum nulla sed consectetur.</div>
-            </div> -->
             <div class="card">
                 <div class="card-body">
                     Have a coupon? <a href="javascript:void(0);" @click="userCoupon">{{$t("m.use_coupon")}}</a>
@@ -210,7 +159,7 @@
             </div>
             <a href="javascript:void(0);" class="button button-3d fright text-white topmargin-sm" @click="PlaceOrder" v-if="!order_placed">{{$t("m.placeOrder")}}</a>
             <div class="clear"></div>
-            <div class="col-lg-12 topmargin-lg">
+            <div class="col_full topmargin-lg">
                 <h4>{{$t("m.shop_ordercontent")}}</h4>
 
                 <div class="table-responsive">
@@ -247,15 +196,56 @@
 
                     </table>
                 </div>
+
+                <h4 class="topmargin-sm">{{$t("m.shop_payment")}}</h4>
+                <div class="style-msg alertmsg"  v-if="order_placed">
+                    <div class="sb-msg">
+                        <i class="icon-warning-sign"></i><strong>passcode:</strong> 
+                    </div>
+                    <div class="sb-msg fs16 center t700">
+                        {{order_sn}}
+                    </div>
+                </div>
+                <el-collapse accordion>
+                  <el-collapse-item>
+                    <template slot="title">
+                      <i class="i-small i-circled i-bordered fab fa-line line_color allmargin-5" aria-hidden="true"></i>J-coin
+                    </template>
+                    <div class="col_one_third text-center">
+                        <img src="/static/img/nichiei_with_text.png" style="width:80px;" alt="">
+                    </div>
+                    <div class="col_two_third col_last">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                  </el-collapse-item>
+                  <el-collapse-item>
+                    <template slot="title">
+                      <i class="i-small i-circled i-bordered color fab fa-weixin allmargin-5" aria-hidden="true"></i>J-coin
+                    </template>
+                    <div class="col_one_third text-center">
+                        <img src="/static/img/nichiei_with_text.png" style="width:80px;" alt="">
+                    </div>
+                    <div class="col_two_third col_last">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                  </el-collapse-item>
+                  <el-collapse-item>
+                    <template slot="title">
+                      <i class="i-small i-circled i-bordered fab fa-alipay alipay_color allmargin-5" aria-hidden="true"></i>J-coin
+                    </template>
+                    <div class="col_one_third text-center">
+                        <img src="/static/img/nichiei_with_text.png" style="width:80px;" alt="">
+                    </div>
+                    <div class="col_two_third col_last">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                  </el-collapse-item>
+                  <el-collapse-item>
+                    <template slot="title">
+                      <i class="i-small i-circled i-bordered fas fa-credit-card credit_color allmargin-5" aria-hidden="true"></i>J-coin
+                    </template>
+                    <div class="col_one_third text-center">
+                        <img src="/static/img/nichiei_with_text.png" style="width:80px;" alt="">
+                    </div>
+                    <div class="col_two_third col_last">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+                  </el-collapse-item>
+                </el-collapse>
             </div>        
         </div>
-    </div>
-
-
-    <div class="w-100 bottommargin"></div>
-
-    <div class="divider divider-border divider-center" v-if="order_slug!=''">
-      <i class="icon-email2"></i>
     </div>
 </div>
 
@@ -263,17 +253,20 @@
 
 <script>
 
-  import {mapActions, mapState,mapGetters} from "vuex"
+import {mapActions, mapState,mapGetters} from "vuex"
 
-  import {setToken,getToken,showNotification,FetchAddressByPostcode,utf16to8} from "../../lib/util.js"
-  import Swal from 'sweetalert2'
-  import PayBill from "./parts/PayBill.vue"
-
+import {setToken,getToken,showNotification,FetchAddressByPostcode,utf16to8} from "../../lib/util.js"
+import Swal from 'sweetalert2'
+import PayBill from "./parts/PayBill.vue"
+import { Collapse,CollapseItem } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
   export default {
     name: 'Checkout',
     components:{
-        PayBill
+        PayBill,
+        elCollapse:Collapse,
+        elCollapseItem:CollapseItem
     },
     data () {
       return {
@@ -292,6 +285,7 @@
         existed_customer:false,
         existed_customer_slug:"",
         order_slug:"",
+        order_sn:"",
         order_placed:false,
         order_created_at:"",
         hascoupon:false,
@@ -411,38 +405,22 @@
           reader.readAsDataURL(file)
         }
     },
-    confirm_exist_customer(){
-      if (this.address.phone.length>6){
-        this.$store.dispatch("lotteryshop/getCustomerByPhone",this.address.phone).then(
-          resolve=>{
-              if(resolve){
-                  const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                      confirmButton: 'btn btn-success',
-                      cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                  })
-
-                  swalWithBootstrapButtons.fire({
-                    title: 'Update existed customer?',
-                    html: '<strong>'+resolve.first_name+" "+resolve.last_name+'</strong>',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, that it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                  }).then((result) => {
-                    if (result.value) {
-                      this.existed_customer=true
-                      this.existed_customer_slug=resolve.slug
-                      this.address=resolve
-                    }
-                  })
-              }
-
-          },reject=>{})
-      }
+    CheckExistedCustomer(){
+        if(this.address.phone !=="" && this.address.email){
+            axios.post('/api/address/CheckExistedCustomer/',{
+                phone:this.address.phone,
+                email:this.address.email
+            }).then((res)=>{
+                if(res.data.result){
+                    showNotification("Found customer information","info")
+                    this.address = res.data.address;
+                    this.existedAddress = true;
+                    this.existedAddressID = res.data.address.id;
+                }
+            },reject=>{
+                console.log("no existed address matched!")
+            })
+        }
     },
     checkIsEmptyCart(){
       if(this.cart.summary.Qty==0){
@@ -466,6 +444,7 @@
                this.$store.dispatch("lotteryshop/placeOrder",params).then(resolve=>{
                       console.log("placed successfully")
                       this.order_slug=resolve.order_slug
+                      this.order_sn=resolve.order_sn
                       this.order_created_at=resolve.created_at
                       this.order_placed=true
                       // console.log(this.order_slug)

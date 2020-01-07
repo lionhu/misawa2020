@@ -321,10 +321,13 @@ span.middot {
 
 .rightmargin-5 { margin-right: 5px !important; }
 
+.margin_x-5 { margin-right: 5px !important; margin-left: 5px!important}
+
 .topmargin-5 { margin-top: 5px !important; }
 
 .bottommargin-5 { margin-bottom: 5px !important; }
 
+.margin_y-5 { margin-top: 5px !important; margin-bottom: 5px!important}
 
 .allmargin-sm { margin: 30px !important; }
 
@@ -454,6 +457,10 @@ span.middot {
 .nobg { background: none !important; }
 
 .nobgcolor { background-color: transparent !important; }
+
+.fs16{
+	font-size: 1.6rem !important;
+}
 
 .t300 { font-weight: 300 !important; }
 

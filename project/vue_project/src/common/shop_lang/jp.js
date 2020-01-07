@@ -39,6 +39,7 @@ export const m = {
   shop_subtotal:"小計",
   shop_logistics:"物流",
   shop_orderlist:"注文履歴",
+  shop_payment:"支払方法",
 
 
   shippingaddress:"納品先情報",

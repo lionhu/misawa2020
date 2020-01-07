@@ -514,6 +514,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
                 "type":"list shop orders",
                 "message":"Shop Orders",
                 "order_slug":order.slug,
+                "order_sn":str(order.id)+"."+str(request.user.id),
                 "created_at":order.created_at,
                 "cart":{}
             }, status=status.HTTP_200_OK)
