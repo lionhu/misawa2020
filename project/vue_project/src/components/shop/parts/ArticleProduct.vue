@@ -1,130 +1,117 @@
 <template>
-  <div>
-    <Gallery :images="product.medias" v-if="product.medias !=undefined && product.medias.length"></Gallery>
-    <div class="productimage text-center">
-        <img :src="product.avatar" v-if="product.medias !=undefined && product.medias.length ==0">
-    </div>
-    <section class="rental topmargin-lg" v-if="product.rentalproducts !=undefined && product.rentalproducts.length">
-        <div class="fancy-title title-dotted-border title-center">
-          <h3>レンタル </h3>
+<div class="container clearfix">
+
+  <div class="postcontent nobottommargin clearfix col_last">
+
+    <div class="single-product">
+
+      <div class="product">
+
+        <div class="col_half">
+
+          <!-- Product Single - Gallery
+          ============================================= -->
+          <div class="product-image">
+            <Gallery :images="product.medias" v-if="product.medias !=undefined && product.medias.length"></Gallery>
+            <div class="productimage text-center">
+                <img :src="product.avatar" v-if="product.medias !=undefined && product.medias.length ==0">
+            </div>
+            <div class="sale-flash">Sale!</div>
+          </div><!-- Product Single - Gallery End -->
+
         </div>
-        <div class="pricing-box pricing-extended bottommargin clearfix" >
 
-        <div class="style-msg2 errormsg text-center"  v-if="!canRelease">
-          <div class="msgtitle">Already Releasing:</div>
-          <div class="sb-msg">
-            <h4>Status: {{myrentalhistory.status}}</h4>
-            <ul style="list-style-type:none;">
-              <li>Start At: {{myrentalhistory.start_at | StandardDate }}</li>
-              <li>End At: {{myrentalhistory.end_at | StandardDate}}</li>
-            </ul>
-          </div>
+        <div class="col_half col_last product-desc">
+
+          <!-- Product Single - Price
+          ============================================= -->
+          <div class="product-price"><ins>{{product.price | currency_jpy}}</ins></div><!-- Product Single - Price End -->
+
+          <!-- Product Single - Rating
+          ============================================= -->
+          <div class="product-rating">
+                    <el-rate v-model="product.ranks" disabled text-color="#ff9900" ></el-rate>
+          </div><!-- Product Single - Rating End -->
+
+          <div class="clear"></div>
+          <div class="line"></div>
+
+          <!-- Product Single - Quantity & Cart Button
+          ============================================= -->
+          <div class="cart nobottommargin clearfix" >
+<!--             <div class="quantity clearfix">
+              <a href="javascript:void(0)" class="button minus norightmargin nobgcolor" @click="num >=1 ? num--:0">-</a>
+              <a href="javascript:void(0)" class="button qty norightmargin noleftmargin nobgcolor" v-model="num"> {{num}}</a>
+              <a href="javascript:void(0)" class="button plus norightmargin nobgcolor" @click="num++">+</a>
+            </div> -->
+            <a class="add-to-cart button nomargin text-white" @click="addProductToCart(product.slug)" >Add to cart</a>
+          </div><!-- Product Single - Quantity & Cart Button End -->
+
+          <div class="clear"></div>
+          <div class="line"></div>
+
+          <!-- Product Single - Short Description
+          ============================================= -->
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero velit id eaque ex quae laboriosam nulla optio doloribus! Perspiciatis, libero, neque, perferendis at nisi optio dolor!</p>
+          <p>Perspiciatis ad eveniet ea quasi debitis quos laborum eum reprehenderit eaque explicabo assumenda rem modi.</p>
+          <ul class="iconlist">
+            <li><i class="icon-caret-right"></i> Dynamic Color Options</li>
+            <li><i class="icon-caret-right"></i> Lots of Size Options</li>
+            <li><i class="icon-caret-right"></i> 30-Day Return Policy</li>
+          </ul><!-- Product Single - Short Description End -->
+
+          <!-- Product Single - Meta
+          ============================================= -->
+          <div class="card product-meta">
+            <div class="card-body">
+              <span itemprop="productID" class="sku_wrapper">SKU: <span class="sku color">{{product.sku}}</span></span> <br>
+              <span class="posted_in">Manufacturer: <span class="sku color">{{product.manufacturer}}</span>.</span>
+            </div>
+          </div><!-- Product Single - Meta End -->
         </div>
 
-          <div class="pricing-desc" v-if="rentalfee && canRelease">
-            <div class="pricing-title">
-              <h5>送付先情報：</h5>
-            </div>
-            <div class="pricing-features topmargin-sm">
-              <div class="col_full">
+        <div class="col_full nobottommargin">
 
-                <div class="col_full bottommargin-sm">
-                  <input type="text" id="shipping-form-email" name="shipping-form-email" value="" class="sm-form-control bg-color text-white" data-vv-as="Email" v-validate="'required|email'" :class="{'input': true, 'form-danger': errors.has('shipping-form-email') }" :placeholder="$t('m.shop_email')" v-model="address.email" @blur="CheckExistedCustomer"/>
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-email')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-email') }}</p>
-                  </div>
-                </div>
+          <el-tabs type="border-card">
+            <el-tab-pane>
+              <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
+              我的行程
+            </el-tab-pane>
+            <el-tab-pane label="消息中心">消息中心</el-tab-pane>
+            <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+            <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+          </el-tabs>
 
-                <div class="col_half bottommargin-sm">
-                  <input type="text" id="shipping-form-phone" name="shipping-form-phone" value="" class="sm-form-control bg-color text-white" data-vv-as="Phone" v-validate="'required|min:6'" :class="{'input': true, 'form-danger': errors.has('shipping-form-phone') }" :placeholder="$t('m.shop_phone')"  v-model="address.phone"  @blur="CheckExistedCustomer"/>
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-phone')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-phone') }}</p>
-                  </div>
-                </div>
-                <div class="clear"></div>
+        </div>
 
-                <div class="col_half bottommargin-sm">
-                  <input type="text" id="shipping-form-name" name="shipping-form-name" value="" class="sm-form-control" data-vv-as="First Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-name') }" :placeholder="$t('m.first_name')" v-model="address.first_name" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-name')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-name') }}</p>
-                  </div>
-                </div>
-
-                <div class="col_half col_last bottommargin-sm">
-                  <input type="text" id="shipping-form-lname" name="shipping-form-lname" value="" class="sm-form-control" data-vv-as="Last Name" v-validate="'required'" :class="{'input': true, 'form-danger': errors.has('shipping-form-lname') }" :placeholder="$t('m.last_name')" v-model="address.last_name" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-lname')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-lname') }}</p>
-                  </div>
-                </div>
-
-                <div class="clear"></div>
-                <div class="col_half bottommargin-sm">
-                  <input type="text" id="shipping-form-postcode" name="shipping-form-postcode" value="" class="sm-form-control" data-vv-as="PostCode" v-validate="'required|min:4'" :class="{'input': true, 'form-danger': errors.has('shipping-form-postcode') }" v-model="address.postcode" :placeholder="$t('m.shop_postcode')"   @blur="getAddressFromPostcode" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-postcode')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-postcode') }}</p>
-                  </div>
-                </div>
-                <div class="clear"></div>
-                <div class="col_half bottommargin-sm">
-                  <input type="text" id="shipping-form-state" name="shipping-form-state" value="" class="sm-form-control" data-vv-as="State / City" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-state') }"  :placeholder="$t('m.state')"  v-model="address.state" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-state')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-state') }}</p>
-                  </div>
-                </div>
-                <div class="col_half col_last bottommargin-sm">
-                  <input type="text" id="shipping-form-city" name="shipping-form-city" value="" class="sm-form-control" data-vv-as="Town" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-city') }"   :placeholder="$t('m.town')"   v-model="address.city" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-city')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-city') }}</p>
-                  </div>
-                </div>
-                <div class="clear"></div>
-                <div class="col_full bottommargin-sm">
-                  <input type="text" id="shipping-form-address1" name="shipping-form-address1" value="" class="sm-form-control" data-vv-as="Address" v-validate="'required|min:3'" :class="{'input': true, 'form-danger': errors.has('shipping-form-address1') }"   :placeholder="$t('m.shop_address')"   v-model="address.street_address1" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-address1')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-address1') }}</p>
-                  </div>
-                </div>
-                <div class="col_full bottommargin-sm">
-                  <input type="text" id="shipping-form-address2" name="shipping-form-address2" class="sm-form-control"  data-vv-as="Address" v-model="address.street_address2"  v-validate="'required|min:3'" value="..." :placeholder="$t('m.shop_address2')" />
-                  <div class="form-control-feedback" v-show="errors.has('shipping-form-address2')">
-                    <p class="alert alert-danger">{{ errors.first('shipping-form-address2') }}</p>
-                  </div>
-                </div>
-                <div class="col_full bottommargin-sm">
-                  <label for="shipping-form-message">{{$t("m.note")}} <small>*</small></label>
-                  <textarea class="sm-form-control" id="shipping-form-message" name="shipping-form-message" rows="6" cols="30" v-model="note"></textarea>
-                </div>
-
-                <div class="pricing-action">
-                  <a href="javascript:void(0);" class="button button-3d button-xlarge btn-block nomargin text-white" @click="ProcessLease">Get Started</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="pricing-action-area"  v-if="canRelease" >
-              <el-radio-group v-model="rentalproduct_sn" size="small" @change="SwitchRentalProduct">
-                <el-radio-button :label="'('+parseInt(i+1)+') '+rentalproduct.sn" v-for="rentalproduct,i in product.rentalproducts" :key="i"></el-radio-button>
-            </el-radio-group>
-            <VueCtkDateTimePicker @input="PickDate" class = "topmargin-sm" v-model="requestDate" :format="'YYYY-MM-DD'" formatted ="ll" color="#1ABC9C" no-label no-shortcuts range :disabled-dates="disabledDates" locale="ja_JP" :overlay="true">
-            </VueCtkDateTimePicker>
-
-            <div class="pricing-price color topmargin-sm">
-                <span class="price-unit">¥</span>{{rentalfee}}
-                <span class="price-tenure">rental Fee for <strong>{{rentalproduct_sn}}</strong></span>
-            </div>
-            <div class="pricing-features">
-                <ul class="clearfix">
-                  <li><span>Days:</span>  {{duration}}</li>
-                  <li><span>Rank:</span> {{selectedRentalProduct.rank.name}}</li>
-              </ul>
-            </div>
-          </div>
       </div>
-    </section>
+
+    </div>
+
+    <div class="clear"></div><div class="line"></div>
+
+  </div>
+
+  <div class="sidebar nobottommargin clearfix">
+    <div class="sidebar-widgets-wrap">
+
+      <div class="widget widget_links clearfix">
+
+        <h4>Shop Categories</h4>
+        <ul>
+          <li v-for=" subcatalogue in currentSubcatalogues">
+              <router-link :to="{name:'catalogue',params:{'catalogue_id':subcatalogue.id}}">{{subcatalogue.name}}</router-link>
+          </li>
+        </ul>
+
+      </div>
+
+      </div>
+  </div>
+
   <RentalProductAlarm :product_slug="product.slug" @rentalhistory="eventRentalHistory"></RentalProductAlarm>
 </div>
+
 
 </template>
   
@@ -135,7 +122,7 @@ const moment = extendMoment(Moment);
 
 import RentalProductAlarm from "./websocks/RentalEvent.vue"
 
-import { Radio,RadioGroup,RadioButton } from 'element-ui';
+import { Radio,RadioGroup,RadioButton,Rate,Tabs,TabPane } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import Gallery from "./MoaGallery.vue"
@@ -143,7 +130,7 @@ import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {StandardDate,showNotification,FetchAddressByPostcode,utf16to8} from "../../../lib/util.js"
+import {StandardDate,showNotification,FetchAddressByPostcode,utf16to8,setToken,getToken} from "../../../lib/util.js"
 
 export default {
   name: "ProductArticle",
@@ -152,12 +139,16 @@ export default {
     VueCtkDateTimePicker,
     RentalProductAlarm,
     elRadio:Radio,
+    elRate:Rate,
     elRadioButton:RadioButton,
-    elRadioGroup:RadioGroup
+    elRadioGroup:RadioGroup,
+    elTabs:Tabs,
+    elTabPane:TabPane
   },
   data() {
     return {
       product:{},
+      num:0,
       requestDate: {},
       disabledDates:[],
       rentalPeriods:[],
@@ -189,20 +180,14 @@ export default {
     if (this.$route.params.slug !="" || this.$route.params.slug !=undefined){
       this.loadProduct(this.$route.params.slug)
     }
+
   },
   computed:{
-    // canRelease(){
-    //   console.log(this.myrentalhistories != undefined)
-    //   if (this.myrentalhistories != undefined){
-    //     return false
-    //   }
-    //   var myrentalhistories = this.$store.state.users.ME.rentalhistories;
-    //   var itemIndex = myrentalhistories.findIndex(rentalproduct => rentalproduct.product_slug == this.$route.params.slug)
-    //   this.myrentalhistory = myrentalhistories[itemIndex]
+    currentSubcatalogues(){
 
-    //   return itemIndex>-1?false:true;
+      return this.$store.state.lotteryshop.catalogue_now.subcatalogues;
 
-    // },
+    },
     duration(){
       if (this.requestDate.start !=undefined && this.requestDate.end !=undefined){
           var start_date = moment(this.requestDate.start)
@@ -222,6 +207,23 @@ export default {
     }
   },
   methods:{
+   addProductToCart(slug){
+     const jwt_token=getToken("jwt_token")
+
+     if (jwt_token !==undefined && jwt_token !==null){
+       const params={
+         product_slug:slug,
+         quantity:1
+       }
+       let jwt_token=getToken("jwt_token")
+       this.$store.dispatch("lotteryshop/addToCart",params).then(
+         resolve=>{
+               showNotification(this.$t("m.add2cart"),"success")
+         },reject=>{})
+     }else{
+       showNotification("You have to login!","warning")
+     }
+   },
     CheckExistedCustomer(){
         if(this.address.phone !=="" && this.address.email){
             axios.post('/api/address/CheckExistedCustomer/',{

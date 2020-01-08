@@ -50,6 +50,7 @@
   "../../static/bundles/shop-Top-vue.js": "../../static/bundles/shop-Top-vue.js",
   "../../static/bundles/shop-parts-Article-vue.js": "../../static/bundles/shop-parts-Article-vue.js",
   "../../static/bundles/shop-parts-ArticleProduct-vue.js": "../../static/bundles/shop-parts-ArticleProduct-vue.js",
+  "../../static/bundles/shop-parts-ArticleProduct_bk-vue.js": "../../static/bundles/shop-parts-ArticleProduct_bk-vue.js",
   "../../static/bundles/shop-parts-FloatRadiusButtonMenu-vue.js": "../../static/bundles/shop-parts-FloatRadiusButtonMenu-vue.js",
   "../../static/bundles/shop-parts-Gallery-vue.js": "../../static/bundles/shop-parts-Gallery-vue.js",
   "../../static/bundles/shop-parts-Header-vue.js": "../../static/bundles/shop-parts-Header-vue.js",

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <section>
         <router-view name="topmenu"></router-view>
         <router-view name="sidemenu"></router-view>
 
@@ -11,10 +11,11 @@
            </div>
         </section>
 
-    <ShopPulicAlert visible="false"></ShopPulicAlert>
-    <ShopPrivateAlert visible="false"></ShopPrivateAlert>
+        <ShopPulicAlert visible="false"></ShopPulicAlert>
+        <ShopPrivateAlert visible="false"></ShopPrivateAlert>        
+    </section>
 
-    </div>
+
 </template>
 
 <script>
@@ -36,6 +37,10 @@
             return {
                 isRouterAlive:true
             }
+        },
+        mounted(){
+
+
         },
         methods:{
             reload(){
