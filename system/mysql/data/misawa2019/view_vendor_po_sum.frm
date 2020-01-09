@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select sum(`misawa2019`.`pos`.`cart_R_Price`) AS `total`,`misawa2019`.`pos`.`vendor_id` AS `vendor_id` from `misawa2019`.`pos` group by `misawa2019`.`pos`.`vendor_id`
+md5=0cc35c0501e6097f38ea39872ef3f8ed
+updatable=0
+algorithm=0
+definer_user=root
+definer_host=localhost
+suid=1
+with_check_option=0
+timestamp=2019-11-17 13:21:19
+create-version=1
+source=select sum(`pos`.`cart_R_Price`) AS `total`,`pos`.`vendor_id` AS `vendor_id` from `pos` group by `pos`.`vendor_id`
+client_cs_name=utf8mb4
+connection_cl_name=utf8mb4_general_ci
+view_body_utf8=select sum(`misawa2019`.`pos`.`cart_R_Price`) AS `total`,`misawa2019`.`pos`.`vendor_id` AS `vendor_id` from `misawa2019`.`pos` group by `misawa2019`.`pos`.`vendor_id`

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage
+from .models import Catalogue,Subcatalogue,Product,Groupon,Applicant,GalleryImage,ProductReview
 from rentalhouse.models import RentalProduct,ProductRank,RentalHistory
 
 from django.conf import settings
@@ -24,6 +24,12 @@ class FutureRentalHistoryListSerializer(FilteredListSerializer):
 class ProductRankSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductRank
+        fields = ("__all__")
+
+
+class ProductReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductReview
         fields = ("__all__")
 
 
@@ -52,7 +58,7 @@ class GalleryImageSerializer(serializers.ModelSerializer):
         result=super().to_representation(instance)
         result["href"]=instance.postimage_url()
         return result
-        
+
 class SubproductSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -64,10 +70,12 @@ class ProductSerializer(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
     medias = GalleryImageSerializer(many=True,read_only=True)
     rentalproducts = RentalProductSerializer(many=True,read_only=True)
+    reviews = ProductReviewSerializer(many=True,read_only=True)
 
     class Meta:
         model = Product
-        fields = ("id","name","avatar","slug","price","specs","manufacturer","stock","sku","ranks","active","vendor","catalogue","medias","rentalproducts")
+        fields = ("id","name","avatar","slug","open_price","price","specs","manufacturer","description","stock","sku","ranks", \
+                  "active","vendor","catalogue","medias","rentalproducts","reviews")
 
 
 class CartItemProductSerializer(serializers.ModelSerializer):
@@ -77,10 +85,6 @@ class CartItemProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ("id","name","avatar","slug","price","stock","active","vendor","catalogue")
 
-
-
-
-        
 class ProductSerializer_list(serializers.ModelSerializer):
     vendor=serializers.ReadOnlyField(source="vendor.username")
     # medias = GalleryImageSerializer(many=True,read_only=True)

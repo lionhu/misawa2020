@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select sum(`backup`.`pos`.`cart_R_Price`) AS `total`,`backup`.`pos`.`vendor_id` AS `vendor_id` from `backup`.`pos` group by `backup`.`pos`.`vendor_id`
+md5=09a0fc98a4712a5aa8a68a4f34b0d923
+updatable=0
+algorithm=0
+definer_user=root
+definer_host=localhost
+suid=1
+with_check_option=0
+timestamp=2019-10-19 11:14:05
+create-version=1
+source=select sum(`pos`.`cart_R_Price`) AS `total`,`pos`.`vendor_id` AS `vendor_id` from `pos` group by `pos`.`vendor_id`
+client_cs_name=utf8
+connection_cl_name=utf8_general_ci
+view_body_utf8=select sum(`backup`.`pos`.`cart_R_Price`) AS `total`,`backup`.`pos`.`vendor_id` AS `vendor_id` from `backup`.`pos` group by `backup`.`pos`.`vendor_id`

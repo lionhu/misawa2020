@@ -14,11 +14,18 @@ export const m = {
   use_coupon:"クーポンを持っていますか",
   coupon:"クーポン",
   invalidcoupon:"クーポンは無効です",
-  add2cart:"カードに追加された！",
+  validatingcoupon:"クーポン確認中",
+  add2cart:"カートに追加された！",
+  add2cart_btn:"カートに入れる",
   inputmissing:"入力されていない項目がございます",
   checkout:"レジに進む",
   cartinfo:"カート情報",
+  checkcart:"カート確認",
   placeOrder:"注文確定",
+  orderPlaced:"注文確定されました。ありがとうございました！",
+  payment:"支払い方法",
+  gotoPay:"これで支払い",
+  couponValidated:"クーポンはOK！",
 
     // order related
   shop_customer:"顧客",
@@ -50,6 +57,11 @@ export const m = {
   note:"備考",
 
   // rental related
-  shop_rentallist:"レンタル商品一覧"
+  shop_rentallist:"レンタル商品一覧",
+
+  // product related
+  description:"商品情報詳細",
+  Manufacturer:"メーカー",
+  brand:"ブランド名",
 
 }

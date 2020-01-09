@@ -9,7 +9,18 @@
           style="width: 100%">
           <el-table-column type="expand">
       <template slot-scope="props">
-            <PayBill :order_slug="props.row.slug" :order_created_at="props.row.created_at" v-if="props.row.paystatus"></PayBill>
+            <PayBill :order_slug="props.row.slug" :order_created_at="props.row.created_at" v-if="props.row.paystatus=='unpaid'"></PayBill>
+            <div class="col_half left_quotation">
+                  <p><span class="title">PayStatus: </span>{{props.row.paystatus}}</p>
+                  <p><span class="title">Payment: </span>{{props.row.paymethod}}</p>
+                  <p>@ {{props.row.paid_at}}</p>
+            </div>
+            <div class="col_half col_last left_quotation clearfix">
+                  <p><span class="title">Tracking No: </span>{{props.row.tracking_no}}</p>
+                  <p><span class="title">Logistic: </span>{{props.row.logistics}}</p>
+                  <p>@ {{props.row.delivered_at}}</p>
+            </div>
+
       </template>
     </el-table-column>
 
@@ -35,7 +46,7 @@
           </el-table-column>
           <el-table-column label="Logistic" align="center" min-width="120">
             <template slot-scope="scope">
-              <a href="" class="btn btn-info text-white">
+              <a class="btn btn-info text-white">
                 {{scope.row.logistic}} oooo<span class="badge badge-light delivery_status">M</span>
               </a>
             </template>
@@ -60,7 +71,7 @@
 
   import {mapActions, mapState,mapGetters} from "vuex"
   import Swal from 'sweetalert2'
-  import { Table,TableColumn,Pagination,Form,FormItem } from 'element-ui';
+  import { Table,TableColumn,Pagination,Form,FormItem,Col,Card,Row } from 'element-ui';
   import 'element-ui/lib/theme-chalk/index.css';
   import SideMenu from "./parts/SideMenu.vue"
   import PayBill from "../../shop/parts/PayBill.vue"
@@ -73,6 +84,9 @@
       elPagination:Pagination,
       elForm:Form,
       elFormItem:FormItem,
+      elCol:Col,
+      elRow:Row,
+      elCard:Card,
       SideMenu,
       PayBill
     },
@@ -150,5 +164,13 @@ table {
 .delivery_status{
   position:absolute!important;
   top: 5px!important;
+}
+.el-table, .el-table__expanded-cell {
+  background-color: #FFF; 
+}
+
+.left_quotation{
+  border-left: #058423b8 3px solid;
+  padding-left: 10px;
 }
 </style>

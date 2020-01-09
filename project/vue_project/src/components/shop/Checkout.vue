@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="card topmargin-lg">
+            <div class="card topmargin-sm">
               <div class="card-header">{{$t("m.shippingaddress")}}</div>
               <div class="card-body">
                   <p class="card-text">
@@ -152,7 +152,7 @@
                 </table>
             </div>
 
-            <div class="card">
+            <div class="card" v-if="!order_placed">
                 <div class="card-body">
                     Have a coupon? <a href="javascript:void(0);" @click="userCoupon">{{$t("m.use_coupon")}}</a>
                 </div>
@@ -198,14 +198,6 @@
                 </div>
 
                 <h4 class="topmargin-sm">{{$t("m.shop_payment")}}</h4>
-                <div class="style-msg alertmsg"  v-if="order_placed">
-                    <div class="sb-msg">
-                        <i class="icon-warning-sign"></i><strong>passcode:</strong> 
-                    </div>
-                    <div class="sb-msg fs16 center t700">
-                        {{order_sn}}
-                    </div>
-                </div>
                 <el-collapse accordion>
                   <el-collapse-item>
                     <template slot="title">
@@ -328,11 +320,11 @@ import 'element-ui/lib/theme-chalk/index.css';
     async userCoupon(){
         var vm=this;
         const { value: file } = await Swal.fire({
-                  title: 'Scan CouponQR',
+                  title: vm.$t("m.coupon"),
                   input: 'file',
                   inputAttributes: {
                     accept: 'image/*',
-                    'aria-label': 'Upload your profile picture'
+                    'aria-label': vm.$t("m.use_coupon")
                   }
                 })
 
@@ -346,7 +338,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
               Swal.fire({
                 // title: 'Auto close alert!',
-                html: 'Validating Your Coupon Code',
+                html: vm.$t("m.validatingcoupon"),
                 // timer: 2000,
                 // timerProgressBar: true,
                 allowOutsideClick: function() {
@@ -371,7 +363,7 @@ import 'element-ui/lib/theme-chalk/index.css';
                                     }
                                 Swal.fire({
                                   type:"danger",
-                                  html: 'Invalid Coupon'
+                                  html: vm.$t("m.invalidcoupon")
                                 })
 
                                 throw new Error(response.statusText)
@@ -383,7 +375,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 
                             Swal.fire({
-                              title: 'Coupon Validated ',
+                              title: vm.$t("m.couponValidated"),
                               html: message,
                               imageUrl: e.target.result,
                               imageAlt: 'The uploaded picture'
@@ -391,8 +383,8 @@ import 'element-ui/lib/theme-chalk/index.css';
                       })
                       .catch(error => {
                             Swal.fire({
-                              type:"danger",
-                              html: 'Coupon does not Exist!'
+                              type:"question",
+                              html: vm.$t("m.invalidcoupon"),
                             })
                       })
                 }
@@ -423,7 +415,7 @@ import 'element-ui/lib/theme-chalk/index.css';
         }
     },
     checkIsEmptyCart(){
-      if(this.cart.summary.Qty==0){
+      if(this.CartFinalTotal==0){
         this.$router.push({ path: '/' })
       }
     },
@@ -618,6 +610,16 @@ import 'element-ui/lib/theme-chalk/index.css';
           //   });
         })
     }
+  },
+    watch: {
+      '$route' (to, from) {
+          // console.log("watch route222")
+          // const to_id=to.params.catalogue_id
+          // const from_id =from.params.catalogue_id
+          // if(from_id !== to_id){
+          //   this.loadCatalogueProducts(to_id)
+          // }
+      }
   }
 };
 </script>

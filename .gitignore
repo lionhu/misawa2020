@@ -1,21 +1,21 @@
-project/supervisord.pid
-project/supervisord.log
-.DS_Store
-project/logs/
-.idea/
-/project/log/
-/system/pgdata/
-/system/logs/
-/system/mysql/
-/system/pgdata_empty/
-/system/redis/redis_data/
-/misawa/storage/logs/
-/project/project/settings.py
-@eaDir/
-docker_misawa.yml
-docker_exrate.yml
-docker_iots.yml
-docker_compose.yml
+# project/supervisord.pid
+# project/supervisord.log
+# .DS_Store
+# project/logs/
+# .idea/
+# /project/log/
+# /system/pgdata/
+# /system/logs/
+# /system/mysql/
+# /system/pgdata_empty/
+# /system/redis/redis_data/
+# /misawa/storage/logs/
+# /project/project/settings.py
+# @eaDir/
+# docker_misawa.yml
+# docker_exrate.yml
+# docker_iots.yml
+# docker_compose.yml
 
 
-misawa/.env
+# misawa/.env

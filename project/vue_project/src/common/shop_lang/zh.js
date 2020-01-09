@@ -15,11 +15,18 @@ export const m = {
   use_coupon:"有打折券？",
   coupon:"打折券",
   invalidcoupon:"无效打折券",
+  validatingcoupon:"确认打折券",
   add2cart:"追加到了购物车！",
+  add2cart_btn:"放到购物车",
   inputmissing:"漏了什么信息啦？",
   checkout:"去结账",
   cartinfo:"购物车信息",
+  cartinfo:"购物车确认",
   placeOrder:"确定下单",
+  orderPlaced:"感谢亲的订单，我们会继续努力滴！",  
+  payment:"支付方法",
+  gotoPay:"开始支付",
+  couponValidated:"打折券有效滴！",
 
   // order related
   shop_customer:"顾客",
@@ -51,5 +58,11 @@ export const m = {
   
 
   // rental related
-  shop_rentallist:"出借一览"
+  shop_rentallist:"出借一览",
+
+
+  // product related
+  description:"产品信息",
+  Manufacturer:"厂家",
+  brand:"品牌",
 }

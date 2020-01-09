@@ -1,97 +1,63 @@
 <template>
 <div class="container clearfix">
 
-  <div class="postcontent nobottommargin clearfix col_last">
-
+  <div class="postcontent nobottommargin  col_last">
     <div class="single-product">
-
       <div class="product">
 
         <div class="col_half">
-
-          <!-- Product Single - Gallery
-          ============================================= -->
           <div class="product-image">
             <Gallery :images="product.medias" v-if="product.medias !=undefined && product.medias.length"></Gallery>
             <div class="productimage text-center">
                 <img :src="product.avatar" v-if="product.medias !=undefined && product.medias.length ==0">
             </div>
             <div class="sale-flash">Sale!</div>
-          </div><!-- Product Single - Gallery End -->
-
+          </div>
         </div>
 
         <div class="col_half col_last product-desc">
-
-          <!-- Product Single - Price
-          ============================================= -->
-          <div class="product-price"><ins>{{product.price | currency_jpy}}</ins></div><!-- Product Single - Price End -->
-
-          <!-- Product Single - Rating
-          ============================================= -->
+          <div class="product-price"><del class="rightmargin-sm">{{product.open_price | currency_jpy}}</del><ins>{{product.price | currency_jpy}}</ins></div>
           <div class="product-rating">
-                    <el-rate v-model="product.ranks" disabled text-color="#ff9900" ></el-rate>
-          </div><!-- Product Single - Rating End -->
-
+            <el-rate v-model="product.ranks" disabled text-color="#ff9900" ></el-rate>
+          </div>
           <div class="clear"></div>
           <div class="line"></div>
 
-          <!-- Product Single - Quantity & Cart Button
-          ============================================= -->
           <div class="cart nobottommargin clearfix" >
-<!--             <div class="quantity clearfix">
-              <a href="javascript:void(0)" class="button minus norightmargin nobgcolor" @click="num >=1 ? num--:0">-</a>
-              <a href="javascript:void(0)" class="button qty norightmargin noleftmargin nobgcolor" v-model="num"> {{num}}</a>
-              <a href="javascript:void(0)" class="button plus norightmargin nobgcolor" @click="num++">+</a>
-            </div> -->
-            <a class="add-to-cart button nomargin text-white" @click="addProductToCart(product.slug)" >Add to cart</a>
-          </div><!-- Product Single - Quantity & Cart Button End -->
+
+            <a class="add-to-cart button nomargin text-white" @click="addProductToCart(product.slug)" >{{$t("m.add2cart_btn")}}</a>
+          </div>
 
           <div class="clear"></div>
           <div class="line"></div>
 
-          <!-- Product Single - Short Description
-          ============================================= -->
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero velit id eaque ex quae laboriosam nulla optio doloribus! Perspiciatis, libero, neque, perferendis at nisi optio dolor!</p>
-          <p>Perspiciatis ad eveniet ea quasi debitis quos laborum eum reprehenderit eaque explicabo assumenda rem modi.</p>
-          <ul class="iconlist">
-            <li><i class="icon-caret-right"></i> Dynamic Color Options</li>
-            <li><i class="icon-caret-right"></i> Lots of Size Options</li>
-            <li><i class="icon-caret-right"></i> 30-Day Return Policy</li>
-          </ul><!-- Product Single - Short Description End -->
+          <div v-html="product.description"></div>
 
-          <!-- Product Single - Meta
-          ============================================= -->
           <div class="card product-meta">
             <div class="card-body">
               <span itemprop="productID" class="sku_wrapper">SKU: <span class="sku color">{{product.sku}}</span></span> <br>
-              <span class="posted_in">Manufacturer: <span class="sku color">{{product.manufacturer}}</span>.</span>
+              <span class="posted_in"> {{$t("m.description")}}: <span class="sku color">{{product.manufacturer}}</span></span>
+              <span class="posted_in"> {{$t("m.brand")}}: <span class="sku color">{{product.brand}}</span></span>
             </div>
-          </div><!-- Product Single - Meta End -->
+          </div>
         </div>
-
-        <div class="col_full nobottommargin">
-
+        <div class="divider divider-rounded divider-center"><i class="icon-map-marker"></i></div>
+        <div class="col_full bottommargin-sm">
           <el-tabs type="border-card">
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
-              我的行程
+              <span slot="label"><i class="icon-info-sign"></i> {{$t("m.description")}}</span>
+              <div v-html="product.specs"></div>
             </el-tab-pane>
-            <el-tab-pane label="消息中心">消息中心</el-tab-pane>
-            <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-            <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+<!--             <el-tab-pane>
+              <span slot="label"><i class="icon-star3"></i> Reviews</span>
+            </el-tab-pane> -->
           </el-tabs>
-
         </div>
-
-      </div>
-
     </div>
-
-    <div class="clear"></div><div class="line"></div>
-
   </div>
 
+
+</div>
   <div class="sidebar nobottommargin clearfix">
     <div class="sidebar-widgets-wrap">
 
@@ -108,7 +74,6 @@
 
       </div>
   </div>
-
   <RentalProductAlarm :product_slug="product.slug" @rentalhistory="eventRentalHistory"></RentalProductAlarm>
 </div>
 
@@ -381,6 +346,15 @@ export default {
           })
       }
     },    
+  },
+  watch: {
+      '$route' (to, from) {
+          const to_slug=to.params.slug
+          const from_slug =from.params.slug
+          if(from_slug !== to_slug){
+            this.loadProduct(to_slug)
+          }
+      }
   }
 };
 </script> 

@@ -1,9 +1,9 @@
 <template>
-<div class="promo promo-dark promo-flat bottommargin">
-    <h3 class="text-white">Passcode: {{order_sn}} </h3>
-    <span>Your order has been placed successfully! </span>
-    <span>At {{order_created_at}}</span>
-    
+<div class="promo promo-dark promo-flat center bottommargin-sm ">
+    <h4 class="text-white">{{$t("m.orderPlaced")}} </h4>
+    <span>@ {{order_created_at}}</span>
+    <div class="line"></div>
+    <h4 class="text-white">{{$t("m.payment")}}</h4>
     <div class="col_full clearfix">
             <a href="javascript:void(0);"  @click="PayBill(order_slug,'WechatPay')">
                 <i class="i-circled i-light wechat_color fab fa-weixin"></i>
@@ -46,6 +46,7 @@
   },
   methods: {
     async PayBill(order_slug,payment){
+        var vm = this;
         var icon_pay="";
         switch (payment){
             case "WechatPay":
@@ -111,7 +112,7 @@
         Swal.fire({
           title: '<i class="i-circled i-light'+icon_pay+'"></i>',
           showCancelButton: true,
-          confirmButtonText: 'Go to Pay',
+          confirmButtonText: vm.$t("m.gotoPay"),
           showLoaderOnConfirm: true,
           preConfirm: () => {
             return axios.post(`/api/shop_order/getPayQR/`,{

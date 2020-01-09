@@ -541,7 +541,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
         logger.error("testorders")
         logger.error(testorders)
 
-        orders=Order.objects.filter(user=request.user)
+        orders=Order.objects.filter(user=request.user).order_by("-created_at")
 
         if orders is not None:
             serializer=OrderListSerializer(orders,many=True)
@@ -576,7 +576,7 @@ class OrderViewSet(mixins.CreateModelMixin,mixins.RetrieveModelMixin,mixins.Dest
 
         try:
             order=Order.objects.get(slug=order_slug)
-            paymemocode = now.strftime('%Y%m%d-')+str(order.id)
+            paymemocode = str(order.id)+"."+str(request.user.id)+"."+now.strftime('%m%d')
 
             if brandType == "CARD":
                 return Response({

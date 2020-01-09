@@ -96,7 +96,8 @@ class Product(models.Model):
     manufacturer = models.CharField(default="manufacturer",max_length=128,blank=True)
     brand = models.CharField(default="brand",max_length=128,blank=True)
     vendor=models.ForeignKey(User,on_delete=models.CASCADE,related_name="products",blank=True,null=True)
-    specs = models.CharField(default="specs",max_length=256,blank=True)
+    description = models.TextField(default="description",null=True,blank=True)
+    specs = models.TextField(default="specs",null=True,blank=True)
     sku = models.CharField(default="sku",max_length=128,blank=True)
     
     purchase_price = models.IntegerField(default=0)
@@ -259,3 +260,19 @@ class Applicant(models.Model):
     def applicant_amount(self):
         return self.num*self.groupon.product.price
 
+
+class ProductReview(models.Model):
+    slug = models.SlugField(null=True,blank=True,default=now_slug)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="reviews",blank=False,null=False)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE,related_name="reviews",blank=False,null=False)
+    review = models.TextField(default="specs",null=True,blank=True)
+    approved = models.BooleanField(default=False)
+    created = models.DateTimeField('created',auto_now=True)
+
+
+    class Meta:
+        verbose_name="ProductReview"
+        app_label="lottery_shop"
+
+    def __str__(self):
+        return "{}".format(self.user.username)

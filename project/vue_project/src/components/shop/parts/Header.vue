@@ -47,7 +47,7 @@
               <a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span>{{cart.summary.Qty}}</span></a>
               <div class="top-cart-content">
                 <div class="top-cart-title">
-                  <h4>Shopping Cart</h4>
+                  <h4>{{$t("m.cartinfo")}}</h4>
                 </div>
                 <div class="top-cart-items">
                   <div class="top-cart-item clearfix" v-for="cartitem in cart.cartitems">
@@ -55,15 +55,15 @@
                       <a href="#"><img :src="cartitem.product.avatar" :alt="cartitem.product.name" /></a>
                     </div>
                     <div class="top-cart-item-desc">
-                      <router-link :to="{name:'singleproduct',params:{product_slug:cartitem.product.slug}}"  class="t400">{{cartitem.product.name}}</router-link>
-                      <span class="top-cart-item-price">{{cartitem.product.price|currency}}</span>
+                      <router-link :to="{name:'product_article',params:{slug:cartitem.product.slug}}"  class="t400">{{cartitem.product.name}}</router-link>
+                      <span class="top-cart-item-price">{{cartitem.product.price|currency_jpy}}</span>
                       <span class="top-cart-item-quantity t600">x {{cartitem.quantity}}</span>
                     </div>
                   </div>
                 </div>
                 <div class="top-cart-action clearfix">
-                  <span class="fleft top-checkout-price t600 text-dark">{{cart.summary.Total | currency}}</span>
-                  <router-link :to="{name:'cart'}" class="button button-dark button-small nomargin fright text-white">View Cart</router-link>
+                  <span class="fleft top-checkout-price t600 text-dark">{{cart.summary.Total | currency_jpy}}</span>
+                  <router-link :to="{name:'cart'}" class="button button-dark button-small nomargin fright text-white">{{$t("m.checkcart")}}</router-link>
                 </div>
               </div>
             </div><!-- #top-cart end -->

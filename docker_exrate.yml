@@ -1,0 +1,138 @@
+version: '3.5'
+services:
+  # portainer:
+  #   image: portainer/portainer
+  #   command: -H unix:///var/run/docker.sock
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
+
+        
+  pgadmin4:
+    image: dpage/pgadmin4:4.14
+    container_name: pgadmin4
+    ports:
+      - 6080:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin/storage
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root
+      PGADMIN_DEFAULT_PASSWORD: Hisshghu3500
+    hostname: pgadmin4
+    restart: always
+    # networks:
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.8
+
+  redis:
+    container_name: redis
+    restart: always
+    tty: true
+    build:
+      context: ./system/redis
+    environment:
+      TZ: Asia/Tokyo
+    # ports:
+    #   - 16379:6379
+    volumes:
+      - ./system/redis/redis_data:/var/redis
+      - ./system/redis/conf/6379.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server --appendonly yes
+    # networks:
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.7
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - ./system/pgdata:/var/lib/postgresql/data/
+    # ports:
+    #   - 15432:5432
+    # networks:
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.6
+
+  rabbitmq:
+    container_name: rabbitmq
+    image:  rabbitmq:3.7.3-management
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: celery
+      RABBITMQ_DEFAULT_PASS: password123
+      RABBITMQ_DEFAULT_VHOST: my_vhost
+    # ports:
+    #   - 5672:5672
+    #   - 15672:15672
+    # networks:
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.5
+
+
+  worker:
+    # build: 
+      # context: .
+      # dockerfile: Dockerfile_worker
+    image: lionhu/exrate_misawa_worker:v3
+    container_name: django_worker
+    restart: always
+    tty: true
+    volumes:
+      - ./project:/django_project
+      - ./system/logs:/var/log/webapplications
+    links:
+      - rabbitmq
+      - postgres
+      - redis
+    # networks:
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.3
+
+  web:
+    # build: 
+    #   context: .
+    image: lionhu/exrate_misawa_https:v3
+    container_name: web_nginx
+    volumes:
+      - ./system/nginx/nginx_base_django.conf:/etc/nginx/nginx.conf
+      - ./system/nginx/nginx_django.conf:/etc/nginx/conf.d/nginx_django.conf
+      - ./system/nginx/certs:/etc/nginx/certs
+      - ./system/nginx/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+      - ./system/logs:/var/log/webapplications
+      - ./project:/django_project
+    depends_on:
+      - redis
+      - postgres
+      - rabbitmq
+      - worker
+    ports:
+      - 9443:443
+      - 3443:3443
+      # - 2080:80
+    # networks:
+      # proxy-network:
+      #   ipv4_address: 172.18.0.3
+    #   exrateNW:
+    #     ipv4_address: 172.19.1.4
+    # environment:
+    #   - VIRTUAL_HOST=www.exrate.world
+
+
+volumes:
+  portainer_data:
+
+
+# networks:
+  # proxy-network:
+  #   ipam:
+  #      config:
+  #      - subnet: 172.18.0.0/16
+  # exrateNW:
+  #   ipam:
+  #      config:
+  #      - subnet: 172.19.1.0/16

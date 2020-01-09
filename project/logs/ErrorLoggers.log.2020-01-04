@@ -1,0 +1,5 @@
+2020-01-04 01:00:07,021  ERROR  8  /django_project/rentalhouse/consumers.py  connect  24  rentalhouse_705ebcde-5a78-4826-980f-8d077d040a45_1114  
+2020-01-04 01:00:07,102  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-04 01:00:07,104  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-04 01:00:07,197  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-04 01:00:07,199  ERROR  8  /django_project/chat/consumers.py  connect  260  1  

@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select count(0) AS `po_count`,`misawa2020`.`pos`.`user_id` AS `user_id`,sum(`misawa2020`.`pos`.`cart_R_Price`) AS `total_R_price`,sum(`misawa2020`.`pos`.`cart_B_Price`) AS `total_B_price`,sum(`misawa2020`.`pos`.`cart_O_Price`) AS `total_O_price`,sum((`misawa2020`.`pos`.`paid_vendor` * `misawa2020`.`pos`.`cart_R_Price`)) AS `total_paid_vendor`,sum((`misawa2020`.`pos`.`paid_customer` * `misawa2020`.`pos`.`cart_B_Price`)) AS `total_paid_customer` from `misawa2020`.`pos` group by `misawa2020`.`pos`.`user_id`
+md5=1676affcc4ea0888cc5cc44651a34387
+updatable=0
+algorithm=0
+definer_user=root
+definer_host=localhost
+suid=1
+with_check_option=0
+timestamp=2019-10-27 13:16:48
+create-version=1
+source=select count(0) AS `po_count`,`pos`.`user_id` AS `user_id`,sum(`pos`.`cart_R_Price`) AS `total_R_price`,sum(`pos`.`cart_B_Price`) AS `total_B_price`,sum(`pos`.`cart_O_Price`) AS `total_O_price`,sum((`pos`.`paid_vendor` * `pos`.`cart_R_Price`)) AS `total_paid_vendor`,sum((`pos`.`paid_customer` * `pos`.`cart_B_Price`)) AS `total_paid_customer` from `pos` group by `pos`.`user_id`
+client_cs_name=utf8mb4
+connection_cl_name=utf8mb4_general_ci
+view_body_utf8=select count(0) AS `po_count`,`misawa2020`.`pos`.`user_id` AS `user_id`,sum(`misawa2020`.`pos`.`cart_R_Price`) AS `total_R_price`,sum(`misawa2020`.`pos`.`cart_B_Price`) AS `total_B_price`,sum(`misawa2020`.`pos`.`cart_O_Price`) AS `total_O_price`,sum((`misawa2020`.`pos`.`paid_vendor` * `misawa2020`.`pos`.`cart_R_Price`)) AS `total_paid_vendor`,sum((`misawa2020`.`pos`.`paid_customer` * `misawa2020`.`pos`.`cart_B_Price`)) AS `total_paid_customer` from `misawa2020`.`pos` group by `misawa2020`.`pos`.`user_id`
