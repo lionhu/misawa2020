@@ -8,7 +8,7 @@
         <ul class="custom-filter" data-container="#shop" data-active-class="active-filter">
           <li class="widget-filter-reset active-filter"><a href="#" data-filter="*">Clear</a></li>         
           <li>
-            <router-link :to="{name:'userhome'}"><i class="fa fa-cog fa-fw fa-spin rightmargin-5"></i>Settings</router-link>
+            <router-link :to="{name:'userhome'}"><i class="fa fa-cog fa-fw fa-spin rightmargin-5"></i><strong>Settings</strong></router-link>
           </li>
           <li>
             <router-link :to="{name:'orderlist'}"><i class="fas fa-clipboard-list rightmargin-5"></i>{{$t("m.shop_orderlist")}}</router-link>
@@ -17,7 +17,7 @@
             <router-link :to="{name:'rentallist'}"><i class="fas fa-clipboard-list rightmargin-5"></i>{{$t("m.shop_rentallist")}}</router-link>
           </li>          
           <li>
-            <router-link :to="{name:'favorites'}"><i class="fab fa-gratipay text-danger rightmargin-5"></i>Favorites</router-link>
+            <router-link :to="{name:'favorites'}"><i class="fab fa-gratipay text-danger rightmargin-5"></i><strong>Favorites</strong></router-link>
           </li>
         </ul>
       </div>

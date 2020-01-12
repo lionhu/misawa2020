@@ -51,6 +51,14 @@
               </a>
             </template>
           </el-table-column>
+          <el-table-column label="Payment" align="center" min-width="60">
+            <template slot-scope="scope">
+                <span class="fa-stack fa-sm">
+                  <i class="fa fa-money-bill fa-stack-1x" :class="{'text-warning':scope.row.paystatus!='unpaid'}"></i>
+                  <i class="fa fa-ban fa-stack-2x text-danger" v-if="scope.row.paystatus=='unpaid'"></i>
+                </span>
+            </template>
+          </el-table-column>
           <el-table-column sortable prop="created_at" label="Created" min-width="120">
               <template slot-scope="scope">
                 <span class="" >{{scope.row.created_at|StandardDate}}</span>

@@ -1,0 +1,39 @@
+2020-01-11 01:00:06,577  ERROR  8  /django_project/rentalhouse/consumers.py  connect  24  rentalhouse_112c41af-8d5f-4f25-890d-2a81691a8327_0928  
+2020-01-11 01:00:06,674  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:06,675  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 01:00:06,760  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:06,760  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 01:00:06,851  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:06,851  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 01:00:06,945  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:06,946  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 01:00:07,037  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:07,038  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 01:00:07,123  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 01:00:07,124  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,517  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,518  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,593  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,594  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,676  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,677  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,757  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,758  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,834  ERROR  8  /django_project/rentalhouse/consumers.py  connect  24  rentalhouse_112c41af-8d5f-4f25-890d-2a81691a8327_0928  
+2020-01-11 15:45:02,900  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,901  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 15:45:02,979  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 15:45:02,979  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,144  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,147  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,240  ERROR  8  /django_project/rentalhouse/consumers.py  connect  24  rentalhouse_112c41af-8d5f-4f25-890d-2a81691a8327_0928  
+2020-01-11 23:01:45,322  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,323  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,401  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,402  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,492  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,493  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,570  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,570  ERROR  8  /django_project/chat/consumers.py  connect  260  1  
+2020-01-11 23:01:45,640  ERROR  8  /django_project/chat/consumers.py  connect  259  root connected to server  
+2020-01-11 23:01:45,641  ERROR  8  /django_project/chat/consumers.py  connect  260  1  

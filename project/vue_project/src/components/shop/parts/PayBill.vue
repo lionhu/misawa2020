@@ -5,19 +5,19 @@
     <div class="line"></div>
     <h4 class="text-white">{{$t("m.payment")}}</h4>
     <div class="col_full clearfix">
-            <a href="javascript:void(0);"  @click="PayBill(order_slug,'WechatPay')">
+            <a href="javascript:void(0);" class="display-ib wechat_color"  @click="PayBill(order_slug,'WechatPay')">
                 <i class="i-circled i-light wechat_color fab fa-weixin"></i>
             </a>
-            <a href="javascript:void(0);"  @click="PayBill(order_slug,'AliPay')">
+            <a href="javascript:void(0);" class="display-ib alipay_color"  @click="PayBill(order_slug,'AliPay')">
                 <i class="i-circled i-light alipay_color fab fa-alipay"></i>
             </a>                
-            <a href="javascript:void(0);"  @click="PayBill(order_slug,'LINE')">
+            <a href="javascript:void(0);" class="display-ib"  @click="PayBill(order_slug,'LINE')">
                 <i class="i-circled i-light wechat_color fab fa-line"></i>
             </a>
-            <a href="javascript:void(0);"  @click="PayBill(order_slug,'CPM')">
+            <a href="javascript:void(0);" class="display-ib"  @click="PayBill(order_slug,'CPM')">
                 <i class="i-circled i-light fas fa-qrcode"></i>
             </a>
-            <a href="javascript:void(0);"  @click="PayBill(order_slug,'CARD')">
+            <a href="javascript:void(0);" class="display-ib"  @click="PayBill(order_slug,'CARD')">
                 <i class="i-circled i-light credit_color fas fa-credit-card"></i>
             </a>
     </div>
@@ -171,4 +171,7 @@
 </script>
 
 <style lang="scss">
+.display-ib{
+    display: inline-block;
+}
 </style>

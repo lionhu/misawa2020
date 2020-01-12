@@ -8399,3 +8399,628 @@ User information: uid=0 euid=0 gid=0 egid=0
 [2020-01-09 16:29:11,407: WARNING/MainProcess] Substantial drift from celery@658e7781c2f6 may mean clocks are out of sync.  Current drift is
 161 seconds.  [orig: 2020-01-09 16:29:11.305037 recv: 2020-01-09 16:26:30.537790]
 
+[2020-01-10 09:00:02,153: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[31169cd2-2cc2-4776-ad4d-2facee05536c] raised unexpected: SMTPServerDisconnected('Connection unexpectedly closed')
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 114, in fetch_bankrate
+    msg.send()
+  File "/usr/local/lib/python3.7/site-packages/django/core/mail/message.py", line 291, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 103, in send_messages
+    new_conn_created = self.open()
+  File "/usr/local/lib/python3.7/site-packages/django/core/mail/backends/smtp.py", line 70, in open
+    self.connection.login(self.username, self.password)
+  File "/usr/local/lib/python3.7/smtplib.py", line 721, in login
+    initial_response_ok=initial_response_ok)
+  File "/usr/local/lib/python3.7/smtplib.py", line 631, in auth
+    (code, resp) = self.docmd("AUTH", mechanism + " " + response)
+  File "/usr/local/lib/python3.7/smtplib.py", line 421, in docmd
+    return self.getreply()
+  File "/usr/local/lib/python3.7/smtplib.py", line 394, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed")
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed
+[2020-01-11 02:45:10,636: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[39149b70-8813-4fa2-b724-1bf71b64be03] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852b70>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f9104852b70>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852b70>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852b70>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-11 02:45:10,732: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[3eb30764-cf00-4c8f-a6f7-f9d11205c5d2] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bbac8>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f2e991bbac8>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bbac8>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bbac8>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-11 10:00:12,533: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[23b2bd71-0551-4fe7-9931-35fee1221799] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048acc88>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f91048acc88>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048acc88>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048acc88>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-11 10:00:12,569: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[4101c42f-36aa-40ba-aacd-671338f3045d] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bcdd8>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f2e991bcdd8>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bcdd8>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bcdd8>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-11 13:00:22,869: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[d4819a61-f008-4a90-a14c-69c4b8a5f61f] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048a21d0>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f91048a21d0>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048a21d0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f91048a21d0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-11 13:00:22,957: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[cbb94993-fcda-4cc8-a54d-821fca1d174b] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bb860>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f2e991bb860>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bb860>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e991bb860>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-12 13:44:32,183: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[1359f876-3bc5-4108-b95f-420bf0c44b37] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e990df9b0>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f2e990df9b0>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e990df9b0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f2e990df9b0>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-12 13:44:32,258: ERROR/ForkPoolWorker-3] Task musics.tasks.fetch_bankrate[d3106f87-673a-4efd-809f-a8b537517527] raised unexpected: ConnectionError(MaxRetryError("HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852e80>: Failed to establish a new connection: [Errno -2] Name or service not known'))"))
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 160, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/connection.py", line 57, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/usr/local/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/local/lib/python3.7/http/client.py", line 1229, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1275, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1224, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/local/lib/python3.7/http/client.py", line 1016, in _send_output
+    self.send(msg)
+  File "/usr/local/lib/python3.7/http/client.py", line 956, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 183, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f9104852e80>: Failed to establish a new connection: [Errno -2] Name or service not known
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/site-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852e80>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+  File "/django_project/musics/tasks.py", line 71, in fetch_bankrate
+    res = r.post()
+  File "/django_project/env_system/ShowapiRequest.py", line 48, in post
+    res = requests.post(self.url, files=files, data=body, headers=headers)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/site-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='route.showapi.com', port=80): Max retries exceeded with url: /105-32 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f9104852e80>: Failed to establish a new connection: [Errno -2] Name or service not known'))
+[2020-01-13 05:00:50,260: WARNING/ForkPoolWorker-3] --- Logging error ---
+[2020-01-13 05:00:50,346: WARNING/ForkPoolWorker-3] Traceback (most recent call last):
+[2020-01-13 05:00:50,352: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/logging/handlers.py", line 69, in emit
+    self.doRollover()
+[2020-01-13 05:00:50,353: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/logging/handlers.py", line 393, in doRollover
+    self.rotate(self.baseFilename, dfn)
+[2020-01-13 05:00:50,354: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/logging/handlers.py", line 110, in rotate
+    os.rename(source, dest)
+[2020-01-13 05:00:50,356: WARNING/ForkPoolWorker-3] FileNotFoundError: [Errno 2] No such file or directory: '/django_project/logs/ErrorLoggers.log' -> '/django_project/logs/ErrorLoggers.log.2020-01-12'
+[2020-01-13 05:00:50,357: WARNING/ForkPoolWorker-3] Call stack:
+[2020-01-13 05:00:50,884: WARNING/ForkPoolWorker-3] File "/usr/local/bin/celery", line 10, in <module>
+    sys.exit(main())
+[2020-01-13 05:00:50,889: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/__main__.py", line 16, in main
+    _main()
+[2020-01-13 05:00:50,890: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/celery.py", line 322, in main
+    cmd.execute_from_commandline(argv)
+[2020-01-13 05:00:50,893: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/celery.py", line 496, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+[2020-01-13 05:00:50,894: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/base.py", line 298, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+[2020-01-13 05:00:50,899: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/celery.py", line 488, in handle_argv
+    return self.execute(command, argv)
+[2020-01-13 05:00:50,902: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/celery.py", line 420, in execute
+    ).run_from_argv(self.prog_name, argv[1:], command=argv[0])
+[2020-01-13 05:00:50,904: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/worker.py", line 223, in run_from_argv
+    return self(*args, **options)
+[2020-01-13 05:00:50,905: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/base.py", line 252, in __call__
+    ret = self.run(*args, **kwargs)
+[2020-01-13 05:00:50,910: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bin/worker.py", line 258, in run
+    worker.start()
+[2020-01-13 05:00:50,912: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/worker/worker.py", line 205, in start
+    self.blueprint.start(self)
+[2020-01-13 05:00:50,916: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bootsteps.py", line 119, in start
+    step.start(parent)
+[2020-01-13 05:00:50,917: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/bootsteps.py", line 369, in start
+    return self.obj.start()
+[2020-01-13 05:00:50,920: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/concurrency/base.py", line 131, in start
+    self.on_start()
+[2020-01-13 05:00:50,921: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/concurrency/prefork.py", line 112, in on_start
+    **self.options)
+[2020-01-13 05:00:50,922: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/concurrency/asynpool.py", line 428, in __init__
+    super(AsynPool, self).__init__(processes, *args, **kwargs)
+[2020-01-13 05:00:50,923: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/pool.py", line 1010, in __init__
+    self._create_worker_process(i)
+[2020-01-13 05:00:50,925: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/concurrency/asynpool.py", line 445, in _create_worker_process
+    return super(AsynPool, self)._create_worker_process(i)
+[2020-01-13 05:00:50,926: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/pool.py", line 1119, in _create_worker_process
+    w.start()
+[2020-01-13 05:00:50,930: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/process.py", line 124, in start
+    self._popen = self._Popen(self)
+[2020-01-13 05:00:50,932: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/context.py", line 333, in _Popen
+    return Popen(process_obj)
+[2020-01-13 05:00:50,933: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/popen_fork.py", line 24, in __init__
+    self._launch(process_obj)
+[2020-01-13 05:00:50,937: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/popen_fork.py", line 79, in _launch
+    code = process_obj._bootstrap()
+[2020-01-13 05:00:50,938: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/process.py", line 327, in _bootstrap
+    self.run()
+[2020-01-13 05:00:50,939: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+[2020-01-13 05:00:50,940: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/pool.py", line 289, in __call__
+    sys.exit(self.workloop(pid=pid))
+[2020-01-13 05:00:50,941: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/billiard/pool.py", line 358, in workloop
+    result = (True, prepare_result(fun(*args, **kwargs)))
+[2020-01-13 05:00:50,943: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 556, in _fast_trace_task
+    uuid, args, kwargs, request,
+[2020-01-13 05:00:50,944: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 385, in trace_task
+    R = retval = fun(*args, **kwargs)
+[2020-01-13 05:00:50,945: WARNING/ForkPoolWorker-3] File "/usr/local/lib/python3.7/site-packages/celery/app/trace.py", line 648, in __protected_call__
+    return self.run(*args, **kwargs)
+[2020-01-13 05:00:50,947: WARNING/ForkPoolWorker-3] File "/django_project/musics/tasks.py", line 77, in fetch_bankrate
+    logger.error(data)
+[2020-01-13 05:00:50,961: WARNING/ForkPoolWorker-3] Message: {'showapi_res_error': '', 'showapi_res_id': 'b6976bba865a48ad9671d3bf925fcce5', 'showapi_res_code': 0, 'showapi_res_body': {'time': '04:04:10', 'ret_code': 0, 'name': 'ICBC', 'showapi_fee_code': 0, 'codeList': [{'hui_in': '6.2954', 'chao_out': '6.3421', 'chao_in': '6.1153', 'hui_out': '6.3421', 'name': '日元', 'zhesuan': '', 'mid_price': '--', 'code': 'JPY'}, {'hui_in': '511.5000', 'chao_out': '515.3000', 'chao_in': '496.8700', 'hui_out': '515.3000', 'name': '新加坡元', 'zhesuan': '', 'mid_price': '--', 'code': 'SGD'}, {'hui_in': '88.9300', 'chao_out': '89.3000', 'chao_in': '88.2100', 'hui_out': '89.3000', 'name': '港币', 'zhesuan': '', 'mid_price': '--', 'code': 'HKD'}, {'hui_in': '86.3300', 'chao_out': '86.6900', 'chao_in': '85.6400', 'hui_out': '86.6900', 'name': '澳门元', 'zhesuan': '', 'mid_price': '--', 'code': 'MOP'}, {'hui_in': '527.8700', 'chao_out': '531.7900', 'chao_in': '512.7700', 'hui_out': '531.7900', 'name': '加拿大元', 'zhesuan': '', 'mid_price': '--', 'code': 'CAD'}, {'hui_in': '48.0000', 'chao_out': '48.3600', 'chao_in': '45.6700', 'hui_out': '48.3600', 'name': '南非兰特', 'zhesuan': '', 'mid_price': '--', 'code': 'ZAR'}, {'hui_in': '457.7600', 'chao_out': '461.1600', 'chao_in': '444.6700', 'hui_out': '461.1600', 'name': '新西兰元', 'zhesuan': '', 'mid_price': '--', 'code': 'NZD'}, {'hui_in': '476.2800', 'chao_out': '479.8100', 'chao_in': '462.6600', 'hui_out': '479.8100', 'name': '澳大利亚元', 'zhesuan': '', 'mid_price': '--', 'code': 'AUD'}, {'hui_in': '900.4200', 'chao_out': '907.1000', 'chao_in': '874.6700', 'hui_out': '907.1000', 'name': '英镑', 'zhesuan': '', 'mid_price': '--', 'code': 'GBP'}, {'hui_in': '102.6000', 'chao_out': '103.3600', 'chao_in': '99.6700', 'hui_out': '103.3600', 'name': '丹麦克朗', 'zhesuan': '', 'mid_price': '--', 'code': 'DKK'}, {'hui_in': '77.5900', 'chao_out': '78.1600', 'chao_in': '75.3700', 'hui_out': '78.1600', 'name': '挪威克朗', 'zhesuan': '', 'mid_price': '--', 'code': 'NOK'}, {'hui_in': '72.5600', 'chao_out': '73.0900', 'chao_in': '70.4800', 'hui_out': '73.0900', 'name': '瑞典克朗', 'zhesuan': '', 'mid_price': '--', 'code': 'SEK'}, {'hui_in': '169.1500', 'chao_out': '170.4000', 'chao_in': '--', 'hui_out': '170.4000', 'name': '林吉特', 'zhesuan': '', 'mid_price': '--', 'code': 'MYR'}, {'hui_in': '167.9000', 'chao_out': '185.4800', 'chao_in': '167.9000', 'hui_out': '185.4800', 'name': '巴西里亚尔', 'zhesuan': '', 'mid_price': '--', 'code': 'BRL'}, {'hui_in': '708.9300', 'chao_out': '714.1900', 'chao_in': '688.6500', 'hui_out': '714.1900', 'name': '瑞士法郎', 'zhesuan': '', 'mid_price': '--', 'code': 'CHF'}, {'hui_in': '766.7300', 'chao_out': '772.4200', 'chao_in': '744.8000', 'hui_out': '772.4200', 'name': '欧元', 'zhesuan': '', 'mid_price': '--', 'code': 'EUR'}, {'hui_in': '11.2900', 'chao_out': '11.3700', 'chao_in': '10.9400', 'hui_out': '11.3700', 'name': '卢布', 'zhesuan': '', 'mid_price': '--', 'code': 'RUB'}, {'hui_in': '12.4190', 'chao_out': '13.3740', 'chao_in': '12.4190', 'hui_out': '13.3740', 'name': '菲律宾比索', 'zhesuan': '', 'mid_price': '--', 'code': 'PHP'}, {'hui_in': '690.5500', 'chao_out': '693.4500', 'chao_in': '685.0100', 'hui_out': '693.4500', 'name': '美元', 'zhesuan': '', 'mid_price': '--', 'code': 'USD'}, {'hui_in': '22.8200', 'chao_out': '22.9900', 'chao_in': '22.1100', 'hui_out': '22.9900', 'name': '泰国铢', 'zhesuan': '', 'mid_price': '--', 'code': 'THB'}, {'hui_in': '--', 'chao_out': '--', 'chao_in': '--', 'hui_out': '--', 'name': '', 'zhesuan': '', 'mid_price': '--', 'code': 'RMB'}, {'hui_in': '--', 'chao_out': '0.5997', 'chao_in': '0.5783', 'hui_out': '0.5997', 'name': '韩国元', 'zhesuan': '', 'mid_price': '--', 'code': 'KRW'}, {'hui_in': '21.5500', 'chao_out': '23.2000', 'chao_in': '21.5500', 'hui_out': '23.2000', 'name': '新台币', 'zhesuan': '', 'mid_price': '--', 'code': 'TWD'}], 'day': '2020-01-13', 'listSize': 23}}
+Arguments: ()
