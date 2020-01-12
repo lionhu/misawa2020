@@ -1,5 +1,0 @@
-2020-01-06 09:29:39,261  ERROR  27  /django_project/shoppingcart/viewsets.py  UserOrderList  540  testorders  
-2020-01-06 09:29:39,276  ERROR  27  /django_project/shoppingcart/viewsets.py  UserOrderList  541  <shoppingcart.viewsets.UserOrderFilter object at 0x7f26ec0a5e48>  
-2020-01-06 09:29:57,647  ERROR  27  /django_project/lottery_shop/serializers.py  to_representation  68  Groupon11.11  
-2020-01-06 09:40:45,274  ERROR  27  /django_project/lottery_shop/viewsets.py  list  65  {'type': 'list', 'catalogues': [OrderedDict([('id', 1), ('name', '3C Appliances'), ('avatar', '/media/products/377c212f2cad404992681f321a9eb78b.jpeg'), ('slug', '30e8c3eb-6c23-4cb9-b983-3a4b5eed796e_0959'), ('subcatalogues', [OrderedDict([('id', 1), ('name', 'HP PC'), ('avatar', '/media/products/1d88c45455f0429a94f18bb1f3b919ad.jpg'), ('slug', 'c8d3a0fa-fabf-48b8-838c-e192b4607264_0918'), ('url', 'subcatalogue/c8d3a0fa-fabf-48b8-838c-e192b4607264_0918'), ('product_num', 3)])])])]}  
-2020-01-06 09:43:09,205  ERROR  27  /django_project/useraccount/viewsets.py  AlsoLoginMeSync  174  AlsoLoginMeSync Good  
